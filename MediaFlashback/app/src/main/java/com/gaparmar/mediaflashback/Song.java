@@ -30,6 +30,7 @@ public class Song {
 
     /* the default constructor */
     public Song(){
+        super();
         title = "";
         parentAlbum = "NA";
         currentState = state.NEITHER;
