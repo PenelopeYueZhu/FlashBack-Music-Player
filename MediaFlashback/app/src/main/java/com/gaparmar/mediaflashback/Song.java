@@ -1,3 +1,5 @@
+package com.gaparmar.mediaflashback;
+
 /**
  * Created by gauravparmar on 2/2/18.
  */
@@ -9,7 +11,7 @@ public class Song {
         LIKED, DISLIKED, NEITHER
     }
 
-    // Declaring the member variables of the Song object
+    // Declaring the member variables of the com.gaparmar.mediaflashback.Song object
 
     //TODO:
     // mp3 file
