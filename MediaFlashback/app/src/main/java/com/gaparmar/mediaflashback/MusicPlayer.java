@@ -20,6 +20,10 @@ public class MusicPlayer extends AppCompatActivity {
     private boolean isFinished = false;
     private boolean firstTime = true;
 
+    private /*static */ boolean songPlaying = false;
+    private /*static */ Song lastPlayed;
+    private /*static */ long timeStamp;
+
     // temporary tester mp3 files
     private int[] mediaFiles = {R.raw.jazz_in_paris, R.raw.replay};
 
@@ -28,7 +32,8 @@ public class MusicPlayer extends AppCompatActivity {
      */
     public MusicPlayer() {
         mediaPlayer = new MediaPlayer();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        mediaPlayer.setOnCompletionListener
+                                     (new MediaPlayer.OnCompletionListener() {
             /**
              * Automatically play next song after each song completion
              * @param mp
@@ -49,7 +54,8 @@ public class MusicPlayer extends AppCompatActivity {
 
     public MusicPlayer(List<Song> list) {
         mediaPlayer = new MediaPlayer();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        mediaPlayer.setOnCompletionListener
+                                      (new MediaPlayer.OnCompletionListener() {
             /**
              * Automatically play next song after each song completion
              * @param mp
@@ -95,6 +101,7 @@ public class MusicPlayer extends AppCompatActivity {
     public void playSong() {
         if (mediaPlayer != null) {
             mediaPlayer.start();
+            playingSong = true;
         }
     }
 
@@ -157,5 +164,24 @@ public class MusicPlayer extends AppCompatActivity {
 
     public boolean isFinished() {
         return isFinished();
+    }
+
+    public void jumpTo( long songPosition ) {
+      mediaPlayer.seekTo( songPosition );
+    }
+
+    public /*static*/ void stopPlayingNormalMode() {
+      songPlaying = false;
+      lastPlayed = songsToPlay.get(currInd);
+      timeStamp = mediaPlayer.getCurrentPosition();
+    }
+
+    public /*static*/ void resumePlayingNormalMode() {
+      // When there was no song playing, return
+      if( lastPlayed == null ) return;
+      
+      // Load up saved values about the song last played
+      this.loadNewSong( lastPlayed );
+      this.jumpTo( timeStamp );
     }
 }
