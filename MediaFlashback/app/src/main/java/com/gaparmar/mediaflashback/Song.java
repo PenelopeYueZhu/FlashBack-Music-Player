@@ -22,6 +22,7 @@ public class Song {
     private state currentState;
     private String location;    // TODO:: temporary way of storing location
     private String artistName;
+    private int rawID;
     private int lengthInSeconds;
     private int yearOfRelease;
     private int timeLastPlayed; // TODO:: temporary way of storing the time stamp
@@ -36,6 +37,7 @@ public class Song {
         currentState = state.NEITHER;
         location = "NA";
         artistName = "";
+        rawID = 0;
         lengthInSeconds = -1;
         yearOfRelease = -1;
         timeLastPlayed = -1;
@@ -43,13 +45,14 @@ public class Song {
 
     public Song(String title, String parentAlbum,
                 String artistName, int lengthInSeconds,
-                int yearOfRelease){
+                int yearOfRelease, int rawID){
         this();
         this.title = title;
         this.parentAlbum = parentAlbum;
         this.lengthInSeconds = lengthInSeconds;
         this.artistName = artistName;
         this.yearOfRelease = yearOfRelease;
+        this.rawID = rawID;
     }
 
     public String getTitle(){
@@ -115,6 +118,10 @@ public class Song {
     public void setTimeLastPlayed(int timeLastPlayed){
         this.timeLastPlayed = timeLastPlayed;
     }
+
+    public void setRawID(int rawID) { this.rawID = rawID; }
+
+    public int getRawID() { return this.rawID; };
 
     public void updateProbability(){
         double prob = 0.0;
