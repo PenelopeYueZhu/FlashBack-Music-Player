@@ -20,6 +20,10 @@ public class MusicPlayer extends AppCompatActivity {
     private boolean isFinished = false;
     private boolean firstTime = true;
 
+    private /*static*/ int timeStamp;
+    private /*static*/ Song lastPlayed;
+    private /*static*/ playingSong = false;
+
     // temporary tester mp3 files
     private int[] mediaFiles = {R.raw.jazz_in_paris, R.raw.replay};
 
@@ -95,6 +99,7 @@ public class MusicPlayer extends AppCompatActivity {
     public void playSong() {
         if (mediaPlayer != null) {
             mediaPlayer.start();
+            playingSong = true;
         }
     }
 
@@ -157,5 +162,29 @@ public class MusicPlayer extends AppCompatActivity {
 
     public boolean isFinished() {
         return isFinished();
+    }
+
+    /*
+     * To stop a song from playing in normal mode
+     */
+    public /*static*/ void stopPlaying() {
+      // If there is a song currently playing, record the song's info
+      if( playingSong ) {
+        playingSong = false;
+        lastPlayed = this.getCurrSong();
+        timeStamp = mediaPlayer.getCurrentPosition();
+      }
+    }
+
+    /*
+     * To resume a song when user coming back from flashback mode 
+     */
+    public /*static*/ void resumePlaying() {
+      if( lastPlayed != null ) {
+        this.loadNewSong( lastPlayed );
+        mediaPlayer.seekTo( timeStamp ); // Get to where user left off
+        this.playSong();
+        playingSong = true;
+      }
     }
 }
