@@ -1,5 +1,6 @@
 package com.gaparmar.mediaflashback;
 
+import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -16,13 +17,14 @@ import java.util.List;
 public class MusicPlayer extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private List<Song> songsToPlay;
-    int currInd;
+    int currInd = 0;
     private boolean isFinished = false;
     private boolean firstTime = true;
 
     private /*static*/ int timeStamp;
     private /*static*/ Song lastPlayed;
-    private /*static*/ playingSong = false;
+    private /*static*/ boolean playingSong = false;
+    private Context context;
 
     // temporary tester mp3 files
     private int[] mediaFiles = {R.raw.jazz_in_paris, R.raw.replay};
@@ -30,7 +32,8 @@ public class MusicPlayer extends AppCompatActivity {
     /**
      * Default MusicPlayer constructor
      */
-    public MusicPlayer() {
+    public MusicPlayer(Context current) {
+        this.context = current;
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             /**
@@ -40,10 +43,9 @@ public class MusicPlayer extends AppCompatActivity {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 firstTime = false;
-                currInd++;
                 isFinished = (currInd == songsToPlay.size()-1);
                 // if not finished, automatically play next song
-                if (!isFinished()) {
+                if (!isFinished() && songsToPlay.size() > 0) {
                     nextSong();
                 }
             }
@@ -51,7 +53,8 @@ public class MusicPlayer extends AppCompatActivity {
         songsToPlay = new ArrayList<Song>();
     }
 
-    public MusicPlayer(List<Song> list) {
+    public MusicPlayer(List<Song> list, Context current) {
+        this.context = current;
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             /**
@@ -61,10 +64,9 @@ public class MusicPlayer extends AppCompatActivity {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 firstTime = false;
-                currInd++;
                 isFinished = (currInd == songsToPlay.size()-1);
                 // if not finished, automatically play next song
-                if (!isFinished()) {
+                if (!isFinished() && songsToPlay.size() > 0) {
                     nextSong();
                 }
             }
@@ -77,7 +79,7 @@ public class MusicPlayer extends AppCompatActivity {
             mediaPlayer = new MediaPlayer();
         }
         AssetFileDescriptor assetFileDescriptor =
-                this.getResources().openRawResourceFd(resourceID);
+                context.getResources().openRawResourceFd(resourceID);
         try {
             mediaPlayer.setDataSource(assetFileDescriptor);
             mediaPlayer.prepareAsync();
@@ -87,6 +89,7 @@ public class MusicPlayer extends AppCompatActivity {
                         public void onPrepared(MediaPlayer mp) {
                             // automatically plays the next song not first
                             if (!firstTime) {
+                                //firstTime = true;
                                 mediaPlayer.start();
                             }
                         }
@@ -112,24 +115,36 @@ public class MusicPlayer extends AppCompatActivity {
     }
 
     public void nextSong() {
-        if (currInd != songsToPlay.size()-1) {
-            mediaPlayer.reset();
+        firstTime = false;
+        if (currInd != songsToPlay.size()-1 && songsToPlay.size() > 0) {
+            resetSong();
             currInd++;
-            loadMedia(mediaFiles[currInd]);
-            mediaPlayer.start();
+
+            System.out.println( "Line 122 this index should be 1 " + currInd );
+            loadMedia(songsToPlay.get(currInd).getRawID());
+            //if( firstTime ) playSong();
+            // DONT UNCOMMENT
         }
+        //else {
+            // wrap around the list
+            //currInd = 0;
+            //loadMedia(songsToPlay.get(0).getRawID());
+        //}
     }
 
     public void previousSong() {
         if (currInd > 0) {
             resetSong();
             currInd--;
-            loadMedia(mediaFiles[currInd]);
-        } else {
+            loadMedia(songsToPlay.get(currInd).getRawID());
+            System.out.println( "Line 133 This index should be 0 " + currInd);
+        } /*else {
             // wrap around to the last song.
+            currInd = songsToPlay.size() - 1;
+            System.out.println( "Line 137 This index should be 1 " + currInd);
             loadMedia(songsToPlay.get(songsToPlay.size()-1).getRawID());
-        }
-        playSong();
+        }*/
+        //if( firstTime ) playSong();
     }
 
     public void loadNewSong(Song s) {
@@ -161,8 +176,10 @@ public class MusicPlayer extends AppCompatActivity {
     }
 
     public boolean isFinished() {
-        return isFinished();
+        return currInd == songsToPlay.size();
     }
+
+    public boolean wasPlayingSong() { return playingSong; }
 
     /*
      * To stop a song from playing in normal mode
