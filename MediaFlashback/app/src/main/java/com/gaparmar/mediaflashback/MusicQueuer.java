@@ -1,7 +1,10 @@
 package com.gaparmar.mediaflashback;
 
 import android.content.Context;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -18,18 +21,21 @@ public class MusicQueuer {
 
     }
     public void readSongs(Context context) {
-        // "MediaFlashback/app/src/main/res/"
-        String s = "~/Users/cheng/Desktop/CSE100/cse-110-team-project-team-31/MediaFlashback/app/src/main/res/raw";
-        File f = new File(s);
-        System.out.println("file path: " + s);
-        if (f != null) {
-            String[] allFiles = f.list();
 
-            for (int i = 0; i < allFiles.length; i++) {
-                System.out.println(allFiles[i]);
-            }
-        } else {
-            System.out.println("file is null");
+        // Get all the song files from raw folder
+        Field[] songLists = R.raw.class.getFields();
+        for( int count = 0 ; count < songLists.length ; count ++) {
+            String name = songLists[count].getName();
+            int songId = context.getResources().getIdentifier(name, "raw", "com.gaparmar.mediaflashback");
+            Uri songPath = Uri.parse("android.resource://com.gaparmar.mediaflashback/raw/"+name );
+            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+            retriever.setDataSource(context, songPath);
+            Song song = new Song( retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE),
+                    retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM),
+                    retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST), 0,
+                    0, songId);
+
+            Log.i("Title", song.getTitle());
         }
 
     }
