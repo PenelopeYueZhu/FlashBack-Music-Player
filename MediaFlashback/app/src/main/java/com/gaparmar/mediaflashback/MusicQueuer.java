@@ -1,5 +1,7 @@
 package com.gaparmar.mediaflashback;
 
+import java.io.File;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 
 /**
@@ -13,6 +15,13 @@ public class MusicQueuer {
 
     }
     public void readSongs() {
+        File f = new File("/");
+        String[] allFiles = f.list();
+
+    }
+
+    public void getID() {
+
 
     }
 
