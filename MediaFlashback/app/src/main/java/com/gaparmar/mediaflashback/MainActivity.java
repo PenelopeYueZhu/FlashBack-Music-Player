@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         nextButton = (ImageButton) findViewById(R.id.next_button);
         prevButton = (ImageButton) findViewById(R.id.previous_button);
 
+        MusicQueuer mq = new MusicQueuer();
+        mq.readSongs(this);
         musicPlayer = new MusicPlayer(this);
 
         // Unless there is a song playing when we get back to normal mode, hide the button

@@ -1,5 +1,8 @@
 package com.gaparmar.mediaflashback;
 
+import android.content.Context;
+import android.os.Environment;
+
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -14,19 +17,21 @@ public class MusicQueuer {
     public MusicQueuer() {
 
     }
-    public void readSongs() {
-        File f = new File("/");
-        String[] allFiles = f.list();
+    public void readSongs(Context context) {
+        // "MediaFlashback/app/src/main/res/"
+        String s = "~/Users/cheng/Desktop/CSE100/cse-110-team-project-team-31/MediaFlashback/app/src/main/res/raw";
+        File f = new File(s);
+        System.out.println("file path: " + s);
+        if (f != null) {
+            String[] allFiles = f.list();
 
-    }
+            for (int i = 0; i < allFiles.length; i++) {
+                System.out.println(allFiles[i]);
+            }
+        } else {
+            System.out.println("file is null");
+        }
 
-    public void getID() {
-
-
-    }
-
-    public Album getAlbum(String albumName) {
-        return Album;
     }
 
 
