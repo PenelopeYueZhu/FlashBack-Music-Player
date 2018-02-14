@@ -3,7 +3,9 @@ package com.gaparmar.mediaflashback;
 import android.content.Context;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import java.io.File;
@@ -22,6 +24,7 @@ public class MusicQueuer {
     public MusicQueuer() {
 
     }
+    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD_MR1)
     public void readSongs(Context context) {
 
         // Get all the song files from raw folder
@@ -93,7 +96,7 @@ public class MusicQueuer {
             HashMap.Entry currEntry = (HashMap.Entry) it.next();
             Album currAlbum = (Album) currEntry.getValue();
 
-            albums.add( currAlbum.getTitle() );
+            albums.add( currAlbum.getAlbumTitle() );
         }
         return albums;
     }
@@ -105,4 +108,5 @@ public class MusicQueuer {
     public Song getSong( int ID ){
         return allTracks.get(ID);
     }
+
 }
