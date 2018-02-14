@@ -15,6 +15,7 @@ public class Album {
     private int releaseYear;
     private int lengthInSeconds;
     private ArrayList<Song> songs;
+    private String albumTitle;
 
 
     /* The default constructor */
@@ -25,6 +26,7 @@ public class Album {
         artistName = "";
         releaseYear = -1;
         lengthInSeconds = -1;
+        albumTitle = "";
     }
 
     /* The custom constructor that takes an array of song objects*/
@@ -114,6 +116,8 @@ public class Album {
     public int getLengthInSeconds(){
         return this.lengthInSeconds;
     }
+
+    public String getAlbumTitle(){return this.albumTitle;}
 
 
 

@@ -3,10 +3,16 @@ package com.gaparmar.mediaflashback;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -20,6 +26,7 @@ import android.view.ViewGroup;
 public class AlbumsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private ListView mListView;
 
     public AlbumsFragment() {
         // Required empty public constructor
@@ -34,13 +41,34 @@ public class AlbumsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_albums, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+
+        ArrayList<Album> albums = new ArrayList<>();
+        mListView = (ListView)getView().findViewById(R.id.album_list);
+       // String[] titles = new String[albums.size()];
+
+        for(int i = 0; i < albums.size(); ++i){
+       //     titles[i] = albums.get(i).getAlbumTitle();
+        }
+
+        String[] titles = {"1", "2", "3"};
+
+        ArrayAdapter adapter = new ArrayAdapter(this.getContext(),
+                android.R.layout.simple_list_item_1, titles);
+        mListView.setAdapter(adapter);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -2,23 +2,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.gaparmar.mediaflashback.AlbumsFragment">
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-</FrameLayout>
     <!-- TODO: Update blank fragment layout -->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="61dp"
-        android:layout_marginTop="?android:attr/actionBarSize"
         android:text="album fragment" />
 
     <ListView
+        android:id="@+id/album_list"
         android:layout_width="match_parent"
         android:layout_marginTop="?android:attr/actionBarSize"
-        android:layout_height="61dp" />
+        android:layout_height="wrap_content"
+
+        />
 
 </FrameLayout>
