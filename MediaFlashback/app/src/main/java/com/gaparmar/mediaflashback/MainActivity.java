@@ -14,8 +14,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     private Song s;
+    ArrayList<Song> arr = new ArrayList<Song>();
 
     // This is all the fields on the main screen
     TextView songTitleDisplay;
@@ -29,11 +32,11 @@ public class MainActivity extends AppCompatActivity {
 
     MusicPlayer musicPlayer;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // Initialize all the fields
         songTitleDisplay = (TextView) findViewById(R.id.song_title);
         songDateDisplay = (TextView) findViewById(R.id.song_date);
@@ -133,7 +136,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //mPlayer.loadMedia(R.raw.replay);
         Button launchFlashbackActivity = (Button) findViewById(R.id.flashback_button);
+        ImageButton playButton = (ImageButton) findViewById(R.id.play_button);
+        Button browseBtn = (Button) findViewById(R.id.browse_button);
+        browseBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick( View view ){
+                launchLibrary();
+                finish();
+            }
+        });
 
         launchFlashbackActivity.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -147,6 +160,12 @@ public class MainActivity extends AppCompatActivity {
         //input = (EditText)findViewById(R.id.in_time) ;
         Intent intent = new Intent(this, FlashbackActivity.class);
         //intent.putExtra("transferred_string", input.getText().toString());
+        setResult(Activity.RESULT_OK, intent);
+        startActivity(intent);
+    }
+
+    public void launchLibrary() {
+        Intent intent = new Intent(this, Library.class);
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }
