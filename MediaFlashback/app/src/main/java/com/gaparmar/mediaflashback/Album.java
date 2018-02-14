@@ -14,7 +14,7 @@ public class Album {
     private String artistName;
     private int releaseYear;
     private int lengthInSeconds;
-    private ArrayList<Song> songs;
+    private ArrayList<Integer> songs;
 
 
     /* The default constructor */
@@ -30,7 +30,7 @@ public class Album {
     /* The custom constructor that takes an array of song objects*/
     public Album(Song[] songs){
         this();
-        this.songs = new ArrayList<>(Arrays.asList(songs));
+        this.songs = new ArrayList<>(Integer);
         this.numSongs = songs.length;
 
         // If input array is not empty
