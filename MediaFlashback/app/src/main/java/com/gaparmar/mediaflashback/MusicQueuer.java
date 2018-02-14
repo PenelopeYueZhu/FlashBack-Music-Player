@@ -8,6 +8,7 @@ import android.util.Log;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -69,5 +70,39 @@ public class MusicQueuer {
             }
             currAlbum.addSong(currSong);
         }
+    }
+
+    public ArrayList<Integer> getEntireSongList(){
+        ArrayList<Integer> songs = new ArrayList<Integer>();
+
+        Iterator it = allTracks.entrySet().iterator();
+        while( it.hasNext() ){
+            HashMap.Entry currEntry = (HashMap.Entry) it.next();
+            Song currSong = (Song) currEntry.getValue();
+
+            songs.add( currSong.getRawID() );
+        }
+        return songs;
+    }
+
+    public ArrayList<String> getEntireAlbumList() {
+        ArrayList<String> albums = new ArrayList<String>();
+
+        Iterator it = allAlbums.entrySet().iterator();
+        while( it.hasNext() ){
+            HashMap.Entry currEntry = (HashMap.Entry) it.next();
+            Album currAlbum = (Album) currEntry.getValue();
+
+            albums.add( currAlbum.getTitle() );
+        }
+        return albums;
+    }
+
+    public Album getAlbum( String albumName ){
+        return allAlbums.get( albumName );
+    }
+
+    public Song getSong( int ID ){
+        return allTracks.get(ID);
     }
 }
