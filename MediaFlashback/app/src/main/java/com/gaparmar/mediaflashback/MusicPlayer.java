@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -15,8 +17,9 @@ import java.util.List;
  */
 
 public class MusicPlayer extends AppCompatActivity {
+    private MusicQueuer mq;
     private MediaPlayer mediaPlayer;
-    private List<Song> songsToPlay;
+    private List<Integer> songsToPlay;
     int currInd = 0;
     private boolean isFinished = false;
     private boolean firstTime = true;
@@ -26,13 +29,11 @@ public class MusicPlayer extends AppCompatActivity {
     private /*static*/ boolean playingSong = false;
     private Context context;
 
-    // temporary tester mp3 files
-    private int[] mediaFiles = {R.raw.jazz_in_paris, R.raw.replay};
-
     /**
      * Default MusicPlayer constructor
      */
-    public MusicPlayer(Context current) {
+    public MusicPlayer(Context current, MusicQueuer mq ) {
+        this.mq = mq;
         this.context = current;
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -40,6 +41,7 @@ public class MusicPlayer extends AppCompatActivity {
              * Automatically play next song after each song completion
              * @param mp
              */
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onCompletion(MediaPlayer mp) {
                 firstTime = false;
@@ -50,10 +52,11 @@ public class MusicPlayer extends AppCompatActivity {
                 }
             }
         });
-        songsToPlay = new ArrayList<Song>();
+        songsToPlay = new ArrayList<Integer>();
     }
 
-    public MusicPlayer(List<Song> list, Context current) {
+    public MusicPlayer(ArrayList<Integer> list, Context current, MusicQueuer mq) {
+        this.mq = mq;
         this.context = current;
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -61,6 +64,7 @@ public class MusicPlayer extends AppCompatActivity {
              * Automatically play next song after each song completion
              * @param mp
              */
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onCompletion(MediaPlayer mp) {
                 firstTime = false;
@@ -74,6 +78,7 @@ public class MusicPlayer extends AppCompatActivity {
         songsToPlay = list;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void loadMedia(int resourceID) {
         if (mediaPlayer == null) {
             mediaPlayer = new MediaPlayer();
@@ -114,6 +119,7 @@ public class MusicPlayer extends AppCompatActivity {
         mediaPlayer.reset();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void nextSong() {
         firstTime = false;
         if (currInd != songsToPlay.size()-1 && songsToPlay.size() > 0) {
@@ -121,7 +127,7 @@ public class MusicPlayer extends AppCompatActivity {
             currInd++;
 
             System.out.println( "Line 122 this index should be 1 " + currInd );
-            loadMedia(songsToPlay.get(currInd).getRawID());
+            loadMedia( mq.getSong(songsToPlay.get(currInd)).getRawID());
             //if( firstTime ) playSong();
             // DONT UNCOMMENT
         }
@@ -132,11 +138,12 @@ public class MusicPlayer extends AppCompatActivity {
         //}
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void previousSong() {
         if (currInd > 0) {
             resetSong();
             currInd--;
-            loadMedia(songsToPlay.get(currInd).getRawID());
+            loadMedia( mq.getSong(songsToPlay.get(currInd)).getRawID());
             System.out.println( "Line 133 This index should be 0 " + currInd);
         } /*else {
             // wrap around to the last song.
@@ -147,10 +154,11 @@ public class MusicPlayer extends AppCompatActivity {
         //if( firstTime ) playSong();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void loadNewSong(Song s) {
         resetSong();
         songsToPlay.clear(); // clear our album
-        songsToPlay.add(s);
+        songsToPlay.add(s.getRawID());
         loadMedia(s.getRawID());
         playSong();
     }
@@ -163,12 +171,12 @@ public class MusicPlayer extends AppCompatActivity {
         resetSong();
         songsToPlay.clear();
         for (int i = 0; i < a.getNumSongs(); i++) {
-            songsToPlay.add(a.getSongAtIndex(i));
+            songsToPlay.add(a.getSongAtIndex(i).getRawID());
         }
     }
 
     public Song getCurrSong() {
-        return songsToPlay.get(currInd);
+        return mq.getSong(songsToPlay.get(currInd));
     }
 
     public boolean isPlaying() {
