@@ -56,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
         playButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Dont't do anything if no song is currently selected
+                if (musicPlayer.getCurrSong() == null)
+                    return;
+
                 musicPlayer.playSong();
                 // Replace the buttons
                 playButton.setVisibility(View.GONE);
@@ -84,7 +88,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 musicPlayer.nextSong();
                 Song currentSong = musicPlayer.getCurrSong();
-
+                // Dont't do anything if no song is currently selected
+                if (currentSong == null)
+                    return;
                 // Load all the information about the song
                 songTitleDisplay.setText( currentSong.getTitle());
                 songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
@@ -98,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 musicPlayer.previousSong();
                 Song currentSong = musicPlayer.getCurrSong();
-
+                if (currentSong == null)
+                    return;
                 // Load all the information about the song
                 songTitleDisplay.setText( currentSong.getTitle());
                 songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
@@ -137,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void launchLibrary() {
-        Intent intent = new Intent(this, Library.class);
+        Intent intent = new Intent(this, LibraryActivity.class);
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }

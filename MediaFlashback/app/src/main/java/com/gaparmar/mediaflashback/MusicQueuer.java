@@ -40,7 +40,6 @@ public class MusicQueuer {
      */
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD_MR1)
     public void readSongs() {
-
         // Get all the song files from raw folder
         Field[] songLists = R.raw.class.getFields();
         // TODO:: What if we have other non-song resources in the raw folder?
@@ -70,7 +69,6 @@ public class MusicQueuer {
             String artist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
             if( artist == null )
                 artist = UNKNOWN_STRING;
-
             // Create a song object
             Song song = new Song( title, album, artist, Integer.parseInt(duration),
                     Integer.parseInt(year), songId);
