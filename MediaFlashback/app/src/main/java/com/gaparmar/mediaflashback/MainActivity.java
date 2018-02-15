@@ -9,11 +9,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
-    private Song s;
-    private ArrayList<Song> arr = new ArrayList<Song>();
 
     // This is all the fields on the main screen
     private TextView songTitleDisplay;
@@ -33,18 +29,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Initialize all the fields
-        songTitleDisplay = (TextView) findViewById(R.id.song_title);
-        songDateDisplay = (TextView) findViewById(R.id.song_date);
-        songLocationDisplay = (TextView) findViewById(R.id.song_location);
-        songTimeDisplay = (TextView) findViewById(R.id.song_time);
-        playButton = (ImageButton) findViewById(R.id.play_button);
-        pauseButton = (ImageButton) findViewById(R.id.pause_button);
-        nextButton = (ImageButton) findViewById(R.id.next_button);
-        prevButton = (ImageButton) findViewById(R.id.previous_button);
+        songTitleDisplay = findViewById(R.id.song_title);
+        songDateDisplay = findViewById(R.id.song_date);
+        songLocationDisplay = findViewById(R.id.song_location);
+        songTimeDisplay = findViewById(R.id.song_time);
+        playButton =  findViewById(R.id.play_button);
+        pauseButton = findViewById(R.id.pause_button);
+        nextButton = findViewById(R.id.next_button);
+        prevButton = findViewById(R.id.previous_button);
 
-        MusicQueuer mq = new MusicQueuer(this);
-        mq.readSongs();
-        musicPlayer = new MusicPlayer(this, mq);
+        MusicQueuer musicQueuer = new MusicQueuer(this);
+        musicQueuer.readSongs();
+        musicPlayer = new MusicPlayer(this, musicQueuer);
 
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !musicPlayer.wasPlayingSong()) {
@@ -55,28 +51,6 @@ public class MainActivity extends AppCompatActivity {
             playButton.setVisibility(View.GONE);
             pauseButton.setVisibility(View.VISIBLE);
         }
-
-        /*
-         * This is a test
-         */
-       // int songOne= R.raw.replay;
-       // int songTwo = R.raw.jazz_in_paris;
-       // final Song songLonger = new Song( "At Afternppn", "I Will Not Be Afraid", "Unknown Artist",
-              //  0, 0, songTwo);
-      //  final Song songShorter = new Song( "At Midnight", "I Will Not Be Afraid", "Unknown Artist",
-             //   0, 0, songOne);
-
-        // Make a list of songs
-       // ArrayList<Integer> list = new ArrayList<>();
-       // list.add( songLonger.getRawID() );
-      //  list.add( songShorter.getRawID() );
-      //  musicPlayer = new MusicPlayer(list, this, mq);
-        //  musicPlayer = new MusicPlayer(this);
-       // musicPlayer.loadMedia( songLonger.getRawID() );
-
-        /*
-         * This is the end of the test
-         */
 
         // Set the button's functions
         playButton.setOnClickListener( new View.OnClickListener() {

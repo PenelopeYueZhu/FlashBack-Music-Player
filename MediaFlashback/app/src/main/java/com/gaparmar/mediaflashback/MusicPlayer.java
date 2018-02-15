@@ -3,13 +3,11 @@ package com.gaparmar.mediaflashback;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -17,7 +15,7 @@ import java.util.List;
  */
 
 public class MusicPlayer extends AppCompatActivity {
-    private MusicQueuer mq;
+    private MusicQueuer musicQueuer;
     private MediaPlayer mediaPlayer;
     private List<Integer> songsToPlay;
     int currInd = 0;
@@ -31,9 +29,11 @@ public class MusicPlayer extends AppCompatActivity {
 
     /**
      * Default MusicPlayer constructor
+     * @param current The reference activity context
+     * @param musicQueuer the MusicQueuer object that stores all the songs
      */
-    public MusicPlayer(Context current, MusicQueuer mq ) {
-        this.mq = mq;
+    public MusicPlayer(Context current, MusicQueuer musicQueuer ) {
+        this.musicQueuer = musicQueuer;
         this.context = current;
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -52,11 +52,11 @@ public class MusicPlayer extends AppCompatActivity {
                 }
             }
         });
-        songsToPlay = new ArrayList<Integer>();
+        songsToPlay = new ArrayList<>();
     }
 
-    public MusicPlayer(ArrayList<Integer> list, Context current, MusicQueuer mq) {
-        this.mq = mq;
+    public MusicPlayer(ArrayList<Integer> list, Context current, MusicQueuer musicQueuer) {
+        this.musicQueuer = musicQueuer;
         this.context = current;
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -127,7 +127,7 @@ public class MusicPlayer extends AppCompatActivity {
             currInd++;
 
             System.out.println( "Line 122 this index should be 1 " + currInd );
-            loadMedia( mq.getSong(songsToPlay.get(currInd)).getRawID());
+            loadMedia( musicQueuer.getSong(songsToPlay.get(currInd)).getRawID());
             //if( firstTime ) playSong();
             // DONT UNCOMMENT
         }
@@ -143,7 +143,7 @@ public class MusicPlayer extends AppCompatActivity {
         if (currInd > 0) {
             resetSong();
             currInd--;
-            loadMedia( mq.getSong(songsToPlay.get(currInd)).getRawID());
+            loadMedia( musicQueuer.getSong(songsToPlay.get(currInd)).getRawID());
             System.out.println( "Line 133 This index should be 0 " + currInd);
         } /*else {
             // wrap around to the last song.
@@ -176,7 +176,7 @@ public class MusicPlayer extends AppCompatActivity {
     }
 
     public Song getCurrSong() {
-        return mq.getSong(songsToPlay.get(currInd));
+        return musicQueuer.getSong(songsToPlay.get(currInd));
     }
 
     public boolean isPlaying() {
