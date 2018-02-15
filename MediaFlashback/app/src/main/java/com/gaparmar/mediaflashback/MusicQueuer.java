@@ -4,11 +4,8 @@ import android.content.Context;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,22 +18,32 @@ import java.util.Map;
 
 public class MusicQueuer {
 
-    /*
-     * Two hash maps that store everything
+    // Member variables of the class
+    private HashMap<Integer, Song> allTracks = new HashMap<>();
+    private HashMap<String, Album> allAlbums = new HashMap<>();
+    private final static String UNKNOWN_STRING = "Unknown";
+    private final static String UNKNOWN_INT = "0";
+    private Context context;
+
+
+    /**
+     * The constructor of the MusicQueuer Object
+     * @param context the activity context reference
      */
-    private HashMap<Integer, Song> allTracks = new HashMap<Integer, Song>();
-    private HashMap<String, Album> allAlbums = new HashMap<String, Album>();
-    final static String strUnknown = "Unknown";
-    final static String intUnknown = "0";
-    Context context;
     public MusicQueuer( Context context ) {
         this.context = context;
     }
+
+
+    /**
+     * Populates the allTracks hashmap
+     */
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD_MR1)
     public void readSongs() {
 
         // Get all the song files from raw folder
         Field[] songLists = R.raw.class.getFields();
+        // TODO:: What if we have other non-song resources in the raw folder?
         for( int count = 0 ; count < songLists.length ; count ++) {
             // Push a new object
             // Get the name of the song
@@ -47,19 +54,22 @@ public class MusicQueuer {
             Uri songPath = Uri.parse("android.resource://com.gaparmar.mediaflashback/raw/"+name );
             // Get all the metadata
             MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-
             retriever.setDataSource(context, songPath);
-
             String title = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
-            if( title == null ) title = strUnknown;
+            if( title == null )
+                title = UNKNOWN_STRING;
             String year = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR);
-            if( year == null ) year = intUnknown;
+            if( year == null )
+                year = UNKNOWN_INT;
             String duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-            if( duration == null ) duration = intUnknown;
+            if( duration == null )
+                duration = UNKNOWN_INT;
             String album = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
-            if( album == null ) album = strUnknown;
+            if( album == null )
+                album = UNKNOWN_STRING;
             String artist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
-            if( artist == null ) artist = strUnknown;
+            if( artist == null )
+                artist = UNKNOWN_STRING;
 
             // Create a song object
             Song song = new Song( title, album, artist, Integer.parseInt(duration),
@@ -72,12 +82,11 @@ public class MusicQueuer {
 
     /*
      * Read in albums from song lists
+     * Populates the allAlbums hashmap
      */
     public void readAlbums(){
-
         // Iterate through the song map to get all the albums
         Iterator<Map.Entry<Integer, Song>> it = allTracks.entrySet().iterator();
-        //System.out.println( allTracks.get(R.raw.after_the_storm).getTitle());
         while( it.hasNext() ) {
             Map.Entry<Integer, Song> currEntry = it.next();
             Song currSong = currEntry.getValue();
@@ -96,8 +105,13 @@ public class MusicQueuer {
         }
     }
 
+
+    /**
+     * ArrayList of all the Song IDs
+     * @return Convers the allTracks hashmap into an ArrayList
+     */
     public ArrayList<Integer> getEntireSongList(){
-        ArrayList<Integer> songs = new ArrayList<Integer>();
+        ArrayList<Integer> songs = new ArrayList<>();
 
         Iterator it = allTracks.entrySet().iterator();
         while( it.hasNext() ){
@@ -109,12 +123,12 @@ public class MusicQueuer {
         return songs;
     }
 
-    /*
-     * returns a list of album names
+    /**
+     * ArrayList of all the Album names
+     * @return Convers the allAlbums hashmap into an ArrayList
      */
     public ArrayList<String> getEntireAlbumList() {
-        ArrayList<String> albums = new ArrayList<String>();
-
+        ArrayList<String> albums = new ArrayList<>();
         Iterator it = allAlbums.entrySet().iterator();
         while( it.hasNext() ){
             HashMap.Entry currEntry = (HashMap.Entry) it.next();
@@ -125,21 +139,37 @@ public class MusicQueuer {
         return albums;
     }
 
-    /*
-     * Return the specific album object with given name
+    // TODO:: Add null checks first to see if the album exists
+
+    /**
+     * Gets the Album object based on the Album name
+     * @param albumName name of the Album
+     * @return The corresponding Album object
      */
     public Album getAlbum( String albumName ){
         return allAlbums.get( albumName );
     }
 
+    // TODO:: make a helper function that gets song based on song name
+    /**
+     * Gets the Song object based on the Song ID
+     * @param ID ID of the song
+     * @return The corresponding
+     */
     public Song getSong( int ID ){
         return allTracks.get(ID);
     }
 
+    /**
+     * @return the total number of currently stored songs
+     */
     public int getNumSongs( ){
         return allTracks.size();
     }
 
+    /**
+     * @return the total number of currently stored albums
+     */
     public int getNumAlbums(){
         return allAlbums.size();
     }
