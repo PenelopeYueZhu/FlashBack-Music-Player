@@ -32,12 +32,23 @@ public class Album {
         lengthInSeconds = -1;
     }
 
+    public Album( String name ){
+        super();
+        songs = new ArrayList<>();
+        numSongs = 0;
+        artistName = "";
+        albumTitle=name;
+        releaseYear = -1;
+        lengthInSeconds = -1;
+    }
+
     /* The custom constructor that takes an array of song objects*/
-    public Album(ArrayList<Integer> songLists, MusicQueuer mq ){
+    public Album(ArrayList<Integer> songLists, MusicQueuer mq, String name ){
         this();
         this.songs = songLists;
         this.numSongs = songs.size();
         this.mq = mq;
+        this.albumTitle = name;
         // If input array is not empty
         if (numSongs> 0){
             this.artistName = mq.getSong(songs.get(0)).getArtistName();
@@ -57,10 +68,19 @@ public class Album {
             throw new InvalidParameterException();
         }
         boolean invalidInput = false;
+        // If there is no song in the album yet
+        if( numSongs == 0 ) {
+            this.songs.add( s.getRawID() );
+            this.numSongs++;
+            this.releaseYear = s.getYearOfRelease();
+            this.artistName = s.getArtistName();
+            this.lengthInSeconds = s.getLengthInSeconds();
+        }
         if (hasSong(s)){
             System.out.println("The song already exists in album");
             invalidInput = true;
         }
+
         if (s.getYearOfRelease() != this.releaseYear){
             System.out.println("The song was released in a different year");
             invalidInput = true;
@@ -76,7 +96,7 @@ public class Album {
 
 
     public boolean hasSong(Song s){
-        return this.songs.contains(s);
+        return this.songs.contains(s.getRawID());
     }
 
     public void removeSong(Song s) throws InvalidParameterException{
