@@ -151,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
         launchFlashbackActivity.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick( View view ){
+                musicPlayer.resetSong();
                 launchActivity();
             }
         });
