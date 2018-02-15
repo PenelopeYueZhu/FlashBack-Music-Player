@@ -2,7 +2,6 @@ package com.gaparmar.mediaflashback;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by gauravparmar on 2/3/18.
@@ -21,7 +20,9 @@ public class Album {
     MusicQueuer mq;
 
 
-    /* The default constructor */
+    /**
+     * The default constructor.
+     */
     public Album(){
         super();
         songs = new ArrayList<>();
@@ -32,8 +33,12 @@ public class Album {
         lengthInSeconds = -1;
     }
 
+    /**
+     * Constructor which sets the  album name
+     * @param name the album title
+     */
     public Album( String name ){
-        super();
+        this();
         songs = new ArrayList<>();
         numSongs = 0;
         artistName = "";
@@ -42,7 +47,12 @@ public class Album {
         lengthInSeconds = -1;
     }
 
-    /* The custom constructor that takes an array of song objects*/
+    /**
+     * Constructor that takes list of songs, music queuer and album title
+     * @param songLists List of ID of songs
+     * @param mq The MusicQueuer object
+     * @param name The title of the Album
+     */
     public Album(ArrayList<Integer> songLists, MusicQueuer mq, String name ){
         this();
         this.songs = songLists;
@@ -62,6 +72,11 @@ public class Album {
         this.lengthInSeconds = totalLength;
     }
 
+    /**
+     * Adds a song to the Album
+     * @param s
+     * @throws InvalidParameterException
+     */
     public void addSong(Song s) throws InvalidParameterException{
         if (s == null){
             System.err.println("The Song object is uninitialized");

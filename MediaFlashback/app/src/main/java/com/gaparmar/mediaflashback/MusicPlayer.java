@@ -3,13 +3,11 @@ package com.gaparmar.mediaflashback;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -17,23 +15,25 @@ import java.util.List;
  */
 
 public class MusicPlayer extends AppCompatActivity {
-    private MusicQueuer mq;
+    private MusicQueuer musicQueuer;
     private MediaPlayer mediaPlayer;
     private List<Integer> songsToPlay;
-    int currInd = 0;
+    private int currInd = 0;
     private boolean isFinished = false;
-    private boolean firstTime = true;
+    private boolean firstTime = true; /* flag representing if this is first song played */
 
-    private /*static*/ int timeStamp;
-    private /*static*/ Song lastPlayed;
-    private /*static*/ boolean playingSong = false;
+    private int timeStamp;
+    private Song lastPlayed;
+    private boolean playingSong = false;
     private Context context;
 
     /**
      * Default MusicPlayer constructor
+     * @param current The reference activity context
+     * @param musicQueuer the MusicQueuer object that stores all the songs
      */
-    public MusicPlayer(Context current, MusicQueuer mq ) {
-        this.mq = mq;
+    public MusicPlayer(Context current, MusicQueuer musicQueuer ) {
+        this.musicQueuer = musicQueuer;
         this.context = current;
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -52,32 +52,17 @@ public class MusicPlayer extends AppCompatActivity {
                 }
             }
         });
-        songsToPlay = new ArrayList<Integer>();
+        songsToPlay = new ArrayList<>();
+        System.out.println("Music Player object created");
     }
 
-    public MusicPlayer(ArrayList<Integer> list, Context current, MusicQueuer mq) {
-        this.mq = mq;
-        this.context = current;
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            /**
-             * Automatically play next song after each song completion
-             * @param mp
-             */
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                firstTime = false;
-                isFinished = (currInd == songsToPlay.size()-1);
-                // if not finished, automatically play next song
-                if (!isFinished() && songsToPlay.size() > 0) {
-                    nextSong();
-                }
-            }
-        });
-        songsToPlay = list;
-    }
 
+    // TODO:: Maybe rename this function?
+    /**
+     * Loads the resources need to play a song
+     * and Starts playing the given song
+     * @param resourceID The ID of the song to be played
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void loadMedia(int resourceID) {
         if (mediaPlayer == null) {
@@ -104,21 +89,35 @@ public class MusicPlayer extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * Resumes playing the currently loaded song
+     */
     public void playSong() {
-        if (mediaPlayer != null) {
+        if (mediaPlayer != null /*&& !playingSong*/) {
             mediaPlayer.start();
             playingSong = true;
         }
     }
 
+
+    /**
+     * Pauses the currently playing song
+     */
     public void pauseSong() {
         mediaPlayer.pause();
     }
 
+    /**
+     * Resets the currently playing song
+     */
     public void resetSong() {
         mediaPlayer.reset();
     }
 
+    /**
+     * Starts playing the next song in the queue
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void nextSong() {
         firstTime = false;
@@ -127,7 +126,7 @@ public class MusicPlayer extends AppCompatActivity {
             currInd++;
 
             System.out.println( "Line 122 this index should be 1 " + currInd );
-            loadMedia( mq.getSong(songsToPlay.get(currInd)).getRawID());
+            loadMedia( musicQueuer.getSong(songsToPlay.get(currInd)).getRawID());
             //if( firstTime ) playSong();
             // DONT UNCOMMENT
         }
@@ -143,7 +142,7 @@ public class MusicPlayer extends AppCompatActivity {
         if (currInd > 0) {
             resetSong();
             currInd--;
-            loadMedia( mq.getSong(songsToPlay.get(currInd)).getRawID());
+            loadMedia( musicQueuer.getSong(songsToPlay.get(currInd)).getRawID());
             System.out.println( "Line 133 This index should be 0 " + currInd);
         } /*else {
             // wrap around to the last song.
@@ -175,8 +174,14 @@ public class MusicPlayer extends AppCompatActivity {
         }
     }
 
+    /**
+     * @return The current Song to be Played
+     *          NULL if no song is currently selected
+     */
     public Song getCurrSong() {
-        return mq.getSong(songsToPlay.get(currInd));
+        if (songsToPlay.size()==0)
+            return null;
+        return musicQueuer.getSong(songsToPlay.get(currInd));
     }
 
     public boolean isPlaying() {
@@ -189,10 +194,11 @@ public class MusicPlayer extends AppCompatActivity {
 
     public boolean wasPlayingSong() { return playingSong; }
 
-    /*
-     * To stop a song from playing in normal mode
+
+    /**
+     * Stops playing the current song being played in normal mode
      */
-    public /*static*/ void stopPlaying() {
+    public void stopPlaying() {
       // If there is a song currently playing, record the song's info
       if( playingSong ) {
         playingSong = false;
@@ -201,10 +207,10 @@ public class MusicPlayer extends AppCompatActivity {
       }
     }
 
-    /*
+    /**
      * To resume a song when user coming back from flashback mode 
      */
-    public /*static*/ void resumePlaying() {
+    public void resumePlaying() {
       if( lastPlayed != null ) {
         this.loadNewSong( lastPlayed );
         mediaPlayer.seekTo( timeStamp ); // Get to where user left off
