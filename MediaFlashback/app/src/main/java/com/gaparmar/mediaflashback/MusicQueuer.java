@@ -122,10 +122,6 @@ public class MusicQueuer {
 
             albums.add( currAlbum.getAlbumTitle() );
         }
-
-        //for( String a : albums ){
-         //   System.out.println( "Album Title: " + this.getAlbum( a ).getAlbumTitle() );
-       // }
         return albums;
     }
 
