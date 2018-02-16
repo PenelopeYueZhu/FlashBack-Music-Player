@@ -45,6 +45,7 @@ public class Album {
         albumTitle=name;
         releaseYear = -1;
         lengthInSeconds = -1;
+        albumTitle = "";
     }
 
     /**
