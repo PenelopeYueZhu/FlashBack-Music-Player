@@ -32,9 +32,6 @@ public class FlashbackPlayer extends AppCompatActivity {
     private /*static*/ boolean playingSong = false;
     private Context context;
 
-    // temporary tester mp3 files
-  //  private int[] mediaFiles = {R.raw.after_the_storm, R.raw.crane_city};
-
 
     private static class SongCompare implements Comparator<Song>
     {

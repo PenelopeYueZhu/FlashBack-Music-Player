@@ -1,6 +1,5 @@
 package com.gaparmar.mediaflashback;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class Library extends AppCompatActivity {
+public class LibraryActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
 
@@ -45,7 +44,7 @@ public class Library extends AppCompatActivity {
     };
 
     public void startPlayer() {
-        startActivity(new Intent(Library.this, MainActivity.class));
+        startActivity(new Intent(LibraryActivity.this, MainActivity.class));
         finish();
     }
 

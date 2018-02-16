@@ -2,35 +2,26 @@ package com.gaparmar.mediaflashback;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
-    private Song s;
-    ArrayList<Song> arr = new ArrayList<Song>();
 
     // This is all the fields on the main screen
-    TextView songTitleDisplay;
-    TextView songLocationDisplay;
-    TextView songDateDisplay;
-    TextView songTimeDisplay;
-    ImageButton playButton;
-    ImageButton pauseButton;
-    ImageButton nextButton;
-    ImageButton prevButton;
+    private TextView songTitleDisplay;
+    private TextView songLocationDisplay;
+    private TextView songDateDisplay;
+    private TextView songTimeDisplay;
+    private ImageButton playButton;
+    private ImageButton pauseButton;
+    private ImageButton nextButton;
+    private ImageButton prevButton;
 
-    MusicPlayer musicPlayer;
+    private MusicPlayer musicPlayer;
 
 
     @Override
@@ -38,18 +29,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Initialize all the fields
-        songTitleDisplay = (TextView) findViewById(R.id.song_title);
-        songDateDisplay = (TextView) findViewById(R.id.song_date);
-        songLocationDisplay = (TextView) findViewById(R.id.song_location);
-        songTimeDisplay = (TextView) findViewById(R.id.song_time);
-        playButton = (ImageButton) findViewById(R.id.play_button);
-        pauseButton = (ImageButton) findViewById(R.id.pause_button);
-        nextButton = (ImageButton) findViewById(R.id.next_button);
-        prevButton = (ImageButton) findViewById(R.id.previous_button);
+        songTitleDisplay = findViewById(R.id.song_title);
+        songDateDisplay = findViewById(R.id.song_date);
+        songLocationDisplay = findViewById(R.id.song_location);
+        songTimeDisplay = findViewById(R.id.song_time);
+        playButton =  findViewById(R.id.play_button);
+        pauseButton = findViewById(R.id.pause_button);
+        nextButton = findViewById(R.id.next_button);
+        prevButton = findViewById(R.id.previous_button);
 
-        MusicQueuer mq = new MusicQueuer(this);
-        mq.readSongs();
-        musicPlayer = new MusicPlayer(this, mq);
+        MusicQueuer musicQueuer = new MusicQueuer(this);
+        musicQueuer.readSongs();
+        musicPlayer = new MusicPlayer(this, musicQueuer);
 
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !musicPlayer.wasPlayingSong()) {
@@ -61,32 +52,14 @@ public class MainActivity extends AppCompatActivity {
             pauseButton.setVisibility(View.VISIBLE);
         }
 
-        /*
-         * This is a test
-         */
-       // int songOne= R.raw.replay;
-       // int songTwo = R.raw.jazz_in_paris;
-       // final Song songLonger = new Song( "At Afternppn", "I Will Not Be Afraid", "Unknown Artist",
-              //  0, 0, songTwo);
-      //  final Song songShorter = new Song( "At Midnight", "I Will Not Be Afraid", "Unknown Artist",
-             //   0, 0, songOne);
-
-        // Make a list of songs
-       // ArrayList<Integer> list = new ArrayList<>();
-       // list.add( songLonger.getRawID() );
-      //  list.add( songShorter.getRawID() );
-      //  musicPlayer = new MusicPlayer(list, this, mq);
-        //  musicPlayer = new MusicPlayer(this);
-       // musicPlayer.loadMedia( songLonger.getRawID() );
-
-        /*
-         * This is the end of the test
-         */
-
         // Set the button's functions
         playButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Dont't do anything if no song is currently selected
+                if (musicPlayer.getCurrSong() == null)
+                    return;
+
                 musicPlayer.playSong();
                 // Replace the buttons
                 playButton.setVisibility(View.GONE);
@@ -115,7 +88,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 musicPlayer.nextSong();
                 Song currentSong = musicPlayer.getCurrSong();
-
+                // Dont't do anything if no song is currently selected
+                if (currentSong == null)
+                    return;
                 // Load all the information about the song
                 songTitleDisplay.setText( currentSong.getTitle());
                 songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
@@ -129,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 musicPlayer.previousSong();
                 Song currentSong = musicPlayer.getCurrSong();
-
+                if (currentSong == null)
+                    return;
                 // Load all the information about the song
                 songTitleDisplay.setText( currentSong.getTitle());
                 songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
@@ -168,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void launchLibrary() {
-        Intent intent = new Intent(this, Library.class);
+        Intent intent = new Intent(this, LibraryActivity.class);
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }

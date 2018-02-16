@@ -117,8 +117,8 @@ public class FlashbackActivity extends AppCompatActivity {
             }
         });
 
-        int songOne= R.raw.currently;
-        int songTwo = R.raw.blood_on_your_bootheels;
+        int songOne = R.raw.tightrope_walker;
+        int songTwo = R.raw.tightrope_walker;
         int songThree = R.raw.tightrope_walker;
         int songFour = R.raw.after_the_storm;
         int songFive = R.raw.america_religious;
