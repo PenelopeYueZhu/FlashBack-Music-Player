@@ -47,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
         nextButton = (ImageButton) findViewById(R.id.next_button);
         prevButton = (ImageButton) findViewById(R.id.previous_button);
 
-        musicPlayer = new MusicPlayer(this);
+        MusicQueuer mq = new MusicQueuer(this);
+        mq.readSongs();
+        musicPlayer = new MusicPlayer(this, mq);
 
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !musicPlayer.wasPlayingSong()) {
@@ -62,20 +64,20 @@ public class MainActivity extends AppCompatActivity {
         /*
          * This is a test
          */
-        int songOne= R.raw.replay;
-        int songTwo = R.raw.jazz_in_paris;
-        final Song songLonger = new Song( "At Afternppn", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songTwo);
-        final Song songShorter = new Song( "At Midnight", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songOne);
+       // int songOne= R.raw.replay;
+       // int songTwo = R.raw.jazz_in_paris;
+       // final Song songLonger = new Song( "At Afternppn", "I Will Not Be Afraid", "Unknown Artist",
+              //  0, 0, songTwo);
+      //  final Song songShorter = new Song( "At Midnight", "I Will Not Be Afraid", "Unknown Artist",
+             //   0, 0, songOne);
 
         // Make a list of songs
-        ArrayList<Song> list = new ArrayList<>();
-        list.add( songLonger );
-        list.add( songShorter );
-        musicPlayer = new MusicPlayer(list, this);
+       // ArrayList<Integer> list = new ArrayList<>();
+       // list.add( songLonger.getRawID() );
+      //  list.add( songShorter.getRawID() );
+      //  musicPlayer = new MusicPlayer(list, this, mq);
         //  musicPlayer = new MusicPlayer(this);
-        musicPlayer.loadMedia( songLonger.getRawID() );
+       // musicPlayer.loadMedia( songLonger.getRawID() );
 
         /*
          * This is the end of the test
@@ -151,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         launchFlashbackActivity.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick( View view ){
+                musicPlayer.resetSong();
                 launchActivity();
             }
         });

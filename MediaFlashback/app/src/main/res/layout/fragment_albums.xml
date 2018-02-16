@@ -1,23 +1,19 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     tools:context="com.gaparmar.mediaflashback.AlbumsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:text="album fragment" />
-
     <ListView
         android:id="@+id/album_list"
         android:layout_width="match_parent"
         android:layout_marginTop="?android:attr/actionBarSize"
         android:layout_height="wrap_content"
-
         />
+</ScrollView>
 
-</FrameLayout>
+

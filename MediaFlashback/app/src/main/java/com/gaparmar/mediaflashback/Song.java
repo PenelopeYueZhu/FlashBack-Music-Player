@@ -26,7 +26,7 @@ public class Song {
     private int lengthInSeconds;
     private int yearOfRelease;
     private int timeLastPlayed; // TODO:: temporary way of storing the time stamp
-    private double probability; // TODO:: not yet implemented?
+    private int probability; // TODO:: not yet implemented?
 
 
     /* the default constructor */
@@ -41,6 +41,7 @@ public class Song {
         lengthInSeconds = -1;
         yearOfRelease = -1;
         timeLastPlayed = -1;
+        probability = 1;
     }
 
     public Song(String title, String parentAlbum,
@@ -53,6 +54,7 @@ public class Song {
         this.artistName = artistName;
         this.yearOfRelease = yearOfRelease;
         this.rawID = rawID;
+        this.probability = 1;
     }
 
     public String getTitle(){
@@ -123,14 +125,58 @@ public class Song {
 
     public int getRawID() { return this.rawID; };
 
-    public void updateProbability(){
-        double prob = 0.0;
-        // TODO:: the logic to calculate probability would go here
-        this.probability = prob;
+    public void updateProbability()
+    {
+        int prob = 0;
+        if(isWithinRange())
+        {
+            prob++;
+        }
+        if(isSameDay())
+        {
+            prob++;
+        }
+        if(isSameTime())
+        {
+            prob++;
+        }
+        if(getCurrentState() == state.LIKED)
+        {
+            prob++;
+        }
+        if(getCurrentState() == state.DISLIKED)
+        {
+            prob = 0;
+            this.probability = 0;
+        }
+        this.probability += prob;
     }
 
-    public double getProbability(){
+    public int getProbability(){
         return this.probability;
+    }
+
+    public void setProbability(int x)
+    {
+        probability = x;
+    }
+
+    public boolean isWithinRange()
+    {
+        //TODO:: create method to determine if the current location is in the same range as the last played location
+        return false;
+    }
+
+    public boolean isSameDay()
+    {
+        //TODO:: create method to determine if the current day is the same as last played day
+        return false;
+    }
+
+    public boolean isSameTime()
+    {
+        //TODO:: create method to determine if the current time interval is the same as last played time interval
+        return false;
     }
 
 }

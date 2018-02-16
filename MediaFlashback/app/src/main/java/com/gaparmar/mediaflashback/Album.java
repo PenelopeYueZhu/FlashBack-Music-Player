@@ -14,8 +14,11 @@ public class Album {
     private String artistName;
     private int releaseYear;
     private int lengthInSeconds;
-    private ArrayList<Song> songs;
+    private ArrayList<Integer> songs;
     private String albumTitle;
+
+    // The music queuer for this album
+    MusicQueuer mq;
 
 
     /* The default constructor */
@@ -24,27 +27,39 @@ public class Album {
         songs = new ArrayList<>();
         numSongs = 0;
         artistName = "";
+        albumTitle="";
+        releaseYear = -1;
+        lengthInSeconds = -1;
+    }
+
+    public Album( String name ){
+        super();
+        songs = new ArrayList<>();
+        numSongs = 0;
+        artistName = "";
+        albumTitle=name;
         releaseYear = -1;
         lengthInSeconds = -1;
         albumTitle = "";
     }
 
     /* The custom constructor that takes an array of song objects*/
-    public Album(Song[] songs){
+    public Album(ArrayList<Integer> songLists, MusicQueuer mq, String name ){
         this();
-        this.songs = new ArrayList<>(Arrays.asList(songs));
-        this.numSongs = songs.length;
-
+        this.songs = songLists;
+        this.numSongs = songs.size();
+        this.mq = mq;
+        this.albumTitle = name;
         // If input array is not empty
-        if (songs.length > 0){
-            this.artistName = songs[0].getArtistName();
-            this.releaseYear = songs[0].getYearOfRelease();
+        if (numSongs> 0){
+            this.artistName = mq.getSong(songs.get(0)).getArtistName();
+            this.releaseYear = mq.getSong(songs.get(0)).getYearOfRelease();
         }
 
         // Calculate the sum of the length of each song
         int totalLength = 0;
-        for (int i = 0; i<songs.length; i++)
-            totalLength += songs[i].getLengthInSeconds();
+        for (int i = 0; i< numSongs; i++)
+            totalLength += mq.getSong( songs.get( i )).getLengthInSeconds();
         this.lengthInSeconds = totalLength;
     }
 
@@ -54,10 +69,19 @@ public class Album {
             throw new InvalidParameterException();
         }
         boolean invalidInput = false;
+        // If there is no song in the album yet
+        if( numSongs == 0 ) {
+            this.songs.add( s.getRawID() );
+            this.numSongs++;
+            this.releaseYear = s.getYearOfRelease();
+            this.artistName = s.getArtistName();
+            this.lengthInSeconds = s.getLengthInSeconds();
+        }
         if (hasSong(s)){
             System.out.println("The song already exists in album");
             invalidInput = true;
         }
+
         if (s.getYearOfRelease() != this.releaseYear){
             System.out.println("The song was released in a different year");
             invalidInput = true;
@@ -65,7 +89,7 @@ public class Album {
 
         // Only add if the input song is valid
         if (!invalidInput){
-            this.songs.add(s);
+            this.songs.add(s.getRawID());
             this.numSongs++;
             lengthInSeconds += s.getLengthInSeconds();
         }
@@ -73,7 +97,7 @@ public class Album {
 
 
     public boolean hasSong(Song s){
-        return this.songs.contains(s);
+        return this.songs.contains(s.getRawID());
     }
 
     public void removeSong(Song s) throws InvalidParameterException{
@@ -98,7 +122,7 @@ public class Album {
     }
 
     public Song getSongAtIndex(int i){
-        return songs.get(i);
+        return mq.getSong( songs.get( i ));
     }
 
     public int getNumSongs(){
