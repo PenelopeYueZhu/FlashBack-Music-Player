@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initializeViewComponents();
 
-
         MusicQueuer musicQueuer = new MusicQueuer(this);
         musicQueuer.readSongs();
         musicPlayer = new MusicPlayer(this, musicQueuer);
@@ -125,8 +124,8 @@ public class MainActivity extends AppCompatActivity {
         pauseButton.setVisibility(View.VISIBLE);
         // Load all the information about the song
         songTitleDisplay.setText( musicPlayer.getCurrSong().getTitle());
-        songDateDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getTimeLastPlayed()));
-        songLocationDisplay.setText( "" + musicPlayer.getCurrSong().getLocation());
+        songDateDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getTimeLastPlayed(MainActivity.this)));
+        songLocationDisplay.setText( "" + musicPlayer.getCurrSong().getLocation(MainActivity.this));
         songTimeDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getLengthInSeconds() ));
     }
 
@@ -153,8 +152,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         // Load all the information about the song
         songTitleDisplay.setText( currentSong.getTitle());
-        songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-        songLocationDisplay.setText( "" + currentSong.getLocation());
+        songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed(MainActivity.this)));
+        songLocationDisplay.setText( "" + currentSong.getLocation(MainActivity.this));
         songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
     }
 
@@ -169,8 +168,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         // Load all the information about the song
         songTitleDisplay.setText( currentSong.getTitle());
-        songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-        songLocationDisplay.setText("" + currentSong.getLocation());
+        songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed(MainActivity.this)));
+        songLocationDisplay.setText("" + currentSong.getLocation(MainActivity.this));
         songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
     }
 

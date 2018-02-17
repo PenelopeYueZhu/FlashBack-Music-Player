@@ -86,7 +86,7 @@ public class FlashbackActivity extends AppCompatActivity {
         list.add( s4 );
         list.add( s5 );
 
-        double[] tmp = s5.getLocation();
+        double[] tmp = s5.getLocation(this);
         s5.setLocation(tmp);
         flashbackPlayer = new FlashbackPlayer(list, this);
         flashbackPlayer.loadMedia( s5.getResID() );
@@ -115,8 +115,8 @@ public class FlashbackActivity extends AppCompatActivity {
 
         // Load all the information about the song
         songTitleDisplay.setText( flashbackPlayer.getCurrSong().getTitle());
-        songDateDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getTimeLastPlayed()));
-        songLocationDisplay.setText( "" + flashbackPlayer.getCurrSong().getLocation()[0]);
+        songDateDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getTimeLastPlayed(this)));
+        songLocationDisplay.setText( "" + flashbackPlayer.getCurrSong().getLocation(this)[0]);
         songTimeDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getLengthInSeconds() ));
     }
 
@@ -140,8 +140,8 @@ public class FlashbackActivity extends AppCompatActivity {
 
         // Load all the information about the song
         songTitleDisplay.setText( currentSong.getTitle());
-        songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-        songLocationDisplay.setText( "" + currentSong.getLocation());
+        songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed(this)));
+        songLocationDisplay.setText( "" + currentSong.getLocation(this));
         songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
     }
 
@@ -154,8 +154,8 @@ public class FlashbackActivity extends AppCompatActivity {
         Song currentSong = flashbackPlayer.getCurrSong();
         // Load all the information about the song
         songTitleDisplay.setText( currentSong.getTitle());
-        songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-        songLocationDisplay.setText("" +  currentSong.getLocation());
+        songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed(this)));
+        songLocationDisplay.setText("" +  currentSong.getLocation(this));
         songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
     }
 
