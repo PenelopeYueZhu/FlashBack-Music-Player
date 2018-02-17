@@ -110,10 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 if (currentSong == null)
                     return;
                 // Load all the information about the song
-                songTitleDisplay.setText( currentSong.getTitle());
-                songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText( "" + currentSong.getLocation());
-                songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
+                updateTrackInfo();
             }
         });
 
@@ -183,10 +180,6 @@ public class MainActivity extends AppCompatActivity {
         pauseButton.setVisibility(View.VISIBLE);
 
         // Load all the information about the song
-       /* songTitleDisplay.setText( musicPlayer.getCurrSong().getTitle());
-        songDateDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getTimeLastPlayed()));
-        songLocationDisplay.setText( musicPlayer.getCurrSong().getLocation().toString());
-        songTimeDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getLengthInSeconds() ));*/
         ArrayList<String> songInfo = musicQueuer.getSongInfo(musicPlayer.getCurrentSongId());
         songTitleDisplay.setText( songInfo.get(TITLE_POS));
         songDateDisplay.setText( songInfo.get(DATE_POS));
@@ -212,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
         }
         final String sender = this.getIntent().getExtras().getString("SENDER_KEY");
 
-        if( sender != null ){
+       if( sender != null ){
             this.receiveData();
 
         }
