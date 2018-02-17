@@ -1,6 +1,7 @@
 package com.gaparmar.mediaflashback;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -76,10 +77,12 @@ public class TracksFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                //mp.resetSong();
                 Integer ID = mq.getSong( songs.get(position)).getRawID();
                 System.out.println( "Song is clicked " + mq.getSong(ID).getTitle());
                 mp.loadNewSong(ID);
+
+                // open music player page
+                startActivity(new Intent(getActivity(), MainActivity.class));
             }
         });
     }

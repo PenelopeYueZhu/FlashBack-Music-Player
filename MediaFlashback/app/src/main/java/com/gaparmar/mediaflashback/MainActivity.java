@@ -73,15 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
 
                 musicPlayer.playSong();
-                // Replace the buttons
-                playButton.setVisibility(View.GONE);
-                pauseButton.setVisibility(View.VISIBLE);
-
-                // Load all the information about the song
-                songTitleDisplay.setText( musicPlayer.getCurrSong().getTitle());
-                songDateDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getTimeLastPlayed()));
-                songLocationDisplay.setText( musicPlayer.getCurrSong().getLocation());
-                songTimeDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getLengthInSeconds() ));
+                updateTrackInfo();
 
             }
         });
@@ -126,6 +118,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        if (musicPlayer.isPlaying()) {
+            updateTrackInfo();
+        }
+
         //mPlayer.loadMedia(R.raw.replay);
         Button launchFlashbackActivity = (Button) findViewById(R.id.flashback_button);
         ImageButton playButton = (ImageButton) findViewById(R.id.play_button);
@@ -159,6 +155,18 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LibraryActivity.class);
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
+    }
+
+    public void updateTrackInfo() {
+        // Replace the buttons
+        playButton.setVisibility(View.GONE);
+        pauseButton.setVisibility(View.VISIBLE);
+
+        // Load all the information about the song
+        songTitleDisplay.setText( musicPlayer.getCurrSong().getTitle());
+        songDateDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getTimeLastPlayed()));
+        songLocationDisplay.setText( musicPlayer.getCurrSong().getLocation());
+        songTimeDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getLengthInSeconds() ));
     }
 
 }

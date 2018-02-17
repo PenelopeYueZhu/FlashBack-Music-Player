@@ -26,7 +26,7 @@ public class MusicPlayer extends AppCompatActivity {
 
     private int timeStamp;
     private Song lastPlayed;
-    private boolean playingSong = false;
+    public boolean playingSong = false;
     private Context context;
 
     /**
