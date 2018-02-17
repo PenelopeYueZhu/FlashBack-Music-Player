@@ -199,4 +199,16 @@ public class MainActivity extends AppCompatActivity {
     public void enableButton( ImageButton button ) {
         button.setVisibility(View.VISIBLE);
     }
+
+   /* @Override
+    public void onResume() {
+        super.onResume();
+
+        final String sender = this.getIntent().getExtras().getString("SENDER_KEY");
+
+        if( sender != null ){
+            this.receiveData();
+
+        }
+    }*/
 }
