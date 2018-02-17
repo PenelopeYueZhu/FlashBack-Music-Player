@@ -1,9 +1,7 @@
 package com.gaparmar.mediaflashback;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -25,25 +23,29 @@ public class FlashbackActivity extends AppCompatActivity {
     ImageButton nextButton;
     ImageButton prevButton;
     Button launchRegularMode;
-
     FlashbackPlayer flashbackPlayer;
+
+    /**
+     * Initializes all the View components of this activity
+     */
+    private void initializeViewComponents(){
+        launchRegularMode = findViewById(R.id.regular_button);
+        songTitleDisplay = findViewById(R.id.song_title);
+        songDateDisplay = findViewById(R.id.song_date);
+        songLocationDisplay = findViewById(R.id.song_location);
+        songTimeDisplay = findViewById(R.id.song_time);
+        playButton = findViewById(R.id.play_button);
+        pauseButton = findViewById(R.id.pause_button);
+        nextButton = findViewById(R.id.next_button);
+        prevButton = findViewById(R.id.previous_button);
+        flashbackPlayer = new FlashbackPlayer(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
-
-        launchRegularMode = (Button) findViewById(R.id.regular_button);
-        songTitleDisplay = (TextView) findViewById(R.id.song_title);
-        songDateDisplay = (TextView) findViewById(R.id.song_date);
-        songLocationDisplay = (TextView) findViewById(R.id.song_location);
-        songTimeDisplay = (TextView) findViewById(R.id.song_time);
-        playButton = (ImageButton) findViewById(R.id.play_button);
-        pauseButton = (ImageButton) findViewById(R.id.pause_button);
-        nextButton = (ImageButton) findViewById(R.id.next_button);
-        prevButton = (ImageButton) findViewById(R.id.previous_button);
-
-        flashbackPlayer = new FlashbackPlayer(this);
+        initializeViewComponents();
 
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !flashbackPlayer.wasPlayingSong()) {
@@ -54,69 +56,6 @@ public class FlashbackActivity extends AppCompatActivity {
             playButton.setVisibility(View.GONE);
             pauseButton.setVisibility(View.VISIBLE);
         }
-
-        launchRegularMode.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                flashbackPlayer.resetSong();
-                StorageHandler.storeLastMode(FlashbackActivity.this, 0);
-                finish();
-            }
-        });
-
-        playButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                flashbackPlayer.playSong();
-                // Replace the buttons
-                playButton.setVisibility(View.GONE);
-                pauseButton.setVisibility(View.VISIBLE);
-
-                // Load all the information about the song
-                songTitleDisplay.setText( flashbackPlayer.getCurrSong().getTitle());
-                songDateDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getTimeLastPlayed()));
-                songLocationDisplay.setText( "" + flashbackPlayer.getCurrSong().getLocation());
-                songTimeDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getLengthInSeconds() ));
-
-            }
-        });
-
-        pauseButton.setOnClickListener( new View.OnClickListener(){
-            @Override
-            public void onClick( View view ) {
-                flashbackPlayer.pauseSong();
-                playButton.setVisibility(View.VISIBLE);
-                pauseButton.setVisibility(View.GONE);
-            }
-        });
-
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                flashbackPlayer.nextSong();
-                Song currentSong = flashbackPlayer.getCurrSong();
-
-                // Load all the information about the song
-                songTitleDisplay.setText( currentSong.getTitle());
-                songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText( "" + currentSong.getLocation());
-                songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
-            }
-        });
-
-        prevButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                flashbackPlayer.previousSong();
-                Song currentSong = flashbackPlayer.getCurrSong();
-
-                // Load all the information about the song
-                songTitleDisplay.setText( currentSong.getTitle());
-                songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText("" +  currentSong.getLocation());
-                songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
-            }
-        });
 
         int songOne = R.raw.bleed;
         int songTwo = R.raw.tightrope_walker;
@@ -151,25 +90,72 @@ public class FlashbackActivity extends AppCompatActivity {
         s5.setLocation(tmp);
         flashbackPlayer = new FlashbackPlayer(list, this);
         flashbackPlayer.loadMedia( s5.getResID() );
-
-        /*Button launchRegularActivity = (Button) findViewById(R.id.regular_button);
-        ImageButton playButton = (ImageButton) findViewById(R.id.play_button);
-
-        launchRegularActivity.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick( View view ){
-                launchActivity();
-            }
-        });*/
     }
 
-    public void launchActivity(){
-        //input = (EditText)findViewById(R.id.in_time) ;
-        Intent intent = new Intent(this, MainActivity.class);
-        //intent.putExtra("transferred_string", input.getText().toString());
-        setResult(Activity.RESULT_OK, intent);
-        startActivity(intent);
+    /**
+     * The onClick callback for the Regular mode button
+     * @param view
+     */
+    public void onRegularModeClick(View view){
+        flashbackPlayer.resetSong();
+        finish();
     }
 
+    /**
+     * The onClick callback for the Play Button
+     * @param view
+     */
+    public void onPlayButtonClick(View view){
+        System.out.println("play button clicked");
+        flashbackPlayer.playSong();
+        // Replace the buttons
+        playButton.setVisibility(View.GONE);
+        pauseButton.setVisibility(View.VISIBLE);
+
+        // Load all the information about the song
+        songTitleDisplay.setText( flashbackPlayer.getCurrSong().getTitle());
+        songDateDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getTimeLastPlayed()));
+        songLocationDisplay.setText( "" + flashbackPlayer.getCurrSong().getLocation()[0]);
+        songTimeDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getLengthInSeconds() ));
+    }
+
+    /**
+     * The onClick listener for the Pause button
+     * @param view
+     */
+    public void onPauseButtonClick(View view){
+        flashbackPlayer.pauseSong();
+        playButton.setVisibility(View.VISIBLE);
+        pauseButton.setVisibility(View.GONE);
+    }
+
+    /**
+     * The onClick listener for the Next button
+     * @param view
+     */
+    public void onNextButtonClick(View view){
+        flashbackPlayer.nextSong();
+        Song currentSong = flashbackPlayer.getCurrSong();
+
+        // Load all the information about the song
+        songTitleDisplay.setText( currentSong.getTitle());
+        songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
+        songLocationDisplay.setText( "" + currentSong.getLocation());
+        songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
+    }
+
+    /**
+     * The onClick listener for the Previous button
+     * @param view
+     */
+    public void onPreviousButtonClick(View view){
+        flashbackPlayer.previousSong();
+        Song currentSong = flashbackPlayer.getCurrSong();
+        // Load all the information about the song
+        songTitleDisplay.setText( currentSong.getTitle());
+        songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
+        songLocationDisplay.setText("" +  currentSong.getLocation());
+        songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
+    }
 
 }
