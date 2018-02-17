@@ -79,9 +79,6 @@ public class AlbumsFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Album a = mq.getAlbum(albums.get(position));
                 mp.loadAlbum(a);
-                mp.playSong();
-                // open music player page
-              //  startActivity(new Intent(getActivity(), MainActivity.class));
             }
         });
     }
