@@ -8,17 +8,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Random;
-import java.util.Stack;
 
 public class FlashbackPlayer extends AppCompatActivity {
 
@@ -60,16 +55,14 @@ public class FlashbackPlayer extends AppCompatActivity {
                 firstTime = false;
                 isFinished = (currInd == songsToPlay.size()-1);
                 // if not finished, automatically play next song
-                editor.putString(getCurrSong().getTitle(), ""+
-                        getCurrSong().getLocation(current)[0] +","+
-                        getCurrSong().getLocation(current)[1]);
-                editor.apply();
+                System.out.println("ON COMPLETION LISTENER CALLED");
+                StorageHandler.storeSongLocation(current, getCurrentSongId(), new double[]{0.0, 0.0});
                 if (!isFinished() && songsToPlay.size() > 0) {
                     nextSong();
                 }
             }
         });
-        songsToPlay = new ArrayList<Song>();
+        songsToPlay = new ArrayList<>();
     }
 
     public FlashbackPlayer(List<Song> list, final Context current) {
@@ -90,10 +83,16 @@ public class FlashbackPlayer extends AppCompatActivity {
                 firstTime = false;
                 isFinished = (currInd == songsToPlay.size()-1);
                 // if not finished, automatically play next song
-                editor.putString(getCurrSong().getTitle(), ""+
+                /*editor.putString(getCurrSong().getTitle(), ""+
                         getCurrSong().getLocation(current)[0] +","+
                         getCurrSong().getLocation(current)[1]);
-                editor.apply();
+                editor.apply();*/
+                System.out.println("ON COMPLETION LISTENER CALLED");
+                StorageHandler.StoreSongLocation(current, getCurrentSongId(), new double[]{3.2, 8.7});
+                StorageHandler.StoreSongDay(current, getCurrentSongId(), "Friday");
+                StorageHandler.StoreSongTime(current, getCurrentSongId(), 0);
+
+                getCurrSong().setLocation(new double[]{});
                 if (!isFinished() && songsToPlay.size() > 0) {
                     nextSong();
                 }
@@ -181,15 +180,14 @@ public class FlashbackPlayer extends AppCompatActivity {
             resetSong();
             currInd++;
 
-            System.out.println( "Line 122 this index should be 1 " + currInd );
-            loadMedia(songsToPlay.get(currInd).getRawID());
+            loadMedia(songsToPlay.get(currInd).getResID());
             //if( firstTime ) playSong();
             // DONT UNCOMMENT
         }
         //else {
         // wrap around the list
         //currInd = 0;
-        //loadMedia(songsToPlay.get(0).getRawID());
+        //loadMedia(songsToPlay.get(0).getResID());
         //}
     }
 
@@ -197,13 +195,13 @@ public class FlashbackPlayer extends AppCompatActivity {
         if (currInd > 0) {
             resetSong();
             currInd--;
-            loadMedia(songsToPlay.get(currInd).getRawID());
+            loadMedia(songsToPlay.get(currInd).getResID());
             System.out.println( "Line 133 This index should be 0 " + currInd);
         } /*else {
             // wrap around to the last song.
             currInd = songsToPlay.size() - 1;
             System.out.println( "Line 137 This index should be 1 " + currInd);
-            loadMedia(songsToPlay.get(songsToPlay.size()-1).getRawID());
+            loadMedia(songsToPlay.get(songsToPlay.size()-1).getResID());
         }*/
         //if( firstTime ) playSong();
     }
@@ -212,7 +210,7 @@ public class FlashbackPlayer extends AppCompatActivity {
         resetSong();
         songsToPlay.clear(); // clear our album
         songsToPlay.add(s);
-        loadMedia(s.getRawID());
+        loadMedia(s.getResID());
         playSong();
     }
 
@@ -230,6 +228,10 @@ public class FlashbackPlayer extends AppCompatActivity {
 
     public Song getCurrSong() {
         return songsToPlay.get(currInd);
+    }
+
+    public int getCurrentSongId(){
+        return getCurrSong().getResID();
     }
 
     public boolean isPlaying() {

@@ -1,10 +1,6 @@
 package com.gaparmar.mediaflashback;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.view.View;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by gauravparmar on 2/2/18.
@@ -22,23 +18,24 @@ public class Song {
     //TODO:
     // mp3 file
     // cover art
-    private final int LATITUDE = 0;  // constants represting location[] index
+    private final int LATITUDE = 0;  // constants representing location[] index
     private final int LONGITUDE = 1;
     private String title;
     private String parentAlbum;
     private state currentState;
     private double[] location;    // [Latitude, Longitude] stored as double[]
     private String artistName;
-    private int rawID;
+    private int resID;
     private int lengthInSeconds;
     private int yearOfRelease;
     private int timeLastPlayed; // TODO:: temporary way of storing the time stamp
     private int probability; // TODO:: not yet implemented?
 
-    private SharedPreferences sharedPreferences;
 
-
-    /* the default constructor */
+    /**
+     *  the default constructor
+     *  Initializes all members to default values
+     */
     public Song(){
         super();
         title = "";
@@ -48,111 +45,167 @@ public class Song {
         location[LATITUDE] = 0.0;
         location[LONGITUDE] = 0.0;
         artistName = "";
-        rawID = 0;
+        resID = 0;
         lengthInSeconds = -1;
         yearOfRelease = -1;
         timeLastPlayed = -1;
         probability = 1;
     }
 
+    /**
+     * The constructor that initializes the Song object based on the parameters
+     * @param title The title of the Song
+     * @param parentAlbum The title of the Song Album
+     * @param artistName The name of the Artist
+     * @param lengthInSeconds The length of the Song is seconds
+     * @param yearOfRelease The release year of the Song
+     * @param resID The Resource ID of the song
+     * @param location The last played Location coords of the Song
+     */
     public Song(String title, String parentAlbum,
                 String artistName, int lengthInSeconds,
-                int yearOfRelease, int rawID, double[] location,
-                Context context){
+                int yearOfRelease, int resID, double[] location){
         this();
         this.title = title;
         this.parentAlbum = parentAlbum;
         this.lengthInSeconds = lengthInSeconds;
         this.artistName = artistName;
         this.yearOfRelease = yearOfRelease;
-        this.rawID = rawID;
+        this.resID = resID;
         this.probability = 1;
         this.location = location;
-        this.sharedPreferences = getPrefs(context);
     }
 
-    private static SharedPreferences getPrefs(Context context){
-        return context.getSharedPreferences("Location", MODE_PRIVATE);
-    }
+    /**
+     * @return Retrieves the Title of the Song object
+     */
     public String getTitle(){
         return this.title;
     }
 
+    /**
+     * Sets the Title of the Song
+     * @param title the new title
+     */
     public void setTitle(String title){
         this.title = title;
     }
 
+    /**
+     * Retrieves the name of the parent Album
+     * @return parent Album's name
+     */
     public String getParentAlbum(){
         return this.parentAlbum;
     }
 
-    public void setParentAlbul(String parentAlbum){
+    /**
+     * Updates the name of the Parent album
+     * @param parentAlbum new parent album name
+     */
+    public void setParentAlbum(String parentAlbum){
         this.parentAlbum = parentAlbum;
     }
 
+    /**
+     * Retrives the current state of the Song
+     * @return whether the song is LIKED/DISLIKED/NEUTRAl
+     */
     public state getCurrentState(){
         return this.currentState;
     }
 
+    /**
+     * Updates the current state of the Song
+     * @param currentState the new state of the Song to be updated to
+     */
     public void setCurrentState(state currentState){
         this.currentState = currentState;
     }
 
-    public double[] getLocation(Context context){
-        sharedPreferences = getPrefs(context);
-        String loc = sharedPreferences.getString(getTitle(), "");
-        if(loc.length() == 0){
-            return new double[]{0.0, 0.0};
-        }else{
-            return new double[]{Double.parseDouble(loc.substring(0, loc.indexOf(","))),
-            Double.parseDouble(loc.substring(loc.indexOf(",")+1, loc.length()))};
-        }
+    /**
+     * Retrieves the Currently Stored Location in the Song
+     * @return the location coords
+     */
+    public double[] getLocation(){
+        return this.location;
     }
 
-    public void setLocation(double[] location, Context context){
+    /**
+     * Sets the Location in the Song
+     * @param location
+     */
+    public void setLocation(double[] location){
         this.location = location;
-        sharedPreferences = getPrefs(context);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(getTitle(), "" + location[0] + "," + location[1]);
-        editor.apply();
-
     }
 
+    /**
+     * Retrieves the Name of the Artist
+     * @return Song's Artist name
+     */
     public String getArtistName(){
         return this.artistName;
     }
 
+    /**
+     * Updates the Song's Artist name
+     * @param artistName The new Artist name
+     */
     public void setArtistName(String artistName){
         this.artistName = artistName;
     }
 
+    /**
+     * Retrieves the length of the Song in Seconds
+     * @return the length of the song
+     */
     public int getLengthInSeconds(){
         return this.lengthInSeconds;
     }
 
+    /**
+     * Updates the length of the Song in the seconds
+     * @param lengthInSeconds the new length of the Song
+     */
     public void setLengthInSeconds(int lengthInSeconds){
         this.lengthInSeconds = lengthInSeconds;
     }
 
+    /**
+     * Retrieves the Song's year of release
+     * @return year of release
+     */
     public int getYearOfRelease(){
         return this.yearOfRelease;
     }
 
+    /**
+     * Updates the Song object's release year
+     * @param yearOfRelease the new year of release
+     */
     public void setYearOfRelease(int yearOfRelease){
         this.yearOfRelease = yearOfRelease;
     }
 
+    /**
+     * Retrieves the last played time of the Song
+     * @return the time the song
+     */
     public int getTimeLastPlayed(){
         return this.timeLastPlayed;
     }
 
+    /**
+     *
+     * @param timeLastPlayed
+     */
     public void setTimeLastPlayed(int timeLastPlayed){
         this.timeLastPlayed = timeLastPlayed;
     }
 
-    public void setRawID(int rawID) { this.rawID = rawID; }
+    public void setResID(int rawID) { this.resID = rawID; }
 
-    public int getRawID() { return this.rawID; };
+    public int getResID() { return this.resID; }
 
     public void updateProbability(Context context)
     {
@@ -194,7 +247,7 @@ public class Song {
     {
         //TODO:: create method to determine if the current location is in the same range as the last played location
         // 1000 ft
-        return calculateDist(currLocation, getLocation(context)) <= 1000;
+        return calculateDist(currLocation, getLocation()) <= 1000;
     }
 
     public boolean isSameDay()

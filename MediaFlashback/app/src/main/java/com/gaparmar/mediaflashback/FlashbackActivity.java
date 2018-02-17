@@ -74,7 +74,7 @@ public class FlashbackActivity extends AppCompatActivity {
                 // Load all the information about the song
                 songTitleDisplay.setText( flashbackPlayer.getCurrSong().getTitle());
                 songDateDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getTimeLastPlayed()));
-                songLocationDisplay.setText( "" + flashbackPlayer.getCurrSong().getLocation(FlashbackActivity.this));
+                songLocationDisplay.setText( "" + flashbackPlayer.getCurrSong().getLocation());
                 songTimeDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getLengthInSeconds() ));
 
             }
@@ -98,7 +98,7 @@ public class FlashbackActivity extends AppCompatActivity {
                 // Load all the information about the song
                 songTitleDisplay.setText( currentSong.getTitle());
                 songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText( "" + currentSong.getLocation(FlashbackActivity.this));
+                songLocationDisplay.setText( "" + currentSong.getLocation());
                 songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
             }
         });
@@ -112,7 +112,7 @@ public class FlashbackActivity extends AppCompatActivity {
                 // Load all the information about the song
                 songTitleDisplay.setText( currentSong.getTitle());
                 songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText("" +  currentSong.getLocation(FlashbackActivity.this));
+                songLocationDisplay.setText("" +  currentSong.getLocation());
                 songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
             }
         });
@@ -123,15 +123,15 @@ public class FlashbackActivity extends AppCompatActivity {
         int songFour = R.raw.after_the_storm;
         int songFive = R.raw.america_religious;
         final Song s5 = new Song( "Bleed", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songOne, new double[]{34, -117}, this);
+                0, 0, songOne, new double[]{34, -117});
         final Song s2 = new Song( "Jazz in Paris", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songTwo,null, this);
+                0, 0, songTwo,null);
         final Song s3 = new Song( "Tightrope Walker", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songThree,null, this );
+                0, 0, songThree,null);
         final Song s4 = new Song( "After the Storm", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songFour,null, this );
+                0, 0, songFour,null);
         final Song s1 = new Song( "America Religious", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songFive,null, this);
+                0, 0, songFive,null);
 
         s1.setProbability(1);
         s2.setProbability(4);
@@ -146,10 +146,10 @@ public class FlashbackActivity extends AppCompatActivity {
         list.add( s4 );
         list.add( s5 );
 
-        double[] tmp = s5.getLocation(this);
-        s5.setLocation(tmp, this);
+        double[] tmp = s5.getLocation();
+        s5.setLocation(tmp);
         flashbackPlayer = new FlashbackPlayer(list, this);
-        flashbackPlayer.loadMedia( s5.getRawID() );
+        flashbackPlayer.loadMedia( s5.getResID() );
 
         /*Button launchRegularActivity = (Button) findViewById(R.id.regular_button);
         ImageButton playButton = (ImageButton) findViewById(R.id.play_button);

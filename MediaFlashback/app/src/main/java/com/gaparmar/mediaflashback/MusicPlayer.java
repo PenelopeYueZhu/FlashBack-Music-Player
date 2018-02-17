@@ -1,7 +1,6 @@
 package com.gaparmar.mediaflashback;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -36,33 +35,27 @@ public class MusicPlayer extends AppCompatActivity {
         this.musicQueuer = musicQueuer;
         this.context = current;
         mediaPlayer = new MediaPlayer();
-        SharedPreferences sharedPreferences = current.getSharedPreferences("Locations",
-                MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
 
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             /**
-             * Automatically play next song after each song completion
+             * Automatically play next song after each song completes
              * @param mp
              */
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onCompletion(MediaPlayer mp) {
+                System.out.println("Song finished playing");
                 firstTime = false;
                 isFinished = (currInd == songsToPlay.size()-1);
                 // if not finished, automatically play next song
                 if (!isFinished() && songsToPlay.size() > 0) {
-                    // Stores the location in a shared preference
-                    editor.putString(getCurrSong().getTitle(), ""+
-                            getCurrSong().getLocation(current)[0] +","+
-                            getCurrSong().getLocation(current)[1]);
-                    editor.apply();
+                    // TODO: Stores the location in a shared preference
+                    StorageHandler.StoreSongLocation(current, getCurrentSongId(), new double[]{7.0, 8.0});
                     nextSong();
                 }
             }
         });
         songsToPlay = new ArrayList<>();
-        System.out.println("Music Player object created");
     }
 
 
@@ -132,10 +125,10 @@ public class MusicPlayer extends AppCompatActivity {
         firstTime = false;
         if (currInd != songsToPlay.size()-1 && songsToPlay.size() > 0) {
             resetSong();
-            musicQueuer.getSong((songsToPlay.get(currInd))).getRawID();
+            musicQueuer.getSong((songsToPlay.get(currInd))).getResID();
             currInd++;
             System.out.println( "Line 122 this index should be 1 " + currInd );
-            loadMedia( musicQueuer.getSong(songsToPlay.get(currInd)).getRawID());
+            loadMedia( musicQueuer.getSong(songsToPlay.get(currInd)).getResID());
             //if( firstTime ) playSong();
             // DONT UNCOMMENT
         }
@@ -151,7 +144,7 @@ public class MusicPlayer extends AppCompatActivity {
         if (currInd > 0) {
             resetSong();
             currInd--;
-            loadMedia( musicQueuer.getSong(songsToPlay.get(currInd)).getRawID());
+            loadMedia( musicQueuer.getSong(songsToPlay.get(currInd)).getResID());
             System.out.println( "Line 133 This index should be 0 " + currInd);
         } /*else {
             // wrap around to the last song.
@@ -166,8 +159,8 @@ public class MusicPlayer extends AppCompatActivity {
     public void loadNewSong(Song s) {
         resetSong();
         songsToPlay.clear(); // clear our album
-        songsToPlay.add(s.getRawID());
-        loadMedia(s.getRawID());
+        songsToPlay.add(s.getResID());
+        loadMedia(s.getResID());
         playSong();
     }
 
@@ -179,7 +172,7 @@ public class MusicPlayer extends AppCompatActivity {
         resetSong();
         songsToPlay.clear();
         for (int i = 0; i < a.getNumSongs(); i++) {
-            songsToPlay.add(a.getSongAtIndex(i).getRawID());
+            songsToPlay.add(a.getSongAtIndex(i).getResID());
         }
     }
 
@@ -192,6 +185,12 @@ public class MusicPlayer extends AppCompatActivity {
             return null;
         return musicQueuer.getSong(songsToPlay.get(currInd));
     }
+
+    public int getCurrentSongId(){
+        return getCurrSong().getResID();
+    }
+
+
 
     public boolean isPlaying() {
         return mediaPlayer.isPlaying();

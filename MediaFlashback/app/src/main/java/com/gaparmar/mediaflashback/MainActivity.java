@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         final double[] destLocation = {32.881535, -117.237493};
 
         // Set the button's functions
-        Song test = new Song("", "", "", 0, 0, 0, currLocation, this);
+        Song test = new Song("", "", "", 0, 0, 0, currLocation);
         playButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 // Load all the information about the song
                 songTitleDisplay.setText( musicPlayer.getCurrSong().getTitle());
                 songDateDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getTimeLastPlayed()));
-                songLocationDisplay.setText( "" + musicPlayer.getCurrSong().getLocation(MainActivity.this));
+                songLocationDisplay.setText( "" + musicPlayer.getCurrSong().getLocation());
                 songTimeDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getLengthInSeconds() ));
 
             }
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 // Load all the information about the song
                 songTitleDisplay.setText( currentSong.getTitle());
                 songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText( "" + currentSong.getLocation(MainActivity.this));
+                songLocationDisplay.setText( "" + currentSong.getLocation());
                 songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
             }
         });
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 // Load all the information about the song
                 songTitleDisplay.setText( currentSong.getTitle());
                 songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText("" + currentSong.getLocation(MainActivity.this));
+                songLocationDisplay.setText("" + currentSong.getLocation());
                 songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
             }
         });
