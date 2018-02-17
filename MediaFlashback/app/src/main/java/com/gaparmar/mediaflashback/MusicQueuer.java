@@ -175,6 +175,7 @@ public class MusicQueuer {
         infoBus.add(Integer.toString( song.getTimeLastPlayed()));
         infoBus.add(Double.toString(song.getLengthInSeconds()));
         // infoBus.add(song.getLocation().toString());
+        
         return infoBus;
     }
 

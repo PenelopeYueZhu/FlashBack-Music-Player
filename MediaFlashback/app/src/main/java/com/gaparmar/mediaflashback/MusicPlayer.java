@@ -130,7 +130,6 @@ public class MusicPlayer extends AppCompatActivity {
             resetSong();
             musicQueuer.getSong((songsToPlay.get(currInd))).getResID();
             currInd++;
-            System.out.println( "Line 122 this index should be 1 " + currInd );
             loadMedia( musicQueuer.getSong(songsToPlay.get(currInd)).getResID());
             //if( firstTime ) playSong();
             // DONT UNCOMMENT
@@ -144,11 +143,11 @@ public class MusicPlayer extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void previousSong() {
+        firstTime = false;
         if (currInd > 0) {
             resetSong();
             currInd--;
             loadMedia( musicQueuer.getSong(songsToPlay.get(currInd)).getResID());
-            System.out.println( "Line 133 This index should be 0 " + currInd);
         } /*else {
             // wrap around to the last song.
             currInd = songsToPlay.size() - 1;

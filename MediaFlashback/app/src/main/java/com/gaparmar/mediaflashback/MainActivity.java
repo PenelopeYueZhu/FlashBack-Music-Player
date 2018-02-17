@@ -130,6 +130,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        prevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                musicPlayer.previousSong();
+                Song currentSong = musicPlayer.getCurrSong();
+                // Dont't do anything if no song is currently selected
+                if (currentSong == null)
+                    return;
+                // Load all the information about the song
+                updateTrackInfo();
+            }
+        });
+
         toggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -195,14 +208,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        pauseButton.setOnClickListener( new View.OnClickListener(){
+      /*  pauseButton.setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick( View view ) {
                 musicPlayer.pauseSong();
                 playButton.setVisibility(View.VISIBLE);
                 pauseButton.setVisibility(View.GONE);
             }
-        });
+        });*/
 
         //mPlayer.loadMedia(R.raw.replay);
         Button launchFlashbackActivity = (Button) findViewById(R.id.flashback_button);
