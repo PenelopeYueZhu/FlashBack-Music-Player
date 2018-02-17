@@ -117,9 +117,13 @@ public class MainActivity extends AppCompatActivity {
                 songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
             }
         });
-
+g
         if (musicPlayer.isPlaying()) {
             updateTrackInfo();
+        } else {
+            // pause
+            playButton.setVisibility(View.VISIBLE);
+            pauseButton.setVisibility(View.GONE);
         }
 
         //mPlayer.loadMedia(R.raw.replay);

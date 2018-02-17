@@ -8,6 +8,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -173,6 +174,8 @@ public class MusicPlayer extends AppCompatActivity {
         resetSong();
         songsToPlay.clear();
         for (int i = 0; i < a.getNumSongs(); i++) {
+            Log.d("size of album", a.getNumSongs() + "");
+            Log.d("song currently played", a.getSongAtIndex(i).getTitle());
             songsToPlay.add(a.getSongAtIndex(i).getRawID());
         }
     }
