@@ -2,6 +2,8 @@ package com.gaparmar.mediaflashback;
 
 import android.content.SharedPreferences;
 import android.location.LocationManager;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,7 +11,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import static com.gaparmar.mediaflashback.MainActivity.loc;
 
 public class FlashbackActivity extends AppCompatActivity {
     private Song s;
@@ -26,6 +32,9 @@ public class FlashbackActivity extends AppCompatActivity {
     ImageButton prevButton;
     Button launchRegularMode;
     FlashbackPlayer flashbackPlayer;
+    MusicQueuer mq;
+    UserLocation userLocation;
+    DecimalFormat decimalFormat = new DecimalFormat("#.000");
 
     /**
      * Initializes all the View components of this activity
@@ -47,9 +56,27 @@ public class FlashbackActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
-        initializeViewComponents();
 
-        LocationManager mLocationManager = UserLocation.locationUpdate(this);
+         userLocation = new UserLocation(this);
+
+
+        launchRegularMode = (Button) findViewById(R.id.regular_button);
+        songTitleDisplay = (TextView) findViewById(R.id.song_title);
+        songDateDisplay = (TextView) findViewById(R.id.song_date);
+        songLocationDisplay = (TextView) findViewById(R.id.song_location);
+        songTimeDisplay = (TextView) findViewById(R.id.song_time);
+        playButton = (ImageButton) findViewById(R.id.play_button);
+        pauseButton = (ImageButton) findViewById(R.id.pause_button);
+        nextButton = (ImageButton) findViewById(R.id.next_button);
+        prevButton = (ImageButton) findViewById(R.id.previous_button);
+
+        flashbackPlayer = new FlashbackPlayer(this);
+
+        mq = new MusicQueuer(this);
+        mq.readSongs();
+        mq.readAlbums();
+
+        initializeViewComponents();
 
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !flashbackPlayer.wasPlayingSong()) {
@@ -62,12 +89,13 @@ public class FlashbackActivity extends AppCompatActivity {
         }
 
         int songOne = R.raw.bleed;
-        int songTwo = R.raw.tightrope_walker;
-        int songThree = R.raw.tightrope_walker;
+        int songTwo = R.raw.dead_dove_do_not_eat;
+        int songThree = R.raw.dreamatorium;
         int songFour = R.raw.after_the_storm;
-        int songFive = R.raw.america_religious;
+        int songFive = R.raw.mangalam;
         final Song s5 = new Song( "Bleed", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songOne, new double[]{34, -117});
+                0, 0, songOne, StorageHandler.getSongLocation(this, songOne));
+
         final Song s2 = new Song( "Jazz in Paris", "I Will Not Be Afraid", "Unknown Artist",
                 0, 0, songTwo,null);
         final Song s3 = new Song( "Tightrope Walker", "I Will Not Be Afraid", "Unknown Artist",
@@ -90,8 +118,6 @@ public class FlashbackActivity extends AppCompatActivity {
         list.add( s4 );
         list.add( s5 );
 
-        double[] tmp = s5.getLocation();
-        s5.setLocation(tmp);
         flashbackPlayer = new FlashbackPlayer(list, this);
         flashbackPlayer.loadMedia( s5.getResID() );
     }
@@ -113,6 +139,10 @@ public class FlashbackActivity extends AppCompatActivity {
     public void onPlayButtonClick(View view){
         System.out.println("play button clicked");
         flashbackPlayer.playSong();
+        double lat = flashbackPlayer.getCurrSong().getLocation(this)[0];
+        double lon = flashbackPlayer.getCurrSong().getLocation(this)[1];
+        String city = userLocation.getCity(lat, lon);
+        String state = userLocation.getState(lat, lon);
         // Replace the buttons
         playButton.setVisibility(View.GONE);
         pauseButton.setVisibility(View.VISIBLE);
@@ -120,7 +150,7 @@ public class FlashbackActivity extends AppCompatActivity {
         // Load all the information about the song
         songTitleDisplay.setText( flashbackPlayer.getCurrSong().getTitle());
         songDateDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getTimeLastPlayed()));
-        songLocationDisplay.setText( "" + flashbackPlayer.getCurrSong().getLocation()[0]);
+        songLocationDisplay.setText(city + ", " + state);
         songTimeDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getLengthInSeconds() ));
     }
 
@@ -143,10 +173,7 @@ public class FlashbackActivity extends AppCompatActivity {
         Song currentSong = flashbackPlayer.getCurrSong();
 
         // Load all the information about the song
-        songTitleDisplay.setText( currentSong.getTitle());
-        songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-        songLocationDisplay.setText( "" + currentSong.getLocation());
-        songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
+        updateTrackInfo(currentSong);
     }
 
     /**
@@ -157,9 +184,20 @@ public class FlashbackActivity extends AppCompatActivity {
         flashbackPlayer.previousSong();
         Song currentSong = flashbackPlayer.getCurrSong();
         // Load all the information about the song
+        updateTrackInfo(currentSong);
+
+    }
+    public void launchActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        setResult(Activity.RESULT_OK, intent);
+        startActivity(intent);
+    }
+
+    public void updateTrackInfo(Song currentSong) {
         songTitleDisplay.setText( currentSong.getTitle());
         songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-        songLocationDisplay.setText(Double.toString(currentSong.getLocation()[0]));
+        songLocationDisplay.setText(Double.toString(currentSong.getLocation(this)[0])
+                + "," + Double.toString(currentSong.getLocation(this)[1]));
         songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
     }
 

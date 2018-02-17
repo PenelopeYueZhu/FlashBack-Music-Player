@@ -127,16 +127,17 @@ public class Song {
      * Retrieves the Currently Stored Location in the Song
      * @return the location coords
      */
-    public double[] getLocation(){
-        return this.location;
+    public double[] getLocation(Context context){
+        return StorageHandler.getSongLocation(context, this.resID);
     }
 
     /**
      * Sets the Location in the Song
      * @param location
      */
-    public void setLocation(double[] location){
-        this.location = location;
+    public void setLocation(double[] location, Context context){
+        StorageHandler.storeSongLocation(context, this.resID, location);
+        this.location = StorageHandler.getSongLocation(context, this.resID);
     }
 
     /**
@@ -247,7 +248,7 @@ public class Song {
     {
         //TODO:: create method to determine if the current location is in the same range as the last played location
         // 1000 ft
-        return calculateDist(currLocation, getLocation()) <= threshold;
+        return calculateDist(currLocation, this.location) <= threshold;
     }
 
     public boolean isSameDay()
