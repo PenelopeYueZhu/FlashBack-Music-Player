@@ -26,6 +26,7 @@ public class FlashbackActivity extends AppCompatActivity {
     ImageButton prevButton;
     Button launchRegularMode;
     FlashbackPlayer flashbackPlayer;
+    MusicQueuer mq;
 
     /**
      * Initializes all the View components of this activity
@@ -48,7 +49,25 @@ public class FlashbackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
 
+
+        launchRegularMode = (Button) findViewById(R.id.regular_button);
+        songTitleDisplay = (TextView) findViewById(R.id.song_title);
+        songDateDisplay = (TextView) findViewById(R.id.song_date);
+        songLocationDisplay = (TextView) findViewById(R.id.song_location);
+        songTimeDisplay = (TextView) findViewById(R.id.song_time);
+        playButton = (ImageButton) findViewById(R.id.play_button);
+        pauseButton = (ImageButton) findViewById(R.id.pause_button);
+        nextButton = (ImageButton) findViewById(R.id.next_button);
+        prevButton = (ImageButton) findViewById(R.id.previous_button);
+
+        flashbackPlayer = new FlashbackPlayer(this);
+
+        mq = new MusicQueuer(this);
+        mq.readSongs();
+        mq.readAlbums();
+
         initializeViewComponents();
+
 
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !flashbackPlayer.wasPlayingSong()) {
