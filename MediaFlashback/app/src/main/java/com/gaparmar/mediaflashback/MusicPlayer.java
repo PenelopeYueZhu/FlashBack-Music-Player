@@ -19,7 +19,7 @@ import java.util.List;
 public class MusicPlayer extends AppCompatActivity {
     private MusicQueuer musicQueuer;
     private MediaPlayer mediaPlayer;
-    private static List<Integer> songsToPlay;
+    private List<Integer> songsToPlay;
     private int currInd = 0;
     private boolean isFinished = false;
     private boolean firstTime = true; /* flag representing if this is first song played */
@@ -81,6 +81,7 @@ public class MusicPlayer extends AppCompatActivity {
                         public void onPrepared(MediaPlayer mp) {
                             // automatically plays the next song not first
                             if (!firstTime) {
+                                System.out.println("Song started");
                                 //firstTime = true;
                                 mediaPlayer.start();
                             }
@@ -156,12 +157,12 @@ public class MusicPlayer extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void loadNewSong(Song s) {
+    public void loadNewSong(Integer ID) {
         resetSong();
         songsToPlay.clear(); // clear our album
-        songsToPlay.add(s.getRawID());
-        loadMedia(s.getRawID());
-        playSong();
+        songsToPlay.add(ID);
+        if( firstTime ) firstTime = false;
+        loadMedia(ID);
     }
 
     /**
@@ -214,7 +215,7 @@ public class MusicPlayer extends AppCompatActivity {
      */
     public void resumePlaying() {
       if( lastPlayed != null ) {
-        this.loadNewSong( lastPlayed );
+        this.loadNewSong( lastPlayed.getRawID() );
         mediaPlayer.seekTo( timeStamp ); // Get to where user left off
         this.playSong();
         playingSong = true;

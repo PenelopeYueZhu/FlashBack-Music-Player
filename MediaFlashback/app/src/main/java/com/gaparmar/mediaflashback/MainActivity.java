@@ -1,7 +1,9 @@
 package com.gaparmar.mediaflashback;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -21,13 +23,19 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton nextButton;
     private ImageButton prevButton;
 
-    private MusicPlayer musicPlayer;
+    private static MusicPlayer musicPlayer;
 
+    public static MusicPlayer getMusicPlayer(){
+        return musicPlayer;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 20, 0);
         // Initialize all the fields
         songTitleDisplay = findViewById(R.id.song_title);
         songDateDisplay = findViewById(R.id.song_date);
@@ -40,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         MusicQueuer musicQueuer = new MusicQueuer(this);
         musicQueuer.readSongs();
+        musicQueuer.readAlbums();
         musicPlayer = new MusicPlayer(this, musicQueuer);
 
         // Unless there is a song playing when we get back to normal mode, hide the button
