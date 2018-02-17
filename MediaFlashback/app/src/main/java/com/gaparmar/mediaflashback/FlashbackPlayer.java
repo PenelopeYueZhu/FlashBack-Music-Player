@@ -205,6 +205,7 @@ public class FlashbackPlayer extends AppCompatActivity {
     }
 
     public Song getCurrSong() {
+        System.out.println("currIndex\t"+currInd);
         return songsToPlay.get(currInd);
     }
 
