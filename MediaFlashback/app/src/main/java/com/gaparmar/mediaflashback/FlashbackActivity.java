@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class FlashbackActivity extends AppCompatActivity {
     private Song s;
-    ArrayList<Song> arr = new ArrayList<Song>();
+    ArrayList<Song> arr = new ArrayList<>();
 
     // This is all the fields on the main screen
     TextView songTitleDisplay;
@@ -98,6 +98,7 @@ public class FlashbackActivity extends AppCompatActivity {
      */
     public void onRegularModeClick(View view){
         flashbackPlayer.resetSong();
+        StorageHandler.storeLastMode(FlashbackActivity.this, 0);
         finish();
     }
 
