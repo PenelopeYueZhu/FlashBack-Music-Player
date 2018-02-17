@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -26,6 +27,8 @@ public class TracksFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private ListView mListView;
+    private MusicQueuer mq;
+    private MusicPlayer mp;
 
     public TracksFragment() {
         // Required empty public constructor
@@ -39,7 +42,13 @@ public class TracksFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        mq = new MusicQueuer(getContext());
+        mq.readSongs();
+        mq.readAlbums();
+
+        mp = new MusicPlayer(getContext(), mq);
     }
 
     @Override
@@ -52,19 +61,26 @@ public class TracksFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
 
-        ArrayList<Album> albums = new ArrayList<>();
+        ArrayList<Integer> songs = mq.getEntireSongList();
         mListView = (ListView)getView().findViewById(R.id.album_list);
-        String[] titles = new String[20];
+        String[] titles = new String[songs.size()];
 
         for(int i = 0; i < titles.length; ++i){
-            titles[i] = "Song " +i;
+            titles[i] = mq.getSong(songs.get(i)).getTitle();
         }
 
 
         ArrayAdapter adapter = new ArrayAdapter(this.getContext(),
                 android.R.layout.simple_list_item_1, titles);
         mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                
+            }
+        });
     }
+
 /*
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

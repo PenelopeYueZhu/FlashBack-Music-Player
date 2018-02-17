@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 
@@ -17,7 +19,7 @@ import java.util.List;
 public class MusicPlayer extends AppCompatActivity {
     private MusicQueuer musicQueuer;
     private MediaPlayer mediaPlayer;
-    private List<Integer> songsToPlay;
+    private static List<Integer> songsToPlay;
     private int currInd = 0;
     private boolean isFinished = false;
     private boolean firstTime = true; /* flag representing if this is first song played */

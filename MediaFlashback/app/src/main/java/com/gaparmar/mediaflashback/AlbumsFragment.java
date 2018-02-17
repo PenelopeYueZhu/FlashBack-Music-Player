@@ -28,6 +28,8 @@ public class AlbumsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private ListView mListView;
 
+    private MusicQueuer mq;
+
     public AlbumsFragment() {
         // Required empty public constructor
     }
@@ -41,8 +43,9 @@ public class AlbumsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        mq = new MusicQueuer(getContext());
+        mq.readSongs();
+        mq.readAlbums();
     }
 
     @Override
@@ -56,12 +59,12 @@ public class AlbumsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
 
-        ArrayList<Album> albums = new ArrayList<>();
+        ArrayList<String> albums = mq.getEntireAlbumList();
         mListView = (ListView)getView().findViewById(R.id.album_list);
-        String[] titles = new String[20];
+        String[] titles = new String[albums.size()];
 
         for(int i = 0; i < titles.length; ++i){
-            titles[i] = "Album "+i;
+            titles[i] = albums.get(i);
         }
 
 

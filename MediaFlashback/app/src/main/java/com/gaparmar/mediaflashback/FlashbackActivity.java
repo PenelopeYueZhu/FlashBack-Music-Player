@@ -27,6 +27,7 @@ public class FlashbackActivity extends AppCompatActivity {
     Button launchRegularMode;
 
     FlashbackPlayer flashbackPlayer;
+    MusicQueuer mq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,9 @@ public class FlashbackActivity extends AppCompatActivity {
         prevButton = (ImageButton) findViewById(R.id.previous_button);
 
         flashbackPlayer = new FlashbackPlayer(this);
+        mq = new MusicQueuer(this);
+        mq.readSongs();
+        mq.readAlbums();
 
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !flashbackPlayer.wasPlayingSong()) {
@@ -117,11 +121,11 @@ public class FlashbackActivity extends AppCompatActivity {
             }
         });
 
-        int songOne = R.raw.tightrope_walker;
-        int songTwo = R.raw.tightrope_walker;
-        int songThree = R.raw.tightrope_walker;
+        int songOne = R.raw.after_the_storm;
+        int songTwo = R.raw.after_the_storm;
+        int songThree = R.raw.after_the_storm;
         int songFour = R.raw.after_the_storm;
-        int songFive = R.raw.america_religious;
+        int songFive = R.raw.after_the_storm;
         final Song s1 = new Song( "Replay", "I Will Not Be Afraid", "Unknown Artist",
                 0, 0, songOne);
         final Song s2 = new Song( "Jazz in Paris", "I Will Not Be Afraid", "Unknown Artist",
