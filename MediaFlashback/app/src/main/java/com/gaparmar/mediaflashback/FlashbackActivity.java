@@ -46,25 +46,11 @@ public class FlashbackActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
-<<<<<<< HEAD
-
-        launchRegularMode = (Button) findViewById(R.id.regular_button);
-        songTitleDisplay = (TextView) findViewById(R.id.song_title);
-        songDateDisplay = (TextView) findViewById(R.id.song_date);
-        songLocationDisplay = (TextView) findViewById(R.id.song_location);
-        songTimeDisplay = (TextView) findViewById(R.id.song_time);
-        playButton = (ImageButton) findViewById(R.id.play_button);
-        pauseButton = (ImageButton) findViewById(R.id.pause_button);
-        nextButton = (ImageButton) findViewById(R.id.next_button);
-        prevButton = (ImageButton) findViewById(R.id.previous_button);
-
-        flashbackPlayer = new FlashbackPlayer(this);
         mq = new MusicQueuer(this);
         mq.readSongs();
         mq.readAlbums();
-=======
+
         initializeViewComponents();
->>>>>>> 840b79f042db4a4b4b61c337173e0f5edb3241f0
 
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !flashbackPlayer.wasPlayingSong()) {
@@ -154,7 +140,6 @@ public class FlashbackActivity extends AppCompatActivity {
         int songFive = R.raw.america_religious;
         final Song s5 = new Song( "Bleed", "I Will Not Be Afraid", "Unknown Artist",
                 0, 0, songOne, new double[]{34, -117});
->>>>>>> 840b79f042db4a4b4b61c337173e0f5edb3241f0
         final Song s2 = new Song( "Jazz in Paris", "I Will Not Be Afraid", "Unknown Artist",
                 0, 0, songTwo,null);
         final Song s3 = new Song( "Tightrope Walker", "I Will Not Be Afraid", "Unknown Artist",
