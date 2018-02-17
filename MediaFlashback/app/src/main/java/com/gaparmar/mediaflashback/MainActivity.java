@@ -64,10 +64,17 @@ public class MainActivity extends AppCompatActivity {
             pauseButton.setVisibility(View.VISIBLE);
         }
 
+        // Location of Brennan Hall
+        final double[] currLocation ={32.882988, -117.232886};
+        // Location of Geisel
+        final double[] destLocation = {32.881535, -117.237493};
+
         // Set the button's functions
+        Song test = new Song("", "", "", 0, 0, 0, currLocation);
         playButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                songLocationDisplay.setText(""+Song.calculateDist(destLocation, currLocation));
                 // Dont't do anything if no song is currently selected
                 if (musicPlayer.getCurrSong() == null)
                     return;
@@ -98,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 // Load all the information about the song
                 songTitleDisplay.setText( currentSong.getTitle());
                 songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText( currentSong.getLocation());
+                songLocationDisplay.setText( "" + currentSong.getLocation());
                 songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
             }
         });
@@ -113,11 +120,11 @@ public class MainActivity extends AppCompatActivity {
                 // Load all the information about the song
                 songTitleDisplay.setText( currentSong.getTitle());
                 songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText( currentSong.getLocation());
+                songLocationDisplay.setText("" + currentSong.getLocation());
                 songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
             }
         });
-g
+
         if (musicPlayer.isPlaying()) {
             updateTrackInfo();
         } else {
@@ -142,9 +149,18 @@ g
             @Override
             public void onClick( View view ){
                 musicPlayer.resetSong();
+                StorageHandler.storeLastMode(MainActivity.this, 1);
                 launchActivity();
             }
         });
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        if(StorageHandler.getLastMode(this) == 1){
+            launchActivity();
+        }
     }
 
     public void launchActivity(){
@@ -169,7 +185,7 @@ g
         // Load all the information about the song
         songTitleDisplay.setText( musicPlayer.getCurrSong().getTitle());
         songDateDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getTimeLastPlayed()));
-        songLocationDisplay.setText( musicPlayer.getCurrSong().getLocation());
+        songLocationDisplay.setText( ""+ musicPlayer.getCurrSong().getLocation());
         songTimeDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getLengthInSeconds() ));
     }
 
