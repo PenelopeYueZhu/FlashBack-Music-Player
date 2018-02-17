@@ -1,5 +1,7 @@
 package com.gaparmar.mediaflashback;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -46,7 +48,6 @@ public class FlashbackActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
-<<<<<<< HEAD
 
         launchRegularMode = (Button) findViewById(R.id.regular_button);
         songTitleDisplay = (TextView) findViewById(R.id.song_title);
@@ -62,9 +63,9 @@ public class FlashbackActivity extends AppCompatActivity {
         mq = new MusicQueuer(this);
         mq.readSongs();
         mq.readAlbums();
-=======
+
         initializeViewComponents();
->>>>>>> 840b79f042db4a4b4b61c337173e0f5edb3241f0
+
 
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !flashbackPlayer.wasPlayingSong()) {
@@ -76,85 +77,14 @@ public class FlashbackActivity extends AppCompatActivity {
             pauseButton.setVisibility(View.VISIBLE);
         }
 
-<<<<<<< HEAD
-        launchRegularMode.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                flashbackPlayer.resetSong();
-                launchActivity();
-            }
-        });
-
-        playButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                flashbackPlayer.playSong();
-                // Replace the buttons
-                playButton.setVisibility(View.GONE);
-                pauseButton.setVisibility(View.VISIBLE);
-
-                // Load all the information about the song
-                songTitleDisplay.setText( flashbackPlayer.getCurrSong().getTitle());
-                songDateDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getTimeLastPlayed()));
-                songLocationDisplay.setText( flashbackPlayer.getCurrSong().getLocation());
-                songTimeDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getLengthInSeconds() ));
-
-            }
-        });
-
-        pauseButton.setOnClickListener( new View.OnClickListener(){
-            @Override
-            public void onClick( View view ) {
-                flashbackPlayer.pauseSong();
-                playButton.setVisibility(View.VISIBLE);
-                pauseButton.setVisibility(View.GONE);
-            }
-        });
-
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                flashbackPlayer.nextSong();
-                Song currentSong = flashbackPlayer.getCurrSong();
-
-                // Load all the information about the song
-                songTitleDisplay.setText( currentSong.getTitle());
-                songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText( currentSong.getLocation());
-                songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
-            }
-        });
-
-        prevButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                flashbackPlayer.previousSong();
-                Song currentSong = flashbackPlayer.getCurrSong();
-
-                // Load all the information about the song
-                songTitleDisplay.setText( currentSong.getTitle());
-                songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText( currentSong.getLocation());
-                songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
-            }
-        });
-
-        int songOne = R.raw.after_the_storm;
-        int songTwo = R.raw.after_the_storm;
-        int songThree = R.raw.after_the_storm;
-        int songFour = R.raw.after_the_storm;
-        int songFive = R.raw.after_the_storm;
-        final Song s1 = new Song( "Replay", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songOne);
-=======
         int songOne = R.raw.bleed;
-        int songTwo = R.raw.tightrope_walker;
-        int songThree = R.raw.tightrope_walker;
+        int songTwo = R.raw.dead_dove_do_not_eat;
+        int songThree = R.raw.dreamatorium;
         int songFour = R.raw.after_the_storm;
-        int songFive = R.raw.america_religious;
+        int songFive = R.raw.mangalam;
         final Song s5 = new Song( "Bleed", "I Will Not Be Afraid", "Unknown Artist",
                 0, 0, songOne, new double[]{34, -117});
->>>>>>> 840b79f042db4a4b4b61c337173e0f5edb3241f0
+
         final Song s2 = new Song( "Jazz in Paris", "I Will Not Be Afraid", "Unknown Artist",
                 0, 0, songTwo,null);
         final Song s3 = new Song( "Tightrope Walker", "I Will Not Be Afraid", "Unknown Artist",
@@ -230,10 +160,7 @@ public class FlashbackActivity extends AppCompatActivity {
         Song currentSong = flashbackPlayer.getCurrSong();
 
         // Load all the information about the song
-        songTitleDisplay.setText( currentSong.getTitle());
-        songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-        songLocationDisplay.setText( "" + currentSong.getLocation());
-        songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
+        updateTrackInfo(currentSong);
     }
 
     /**
@@ -244,6 +171,16 @@ public class FlashbackActivity extends AppCompatActivity {
         flashbackPlayer.previousSong();
         Song currentSong = flashbackPlayer.getCurrSong();
         // Load all the information about the song
+        updateTrackInfo(currentSong);
+
+    }
+    public void launchActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        setResult(Activity.RESULT_OK, intent);
+        startActivity(intent);
+    }
+
+    public void updateTrackInfo(Song currentSong) {
         songTitleDisplay.setText( currentSong.getTitle());
         songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
         songLocationDisplay.setText("" +  currentSong.getLocation());

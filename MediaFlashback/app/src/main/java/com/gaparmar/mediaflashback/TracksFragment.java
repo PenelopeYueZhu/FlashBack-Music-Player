@@ -77,7 +77,7 @@ public class TracksFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Integer ID = mq.getSong( songs.get(position)).getRawID();
+                Integer ID = mq.getSong( songs.get(position)).getResID();
                 System.out.println( "Song is clicked " + mq.getSong(ID).getTitle());
                 mp.loadNewSong(ID);
 

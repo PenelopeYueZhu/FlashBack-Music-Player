@@ -103,10 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 if (currentSong == null)
                     return;
                 // Load all the information about the song
-                songTitleDisplay.setText( currentSong.getTitle());
-                songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText( "" + currentSong.getLocation());
-                songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
+                updateTrackInfo();
             }
         });
 
@@ -118,10 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 if (currentSong == null)
                     return;
                 // Load all the information about the song
-                songTitleDisplay.setText( currentSong.getTitle());
-                songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText("" + currentSong.getLocation());
-                songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
+                updateTrackInfo();
             }
         });
 
