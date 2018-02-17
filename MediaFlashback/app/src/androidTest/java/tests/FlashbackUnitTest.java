@@ -21,6 +21,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -43,15 +45,20 @@ public class FlashbackUnitTest {
     private FlashbackPlayer flashbackPlayer;
     private List<Song> list;
 
-    @Rule
-    public ActivityTestRule<MainActivity> mainActivity =
-            new ActivityTestRule<MainActivity>(MainActivity.class);
-
-    @Before
-    public void setUp()
-    {
-        flashbackPlayer = new FlashbackPlayer(list, mainActivity.getActivity());
+    private static class SongCompare implements Comparator<Song> {
+        public int compare(Song s1, Song s2)
+        {
+            return s2.getProbability() - s1.getProbability();
+        }
     }
+
+    public void makeFlashbackPlaylist(List<Song> list)
+    {
+        Collections.sort(list, new SongCompare());
+    }
+
+
+
 
     @Test
     public void testProbability()
@@ -68,12 +75,13 @@ public class FlashbackUnitTest {
         list.add(s3);
         list.add(s4);
 
-        List<Song> newList = flashbackPlayer.getSongsToPlay();
+        List<Song> newList = new ArrayList<>(list);
+        makeFlashbackPlaylist(newList);
 
         assertEquals(newList.get(0).getProbability(), list.get(3).getProbability());
         assertEquals(newList.get(1).getProbability(), list.get(2).getProbability());
         assertEquals(newList.get(2).getProbability(), list.get(1).getProbability());
-        assertEquals(newList.get(1).getProbability(), list.get(0).getProbability());
+        assertEquals(newList.get(3).getProbability(), list.get(0).getProbability());
     }
 
 }
