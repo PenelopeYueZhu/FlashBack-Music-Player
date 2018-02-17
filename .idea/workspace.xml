@@ -7,24 +7,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="077e08f5-2fe2-4436-a88a-ccd217f045a4" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/america_religious.mp3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/at_midnight.mp3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/back_east.mp3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/beautiful_pain.mp3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/blood_on_your_bootheels.mp3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/cant_find_love.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/cant_you_be_mine.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/crane_city.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/currently.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/dead_dove_do_not_eat.mp3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/gotta_get_over_you.mp3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/hero_hell.mp3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/i_fell_in_love.mp3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/i_will_not_be_afraid.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/ill_be_on_my_way.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/just_this_side_of_insane.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/lift_me_up.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/love_is_everywhere_1.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/mangalam.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/mojo_potion_61_49.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/om_namo_bhavagate.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/one_stop_light.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/one_two_three_go.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/origin.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/set_me_free.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/sisters_of_the_sun.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/sky_dancer.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/sky_full_of_ghosts.mp3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/other_side.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/song1.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/song2.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/song3.mp3" afterPath="" />
@@ -32,15 +35,20 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/song5.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/song6.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/stomp_jump_boogie.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/the_writing_on_the_wall.mp3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/tightrope_walker.mp3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/tough_girls_never_cry.mp3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/unstoppable.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/wait_for_heaven.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/waves.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/when_i_go.mp3" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/when_you_go.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/wilderness.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/windows_are_the_eyes_to_the_house.mp3" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/FlashbackUnitTest.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/FlashbackUnitTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/.idea/misc.xml" afterPath="$PROJECT_DIR$/MediaFlashback/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/Album.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/Album.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/AlbumsFragment.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/AlbumsFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/FlashbackActivity.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/FlashbackActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MainActivity.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MusicPlayer.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MusicPlayer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/TracksFragment.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/TracksFragment.java" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -55,7 +63,7 @@
       <file leaf-file-name="activity_flashback.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_flashback.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
+            <state relative-caret-position="21">
               <caret line="12" column="36" lean-forward="false" selection-start-line="12" selection-start-column="36" selection-end-line="12" selection-end-column="36" />
               <folding />
             </state>
@@ -104,21 +112,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MediaFlashback" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MediaFlashback" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.other.NonAndroidModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -329,8 +323,22 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="AndroidView">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MediaFlashback" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MediaFlashback" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.other.NonAndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -420,7 +428,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1518901414927" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1518902796057" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -468,7 +476,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1518901414927" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1518902796057" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -617,7 +625,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1048" extended-state="0" />
+    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -627,7 +635,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947975" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33063585" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3317919" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25277045" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -657,6 +665,17 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_flashback.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="12" column="36" lean-forward="false" selection-start-line="12" selection-start-column="36" selection-end-line="12" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_flashback.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
@@ -692,7 +711,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_flashback.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
+        <state relative-caret-position="21">
           <caret line="12" column="36" lean-forward="false" selection-start-line="12" selection-start-column="36" selection-end-line="12" selection-end-column="36" />
           <folding />
         </state>

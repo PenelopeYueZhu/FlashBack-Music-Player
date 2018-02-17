@@ -1,7 +1,9 @@
 package com.gaparmar.mediaflashback;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -21,13 +23,19 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton nextButton;
     private ImageButton prevButton;
 
-    private MusicPlayer musicPlayer;
+    private static MusicPlayer musicPlayer;
 
+    public static MusicPlayer getMusicPlayer(){
+        return musicPlayer;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 20, 0);
         // Initialize all the fields
         songTitleDisplay = findViewById(R.id.song_title);
         songDateDisplay = findViewById(R.id.song_date);
@@ -40,7 +48,11 @@ public class MainActivity extends AppCompatActivity {
 
         MusicQueuer musicQueuer = new MusicQueuer(this);
         musicQueuer.readSongs();
-        musicPlayer = new MusicPlayer(this, musicQueuer);
+        musicQueuer.readAlbums();
+
+        if (musicPlayer == null) {
+            musicPlayer = new MusicPlayer(this, musicQueuer);
+        }
 
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !musicPlayer.wasPlayingSong()) {
@@ -68,15 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
 
                 musicPlayer.playSong();
-                // Replace the buttons
-                playButton.setVisibility(View.GONE);
-                pauseButton.setVisibility(View.VISIBLE);
-
-                // Load all the information about the song
-                songTitleDisplay.setText( musicPlayer.getCurrSong().getTitle());
-                songDateDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getTimeLastPlayed()));
-                songLocationDisplay.setText( "" + musicPlayer.getCurrSong().getLocation());
-                songTimeDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getLengthInSeconds() ));
+                updateTrackInfo();
 
             }
         });
@@ -121,6 +125,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        if (musicPlayer.isPlaying()) {
+            updateTrackInfo();
+        } else {
+            // pause
+            playButton.setVisibility(View.VISIBLE);
+            pauseButton.setVisibility(View.GONE);
+        }
+
         //mPlayer.loadMedia(R.raw.replay);
         Button launchFlashbackActivity = (Button) findViewById(R.id.flashback_button);
         ImageButton playButton = (ImageButton) findViewById(R.id.play_button);
@@ -163,6 +175,18 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LibraryActivity.class);
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
+    }
+
+    public void updateTrackInfo() {
+        // Replace the buttons
+        playButton.setVisibility(View.GONE);
+        pauseButton.setVisibility(View.VISIBLE);
+
+        // Load all the information about the song
+        songTitleDisplay.setText( musicPlayer.getCurrSong().getTitle());
+        songDateDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getTimeLastPlayed()));
+        songLocationDisplay.setText( ""+ musicPlayer.getCurrSong().getLocation());
+        songTimeDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getLengthInSeconds() ));
     }
 
 }

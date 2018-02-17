@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +26,7 @@ public class MusicPlayer extends AppCompatActivity {
     private boolean firstTime = true; /* flag representing if this is first song played */
     private int timeStamp;
     private Song lastPlayed;
-    private boolean playingSong = false;
+    public boolean playingSong = false;
     private Context context;
 
     /**
@@ -81,6 +84,7 @@ public class MusicPlayer extends AppCompatActivity {
                         public void onPrepared(MediaPlayer mp) {
                             // automatically plays the next song not first
                             if (!firstTime) {
+                                System.out.println("Song started");
                                 //firstTime = true;
                                 mediaPlayer.start();
                             }
@@ -156,12 +160,18 @@ public class MusicPlayer extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void loadNewSong(Song s) {
+    public void loadNewSong(Integer ID) {
         resetSong();
         songsToPlay.clear(); // clear our album
+<<<<<<< HEAD
+        songsToPlay.add(ID);
+        if( firstTime ) firstTime = false;
+        loadMedia(ID);
+=======
         songsToPlay.add(s.getResID());
         loadMedia(s.getResID());
         playSong();
+>>>>>>> 840b79f042db4a4b4b61c337173e0f5edb3241f0
     }
 
     /**
@@ -172,7 +182,13 @@ public class MusicPlayer extends AppCompatActivity {
         resetSong();
         songsToPlay.clear();
         for (int i = 0; i < a.getNumSongs(); i++) {
+<<<<<<< HEAD
+            Log.d("size of album", a.getNumSongs() + "");
+            Log.d("song currently played", a.getSongAtIndex(i).getTitle());
+            songsToPlay.add(a.getSongAtIndex(i).getRawID());
+=======
             songsToPlay.add(a.getSongAtIndex(i).getResID());
+>>>>>>> 840b79f042db4a4b4b61c337173e0f5edb3241f0
         }
     }
 
@@ -220,7 +236,7 @@ public class MusicPlayer extends AppCompatActivity {
      */
     public void resumePlaying() {
       if( lastPlayed != null ) {
-        this.loadNewSong( lastPlayed );
+        this.loadNewSong( lastPlayed.getRawID() );
         mediaPlayer.seekTo( timeStamp ); // Get to where user left off
         this.playSong();
         playingSong = true;
