@@ -207,10 +207,10 @@ public class Song {
 
     public int getResID() { return this.resID; }
 
-    public void updateProbability(Context context)
+    public void updateProbability()
     {
         int prob = 0;
-        if(isWithinRange(new double[2], context)) // TODO : pass in users current location
+        if(isWithinRange(new double[2], 1000)) // TODO : pass in users current location
         {
             prob++;
         }
@@ -243,11 +243,11 @@ public class Song {
         probability = x;
     }
 
-    public boolean isWithinRange(double[] currLocation, Context context)
+    public boolean isWithinRange(double[] currLocation, int threshold)
     {
         //TODO:: create method to determine if the current location is in the same range as the last played location
         // 1000 ft
-        return calculateDist(currLocation, getLocation()) <= 1000;
+        return calculateDist(currLocation, getLocation()) <= threshold;
     }
 
     public boolean isSameDay()

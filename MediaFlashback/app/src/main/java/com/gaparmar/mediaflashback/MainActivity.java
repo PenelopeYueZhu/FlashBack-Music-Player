@@ -2,6 +2,9 @@ package com.gaparmar.mediaflashback;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -28,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        LocationManager mLocationManager = UserLocation.locationUpdate(this);
+
         // Initialize all the fields
         songTitleDisplay = findViewById(R.id.song_title);
         songDateDisplay = findViewById(R.id.song_date);
@@ -164,5 +170,7 @@ public class MainActivity extends AppCompatActivity {
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }
+
+
 
 }

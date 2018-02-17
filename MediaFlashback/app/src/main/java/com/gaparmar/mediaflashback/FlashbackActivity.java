@@ -1,5 +1,7 @@
 package com.gaparmar.mediaflashback;
 
+import android.content.SharedPreferences;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -46,6 +48,8 @@ public class FlashbackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
         initializeViewComponents();
+
+        LocationManager mLocationManager = UserLocation.locationUpdate(this);
 
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !flashbackPlayer.wasPlayingSong()) {
@@ -98,6 +102,7 @@ public class FlashbackActivity extends AppCompatActivity {
      */
     public void onRegularModeClick(View view){
         flashbackPlayer.resetSong();
+        StorageHandler.storeLastMode(FlashbackActivity.this, 0);
         finish();
     }
 
@@ -154,7 +159,7 @@ public class FlashbackActivity extends AppCompatActivity {
         // Load all the information about the song
         songTitleDisplay.setText( currentSong.getTitle());
         songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-        songLocationDisplay.setText("" +  currentSong.getLocation());
+        songLocationDisplay.setText(Double.toString(currentSong.getLocation()[0]));
         songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
     }
 
