@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MediaFlashback.iml" filepath="$PROJECT_DIR$/MediaFlashback.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/MediaFlashback-app.iml" filepath="$PROJECT_DIR$/app/MediaFlashback-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cse-110-team-project-team-31-MediaFlashback.iml" filepath="$PROJECT_DIR$/cse-110-team-project-team-31-MediaFlashback.iml" />
     </modules>
   </component>
 </project>

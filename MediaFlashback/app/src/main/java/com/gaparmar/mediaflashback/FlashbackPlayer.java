@@ -88,9 +88,9 @@ public class FlashbackPlayer extends AppCompatActivity {
                         getCurrSong().getLocation(current)[1]);
                 editor.apply();*/
                 System.out.println("ON COMPLETION LISTENER CALLED");
-                StorageHandler.StoreSongLocation(current, getCurrentSongId(), new double[]{3.2, 8.7});
-                StorageHandler.StoreSongDay(current, getCurrentSongId(), "Friday");
-                StorageHandler.StoreSongTime(current, getCurrentSongId(), 0);
+                StorageHandler.storeSongLocation(current, getCurrentSongId(), new double[]{3.2, 8.7});
+                StorageHandler.storeSongDay(current, getCurrentSongId(), "Friday");
+                StorageHandler.storeSongTime(current, getCurrentSongId(), 0);
 
                 getCurrSong().setLocation(new double[]{});
                 if (!isFinished() && songsToPlay.size() > 0) {
