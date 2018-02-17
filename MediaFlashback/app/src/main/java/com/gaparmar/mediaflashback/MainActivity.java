@@ -10,8 +10,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import static com.gaparmar.mediaflashback.Song.state.DISLIKED;
+import static com.gaparmar.mediaflashback.Song.state.LIKED;
+import static com.gaparmar.mediaflashback.Song.state.NEITHER;
 
 public class MainActivity extends AppCompatActivity {
+
+    private final String NEUTRAL = "Neutral";
+    private final String LIKE = "Liked";
+    private final String DISLIKE = "Disliked";
 
     // This is all the fields on the main screen
     private TextView songTitleDisplay;
@@ -22,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton pauseButton;
     private ImageButton nextButton;
     private ImageButton prevButton;
+    private ImageButton toggleBtn;
 
     private static MusicPlayer musicPlayer;
 
@@ -45,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
         pauseButton = findViewById(R.id.pause_button);
         nextButton = findViewById(R.id.next_button);
         prevButton = findViewById(R.id.previous_button);
+        toggleBtn = findViewById(R.id.toggleBtn);
+
+        toggleBtn.setImageResource(R.drawable.neutral);
+        toggleBtn.setTag(NEUTRAL);
 
         MusicQueuer musicQueuer = new MusicQueuer(this);
         musicQueuer.readSongs();
@@ -53,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
         if (musicPlayer == null) {
             musicPlayer = new MusicPlayer(this, musicQueuer);
         }
+
+
 
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !musicPlayer.isPlaying()) {
@@ -107,17 +123,62 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        prevButton.setOnClickListener(new View.OnClickListener() {
+        toggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String toggleState = toggleBtn.getTag().toString();
+                switch (toggleState) {
+                    // switch from neutral to like
+                    case NEUTRAL:
+                        toggleBtn.setImageResource(R.drawable.like);
+                        toggleBtn.setTag(LIKE);
+
+                        if (musicPlayer.getCurrSong() != null) {
+                            musicPlayer.getCurrSong().setCurrentState(LIKED);
+                        }
+
+                        Toast likeToast = Toast.makeText(MainActivity.this, LIKE, Toast.LENGTH_SHORT);
+                        likeToast.show();
+                        break;
+
+                    // switch from like to dislike
+                    case LIKE:
+                        toggleBtn.setImageResource(R.drawable.unlike);
+                        toggleBtn.setTag(DISLIKE);
+
+                        if (musicPlayer.getCurrSong() != null) {
+                            musicPlayer.getCurrSong().setCurrentState(DISLIKED);
+                        }
+
+                        Toast dislikeToast = Toast.makeText(MainActivity.this, DISLIKE, Toast.LENGTH_SHORT);
+                        dislikeToast.show();
+                        break;
+
+                    // switch from dislike to neutral
+                    case DISLIKE:
+                        toggleBtn.setImageResource(R.drawable.neutral);
+                        toggleBtn.setTag(NEUTRAL);
+
+                        if (musicPlayer.getCurrSong() != null) {
+                            musicPlayer.getCurrSong().setCurrentState(NEITHER);
+                        }
+
+                        Toast neutralToast = Toast.makeText(MainActivity.this, NEUTRAL, Toast.LENGTH_SHORT);
+                        neutralToast.show();
+                        break;
+                }
+            }
+            });
+/*
                 musicPlayer.previousSong();
                 Song currentSong = musicPlayer.getCurrSong();
                 if (currentSong == null)
                     return;
                 // Load all the information about the song
-                updateTrackInfo();
-            }
-        });
+*/
+                //updateTrackInfo();
+            //}
+
 
         if (musicPlayer.isPlaying()) {
             updateTrackInfo();
@@ -126,6 +187,18 @@ public class MainActivity extends AppCompatActivity {
             playButton.setVisibility(View.VISIBLE);
             pauseButton.setVisibility(View.GONE);
         }
+
+
+        pauseButton.setOnClickListener( new View.OnClickListener(){
+            @Override
+            public void onClick( View view ) {
+                musicPlayer.pauseSong();
+                playButton.setVisibility(View.VISIBLE);
+                pauseButton.setVisibility(View.GONE);
+            }
+        });
+
+
 
         //mPlayer.loadMedia(R.raw.replay);
         Button launchFlashbackActivity = (Button) findViewById(R.id.flashback_button);
