@@ -74,7 +74,7 @@ public class FlashbackActivity extends AppCompatActivity {
                 // Load all the information about the song
                 songTitleDisplay.setText( flashbackPlayer.getCurrSong().getTitle());
                 songDateDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getTimeLastPlayed()));
-                songLocationDisplay.setText( flashbackPlayer.getCurrSong().getLocation());
+                songLocationDisplay.setText( "" + flashbackPlayer.getCurrSong().getLocation(FlashbackActivity.this));
                 songTimeDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getLengthInSeconds() ));
 
             }
@@ -98,7 +98,7 @@ public class FlashbackActivity extends AppCompatActivity {
                 // Load all the information about the song
                 songTitleDisplay.setText( currentSong.getTitle());
                 songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText( currentSong.getLocation());
+                songLocationDisplay.setText( "" + currentSong.getLocation(FlashbackActivity.this));
                 songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
             }
         });
@@ -112,26 +112,26 @@ public class FlashbackActivity extends AppCompatActivity {
                 // Load all the information about the song
                 songTitleDisplay.setText( currentSong.getTitle());
                 songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText( currentSong.getLocation());
+                songLocationDisplay.setText("" +  currentSong.getLocation(FlashbackActivity.this));
                 songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
             }
         });
 
-        int songOne = R.raw.tightrope_walker;
+        int songOne = R.raw.bleed;
         int songTwo = R.raw.tightrope_walker;
         int songThree = R.raw.tightrope_walker;
         int songFour = R.raw.after_the_storm;
         int songFive = R.raw.america_religious;
-        final Song s1 = new Song( "Replay", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songOne);
+        final Song s5 = new Song( "Bleed", "I Will Not Be Afraid", "Unknown Artist",
+                0, 0, songOne, new double[]{34, -117}, this);
         final Song s2 = new Song( "Jazz in Paris", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songTwo);
+                0, 0, songTwo,null, this);
         final Song s3 = new Song( "Tightrope Walker", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songThree);
+                0, 0, songThree,null, this );
         final Song s4 = new Song( "After the Storm", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songFour);
-        final Song s5 = new Song( "America Religious", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songFive);
+                0, 0, songFour,null, this );
+        final Song s1 = new Song( "America Religious", "I Will Not Be Afraid", "Unknown Artist",
+                0, 0, songFive,null, this);
 
         s1.setProbability(1);
         s2.setProbability(4);
@@ -145,6 +145,9 @@ public class FlashbackActivity extends AppCompatActivity {
         list.add( s3 );
         list.add( s4 );
         list.add( s5 );
+
+        double[] tmp = s5.getLocation(this);
+        s5.setLocation(tmp, this);
         flashbackPlayer = new FlashbackPlayer(list, this);
         flashbackPlayer.loadMedia( s5.getRawID() );
 

@@ -5,6 +5,7 @@ package com.gaparmar.mediaflashback;
  */
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -33,6 +34,7 @@ public class FlashbackPlayer extends AppCompatActivity {
     private Context context;
 
 
+
     private static class SongCompare implements Comparator<Song>
     {
         public int compare(Song s1, Song s2)
@@ -41,9 +43,13 @@ public class FlashbackPlayer extends AppCompatActivity {
         }
     }
 
-    public FlashbackPlayer(Context current) {
+    public FlashbackPlayer(final Context current) {
         this.context = current;
         mediaPlayer = new MediaPlayer();
+        SharedPreferences sharedPreferences = current.getSharedPreferences("Locations",
+                MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             /**
              * Automatically play next song after each song completion
@@ -54,6 +60,10 @@ public class FlashbackPlayer extends AppCompatActivity {
                 firstTime = false;
                 isFinished = (currInd == songsToPlay.size()-1);
                 // if not finished, automatically play next song
+                editor.putString(getCurrSong().getTitle(), ""+
+                        getCurrSong().getLocation(current)[0] +","+
+                        getCurrSong().getLocation(current)[1]);
+                editor.apply();
                 if (!isFinished() && songsToPlay.size() > 0) {
                     nextSong();
                 }
@@ -62,9 +72,14 @@ public class FlashbackPlayer extends AppCompatActivity {
         songsToPlay = new ArrayList<Song>();
     }
 
-    public FlashbackPlayer(List<Song> list, Context current) {
+    public FlashbackPlayer(List<Song> list, final Context current) {
         this.context = current;
         mediaPlayer = new MediaPlayer();
+
+        SharedPreferences sharedPreferences = current.getSharedPreferences("Locations",
+                MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             /**
              * Automatically play next song after each song completion
@@ -75,6 +90,10 @@ public class FlashbackPlayer extends AppCompatActivity {
                 firstTime = false;
                 isFinished = (currInd == songsToPlay.size()-1);
                 // if not finished, automatically play next song
+                editor.putString(getCurrSong().getTitle(), ""+
+                        getCurrSong().getLocation(current)[0] +","+
+                        getCurrSong().getLocation(current)[1]);
+                editor.apply();
                 if (!isFinished() && songsToPlay.size() > 0) {
                     nextSong();
                 }

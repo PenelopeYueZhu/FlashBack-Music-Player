@@ -1,6 +1,7 @@
 package com.gaparmar.mediaflashback;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -21,7 +22,6 @@ public class MusicPlayer extends AppCompatActivity {
     private int currInd = 0;
     private boolean isFinished = false;
     private boolean firstTime = true; /* flag representing if this is first song played */
-
     private int timeStamp;
     private Song lastPlayed;
     private boolean playingSong = false;
@@ -32,10 +32,14 @@ public class MusicPlayer extends AppCompatActivity {
      * @param current The reference activity context
      * @param musicQueuer the MusicQueuer object that stores all the songs
      */
-    public MusicPlayer(Context current, MusicQueuer musicQueuer ) {
+    public MusicPlayer(final Context current, MusicQueuer musicQueuer ) {
         this.musicQueuer = musicQueuer;
         this.context = current;
         mediaPlayer = new MediaPlayer();
+        SharedPreferences sharedPreferences = current.getSharedPreferences("Locations",
+                MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             /**
              * Automatically play next song after each song completion
@@ -48,6 +52,11 @@ public class MusicPlayer extends AppCompatActivity {
                 isFinished = (currInd == songsToPlay.size()-1);
                 // if not finished, automatically play next song
                 if (!isFinished() && songsToPlay.size() > 0) {
+                    // Stores the location in a shared preference
+                    editor.putString(getCurrSong().getTitle(), ""+
+                            getCurrSong().getLocation(current)[0] +","+
+                            getCurrSong().getLocation(current)[1]);
+                    editor.apply();
                     nextSong();
                 }
             }
@@ -123,8 +132,8 @@ public class MusicPlayer extends AppCompatActivity {
         firstTime = false;
         if (currInd != songsToPlay.size()-1 && songsToPlay.size() > 0) {
             resetSong();
+            musicQueuer.getSong((songsToPlay.get(currInd))).getRawID();
             currInd++;
-
             System.out.println( "Line 122 this index should be 1 " + currInd );
             loadMedia( musicQueuer.getSong(songsToPlay.get(currInd)).getRawID());
             //if( firstTime ) playSong();
