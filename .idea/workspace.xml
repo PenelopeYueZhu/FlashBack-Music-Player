@@ -7,48 +7,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="077e08f5-2fe2-4436-a88a-ccd217f045a4" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/america_religious.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/at_midnight.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/back_east.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/beautiful_pain.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/blood_on_your_bootheels.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/cant_find_love.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/cant_you_be_mine.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/crane_city.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/currently.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/gotta_get_over_you.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/hero_hell.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/i_fell_in_love.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/i_will_not_be_afraid.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/ill_be_on_my_way.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/just_this_side_of_insane.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/lift_me_up.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/love_is_everywhere_1.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/mojo_potion_61_49.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/one_stop_light.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/one_two_three_go.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/other_side.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/song1.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/song2.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/song3.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/song4.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/song5.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/song6.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/stomp_jump_boogie.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/tightrope_walker.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/tough_girls_never_cry.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/unstoppable.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/wait_for_heaven.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/when_i_go.mp3" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/when_you_go.mp3" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/drawable/like.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/drawable/neutral.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/drawable/unlike.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/.idea/misc.xml" afterPath="$PROJECT_DIR$/MediaFlashback/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/Album.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/Album.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/AlbumsFragment.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/AlbumsFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/FlashbackActivity.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/FlashbackActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MainActivity.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MusicPlayer.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MusicPlayer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/TracksFragment.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/TracksFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_main.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -428,7 +395,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1518902796057" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1518902931025" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -476,7 +443,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1518902796057" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1518902931025" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -626,7 +593,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
