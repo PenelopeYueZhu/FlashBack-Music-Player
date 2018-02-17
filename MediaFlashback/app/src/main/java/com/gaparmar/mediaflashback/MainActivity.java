@@ -16,9 +16,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     // Constants
     public final static int TITLE_POS = 0;
-    public final static int LOC_POS = 1;
-    public final static int DATE_POS = 2;
-    public final static int DURATION_POS = 3;
+    public final static int DATE_POS = 1;
+    public final static int DURATION_POS = 2;
+    public final static int LOC_POS = 3;
+
+    private boolean ifResume = false;
 
     // This is all the fields on the main screen
     private TextView songTitleDisplay;
@@ -188,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> songInfo = musicQueuer.getSongInfo(musicPlayer.getCurrentSongId());
         songTitleDisplay.setText( songInfo.get(TITLE_POS));
         songDateDisplay.setText( songInfo.get(DATE_POS));
-        songLocationDisplay.setText( songInfo.get(LOC_POS));
+       // songLocationDisplay.setText( songInfo.get(LOC_POS));
         songTimeDisplay.setText( songInfo.get(DURATION_POS));
     }
 
@@ -200,15 +202,25 @@ public class MainActivity extends AppCompatActivity {
         button.setVisibility(View.VISIBLE);
     }
 
-   /* @Override
+    @Override
     public void onResume() {
         super.onResume();
 
+        if( !ifResume ) {
+            ifResume = true;
+            return;
+        }
         final String sender = this.getIntent().getExtras().getString("SENDER_KEY");
 
         if( sender != null ){
             this.receiveData();
 
         }
-    }*/
+    }
+
+    public void receiveData() {
+        Intent i = getIntent();
+        int songId = i.getIntExtra("SONG_KEY",0);
+        updateTrackInfo();
+    }
 }

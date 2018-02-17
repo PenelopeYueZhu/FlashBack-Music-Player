@@ -79,7 +79,8 @@ public class TracksFragment extends Fragment {
                 mp.loadNewSong(ID);
 
                 // open music player page
-                startActivity(new Intent(getActivity(), MainActivity.class));
+                sendData(ID);
+                //startActivity(new Intent(getActivity(), MainActivity.class));
             }
         });
     }
@@ -130,5 +131,12 @@ public class TracksFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void sendData(int ID) {
+        Intent i = new Intent( getActivity().getBaseContext(), MainActivity.class);
+
+        i.putExtra( "SENDER_KEY", "TracksFragment");
+        i.putExtra("SONG_LEY", ID);
     }
 }

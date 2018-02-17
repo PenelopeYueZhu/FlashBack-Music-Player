@@ -168,9 +168,9 @@ public class MusicQueuer {
         Song song = this.getSong(ID);
 
         infoBus.add(song.getTitle());
-        infoBus.add(song.getLocation().toString());
         infoBus.add(Integer.toString( song.getTimeLastPlayed()));
         infoBus.add(Double.toString(song.getLengthInSeconds()));
+        // infoBus.add(song.getLocation().toString());
         return infoBus;
     }
 
