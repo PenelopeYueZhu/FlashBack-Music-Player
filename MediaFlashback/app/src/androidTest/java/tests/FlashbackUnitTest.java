@@ -21,6 +21,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -30,9 +31,9 @@ import static org.junit.Assert.assertEquals;
 public class FlashbackUnitTest {
 
     int songOne = R.raw.bleed;
-    int songTwo = R.raw.tightrope_walker;
+    int songTwo = R.raw.dreamatorium;
     int songThree = R.raw.after_the_storm;
-    int songFour = R.raw.america_religious;
+    int songFour = R.raw.origin;
     final Song s1 = new Song( "Bleed", "I Will Not Be Afraid", "Unknown Artist",
             0, 0, songOne, new double[]{34, -117});
     final Song s2 = new Song( "Tightrope Walker", "I Will Not Be Afraid", "Unknown Artist",
@@ -42,7 +43,6 @@ public class FlashbackUnitTest {
     final Song s4 = new Song( "America Religious", "I Will Not Be Afraid", "Unknown Artist",
             0, 0, songFour,null);
 
-    private FlashbackPlayer flashbackPlayer;
     private List<Song> list;
 
     private static class SongCompare implements Comparator<Song> {
@@ -56,9 +56,6 @@ public class FlashbackUnitTest {
     {
         Collections.sort(list, new SongCompare());
     }
-
-
-
 
     @Test
     public void testProbability()
@@ -83,5 +80,51 @@ public class FlashbackUnitTest {
         assertEquals(newList.get(2).getProbability(), list.get(1).getProbability());
         assertEquals(newList.get(3).getProbability(), list.get(0).getProbability());
     }
+
+    @Test
+    public void mockProbabilityTest()
+    {
+        Context mockContext = null;
+        double[] currLocation = new double[] {1000, 1000};
+        int dayOfWeek = Calendar.SUNDAY;
+        int timeLastPlayed = 0;
+        Song.state s = Song.state.LIKED;
+
+        s1.setCurrDay(Calendar.SUNDAY);
+        s1.setCurrLocation(currLocation);
+        s1.setCurrTime(0);
+
+        s1.setLocation(new double[]{1000,1000});
+        s1.setCurrentState(Song.state.LIKED);
+        s1.setTimeLastPlayed(0);
+        s1.setDayOfWeek(Calendar.SUNDAY);
+
+        s1.updateProbability(mockContext);
+
+        assertEquals(s1.getProbability(), 5);
+
+        s1.setLocation(new double[]{1000.001, 1000.01});
+
+        s1.updateProbability(mockContext);
+
+        assertEquals(s1.getProbability(), 5);
+
+        s1.setCurrentState(Song.state.DISLIKED);
+
+        s1.updateProbability(mockContext);
+
+        assertEquals(s1.getProbability(), 0);
+
+        s1.setCurrentState(Song.state.NEITHER);
+
+        s1.updateProbability(mockContext);
+
+        assertEquals(s1.getProbability(), 4);
+
+        //public Song(String title, String parentAlbum,
+        //String artistName, int lengthInSeconds,
+        //int yearOfRelease, int resID, double[] location, int dayOfWeek)
+    }
+
 
 }
