@@ -162,15 +162,10 @@ public class MusicPlayer extends AppCompatActivity {
     public void loadNewSong(Integer ID) {
         resetSong();
         songsToPlay.clear(); // clear our album
-<<<<<<< HEAD
         songsToPlay.add(ID);
         if( firstTime ) firstTime = false;
         loadMedia(ID);
-=======
-        songsToPlay.add(s.getResID());
-        loadMedia(s.getResID());
-        playSong();
->>>>>>> 840b79f042db4a4b4b61c337173e0f5edb3241f0
+
     }
 
     /**
@@ -229,7 +224,7 @@ public class MusicPlayer extends AppCompatActivity {
      */
     public void resumePlaying() {
       if( lastPlayed != null ) {
-        this.loadNewSong( lastPlayed.getRawID() );
+        this.loadNewSong( lastPlayed.getResID() );
         mediaPlayer.seekTo( timeStamp ); // Get to where user left off
         this.playSong();
         playingSong = true;

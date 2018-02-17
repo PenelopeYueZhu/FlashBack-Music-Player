@@ -159,6 +159,22 @@ public class MusicQueuer {
     }
 
     /**
+     * Get song information
+     * @param ID ID of the song
+     * @return An ArrayList of strings that contains the song's information
+     */
+    public ArrayList<String> getSongInfo( int ID ) {
+        ArrayList<String> infoBus = new ArrayList<String>();
+        Song song = this.getSong(ID);
+
+        infoBus.add(song.getTitle());
+        infoBus.add(song.getLocation().toString());
+        infoBus.add(Integer.toString( song.getTimeLastPlayed()));
+        infoBus.add(Double.toString(song.getLengthInSeconds()));
+        return infoBus;
+    }
+
+    /**
      * @return the total number of currently stored songs
      */
     public int getNumSongs( ){

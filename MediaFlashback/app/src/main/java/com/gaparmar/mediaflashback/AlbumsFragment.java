@@ -43,9 +43,7 @@ public class AlbumsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mq = new MusicQueuer(getContext());
-        mq.readSongs();
-        mq.readAlbums();
+        mq = MainActivity.getMusicQueuer();
     }
 
     @Override

@@ -11,7 +11,14 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+    // Constants
+    public final static int TITLE_POS = 0;
+    public final static int LOC_POS = 1;
+    public final static int DATE_POS = 2;
+    public final static int DURATION_POS = 3;
 
     // This is all the fields on the main screen
     private TextView songTitleDisplay;
@@ -24,19 +31,18 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton prevButton;
 
     private static MusicPlayer musicPlayer;
+    private static MusicQueuer musicQueuer;
 
     public static MusicPlayer getMusicPlayer(){
         return musicPlayer;
     }
+    public static MusicQueuer getMusicQueuer() { return musicQueuer; }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 20, 0);
-        // Initialize all the fields
         songTitleDisplay = findViewById(R.id.song_title);
         songDateDisplay = findViewById(R.id.song_date);
         songLocationDisplay = findViewById(R.id.song_location);
@@ -46,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         nextButton = findViewById(R.id.next_button);
         prevButton = findViewById(R.id.previous_button);
 
-        MusicQueuer musicQueuer = new MusicQueuer(this);
+        musicQueuer = new MusicQueuer(this);
         musicQueuer.readSongs();
         musicQueuer.readAlbums();
 
@@ -56,12 +62,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !musicPlayer.wasPlayingSong()) {
-            playButton.setVisibility(View.VISIBLE);
-            pauseButton.setVisibility(View.GONE);
+            enableButton(playButton);
+            disableButton(pauseButton);
         }
         else {
-            playButton.setVisibility(View.GONE);
-            pauseButton.setVisibility(View.VISIBLE);
+            disableButton( playButton );
+            enableButton( pauseButton );
         }
 
         // Location of Brennan Hall
@@ -80,20 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
 
                 musicPlayer.playSong();
-<<<<<<< HEAD
                 updateTrackInfo();
-=======
-                // Replace the buttons
-                playButton.setVisibility(View.GONE);
-                pauseButton.setVisibility(View.VISIBLE);
-
-                // Load all the information about the song
-                songTitleDisplay.setText( musicPlayer.getCurrSong().getTitle());
-                songDateDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getTimeLastPlayed()));
-                songLocationDisplay.setText( "" + musicPlayer.getCurrSong().getLocation());
-                songTimeDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getLengthInSeconds() ));
->>>>>>> 840b79f042db4a4b4b61c337173e0f5edb3241f0
-
             }
         });
 
@@ -130,10 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 if (currentSong == null)
                     return;
                 // Load all the information about the song
-                songTitleDisplay.setText( currentSong.getTitle());
-                songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText("" + currentSong.getLocation());
-                songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
+               updateTrackInfo();
             }
         });
 
@@ -191,10 +181,22 @@ public class MainActivity extends AppCompatActivity {
         pauseButton.setVisibility(View.VISIBLE);
 
         // Load all the information about the song
-        songTitleDisplay.setText( musicPlayer.getCurrSong().getTitle());
+       /* songTitleDisplay.setText( musicPlayer.getCurrSong().getTitle());
         songDateDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getTimeLastPlayed()));
-        songLocationDisplay.setText( musicPlayer.getCurrSong().getLocation());
-        songTimeDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getLengthInSeconds() ));
+        songLocationDisplay.setText( musicPlayer.getCurrSong().getLocation().toString());
+        songTimeDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getLengthInSeconds() ));*/
+        ArrayList<String> songInfo = musicQueuer.getSongInfo(musicPlayer.getCurrentSongId());
+        songTitleDisplay.setText( songInfo.get(TITLE_POS));
+        songDateDisplay.setText( songInfo.get(DATE_POS));
+        songLocationDisplay.setText( songInfo.get(LOC_POS));
+        songTimeDisplay.setText( songInfo.get(DURATION_POS));
     }
 
+    public void disableButton( ImageButton button ) {
+        button.setVisibility(View.GONE);
+    }
+
+    public void enableButton( ImageButton button ) {
+        button.setVisibility(View.VISIBLE);
+    }
 }
