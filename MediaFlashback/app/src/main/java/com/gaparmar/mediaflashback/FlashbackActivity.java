@@ -49,6 +49,7 @@ public class FlashbackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
 
+
         launchRegularMode = (Button) findViewById(R.id.regular_button);
         songTitleDisplay = (TextView) findViewById(R.id.song_title);
         songDateDisplay = (TextView) findViewById(R.id.song_date);
@@ -60,6 +61,7 @@ public class FlashbackActivity extends AppCompatActivity {
         prevButton = (ImageButton) findViewById(R.id.previous_button);
 
         flashbackPlayer = new FlashbackPlayer(this);
+
         mq = new MusicQueuer(this);
         mq.readSongs();
         mq.readAlbums();

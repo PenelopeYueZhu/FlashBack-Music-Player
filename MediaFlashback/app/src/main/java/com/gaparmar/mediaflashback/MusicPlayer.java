@@ -166,7 +166,6 @@ public class MusicPlayer extends AppCompatActivity {
         songsToPlay.add(ID);
         if( firstTime ) firstTime = false;
         loadMedia(ID);
-
     }
 
     /**
