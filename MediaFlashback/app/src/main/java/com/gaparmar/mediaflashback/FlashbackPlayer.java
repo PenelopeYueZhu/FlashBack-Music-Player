@@ -7,17 +7,12 @@ package com.gaparmar.mediaflashback;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Random;
-import java.util.Stack;
 
 public class FlashbackPlayer extends AppCompatActivity {
 
@@ -27,21 +22,24 @@ public class FlashbackPlayer extends AppCompatActivity {
     private boolean isFinished = false;
     private boolean firstTime = true;
 
-    private /*static*/ int timeStamp;
-    private /*static*/ Song lastPlayed;
-    private /*static*/ boolean playingSong = false;
+    private int timeStamp;
+    private Song lastPlayed;
+    private boolean playingSong = false;
     private Context context;
 
-
-    private static class SongCompare implements Comparator<Song>
-    {
+    // TODO: SEPARATE CLASS
+    private static class SongCompare implements Comparator<Song>{
         public int compare(Song s1, Song s2)
         {
             return s2.getProbability() - s1.getProbability();
         }
     }
 
-    public FlashbackPlayer(Context current) {
+    /**
+     * The constructor initializes the flashback player without a list of songs
+     * @param current The context of the calling activity
+     */
+    public FlashbackPlayer(final Context current) {
         this.context = current;
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -53,37 +51,35 @@ public class FlashbackPlayer extends AppCompatActivity {
             public void onCompletion(MediaPlayer mp) {
                 firstTime = false;
                 isFinished = (currInd == songsToPlay.size()-1);
+                // Updates the Song information in the Shared Preference resource
+                System.out.println("on completion listener from the flashback player called");
+                StorageHandler.storeSongLocation(current,getCurrentSongId(),new double[]{3.2, 8.7});
+                StorageHandler.storeSongDay(current, getCurrentSongId(), "Friday");
+                StorageHandler.storeSongTime(current, getCurrentSongId(), 0);
+                StorageHandler.storeSongState(current, getCurrentSongId(), Song.state.DISLIKED);
                 // if not finished, automatically play next song
                 if (!isFinished() && songsToPlay.size() > 0) {
                     nextSong();
                 }
             }
         });
-        songsToPlay = new ArrayList<Song>();
+        songsToPlay = new ArrayList<>();
     }
 
-    public FlashbackPlayer(List<Song> list, Context current) {
-        this.context = current;
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            /**
-             * Automatically play next song after each song completion
-             * @param mp
-             */
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                firstTime = false;
-                isFinished = (currInd == songsToPlay.size()-1);
-                // if not finished, automatically play next song
-                if (!isFinished() && songsToPlay.size() > 0) {
-                    nextSong();
-                }
-            }
-        });
+    /**
+     * This constructor initializes the flashback player with a list of songs
+     * @param list The list of songs to play
+     * @param current the context of the calling Activity
+     */
+    public FlashbackPlayer(List<Song> list, final Context current) {
+        this(current);
         songsToPlay = list;
         makeFlashbackPlaylist();
     }
 
+    /**
+     * TODO
+     */
     public void makeFlashbackPlaylist()
     {
         Collections.sort(songsToPlay, new SongCompare());
@@ -162,15 +158,14 @@ public class FlashbackPlayer extends AppCompatActivity {
             resetSong();
             currInd++;
 
-            System.out.println( "Line 122 this index should be 1 " + currInd );
-            loadMedia(songsToPlay.get(currInd).getRawID());
+            loadMedia(songsToPlay.get(currInd).getResID());
             //if( firstTime ) playSong();
             // DONT UNCOMMENT
         }
         //else {
         // wrap around the list
         //currInd = 0;
-        //loadMedia(songsToPlay.get(0).getRawID());
+        //loadMedia(songsToPlay.get(0).getResID());
         //}
     }
 
@@ -178,13 +173,13 @@ public class FlashbackPlayer extends AppCompatActivity {
         if (currInd > 0) {
             resetSong();
             currInd--;
-            loadMedia(songsToPlay.get(currInd).getRawID());
+            loadMedia(songsToPlay.get(currInd).getResID());
             System.out.println( "Line 133 This index should be 0 " + currInd);
         } /*else {
             // wrap around to the last song.
             currInd = songsToPlay.size() - 1;
             System.out.println( "Line 137 This index should be 1 " + currInd);
-            loadMedia(songsToPlay.get(songsToPlay.size()-1).getRawID());
+            loadMedia(songsToPlay.get(songsToPlay.size()-1).getResID());
         }*/
         //if( firstTime ) playSong();
     }
@@ -193,7 +188,7 @@ public class FlashbackPlayer extends AppCompatActivity {
         resetSong();
         songsToPlay.clear(); // clear our album
         songsToPlay.add(s);
-        loadMedia(s.getRawID());
+        loadMedia(s.getResID());
         playSong();
     }
 
@@ -210,7 +205,12 @@ public class FlashbackPlayer extends AppCompatActivity {
     }
 
     public Song getCurrSong() {
+        System.out.println("currIndex\t"+currInd);
         return songsToPlay.get(currInd);
+    }
+
+    public int getCurrentSongId(){
+        return getCurrSong().getResID();
     }
 
     public boolean isPlaying() {

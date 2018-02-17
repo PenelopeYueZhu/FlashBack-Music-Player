@@ -85,7 +85,7 @@ public class Album {
         boolean invalidInput = false;
         // If there is no song in the album yet
         if( numSongs == 0 ) {
-            this.songs.add( s.getRawID() );
+            this.songs.add( s.getResID() );
             this.numSongs++;
             this.releaseYear = s.getYearOfRelease();
             this.artistName = s.getArtistName();
@@ -103,7 +103,7 @@ public class Album {
 
         // Only add if the input song is valid
         if (!invalidInput){
-            this.songs.add(s.getRawID());
+            this.songs.add(s.getResID());
             this.numSongs++;
             lengthInSeconds += s.getLengthInSeconds();
         }
@@ -111,7 +111,7 @@ public class Album {
 
 
     public boolean hasSong(Song s){
-        return this.songs.contains(s.getRawID());
+        return this.songs.contains(s.getResID());
     }
 
     public void removeSong(Song s) throws InvalidParameterException{
