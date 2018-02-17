@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Unless there is a song playing when we get back to normal mode, hide the button
-        if( !musicPlayer.wasPlayingSong()) {
+        if( !musicPlayer.isPlaying()) {
             playButton.setVisibility(View.VISIBLE);
             pauseButton.setVisibility(View.GONE);
         }
