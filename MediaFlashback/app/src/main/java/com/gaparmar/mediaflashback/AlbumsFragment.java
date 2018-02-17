@@ -1,13 +1,16 @@
 package com.gaparmar.mediaflashback;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -28,6 +31,9 @@ public class AlbumsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private ListView mListView;
 
+    private MusicPlayer mp;
+    private MusicQueuer mq;
+
     public AlbumsFragment() {
         // Required empty public constructor
     }
@@ -41,8 +47,11 @@ public class AlbumsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mq = new MusicQueuer(getContext());
+        mq.readSongs();
+        mq.readAlbums();
 
-
+        mp = MainActivity.getMusicPlayer();
     }
 
     @Override
@@ -56,18 +65,31 @@ public class AlbumsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
 
-        ArrayList<Album> albums = new ArrayList<>();
+        final ArrayList<String> albums = mq.getEntireAlbumList();
         mListView = (ListView)getView().findViewById(R.id.album_list);
-        String[] titles = new String[20];
+        String[] titles = new String[albums.size()];
 
         for(int i = 0; i < titles.length; ++i){
-            titles[i] = "Album "+i;
+            titles[i] = albums.get(i);
         }
 
 
         ArrayAdapter adapter = new ArrayAdapter(this.getContext(),
                 android.R.layout.simple_list_item_1, titles);
         mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Album a = mq.getAlbum(albums.get(position));
+                a.setMusicQueuer(mq);
+
+                mp.loadAlbum(a);
+                mp.playSong();
+
+                // open music player page
+                startActivity(new Intent(getActivity(), MainActivity.class));
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
