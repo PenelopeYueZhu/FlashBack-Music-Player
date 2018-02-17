@@ -1,5 +1,7 @@
 package com.gaparmar.mediaflashback;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -45,6 +47,7 @@ public class FlashbackActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
+
         initializeViewComponents();
 
         // Unless there is a song playing when we get back to normal mode, hide the button
@@ -58,12 +61,13 @@ public class FlashbackActivity extends AppCompatActivity {
         }
 
         int songOne = R.raw.bleed;
-        int songTwo = R.raw.bleed;
-        int songThree = R.raw.bleed;
+        int songTwo = R.raw.dead_dove_do_not_eat;
+        int songThree = R.raw.dreamatorium;
         int songFour = R.raw.after_the_storm;
-        int songFive = R.raw.bleed;
+        int songFive = R.raw.mangalam;
         final Song s5 = new Song( "Bleed", "I Will Not Be Afraid", "Unknown Artist",
                 0, 0, songOne, new double[]{34, -117});
+
         final Song s2 = new Song( "Jazz in Paris", "I Will Not Be Afraid", "Unknown Artist",
                 0, 0, songTwo,null);
         final Song s3 = new Song( "Tightrope Walker", "I Will Not Be Afraid", "Unknown Artist",
@@ -139,10 +143,7 @@ public class FlashbackActivity extends AppCompatActivity {
         Song currentSong = flashbackPlayer.getCurrSong();
 
         // Load all the information about the song
-        songTitleDisplay.setText( currentSong.getTitle());
-        songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-        songLocationDisplay.setText( "" + currentSong.getLocation());
-        songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
+        updateTrackInfo(currentSong);
     }
 
     /**
@@ -153,6 +154,16 @@ public class FlashbackActivity extends AppCompatActivity {
         flashbackPlayer.previousSong();
         Song currentSong = flashbackPlayer.getCurrSong();
         // Load all the information about the song
+        updateTrackInfo(currentSong);
+
+    }
+    public void launchActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        setResult(Activity.RESULT_OK, intent);
+        startActivity(intent);
+    }
+
+    public void updateTrackInfo(Song currentSong) {
         songTitleDisplay.setText( currentSong.getTitle());
         songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
         songLocationDisplay.setText("" +  currentSong.getLocation());

@@ -47,6 +47,7 @@ public class AlbumsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mq = MainActivity.getMusicQueuer();
         mp = MainActivity.getMusicPlayer();
     }
@@ -78,6 +79,7 @@ public class AlbumsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Album a = mq.getAlbum(albums.get(position));
+
                 mp.loadAlbum(a);
             }
         });

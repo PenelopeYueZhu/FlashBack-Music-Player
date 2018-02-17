@@ -108,6 +108,10 @@ public class Album {
     }
 
 
+    public void setMusicQueuer(MusicQueuer mq) {
+        this.mq= mq;
+    }
+
     public boolean hasSong(Song s){
         return this.songs.contains(s.getResID());
     }
@@ -154,6 +158,7 @@ public class Album {
     }
 
     public String getAlbumTitle(){return this.albumTitle;}
+
 
 
 

@@ -70,7 +70,7 @@ public class JUnitMusicQueuer {
         for( int i = 0 ; i < list.size() ; i++ ){
             Song song = mq.getSong( list.get(i));
 
-            assertEquals( list.get(i), (Integer)song.getRawID());
+            assertEquals( list.get(i), (Integer)song.getResID());
 
             Album album = mq.getAlbum( song.getParentAlbum() );
 

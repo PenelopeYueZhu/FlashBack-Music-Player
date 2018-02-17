@@ -108,10 +108,10 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-       if( musicPlayer.isPlaying()) {
-           // Update buttons and infos
-           tracker.setButtonsPlaying();
-           tracker.updateTrackInfo();
-       }
+        if (musicPlayer.isPlaying()) {
+            // Update buttons and infos
+            tracker.setButtonsPlaying();
+            tracker.updateTrackInfo();
+        }
     }
 }
