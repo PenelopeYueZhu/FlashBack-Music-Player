@@ -49,7 +49,10 @@ public class MainActivity extends AppCompatActivity {
         MusicQueuer musicQueuer = new MusicQueuer(this);
         musicQueuer.readSongs();
         musicQueuer.readAlbums();
-        musicPlayer = new MusicPlayer(this, musicQueuer);
+
+        if (musicPlayer == null) {
+            musicPlayer = new MusicPlayer(this, musicQueuer);
+        }
 
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !musicPlayer.wasPlayingSong()) {
