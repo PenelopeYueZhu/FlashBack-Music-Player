@@ -141,11 +141,23 @@ public class StorageHandler {
      * Stores the time when the song was last played
      * @param context The context of calling parent Activity
      * @param song_id The resource id of the song to be stored
+     * @return the state of the corresponding song
      */
-    public static int getSongState(Context context, int song_id){
+    public static Song.state getSongState(Context context, int song_id){
         SharedPreferences sharedPreferences = context.getSharedPreferences("state",
                 MODE_PRIVATE);
-        return sharedPreferences.getInt(Integer.toString(song_id), 0);
+        int state = sharedPreferences.getInt(Integer.toString(song_id), 0);
+        switch (state){
+            case LIKED:
+                return Song.state.LIKED;
+            case DISLIKED:
+                return Song.state.DISLIKED;
+            case NEUTRAL:
+                return Song.state.NEITHER;
+            default:
+                System.out.println("Invalid song state encountered in the shared preference");
+                return Song.state.NEITHER;
+        }
     }
 
 

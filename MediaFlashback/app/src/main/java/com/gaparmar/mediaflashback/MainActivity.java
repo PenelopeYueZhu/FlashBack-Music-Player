@@ -23,11 +23,10 @@ public class MainActivity extends AppCompatActivity {
 
     private MusicPlayer musicPlayer;
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    /**
+     * Initializes all the View components of this activity
+     */
+    private void initializeViewComponents(){
         // Initialize all the fields
         songTitleDisplay = findViewById(R.id.song_title);
         songDateDisplay = findViewById(R.id.song_date);
@@ -37,10 +36,20 @@ public class MainActivity extends AppCompatActivity {
         pauseButton = findViewById(R.id.pause_button);
         nextButton = findViewById(R.id.next_button);
         prevButton = findViewById(R.id.previous_button);
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        initializeViewComponents();
+
 
         MusicQueuer musicQueuer = new MusicQueuer(this);
         musicQueuer.readSongs();
         musicPlayer = new MusicPlayer(this, musicQueuer);
+
 
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !musicPlayer.wasPlayingSong()) {
@@ -57,69 +66,6 @@ public class MainActivity extends AppCompatActivity {
         // Location of Geisel
         final double[] destLocation = {32.881535, -117.237493};
 
-        // Set the button's functions
-        Song test = new Song("", "", "", 0, 0, 0, currLocation);
-        playButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                songLocationDisplay.setText(""+Song.calculateDist(destLocation, currLocation));
-                // Dont't do anything if no song is currently selected
-                if (musicPlayer.getCurrSong() == null)
-                    return;
-
-                musicPlayer.playSong();
-                // Replace the buttons
-                playButton.setVisibility(View.GONE);
-                pauseButton.setVisibility(View.VISIBLE);
-
-                // Load all the information about the song
-                songTitleDisplay.setText( musicPlayer.getCurrSong().getTitle());
-                songDateDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getTimeLastPlayed()));
-                songLocationDisplay.setText( "" + musicPlayer.getCurrSong().getLocation());
-                songTimeDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getLengthInSeconds() ));
-
-            }
-        });
-
-        pauseButton.setOnClickListener( new View.OnClickListener(){
-            @Override
-            public void onClick( View view ) {
-                musicPlayer.pauseSong();
-                playButton.setVisibility(View.VISIBLE);
-                pauseButton.setVisibility(View.GONE);
-            }
-        });
-
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                musicPlayer.nextSong();
-                Song currentSong = musicPlayer.getCurrSong();
-                // Dont't do anything if no song is currently selected
-                if (currentSong == null)
-                    return;
-                // Load all the information about the song
-                songTitleDisplay.setText( currentSong.getTitle());
-                songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText( "" + currentSong.getLocation());
-                songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
-            }
-        });
-
-        prevButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                musicPlayer.previousSong();
-                Song currentSong = musicPlayer.getCurrSong();
-                if (currentSong == null)
-                    return;
-                // Load all the information about the song
-                songTitleDisplay.setText( currentSong.getTitle());
-                songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText("" + currentSong.getLocation());
-                songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
-            }
-        });
 
         //mPlayer.loadMedia(R.raw.replay);
         Button launchFlashbackActivity = (Button) findViewById(R.id.flashback_button);
@@ -164,5 +110,69 @@ public class MainActivity extends AppCompatActivity {
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }
+
+    /**
+     * The onClick listener for the play button
+     * @param view
+     */
+    public void onRegularPlayButtonClick(View view){
+        // Dont't do anything if no song is currently selected
+        if (musicPlayer.getCurrSong() == null)
+            return;
+        musicPlayer.playSong();
+        // Replace the buttons
+        playButton.setVisibility(View.GONE);
+        pauseButton.setVisibility(View.VISIBLE);
+        // Load all the information about the song
+        songTitleDisplay.setText( musicPlayer.getCurrSong().getTitle());
+        songDateDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getTimeLastPlayed()));
+        songLocationDisplay.setText( "" + musicPlayer.getCurrSong().getLocation());
+        songTimeDisplay.setText( Integer.toString( musicPlayer.getCurrSong().getLengthInSeconds() ));
+    }
+
+
+    /**
+     * The onClick listener for the pause button
+     * @param view
+     */
+    public void onRegularPauseButtonClick(View view){
+        musicPlayer.pauseSong();
+        playButton.setVisibility(View.VISIBLE);
+        pauseButton.setVisibility(View.GONE);
+    }
+
+    /**
+     * The onClick listener for the next button
+     * @param view
+     */
+    public void onRegularNextButtonClick(View view){
+        musicPlayer.nextSong();
+        Song currentSong = musicPlayer.getCurrSong();
+        // Dont't do anything if no song is currently selected
+        if (currentSong == null)
+            return;
+        // Load all the information about the song
+        songTitleDisplay.setText( currentSong.getTitle());
+        songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
+        songLocationDisplay.setText( "" + currentSong.getLocation());
+        songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
+    }
+
+    /**
+     * The onClick listener for the previous button
+     * @param view
+     */
+    public void onRegularPreviousButtonClick(View view){
+        musicPlayer.previousSong();
+        Song currentSong = musicPlayer.getCurrSong();
+        if (currentSong == null)
+            return;
+        // Load all the information about the song
+        songTitleDisplay.setText( currentSong.getTitle());
+        songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
+        songLocationDisplay.setText("" + currentSong.getLocation());
+        songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
+    }
+
 
 }

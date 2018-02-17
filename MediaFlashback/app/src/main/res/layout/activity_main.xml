@@ -176,7 +176,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.65"
-        app:srcCompat="@android:drawable/ic_media_play" />
+        app:srcCompat="@android:drawable/ic_media_play"
+        android:onClick="onRegularPlayButtonClick"/>
 
     <ImageButton
         android:id="@+id/pause_button"
@@ -193,7 +194,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.649"
-        app:srcCompat="@android:drawable/ic_media_pause" />
+        app:srcCompat="@android:drawable/ic_media_pause"
+        android:onClick="onRegularPauseButtonClick"/>
 
     <Button
         android:id="@+id/flashback_button"
@@ -342,7 +344,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/line3"
         app:layout_constraintVertical_bias="0.60"
-        app:srcCompat="@android:drawable/ic_media_next" />
+        app:srcCompat="@android:drawable/ic_media_next"
+        android:onClick="onRegularNextButtonClick"/>
 
     <ImageButton
         android:id="@+id/previous_button"
@@ -359,6 +362,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="0.60"
         app:layout_constraintTop_toTopOf="@+id/line3"
-        app:srcCompat="@android:drawable/ic_media_previous" />
+        app:srcCompat="@android:drawable/ic_media_previous"
+        android:onClick="onRegularPreviousButtonClick"/>
 
 </android.support.constraint.ConstraintLayout>

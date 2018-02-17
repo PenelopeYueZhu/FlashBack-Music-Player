@@ -109,10 +109,11 @@ public class Song {
 
     /**
      * Retrives the current state of the Song
+     * @param context the context referring to the calling activity
      * @return whether the song is LIKED/DISLIKED/NEUTRAl
      */
-    public state getCurrentState(){
-        return this.currentState;
+    public state getCurrentState(Context context){
+        return StorageHandler.getSongState(context, this.getResID());
     }
 
     /**
@@ -125,10 +126,11 @@ public class Song {
 
     /**
      * Retrieves the Currently Stored Location in the Song
+     * @param context the context referring to the calling activity
      * @return the location coords
      */
-    public double[] getLocation(){
-        return this.location;
+    public double[] getLocation(Context context){
+        return StorageHandler.getSongLocation(context, this.getResID());
     }
 
     /**
@@ -189,84 +191,105 @@ public class Song {
 
     /**
      * Retrieves the last played time of the Song
+     * @param context the context referring to the calling activity
      * @return the time the song
      */
-    public int getTimeLastPlayed(){
-        return this.timeLastPlayed;
+    public int getTimeLastPlayed(Context context){
+        return StorageHandler.getSongTime(context, this.getResID());
     }
 
     /**
-     *
-     * @param timeLastPlayed
+     * Updates the resource id of the Song
+     * @param rawID the new resource ID
      */
-    public void setTimeLastPlayed(int timeLastPlayed){
-        this.timeLastPlayed = timeLastPlayed;
-    }
-
     public void setResID(int rawID) { this.resID = rawID; }
 
+    /**
+     * Retrieves the resource ID of the Song
+     * @return the res ID of the Song
+     */
     public int getResID() { return this.resID; }
 
-    public void updateProbability(Context context)
-    {
+    /**
+     * Calculates and updates the probability of song being played
+     * @param context the context of the calling activity
+     */
+    public void updateProbability(Context context){
         int prob = 0;
-        if(isWithinRange(new double[2], context)) // TODO : pass in users current location
-        {
+        // TODO : pass in users current location
+        if(isWithinRange(new double[2], context, 1000)){
             prob++;
         }
-        if(isSameDay())
-        {
+        if(isSameDay()){
             prob++;
         }
-        if(isSameTime())
-        {
+        if(isSameTime()){
             prob++;
         }
-        if(getCurrentState() == state.LIKED)
-        {
+        if(getCurrentState(context) == state.LIKED){
             prob++;
         }
-        if(getCurrentState() == state.DISLIKED)
-        {
+        if(getCurrentState(context) == state.DISLIKED){
             prob = 0;
             this.probability = 0;
         }
         this.probability += prob;
     }
 
+    /**
+     * Retrieves the currently stored probability of the Song
+     * @return the probaility of the song being played
+     */
     public int getProbability(){
         return this.probability;
     }
 
+    /**
+     * Updates the Probability of the Song being played in the flashback mode
+     * @param x the number representing the probability
+     */
     public void setProbability(int x)
     {
         probability = x;
     }
 
-    public boolean isWithinRange(double[] currLocation, Context context)
-    {
+    /**
+     * Checks if the current location is within range
+     * @param currLocation The coords of the current location
+     * @param context The context of the calling Activity
+     * @param threshold The numeric threshold for the range calculation
+     * @return True if the current location is in range
+     */
+    public boolean isWithinRange(double[] currLocation, Context context, int threshold) {
         //TODO:: create method to determine if the current location is in the same range as the last played location
-        // 1000 ft
-        return calculateDist(currLocation, getLocation()) <= 1000;
+        return calculateDist(currLocation, getLocation(context)) <= threshold;
     }
 
-    public boolean isSameDay()
-    {
+    /**
+     * Checks if the current day is the same day
+     * @return if the current day is the same day as the last played song
+     */
+    public boolean isSameDay() {
         //TODO:: create method to determine if the current day is the same as last played day
         return false;
     }
 
-    public boolean isSameTime()
-    {
+    /**
+     * Checks if the current time is same as the last played time
+     * @return True if it is the same time
+     */
+    public boolean isSameTime() {
         //TODO:: create method to determine if the current time interval is the same as last played time interval
         return false;
     }
-    /**
-     * This method uses the haversine formula to calculate distance between GPS coordinates
-    */
-    public static double calculateDist(double[] loc1, double[] loc2)
-    {
 
+    /**
+     * Calculates the distance between two locations using Haversine formula
+     * @param loc1 The first gps location coordinate
+     * @param loc2 The second gps location coordinate
+     * @return The distance between the give coordinates
+     */
+    public static double calculateDist(double[] loc1, double[] loc2){
         int LATITUDE = 0;
         int LONGITUDE = 1;
 
@@ -290,17 +313,20 @@ public class Song {
                 + Math.cos(lat1R) * Math.cos(lat2R) * Math.sin(deltaLon / 2)
                 * Math.sin(deltaLon / 2);
 
-
         // c = 2 * atan2(sqrt(a) * sqrt(1-a))
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt((1-a)));
 
         // d = radius * c
-
         double distance = radius * c;
         return distance;
 
     }
 
+    /**
+     * Utility method that converts angle in degrees to radians
+     * @param degrees Angle in degrees
+     * @return Corresponding angle in radians
+     */
     public static double toRadians(double degrees){
         return degrees * Math.PI / 180;
     }
