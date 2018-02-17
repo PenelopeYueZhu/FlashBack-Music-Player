@@ -59,7 +59,8 @@ public class FlashbackActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 flashbackPlayer.resetSong();
-                launchActivity();
+                StorageHandler.storeLastMode(FlashbackActivity.this, 0);
+                finish();
             }
         });
 

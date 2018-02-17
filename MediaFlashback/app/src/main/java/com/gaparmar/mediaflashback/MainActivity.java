@@ -137,9 +137,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick( View view ){
                 musicPlayer.resetSong();
+                StorageHandler.storeLastMode(MainActivity.this, 1);
                 launchActivity();
             }
         });
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        if(StorageHandler.getLastMode(this) == 1){
+            launchActivity();
+        }
     }
 
     public void launchActivity(){

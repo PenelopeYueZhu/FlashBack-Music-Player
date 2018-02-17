@@ -5,7 +5,6 @@ package com.gaparmar.mediaflashback;
  */
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
@@ -23,28 +22,26 @@ public class FlashbackPlayer extends AppCompatActivity {
     private boolean isFinished = false;
     private boolean firstTime = true;
 
-    private /*static*/ int timeStamp;
-    private /*static*/ Song lastPlayed;
-    private /*static*/ boolean playingSong = false;
+    private int timeStamp;
+    private Song lastPlayed;
+    private boolean playingSong = false;
     private Context context;
 
-
-
-    private static class SongCompare implements Comparator<Song>
-    {
+    // TODO: SEPARATE CLASS
+    private static class SongCompare implements Comparator<Song>{
         public int compare(Song s1, Song s2)
         {
             return s2.getProbability() - s1.getProbability();
         }
     }
 
+    /**
+     * The constructor initializes the flashback player without a list of songs
+     * @param current The context of the calling activity
+     */
     public FlashbackPlayer(final Context current) {
         this.context = current;
         mediaPlayer = new MediaPlayer();
-        SharedPreferences sharedPreferences = current.getSharedPreferences("Locations",
-                MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
-
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             /**
              * Automatically play next song after each song completion
@@ -54,9 +51,13 @@ public class FlashbackPlayer extends AppCompatActivity {
             public void onCompletion(MediaPlayer mp) {
                 firstTime = false;
                 isFinished = (currInd == songsToPlay.size()-1);
+                // Updates the Song information in the Shared Preference resource
+                System.out.println("on completion listener from the flashback player called");
+                StorageHandler.storeSongLocation(current,getCurrentSongId(),new double[]{3.2, 8.7});
+                StorageHandler.storeSongDay(current, getCurrentSongId(), "Friday");
+                StorageHandler.storeSongTime(current, getCurrentSongId(), 0);
+                StorageHandler.storeSongState(current, getCurrentSongId(), Song.state.DISLIKED);
                 // if not finished, automatically play next song
-                System.out.println("ON COMPLETION LISTENER CALLED");
-                StorageHandler.storeSongLocation(current, getCurrentSongId(), new double[]{0.0, 0.0});
                 if (!isFinished() && songsToPlay.size() > 0) {
                     nextSong();
                 }
@@ -65,43 +66,20 @@ public class FlashbackPlayer extends AppCompatActivity {
         songsToPlay = new ArrayList<>();
     }
 
+    /**
+     * This constructor initializes the flashback player with a list of songs
+     * @param list The list of songs to play
+     * @param current the context of the calling Activity
+     */
     public FlashbackPlayer(List<Song> list, final Context current) {
-        this.context = current;
-        mediaPlayer = new MediaPlayer();
-
-        SharedPreferences sharedPreferences = current.getSharedPreferences("Locations",
-                MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            /**
-             * Automatically play next song after each song completion
-             * @param mp
-             */
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                firstTime = false;
-                isFinished = (currInd == songsToPlay.size()-1);
-                // if not finished, automatically play next song
-                /*editor.putString(getCurrSong().getTitle(), ""+
-                        getCurrSong().getLocation(current)[0] +","+
-                        getCurrSong().getLocation(current)[1]);
-                editor.apply();*/
-                System.out.println("ON COMPLETION LISTENER CALLED");
-                StorageHandler.storeSongLocation(current, getCurrentSongId(), new double[]{3.2, 8.7});
-                StorageHandler.storeSongDay(current, getCurrentSongId(), "Friday");
-                StorageHandler.storeSongTime(current, getCurrentSongId(), 0);
-
-                getCurrSong().setLocation(new double[]{});
-                if (!isFinished() && songsToPlay.size() > 0) {
-                    nextSong();
-                }
-            }
-        });
+        this(current);
         songsToPlay = list;
         makeFlashbackPlaylist();
     }
 
+    /**
+     * TODO
+     */
     public void makeFlashbackPlaylist()
     {
         Collections.sort(songsToPlay, new SongCompare());

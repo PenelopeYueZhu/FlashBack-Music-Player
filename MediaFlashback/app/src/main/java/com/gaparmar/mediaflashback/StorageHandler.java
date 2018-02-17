@@ -19,6 +19,9 @@ public class StorageHandler {
     public static final int TIME_AFTERNOON = 1;
     public static final int TIME_NIGHT = 2;
 
+    public static final int REGULAR = 0;
+    public static final int FLASHBACK = 1;
+
     /**
      * Stores the Location of the Song as a Shared Preference
      * @param context The context of calling parent Activity
@@ -37,6 +40,21 @@ public class StorageHandler {
     }
 
     /**
+     * Gets the Location of the Song stored in a Shared Preference
+     * @param context The context of calling parent Activity
+     * @param song_id The resource id of the song to be retrieved
+     */
+    public static double[] getSongLocation(Context context, int song_id){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("location",
+                MODE_PRIVATE);
+        double[] latLong = new double[2];
+        latLong[0] = sharedPreferences.getFloat(song_id+"_0", (float)0.0);
+        latLong[1] = sharedPreferences.getFloat(song_id+"_1", (float)0.0);
+
+        return latLong;
+    }
+
+    /**
      * Stores the Day when the Song was last played
      * @param context The context of calling parent Activity
      * @param song_id The resource id of the song to be stored
@@ -52,6 +70,18 @@ public class StorageHandler {
     }
 
     /**
+     * Gets the Day when the Song was last played
+     * @param context The context of calling parent Activity
+     * @param song_id The resource id of the song to be stored
+     */
+    public static String getSongDay(Context context, int song_id){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("day",
+                MODE_PRIVATE);
+        return sharedPreferences.getString(Integer.toString(song_id), "");
+    }
+
+
+    /**
      * Stores the time when the song was last played
      * @param context The context of calling parent Activity
      * @param song_id The resource id of the song to be stored
@@ -65,6 +95,17 @@ public class StorageHandler {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(song_id+"_0", time);
         editor.apply();
+    }
+
+    /**
+     * Stores the time when the song was last played
+     * @param context The context of calling parent Activity
+     * @param song_id The resource id of the song to be stored
+     */
+    public static int getSongTime(Context context, int song_id){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("time",
+                MODE_PRIVATE);
+        return sharedPreferences.getInt(Integer.toString(song_id), 0);
     }
 
 
@@ -95,4 +136,37 @@ public class StorageHandler {
         }
         editor.apply();
     }
+
+    /**
+     * Stores the time when the song was last played
+     * @param context The context of calling parent Activity
+     * @param song_id The resource id of the song to be stored
+     */
+    public static int getSongState(Context context, int song_id){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("state",
+                MODE_PRIVATE);
+        return sharedPreferences.getInt(Integer.toString(song_id), 0);
+    }
+
+
+    /**
+     * Stores the mode that the app was last in
+     * @param context The context of calling parent Activity
+     * @param mode the mode the app was last in
+     */
+    public static void storeLastMode(Context context, int mode){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("mode",
+                MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("currMode", mode);
+        editor.apply();
+    }
+
+    public static int getLastMode(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("mode",
+                MODE_PRIVATE);
+        return sharedPreferences.getInt("currMode", 0);
+    }
+
+
 }
