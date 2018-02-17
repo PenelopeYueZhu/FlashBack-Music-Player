@@ -1,13 +1,16 @@
 package com.gaparmar.mediaflashback;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -28,6 +31,7 @@ public class AlbumsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private ListView mListView;
 
+    private MusicPlayer mp;
     private MusicQueuer mq;
 
     public AlbumsFragment() {
@@ -44,6 +48,7 @@ public class AlbumsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mq = MainActivity.getMusicQueuer();
+        mp = MainActivity.getMusicPlayer();
     }
 
     @Override
@@ -57,7 +62,7 @@ public class AlbumsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
 
-        ArrayList<String> albums = mq.getEntireAlbumList();
+        final ArrayList<String> albums = mq.getEntireAlbumList();
         mListView = (ListView)getView().findViewById(R.id.album_list);
         String[] titles = new String[albums.size()];
 
@@ -69,6 +74,16 @@ public class AlbumsFragment extends Fragment {
         ArrayAdapter adapter = new ArrayAdapter(this.getContext(),
                 android.R.layout.simple_list_item_1, titles);
         mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Album a = mq.getAlbum(albums.get(position));
+                mp.loadAlbum(a);
+                mp.playSong();
+                // open music player page
+              //  startActivity(new Intent(getActivity(), MainActivity.class));
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -77,18 +92,18 @@ public class AlbumsFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-/*
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+    /*
+        @Override
+        public void onAttach(Context context) {
+            super.onAttach(context);
+            if (context instanceof OnFragmentInteractionListener) {
+                mListener = (OnFragmentInteractionListener) context;
+            } else {
+                throw new RuntimeException(context.toString()
+                        + " must implement OnFragmentInteractionListener");
+            }
         }
-    }
-*/
+    */
     @Override
     public void onDetach() {
         super.onDetach();

@@ -68,15 +68,15 @@ public class MainActivity extends AppCompatActivity {
         toggleBtn.setImageResource(R.drawable.neutral);
         toggleBtn.setTag(NEUTRAL);
 
-        musicQueuer = new MusicQueuer(this);
-        musicQueuer.readSongs();
-        musicQueuer.readAlbums();
+        if( musicQueuer == null ) {
+            musicQueuer = new MusicQueuer(this);
+            musicQueuer.readSongs();
+            musicQueuer.readAlbums();
+        }
 
         if (musicPlayer == null) {
             musicPlayer = new MusicPlayer(this, musicQueuer);
         }
-
-
 
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !musicPlayer.wasPlayingSong()) {
@@ -273,21 +273,8 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        if( !ifResume ) {
-            ifResume = true;
-            return;
-        }
-        final String sender = this.getIntent().getExtras().getString("SENDER_KEY");
-
-       if( sender != null ){
-            this.receiveData();
-
-        }
-    }
-
-    public void receiveData() {
-        Intent i = getIntent();
-        int songId = i.getIntExtra("SONG_KEY",0);
-        updateTrackInfo();
+       if( musicPlayer.isPlaying()) {
+           updateTrackInfo();
+       }
     }
 }
