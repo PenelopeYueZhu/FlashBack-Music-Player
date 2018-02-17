@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".FlashbackActivity" />
         <activity
-            android:name=".Library"
+            android:name=".LibraryActivity"
             android:label="@string/title_activity_library"></activity>
     </application>
 

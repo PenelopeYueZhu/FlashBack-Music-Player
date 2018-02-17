@@ -58,13 +58,12 @@ public class AlbumsFragment extends Fragment {
 
         ArrayList<Album> albums = new ArrayList<>();
         mListView = (ListView)getView().findViewById(R.id.album_list);
-       // String[] titles = new String[albums.size()];
+        String[] titles = new String[20];
 
-        for(int i = 0; i < albums.size(); ++i){
-       //     titles[i] = albums.get(i).getAlbumTitle();
+        for(int i = 0; i < titles.length; ++i){
+            titles[i] = "Album "+i;
         }
 
-        String[] titles = {"1", "2", "3"};
 
         ArrayAdapter adapter = new ArrayAdapter(this.getContext(),
                 android.R.layout.simple_list_item_1, titles);
