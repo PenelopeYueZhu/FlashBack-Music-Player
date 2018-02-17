@@ -3,10 +3,15 @@ package com.gaparmar.mediaflashback;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -20,6 +25,7 @@ import android.view.ViewGroup;
 public class TracksFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private ListView mListView;
 
     public TracksFragment() {
         // Required empty public constructor
@@ -43,12 +49,37 @@ public class TracksFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_tracks, container, false);
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+
+        ArrayList<Album> albums = new ArrayList<>();
+        mListView = (ListView)getView().findViewById(R.id.album_list);
+        String[] titles = new String[20];
+
+        for(int i = 0; i < titles.length; ++i){
+            titles[i] = "Song " +i;
+        }
+
+
+        ArrayAdapter adapter = new ArrayAdapter(this.getContext(),
+                android.R.layout.simple_list_item_1, titles);
+        mListView.setAdapter(adapter);
+    }
+/*
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
+
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+    */
 /*
     @Override
     public void onAttach(Context context) {
