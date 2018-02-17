@@ -50,7 +50,7 @@ public class MusicPlayer extends AppCompatActivity {
                 // if not finished, automatically play next song
                 if (!isFinished() && songsToPlay.size() > 0) {
                     // TODO: Stores the location in a shared preference
-                    StorageHandler.StoreSongLocation(current, getCurrentSongId(), new double[]{7.0, 8.0});
+                    StorageHandler.storeSongLocation(current, getCurrentSongId(), new double[]{7.0, 8.0});
                     nextSong();
                 }
             }
