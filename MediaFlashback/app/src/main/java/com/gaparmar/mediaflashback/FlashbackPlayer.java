@@ -77,6 +77,11 @@ public class FlashbackPlayer extends AppCompatActivity {
         makeFlashbackPlaylist();
     }
 
+    public List<Song> getSongsToPlay()
+    {
+        return songsToPlay;
+    }
+
     /**
      * TODO
      */
