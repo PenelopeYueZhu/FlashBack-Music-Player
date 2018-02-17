@@ -47,10 +47,8 @@ public class AlbumsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mq = new MusicQueuer(getContext());
-        mq.readSongs();
-        mq.readAlbums();
 
+        mq = MainActivity.getMusicQueuer();
         mp = MainActivity.getMusicPlayer();
     }
 
@@ -81,13 +79,8 @@ public class AlbumsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Album a = mq.getAlbum(albums.get(position));
-                a.setMusicQueuer(mq);
 
                 mp.loadAlbum(a);
-                mp.playSong();
-
-                // open music player page
-                startActivity(new Intent(getActivity(), MainActivity.class));
             }
         });
     }
@@ -98,18 +91,18 @@ public class AlbumsFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-/*
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+    /*
+        @Override
+        public void onAttach(Context context) {
+            super.onAttach(context);
+            if (context instanceof OnFragmentInteractionListener) {
+                mListener = (OnFragmentInteractionListener) context;
+            } else {
+                throw new RuntimeException(context.toString()
+                        + " must implement OnFragmentInteractionListener");
+            }
         }
-    }
-*/
+    */
     @Override
     public void onDetach() {
         super.onDetach();

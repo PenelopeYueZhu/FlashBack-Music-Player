@@ -7,6 +7,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import java.lang.reflect.Field;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,6 +25,9 @@ public class MusicQueuer {
     private final static String UNKNOWN_STRING = "Unknown";
     private final static String UNKNOWN_INT = "0";
     private Context context;
+    final private String PACKAGE = "com.gaparmar.mediaflashback";
+    final private String RES_FOLDER = "raw";
+    final private String URI_PREFIX = "android.resource://com.gaparmar.mediaflashback/raw/";
 
 
     /**
@@ -48,9 +52,9 @@ public class MusicQueuer {
             // Get the name of the song
             String name = songLists[count].getName();
             // Get the ID of the song
-            int songId = context.getResources().getIdentifier(name, "raw", "com.gaparmar.mediaflashback");
+            int songId = context.getResources().getIdentifier(name, RES_FOLDER, PACKAGE);
             // Get the path of the song
-            Uri songPath = Uri.parse("android.resource://com.gaparmar.mediaflashback/raw/"+name );
+            Uri songPath = Uri.parse(URI_PREFIX+name );
             // Get all the metadata
             MediaMetadataRetriever retriever = new MediaMetadataRetriever();
             retriever.setDataSource(context, songPath);
@@ -90,7 +94,7 @@ public class MusicQueuer {
             Song currSong = currEntry.getValue();
 
             String albumName = currSong.getParentAlbum();
-            if( albumName == null )albumName = "UnKnown";
+            if( albumName == null )albumName = UNKNOWN_STRING;
             Album currAlbum = allAlbums.get(albumName);
 
             // If the album does not exists in the list, we create the new album
@@ -156,6 +160,22 @@ public class MusicQueuer {
      */
     public Song getSong( int ID ){
         return allTracks.get(ID);
+    }
+
+    /**
+     * Get song information
+     * @param ID ID of the song
+     * @return An ArrayList of strings that contains the song's information
+     */
+    public ArrayList<String> getSongInfo( int ID ) {
+        ArrayList<String> infoBus = new ArrayList<String>();
+        Song song = this.getSong(ID);
+
+        infoBus.add(song.getTitle());
+        infoBus.add(Integer.toString( song.getTimeLastPlayed()));
+        infoBus.add(Double.toString(song.getLengthInSeconds()));
+        // infoBus.add(song.getLocation().toString());
+        return infoBus;
     }
 
     /**
