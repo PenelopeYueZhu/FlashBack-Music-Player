@@ -4,10 +4,14 @@ package com.gaparmar.mediaflashback;
  * Created by Aaron on 2/14/2018.
  */
 
+import android.Manifest;
 import android.content.Context;
 import android.content.MutableContextWrapper;
+import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -56,6 +60,13 @@ public class FlashbackPlayer extends MusicPlayer {
              * Automatically play next song after each song completion
              * @param mp
              */
+
+        mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                return true;
+            }
+        });
            /* @Override
             public void onCompletion(MediaPlayer mp) {
                 firstTime = false;
