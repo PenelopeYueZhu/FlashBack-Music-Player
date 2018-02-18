@@ -56,7 +56,6 @@ public class MusicQueuer {
             Uri songPath = Uri.parse(URI_PREFIX+name );
             // Get all the metadata
             MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-            System.out.println(songPath);
             String title = UNKNOWN_STRING;
             String year = UNKNOWN_INT;
             String duration = UNKNOWN_INT;
@@ -70,7 +69,7 @@ public class MusicQueuer {
                 album = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
                 artist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
             } catch (Exception e){
-                e.printStackTrace();
+                //e.printStackTrace();
                 title = UNKNOWN_STRING;
                 year = UNKNOWN_INT;
                 duration = UNKNOWN_INT;

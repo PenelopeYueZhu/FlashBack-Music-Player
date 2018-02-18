@@ -81,7 +81,7 @@ public class MusicPlayer extends AppCompatActivity {
                 int timeOfDay = Integer.parseInt(hourFormat.format(currDate.getTime()));
                 getCurrSong().setTimeLastPlayed(timeOfDay);
                 StorageHandler.storeSongTime(current, getCurrentSongId(), timeOfDay);
-                StorageHandler.storeSongState(current, getCurrentSongId(), Song.state.DISLIKED);
+                StorageHandler.storeSongState(current, getCurrentSongId(), getCurrSong().getCurrentState(current));
 
                 System.out.println("Song finished playing");
                 firstTime = false;
@@ -95,7 +95,7 @@ public class MusicPlayer extends AppCompatActivity {
                     timeOfDay = Integer.parseInt(hourFormat.format(currDate.getTime()));
                     getCurrSong().setTimeLastPlayed(timeOfDay);
                     StorageHandler.storeSongTime(current, getCurrentSongId(), timeOfDay);
-                    StorageHandler.storeSongState(current, getCurrentSongId(), Song.state.DISLIKED);
+                    StorageHandler.storeSongState(current, getCurrentSongId(), getCurrSong().getCurrentState(current));
                     nextSong();
                 }
                 else {

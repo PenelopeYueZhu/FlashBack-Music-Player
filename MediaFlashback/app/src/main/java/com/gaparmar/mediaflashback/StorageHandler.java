@@ -115,13 +115,13 @@ public class StorageHandler {
      * @param song_id The resource id of the song to be stored
      * @param state the state of the song entered by the user
      */
-    public static void storeSongState(Context context, int song_id, Song.state state){
+    public static void storeSongState(Context context, int song_id, int state){
         System.out.println("Storing the song state information. SongID:\t"+song_id
-                +"\t time:\t"+state.toString());
+                +"\t time:\t"+state);
         SharedPreferences sharedPreferences = context.getSharedPreferences("state",
                 MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        switch (state){
+        /*switch (state){
             case LIKED:
                 editor.putInt(Integer.toString(song_id), LIKED);
                 break;
@@ -133,7 +133,7 @@ public class StorageHandler {
                 break;
             default:
                 editor.putInt(Integer.toString(song_id), NEUTRAL);
-        }
+        }*/
         editor.apply();
     }
 

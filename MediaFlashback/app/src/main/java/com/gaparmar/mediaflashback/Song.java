@@ -31,7 +31,7 @@ public class Song {
 
     private String title;
     private String parentAlbum;
-    private state currentState;
+    private int currentState;
     private double[] location;    // [Latitude, Longitude] stored as double[]
     private String artistName;
     private int resID;
@@ -53,7 +53,7 @@ public class Song {
         super();
         title = "";
         parentAlbum = "NA";
-        currentState = state.NEITHER;
+        currentState = 0;
         location = new double[2];
         location[LATITUDE] = 0.0;
         location[LONGITUDE] = 0.0;
@@ -130,15 +130,15 @@ public class Song {
      * Retrives the current state of the Song
      * @return whether the song is LIKED/DISLIKED/NEUTRAl
      */
-    public state getCurrentState(){
-        return this.currentState;
+    public int getCurrentState(Context context){
+        return StorageHandler.getSongState(context, this.getResID());
     }
 
     /**
      * Updates the current state of the Song
      * @param currentState the new state of the Song to be updated to
      */
-    public void setCurrentState(state currentState){
+    public void setCurrentState(int currentState){
         this.currentState = currentState;
     }
 
@@ -250,10 +250,39 @@ public class Song {
 
 
 
+    private String getDayOfWeek(int value)
+    {
+        String day = "";
+        switch(value){
+            case 1:
+                day="Sunday";
+                break;
+            case 2:
+                day="Monday";
+                break;
+            case 3:
+                day="Tuesday";
+                break;
+            case 4:
+                day="Wednesday";
+                break;
+            case 5:
+                day="Thursday";
+                break;
+            case 6:
+                day="Friday";
+                break;
+            case 7:
+                day="Saturday";
+                break;
+        }
+        return day;
+    }
     public void updateProbability(double[] currLocation, Context context)
     {
         int prob = 0;
         this.probability = 1;
+        currDay= getDayOfWeek(Calendar.DAY_OF_WEEK);
         if(isWithinRange(currLocation, 1000)) // TODO : pass in users current location
         {
             prob++;
@@ -266,16 +295,18 @@ public class Song {
         {
             prob++;
         }
-        if(getCurrentState() == state.LIKED)
+        if(getCurrentState(context) == 1)
         {
             prob++;
         }
-        if(getCurrentState() == state.DISLIKED)
+        if(getCurrentState(context) == -1)
         {
             prob = 0;
             this.probability = 0;
         }
         this.probability += prob;
+
+        System.out.println("Song title: "+ getTitle() + " probability: " + this.probability);
     }
 
     public int getProbability(){
