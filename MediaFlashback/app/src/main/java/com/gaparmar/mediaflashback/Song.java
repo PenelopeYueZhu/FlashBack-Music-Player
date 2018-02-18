@@ -31,7 +31,7 @@ public class Song {
 
     private String title;
     private String parentAlbum;
-    private state currentState;
+    private int currentState;
     private double[] location;    // [Latitude, Longitude] stored as double[]
     private String artistName;
     private int resID;
@@ -54,7 +54,7 @@ public class Song {
         super();
         title = "";
         parentAlbum = "NA";
-        currentState = state.NEITHER;
+        currentState = 0;
         location = new double[2];
         location[LATITUDE] = 0.0;
         location[LONGITUDE] = 0.0;
@@ -129,17 +129,18 @@ public class Song {
 
     /**
      * Retrives the current state of the Song
+     * @param context the current activity that the song lives on
      * @return whether the song is LIKED/DISLIKED/NEUTRAl
      */
-    public state getCurrentState(){
-        return this.currentState;
+    public int getCurrentState(Context context){
+        return StorageHandler.getSongState(context, this.getResID());
     }
 
     /**
      * Updates the current state of the Song
      * @param currentState the new state of the Song to be updated to
      */
-    public void setCurrentState(state currentState){
+    public void setCurrentState(int currentState){
         this.currentState = currentState;
     }
 
@@ -151,6 +152,11 @@ public class Song {
         return StorageHandler.getSongLocation(context, this.resID);
     }
 
+    /**
+     * Get the location whre the song is lastly played in readable String
+     * @param context the current context the song lives on
+     * @return the string that presents the location
+     */
     public String getLocationString(Context context){
         double songLat = getLocation(context)[0];
         double songLong = getLocation(context)[1];
@@ -257,10 +263,50 @@ public class Song {
     }
 
 
+    /**
+     * Get the day of the week
+     * @param value the number of the day of the week, 1-monday so on
+     * @return the string value of that day
+     */
+    private String getDayOfWeek(int value)
+    {
+        String day = "";
+        switch(value){
+            case 1:
+                day="Sunday";
+                break;
+            case 2:
+                day="Monday";
+                break;
+            case 3:
+                day="Tuesday";
+                break;
+            case 4:
+                day="Wednesday";
+                break;
+            case 5:
+                day="Thursday";
+                break;
+            case 6:
+                day="Friday";
+                break;
+            case 7:
+                day="Saturday";
+                break;
+        }
+        return day;
+    }
+
+    /**
+     * Update probabilily of a song being played based on the location and time it was last played
+     * @param currLocation the current location of the user
+     * @param context the current activity the song lives on
+     */
     public void updateProbability(double[] currLocation, Context context)
     {
         int prob = 0;
         this.probability = 1;
+        currDay= getDayOfWeek(Calendar.DAY_OF_WEEK);
         if(isWithinRange(currLocation, 1000)) // TODO : pass in users current location
         {
             prob++;
@@ -273,16 +319,18 @@ public class Song {
         {
             prob++;
         }
-        if(getCurrentState() == state.LIKED)
+        if(getCurrentState(context) == 1)
         {
             prob++;
         }
-        if(getCurrentState() == state.DISLIKED)
+        if(getCurrentState(context) == -1)
         {
             prob = 0;
             this.probability = 0;
         }
         this.probability += prob;
+
+        System.out.println("Song title: "+ getTitle() + " probability: " + this.probability);
     }
 
     public int getProbability(){
@@ -317,6 +365,12 @@ public class Song {
         this.fullTimeStampString = timeStampString;
     }
 
+    /**
+     * Calculate if the song is with in a certain threshold of where it was last played
+     * @param currLocation the current location of the user
+     * @param threshold the range we want to set - within that range, we say the song is close enough
+     * @return true if the song is close enough, false otherwise
+     */
     public boolean isWithinRange(double[] currLocation, int threshold)
     {
         //TODO:: create method to determine if the current location is in the same range as the last played location
@@ -359,8 +413,11 @@ public class Song {
     }
 
     /**
-     * This method uses the haversine formula to calculate distance between GPS coordinates
-    */
+     * Uses the haversine formula to calculate distance between GPS coordinates
+     * @param loc1 the current location user is at
+     * @param loc2 the location where the song is last played
+     * @return the distance between two location
+     */
     public static double calculateDist(double[] loc1, double[] loc2)
     {
 
@@ -398,7 +455,12 @@ public class Song {
 
     }
 
-    public static double toRadians(double degrees){
+    /**
+     * helper function that converts degree to radiant
+     * @param degrees the degree we are trying to convert
+     * @return the radiant converted from parameter degree
+     */
+    private static double toRadians(double degrees){
         return degrees * Math.PI / 180;
     }
 

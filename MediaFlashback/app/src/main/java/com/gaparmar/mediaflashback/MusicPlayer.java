@@ -88,13 +88,14 @@ public class MusicPlayer extends AppCompatActivity {
                 int timeOfDay = Integer.parseInt(hourFormat.format(currDate.getTime()));
                 getCurrSong().setTimeLastPlayed(timeOfDay);
                 StorageHandler.storeSongTime(current, getCurrentSongId(), timeOfDay);
+
                 // Get the whole time time/month/day/year for the song
                 String timeStampString = fullTimeFormat.format( currDate.getTime());
                 getCurrSong().setFullTimeStampString(timeStampString);
                 // Set the time string
                 getCurrSong().setFullTimeStamp(new Date().getTime());
 
-                StorageHandler.storeSongState(current, getCurrentSongId(), getCurrSong().getCurrentState());
+                StorageHandler.storeSongState(current, getCurrentSongId(), getCurrSong().getCurrentState(current));
 
                 Log.d("MP:OnCompleteListener","Song finished playing");
                 firstTime = false;

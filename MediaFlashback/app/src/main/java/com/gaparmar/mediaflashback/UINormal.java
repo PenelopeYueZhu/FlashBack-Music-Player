@@ -42,6 +42,7 @@ public class UINormal extends UIHandler {
         super(context);
         musicQueuer = MainActivity.getMusicQueuer();
         musicPlayer = MainActivity.getMusicPlayer();
+        this.context = context;
 
         playButton =  (ImageButton) ((Activity)context).findViewById(R.id.play_button);
         pauseButton = (ImageButton) ((Activity)context).findViewById(R.id.pause_button);
@@ -165,7 +166,8 @@ public class UINormal extends UIHandler {
                         toggleBtn.setTag(LIKE);
 
                         if (musicPlayer.getCurrSong() != null) {
-                            musicPlayer.getCurrSong().setCurrentState(LIKED);
+                            musicPlayer.getCurrSong().setCurrentState(1);
+                            StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), 1);
                         }
 
                         Toast likeToast = Toast.makeText(context, LIKE, Toast.LENGTH_SHORT);
@@ -178,7 +180,8 @@ public class UINormal extends UIHandler {
                         toggleBtn.setTag(DISLIKE);
 
                         if (musicPlayer.getCurrSong() != null) {
-                            musicPlayer.getCurrSong().setCurrentState(DISLIKED);
+                            musicPlayer.getCurrSong().setCurrentState(-1);
+                            StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), -1);
                         }
 
                      /*   Toast dislikeToast = Toast.makeText(context, DISLIKE, Toast.LENGTH_SHORT);
@@ -191,7 +194,8 @@ public class UINormal extends UIHandler {
                         toggleBtn.setTag(NEUTRAL);
 
                         if (musicPlayer.getCurrSong() != null) {
-                            musicPlayer.getCurrSong().setCurrentState(NEITHER);
+                            musicPlayer.getCurrSong().setCurrentState(0);
+                            StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), 0);
                         }
 
                         Toast neutralToast = Toast.makeText(context, NEUTRAL, Toast.LENGTH_SHORT);
