@@ -189,7 +189,7 @@ public class MusicQueuer {
 
         infoBus.add(song.getTitle());
         infoBus.add(song.getDayOfWeek());
-        infoBus.add(Integer.toString(song.getTimeLastPlayed()));
+        infoBus.add(Integer.toString(song.getTimeLastPlayed())+":00");
         infoBus.add(song.getLocationString(context));
         return infoBus;
     }
