@@ -43,7 +43,8 @@ public class Song {
     private String currDay;
     private double[] currLocation;
     private int currTime;
-
+    private int fullTimeStamp;
+    private String fullTimeStampString;
 
     /**
      *  the default constructor
@@ -247,7 +248,13 @@ public class Song {
         return dayOfWeek;
     }
 
+    public int getFullTimeStamp() {
+        return fullTimeStamp;
+    }
 
+    public String setFullTimeStampString() {
+        return fullTimeStampString;
+    }
 
 
     public void updateProbability(double[] currLocation, Context context)
@@ -300,6 +307,14 @@ public class Song {
     public void setCurrTime(int currTime)
     {
         this.currTime = currTime;
+    }
+
+    public void setFullTimeStamp( int timeStamp ) {
+        this.fullTimeStamp = timeStamp;
+    }
+
+    public void setFullTimeStampString( String timeStampString ) {
+        this.fullTimeStampString = timeStampString;
     }
 
     public boolean isWithinRange(double[] currLocation, int threshold)
