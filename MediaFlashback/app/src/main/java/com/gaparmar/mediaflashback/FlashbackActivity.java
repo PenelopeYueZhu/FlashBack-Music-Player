@@ -94,11 +94,11 @@ public class FlashbackActivity extends AppCompatActivity {
         final Song s5 = new Song( "Back East", "I Will Not Be Afraid", "Unknown Artist",
                 0, 0, songOne, StorageHandler.getSongLocation(this, songOne));
         final Song s2 = new Song( "Jazz in Paris", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songTwo,null);
+                0, 0, songTwo,new double[]{0.0, 0.0});
         final Song s3 = new Song( "Tightrope Walker", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songThree,null);
+                0, 0, songThree,new double[]{0.0, 0.0});
         final Song s4 = new Song( "After the Storm", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songFour,null);
+                0, 0, songFour,new double[]{0.0, 0.0});
         final Song s1 = new Song( "America Religious", "I Will Not Be Afraid", "Unknown Artist",
                 0, 0, songFive,null);
 
