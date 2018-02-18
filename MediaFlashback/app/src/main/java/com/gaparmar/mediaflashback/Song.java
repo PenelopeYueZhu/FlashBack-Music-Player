@@ -2,6 +2,7 @@ package com.gaparmar.mediaflashback;
 
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -14,7 +15,6 @@ public class Song {
     public enum state {
         LIKED, DISLIKED, NEITHER
     }
-
     // Declaring the member variables of the com.gaparmar.mediaflashback.Song object
 
     //TODO:
@@ -22,6 +22,8 @@ public class Song {
     // cover art
     private final int LATITUDE = 0;  // constants representing location[] index
     private final int LONGITUDE = 1;
+    private final int THRESHOLD = 1000;
+    private final String UNKNOW = "Unknown";
     private String title;
     private String parentAlbum;
     private state currentState;
@@ -30,10 +32,10 @@ public class Song {
     private int resID;
     private int lengthInSeconds;
     private int yearOfRelease;
-    private int dayOfWeek;
+    private String dayOfWeek;
     private int timeLastPlayed; // TODO:: temporary way of storing the time stamp
     private int probability;
-    private int currDay;
+    private String currDay;
     private double[] currLocation;
     private int currTime;
 
@@ -56,7 +58,7 @@ public class Song {
         yearOfRelease = -1;
         timeLastPlayed = -1;
         probability = 1;
-        dayOfWeek = -1;
+        dayOfWeek = UNKNOW;
     }
 
     /**
@@ -230,12 +232,12 @@ public class Song {
 
     public int getResID() { return this.resID; }
 
-    public void setDayOfWeek(int dayOfWeek)
+    public void setDayOfWeek(String dayOfWeek)
     {
         this.dayOfWeek = dayOfWeek;
     }
 
-    public int getDayOfWeek()
+    public String getDayOfWeek()
     {
         return dayOfWeek;
     }
@@ -280,7 +282,7 @@ public class Song {
         probability = x;
     }
 
-    public void setCurrDay(int currDay)
+    public void setCurrDay(String currDay)
     {
         this.currDay = currDay;
     }
@@ -299,14 +301,14 @@ public class Song {
     {
         //TODO:: create method to determine if the current location is in the same range as the last played location
         // 1000 ft
-        return calculateDist(currLocation, this.location) <= threshold;
+        return calculateDist(currLocation, this.location) <= THRESHOLD;
     }
 
-    public boolean isSameDay(int currDay, int day)
+    public boolean isSameDay(String currDay, String day)
     {
         //TODO:: create method to determine if the current day is the same as last played day
 
-        return currDay == day;
+        return currDay.equals(day);
     }
 
     public boolean isSameTime(int currTime, int time)

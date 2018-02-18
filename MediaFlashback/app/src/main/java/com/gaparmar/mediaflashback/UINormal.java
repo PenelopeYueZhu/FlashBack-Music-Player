@@ -17,19 +17,10 @@ import static com.gaparmar.mediaflashback.Song.state.NEITHER;
  * Created by lxyzh on 2/17/2018.
  */
 
-public class UITracker {
-
-    private final String NEUTRAL = "Neutral";
-    private final String LIKE = "Liked";
-    private final String DISLIKE = "Disliked";
-    private final String ERROR_STATE = "Error";
+public class UINormal extends UIHandler {
 
     // All the buttons and views on the MainActivity
     Context context;
-    private TextView songTitleDisplay;
-    private TextView songLocationDisplay;
-    private TextView songDateDisplay;
-    private TextView songTimeDisplay;
     private ImageButton playButton;
     private ImageButton pauseButton;
     private ImageButton nextButton;
@@ -44,14 +35,10 @@ public class UITracker {
     public final static int LOC_POS = 3;
 
     // Initilize everything so we can actually use it
-    public UITracker( Context context ){
-        this.context = context;
+    public UINormal( Context context ){
+        super(context);
         musicQueuer = MainActivity.getMusicQueuer();
         musicPlayer = MainActivity.getMusicPlayer();
-        songTitleDisplay = (TextView) ((Activity)context).findViewById(R.id.song_title);
-        songLocationDisplay = (TextView) ((Activity)context).findViewById(R.id.song_location);
-        songDateDisplay = (TextView) ((Activity)context).findViewById(R.id.song_date);
-        songTimeDisplay = (TextView) ((Activity)context).findViewById(R.id.song_time);
 
         playButton =  (ImageButton) ((Activity)context).findViewById(R.id.play_button);
         pauseButton = (ImageButton) ((Activity)context).findViewById(R.id.pause_button);
@@ -185,24 +172,6 @@ public class UITracker {
                     case ERROR_STATE:
                         break;
                 }
-/*
-                musicPlayer.previousSong();
-                Song currentSong = musicPlayer.getCurrSong();
-                if (currentSong == null)
-                    return;
-                // Load all the information about the song
-               updateTrackInfo();
-            }
-        });
-
-        if (musicPlayer.isPlaying()) {
-            updateTrackInfo();
-        }
-                songTitleDisplay.setText( currentSong.getTitle());
-                songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-                songLocationDisplay.setText("" + currentSong.getLocation());
-                songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
-*/
             }
         });
     }
@@ -216,25 +185,6 @@ public class UITracker {
         songDateDisplay.setText( songInfo.get(DATE_POS));
         songLocationDisplay.setText( songInfo.get(LOC_POS));
         songTimeDisplay.setText( songInfo.get(DURATION_POS));
-    }
-
-    /**
-     * Grab information about the song that's passed in and display on UI
-     * @param song the song object passed in
-     */
-    public void updateTrackInfo( Song song ) {
-        if ( song != null ) {
-            songTitleDisplay.setText(song.getTitle());
-            songDateDisplay.setText(Integer.toString(song.getTimeLastPlayed()));
-            // songLocationDisplay.setText( songInfo.get(LOC_POS));
-            songTimeDisplay.setText(Double.toString(song.getLengthInSeconds()));
-        }
-        else {
-            songTitleDisplay.setText("NONE");
-            songDateDisplay.setText("NONE");
-            // songLocationDisplay.setText( songInfo.get(LOC_POS));
-            songTimeDisplay.setText("NONE");
-        }
     }
 
     /**

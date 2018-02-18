@@ -47,7 +47,7 @@ public class FlashbackActivity extends AppCompatActivity {
         pauseButton = findViewById(R.id.pause_button);
         nextButton = findViewById(R.id.next_button);
         prevButton = findViewById(R.id.previous_button);
-        flashbackPlayer = new FlashbackPlayer(this);
+        flashbackPlayer = new FlashbackPlayer(this, mq);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class FlashbackActivity extends AppCompatActivity {
         nextButton = (ImageButton) findViewById(R.id.next_button);
         prevButton = (ImageButton) findViewById(R.id.previous_button);
 
-        flashbackPlayer = new FlashbackPlayer(this);
+        flashbackPlayer = new FlashbackPlayer(this, mq);
 
         mq = new MusicQueuer(this);
         mq.readSongs();
@@ -86,21 +86,23 @@ public class FlashbackActivity extends AppCompatActivity {
         }
 
         int songOne = R.raw.back_east;
-        int songTwo = R.raw.dead_dove_do_not_eat;
+        int songTwo = R.raw.crane_city;
         int songThree = R.raw.dreamatorium;
         int songFour = R.raw.after_the_storm;
-        int songFive = R.raw.mangalam;
 
+        int songFive = R.raw.hero_hell;
         final Song s5 = new Song( "Back East", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songOne, StorageHandler.getSongLocation(this, songOne));
+                0, 0, songOne, new double[]{0.0,0.0});
+
         final Song s2 = new Song( "Jazz in Paris", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songTwo,new double[]{0.0, 0.0});
+                0, 0, songTwo,new double[]{0.0,0.0});
         final Song s3 = new Song( "Tightrope Walker", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songThree,new double[]{0.0, 0.0});
+                0, 0, songThree,new double[]{0.0,0.0});
         final Song s4 = new Song( "After the Storm", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songFour,new double[]{0.0, 0.0});
+                0, 0, songFour,new double[]{0.0,0.0});
+
         final Song s1 = new Song( "America Religious", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songFive,null);
+                0, 0, songFive,new double[]{0.0,0.0});
 
         s1.setProbability(1);
         s2.setProbability(4);
@@ -108,14 +110,14 @@ public class FlashbackActivity extends AppCompatActivity {
         s4.setProbability(13);
         s5.setProbability(55);
 
-        ArrayList<Song> list = new ArrayList<>();
-        list.add( s1 );
-        list.add( s2 );
-        list.add( s3 );
-        list.add( s4 );
-        list.add( s5 );
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add( s1.getResID() );
+        list.add( s2.getResID() );
+        list.add( s3.getResID() );
+        list.add( s4.getResID());
+        list.add( s5.getResID() );
 
-        flashbackPlayer = new FlashbackPlayer(list, this);
+        flashbackPlayer = new FlashbackPlayer(list, this, mq);
         flashbackPlayer.loadMedia( s5.getResID() );
     }
 
