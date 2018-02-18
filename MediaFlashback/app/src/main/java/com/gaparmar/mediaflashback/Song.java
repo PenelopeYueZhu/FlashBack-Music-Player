@@ -131,6 +131,16 @@ public class Song {
         return StorageHandler.getSongLocation(context, this.resID);
     }
 
+    public String getLocationString(Context context){
+        double songLat = getLocation(context)[0];
+        double songLong = getLocation(context)[1];
+        if(songLat == 0 || songLong == 0){
+            return "None";
+        }
+        return UserLocation.getCity(songLat, songLong) + ", " +
+                UserLocation.getState(songLat, songLong);
+    }
+
     /**
      * Sets the Location in the Song
      * @param location

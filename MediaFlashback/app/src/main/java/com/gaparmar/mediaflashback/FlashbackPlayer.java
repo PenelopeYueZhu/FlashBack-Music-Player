@@ -57,7 +57,6 @@ public class FlashbackPlayer extends AppCompatActivity {
                 // Updates the Song information in the Shared Preference resource
                 System.out.println("on completion listener from the flashback player called");
                 StorageHandler.storeSongLocation(current,getCurrentSongId(),userLocation.getLoc());
-                System.out.println("HERHERHERHEREHRE: " + userLocation.getLoc()[0]);
                 StorageHandler.storeSongDay(current, getCurrentSongId(), "Friday");
                 StorageHandler.storeSongTime(current, getCurrentSongId(), 0);
                 StorageHandler.storeSongState(current, getCurrentSongId(), Song.state.DISLIKED);

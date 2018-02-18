@@ -139,10 +139,6 @@ public class FlashbackActivity extends AppCompatActivity {
     public void onPlayButtonClick(View view){
         System.out.println("play button clicked");
         flashbackPlayer.playSong();
-        double lat = flashbackPlayer.getCurrSong().getLocation(this)[0];
-        double lon = flashbackPlayer.getCurrSong().getLocation(this)[1];
-        String city = userLocation.getCity(lat, lon);
-        String state = userLocation.getState(lat, lon);
         // Replace the buttons
         playButton.setVisibility(View.GONE);
         pauseButton.setVisibility(View.VISIBLE);
@@ -150,7 +146,7 @@ public class FlashbackActivity extends AppCompatActivity {
         // Load all the information about the song
         songTitleDisplay.setText( flashbackPlayer.getCurrSong().getTitle());
         songDateDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getTimeLastPlayed()));
-        songLocationDisplay.setText(city + ", " + state);
+        songLocationDisplay.setText(flashbackPlayer.getCurrSong().getLocationString(this));
         songTimeDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getLengthInSeconds() ));
     }
 
@@ -196,8 +192,7 @@ public class FlashbackActivity extends AppCompatActivity {
     public void updateTrackInfo(Song currentSong) {
         songTitleDisplay.setText( currentSong.getTitle());
         songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-        songLocationDisplay.setText(Double.toString(currentSong.getLocation(this)[0])
-                + "," + Double.toString(currentSong.getLocation(this)[1]));
+        songLocationDisplay.setText(flashbackPlayer.getCurrSong().getLocationString(this));
         songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
     }
 

@@ -27,8 +27,8 @@ public class UserLocation {
     public static Criteria gpsCrit;
     public static LocationListener mLocationListener;
     private static LocationManager mLocationManager;
-    Geocoder geocoder;
-    List<Address> addressList;
+    static Geocoder geocoder;
+    static List<Address> addressList;
     final Looper looper = null;
 
     public UserLocation(Context context){
@@ -77,7 +77,7 @@ public class UserLocation {
         return new double[]{lat, lon};
     }
 
-    public String getCity(double latitude, double longitude) {
+    public static String getCity(double latitude, double longitude) {
 
         try {
             addressList = geocoder.getFromLocation(latitude, longitude, 1);
@@ -88,7 +88,7 @@ public class UserLocation {
 
     }
 
-    public String getState(double latitude, double longitude){
+    public static String getState(double latitude, double longitude){
         try {
             addressList = geocoder.getFromLocation(latitude, longitude, 1);
         } catch (IOException e) {
