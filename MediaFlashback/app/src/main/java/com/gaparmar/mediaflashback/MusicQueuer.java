@@ -7,7 +7,6 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import java.lang.reflect.Field;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -57,22 +56,39 @@ public class MusicQueuer {
             Uri songPath = Uri.parse(URI_PREFIX+name );
             // Get all the metadata
             MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-            retriever.setDataSource(context, songPath);
-            String title = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
-            if( title == null )
+            System.out.println(songPath);
+            String title = UNKNOWN_STRING;
+            String year = UNKNOWN_INT;
+            String duration = UNKNOWN_INT;
+            String album = UNKNOWN_STRING;
+            String artist = UNKNOWN_STRING;
+            try{
+                retriever.setDataSource(context, songPath);
+                title = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
+                year = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR);
+                duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                album = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
+                artist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
+            } catch (Exception e){
+                e.printStackTrace();
                 title = UNKNOWN_STRING;
-            String year = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR);
-            if( year == null )
                 year = UNKNOWN_INT;
-            String duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-            if( duration == null )
                 duration = UNKNOWN_INT;
-            String album = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
-            if( album == null )
                 album = UNKNOWN_STRING;
-            String artist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
-            if( artist == null )
                 artist = UNKNOWN_STRING;
+            }
+            // If any field is null, set it to default values
+            if (title == null)
+                title = UNKNOWN_STRING;
+            if (year == null)
+                year = UNKNOWN_INT;
+            if(duration == null)
+                duration = UNKNOWN_INT;
+            if(album == null)
+                album = UNKNOWN_STRING;
+            if(artist == null)
+                artist = UNKNOWN_STRING;
+
             // Create a song object
             Song song = new Song( title, album, artist, Integer.parseInt(duration),
                     Integer.parseInt(year), songId, StorageHandler.getSongLocation(context, songId));  //TODO maybe change null to location?
