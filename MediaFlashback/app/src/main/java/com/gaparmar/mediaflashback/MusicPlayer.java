@@ -1,5 +1,6 @@
 package com.gaparmar.mediaflashback;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
@@ -9,6 +10,9 @@ import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +41,7 @@ public class MusicPlayer extends AppCompatActivity {
     protected Calendar currDate;
     protected SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
     protected SimpleDateFormat hourFormat = new SimpleDateFormat("HH", Locale.US);
+    protected SimpleDateFormat fullTimeFormat = new SimpleDateFormat("HH:mm 'at' MM/dd/YY");
 
     /**
      * default contructor. Doesn't do anything
@@ -47,7 +52,7 @@ public class MusicPlayer extends AppCompatActivity {
      * @param current The reference activity context
      * @param musicQueuer the MusicQueuer object that stores all the songs
      */
-    public MusicPlayer(final Context current, MusicQueuer musicQueuer ) {
+    public MusicPlayer(final Context current, final MusicQueuer musicQueuer ) {
         this.musicQueuer = musicQueuer;
         this.tracker = MainActivity.getUITracker();
         this.context = current;
@@ -75,24 +80,36 @@ public class MusicPlayer extends AppCompatActivity {
                 if(UserLocation.hasPermission) {
                     StorageHandler.storeSongLocation(current, getCurrentSongId(), userLocation.getLoc());
                 }
+                // Get the weekday
                 String weekdayStr = dayFormat.format(currDate.getTime());
                 getCurrSong().setDayOfWeek(weekdayStr);
                 StorageHandler.storeSongDay(current, getCurrentSongId(), weekdayStr);
+                // Get the time of the day when the song is played
                 int timeOfDay = Integer.parseInt(hourFormat.format(currDate.getTime()));
                 getCurrSong().setTimeLastPlayed(timeOfDay);
                 StorageHandler.storeSongTime(current, getCurrentSongId(), timeOfDay);
+                // Get the whole time time/month/day/year for the song
+                String timeStampString = fullTimeFormat.format( currDate.getTime());
+                getCurrSong().setFullTimeStampString(timeStampString);
+                // Set the time string
+                getCurrSong().setFullTimeStamp(new Date().getTime());
                 StorageHandler.storeSongState(current, getCurrentSongId(), getCurrSong().getCurrentState());
 
                 System.out.println("Song finished playing");
                 firstTime = false;
                 isFinished = (currInd == songsToPlay.size()-1);
+
                 // if not finished, automatically play next song
                 if (!isFinished() && songsToPlay.size() > 1) {
                     nextSong();
                 }
                 else {
+                    firstTime = true;
+                    mediaPlayer.stop();
                     mediaPlayer.reset();
-                    tracker.setButtonsPausing();
+                    if( songsToPlay.size() > 0) {
+                        loadMedia(songsToPlay.get(0));
+                    }
                 }
             }
         });
@@ -141,6 +158,7 @@ public class MusicPlayer extends AppCompatActivity {
     public void playSong() {
         if (mediaPlayer != null /*&& !playingSong*/) {
             playingSong = true;
+            MainActivity.isPlaying = true;
             mediaPlayer.start();
         }
     }
@@ -230,6 +248,7 @@ public class MusicPlayer extends AppCompatActivity {
         if( firstTime ) firstTime = false;
         currInd = 0;
         loadMedia(songsToPlay.get(0));
+        MainActivity.isPlaying = true;
     }
 
     /**
@@ -269,7 +288,7 @@ public class MusicPlayer extends AppCompatActivity {
         timeStamp = getTimeStamp();
       if( playingSong ) {
         lastPlayed = this.getCurrSong();
-       // mediaPlayer.pause();
+        mediaPlayer.pause();
       }
         return new int[]{timeStamp, getCurrSong().getResID()};
     }

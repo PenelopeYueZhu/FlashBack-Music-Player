@@ -1,9 +1,6 @@
 package com.gaparmar.mediaflashback;
 
-import android.Manifest;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.location.LocationManager;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

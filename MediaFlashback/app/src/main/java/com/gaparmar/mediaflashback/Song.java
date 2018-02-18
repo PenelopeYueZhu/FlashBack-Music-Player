@@ -43,7 +43,7 @@ public class Song {
     private String currDay;
     private double[] currLocation;
     private int currTime;
-    private int fullTimeStamp;
+    private long fullTimeStamp;
     private String fullTimeStampString;
 
     /**
@@ -248,11 +248,11 @@ public class Song {
         return dayOfWeek;
     }
 
-    public int getFullTimeStamp() {
+    public long getFullTimeStamp() {
         return fullTimeStamp;
     }
 
-    public String setFullTimeStampString() {
+    public String getFullTimeStampString() {
         return fullTimeStampString;
     }
 
@@ -309,7 +309,7 @@ public class Song {
         this.currTime = currTime;
     }
 
-    public void setFullTimeStamp( int timeStamp ) {
+    public void setFullTimeStamp( long timeStamp ) {
         this.fullTimeStamp = timeStamp;
     }
 

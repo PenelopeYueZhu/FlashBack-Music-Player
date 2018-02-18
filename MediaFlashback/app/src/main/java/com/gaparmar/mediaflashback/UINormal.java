@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Handler;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ public class UINormal extends UIHandler {
 
     // All the buttons and views on the MainActivity
     Context context;
+    private Handler handler;
     private ImageButton playButton;
     private ImageButton pauseButton;
     private ImageButton nextButton;
@@ -48,6 +50,26 @@ public class UINormal extends UIHandler {
 
         toggleBtn.setImageResource(R.drawable.neutral);
         toggleBtn.setTag(NEUTRAL);
+
+        handler = new android.os.Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+
+                if( musicPlayer != null ) {
+                    // Unless there is a song playing when we get back to normal mode, hide the button
+                    if (!musicPlayer.isPlaying()) {
+                        playButton.setVisibility(View.VISIBLE);
+                        pauseButton.setVisibility(View.GONE);
+                    } else {
+                        updateTrackInfo();
+                        playButton.setVisibility(View.GONE);
+                        pauseButton.setVisibility(View.VISIBLE);
+                    }
+                    handler.postDelayed(this, 500);
+                }
+            }
+        });
 
     }
 
@@ -206,6 +228,7 @@ public class UINormal extends UIHandler {
      * Hide pause button and show play button
      */
     public void setButtonsPausing() {
+        System.out.println("set Button Pauseing");
         playButton.setVisibility(View.VISIBLE);
         pauseButton.setVisibility(View.GONE);
     }
