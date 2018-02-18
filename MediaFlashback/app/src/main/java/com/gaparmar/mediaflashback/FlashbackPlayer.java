@@ -27,8 +27,10 @@ public class FlashbackPlayer extends MusicPlayer {
 
     private int timeStamp;
     private Song lastPlayed;
-    private boolean playingSong = false;
-    private Context context;*/
+    private boolean playingSong = false;*/
+    private Context context;
+    private UserLocation userLocation;
+
 
     ArrayList<Song> songsList = new ArrayList<Song>();
     // TODO: SEPARATE CLASS
@@ -43,8 +45,10 @@ public class FlashbackPlayer extends MusicPlayer {
      * The constructor initializes the flashback player without a list of songs
      * @param current The context of the calling activity
      */
+
     public FlashbackPlayer( final Context current, MusicQueuer musicQueuer) {
         super(current, musicQueuer);
+        this.context = current;
         final UserLocation userLocation = new UserLocation(current);
        // mediaPlayer = new MediaPlayer();
        // mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -92,9 +96,10 @@ public class FlashbackPlayer extends MusicPlayer {
      */
     public void makeFlashbackPlaylist()
     {
+
         for(Integer songId : songsToPlay){
             Song song = musicQueuer.getSong(songId);
-            song.updateProbability(context);
+            song.updateProbability(userLocation.getLoc(), context);
             songsList.add(song);
         }
         Collections.sort(songsList, new SongCompare());

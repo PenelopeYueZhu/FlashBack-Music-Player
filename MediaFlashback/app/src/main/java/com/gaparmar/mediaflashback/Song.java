@@ -245,11 +245,11 @@ public class Song {
 
 
 
-    public void updateProbability(Context context)
+    public void updateProbability(double[] currLocation, Context context)
     {
         int prob = 0;
         this.probability = 1;
-        if(isWithinRange(location, 1000)) // TODO : pass in users current location
+        if(isWithinRange(currLocation, 1000)) // TODO : pass in users current location
         {
             prob++;
         }
@@ -308,6 +308,9 @@ public class Song {
     {
         //TODO:: create method to determine if the current day is the same as last played day
 
+        if(day == null || currDay == null || day.isEmpty()){
+            return false;
+        }
         return currDay.equals(day);
     }
 
