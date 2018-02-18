@@ -5,6 +5,7 @@ import android.location.LocationManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ public class FlashbackActivity extends AppCompatActivity {
     private Song s;
     ArrayList<Integer> arr = new ArrayList<>();
 
+    private Handler handler;
 
     // This is all the fields on the main screen
     TextView songTitleDisplay;
@@ -30,6 +32,7 @@ public class FlashbackActivity extends AppCompatActivity {
     ImageButton nextButton;
     ImageButton prevButton;
     Button launchRegularMode;
+
     FlashbackPlayer flashbackPlayer;
     MusicQueuer mq;
     UserLocation userLocation;
@@ -55,7 +58,7 @@ public class FlashbackActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
-        initializeViewComponents();
+        //initializeViewComponents();
 
         userLocation = new UserLocation(this);
 
@@ -81,20 +84,32 @@ public class FlashbackActivity extends AppCompatActivity {
 
         flashbackPlayer = new FlashbackPlayer(arr,this, mq);
 
-        // Unless there is a song playing when we get back to normal mode, hide the button
-        if( !flashbackPlayer.wasPlayingSong()) {
-            playButton.setVisibility(View.VISIBLE);
-            pauseButton.setVisibility(View.GONE);
-        }
-        else {
-            playButton.setVisibility(View.GONE);
-            pauseButton.setVisibility(View.VISIBLE);
-        }
-
         flashbackPlayer.makeFlashbackPlaylist();
         flashbackPlayer.loadPlaylist();
-        updateTrackInfo(flashbackPlayer.getCurrSong());
+
+
+        // Thread behind the scenes to update UI
+        handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                updateTrackInfo(flashbackPlayer.getCurrSong());
+
+                // Unless there is a song playing when we get back to normal mode, hide the button
+                if( !flashbackPlayer.isPlaying()) {
+                    playButton.setVisibility(View.VISIBLE);
+                    pauseButton.setVisibility(View.GONE);
+                }
+                else {
+                    playButton.setVisibility(View.GONE);
+                    pauseButton.setVisibility(View.VISIBLE);
+                }
+                handler.postDelayed(this, 500);
+            }
+        });
+
     }
+
 
     /**
      * The onClick callback for the Regular mode button
