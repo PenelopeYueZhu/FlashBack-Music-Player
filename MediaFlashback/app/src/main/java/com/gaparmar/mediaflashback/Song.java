@@ -22,6 +22,7 @@ public class Song {
     // cover art
     private final int LATITUDE = 0;  // constants representing location[] index
     private final int LONGITUDE = 1;
+    private final int THRESHOLD = 1000;
     private String title;
     private String parentAlbum;
     private state currentState;
@@ -295,7 +296,7 @@ public class Song {
     {
         //TODO:: create method to determine if the current location is in the same range as the last played location
         // 1000 ft
-        return calculateDist(currLocation, this.location) <= threshold;
+        return calculateDist(currLocation, this.location) <= THRESHOLD;
     }
 
     public boolean isSameDay(int currDay, int day)
