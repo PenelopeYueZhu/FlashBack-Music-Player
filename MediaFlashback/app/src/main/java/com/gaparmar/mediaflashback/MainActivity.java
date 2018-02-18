@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private static UINormal tracker;
     private static int[] stoppedInfo = new int[2];
     private int songTime;
-    private static boolean isPlaying;
-    private boolean browsing = false;
+    public static boolean isPlaying;
+    private static boolean browsing = false;
 
     public static Map<String, Integer> weekDays;
     public static MusicPlayer getMusicPlayer(){
@@ -170,8 +170,10 @@ public class MainActivity extends AppCompatActivity {
                 musicPlayer.pauseSong();
                 isPlaying = true;
             } else {
-                //isPlaying = false;
+                isPlaying = false;
             }
+        }else if (browsing && isPlaying){
+            tracker.setButtonsPlaying();
         }
     }
 
@@ -180,16 +182,21 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if (isPlaying) {
             if(!browsing) {
+                System.out.println("THIS SHOULD NOT BE PRINTING!!!!!");
                 // Update buttons and info
                 tracker.setButtonsPausing();
                 tracker.updateTrackInfo();
                 //musicPlayer.resumePlaying(songTime, stoppedInfo[1]);
                 //musicPlayer.playSong();
                 isPlaying = true;
+            }else{
+                tracker.setButtonsPlaying();
+                tracker.updateTrackInfo();
             }
         }else{
-           // tracker.resetInfo();
+           //tracker.setButtonsPlaying();
         }
+
         browsing = false;
     }
 }

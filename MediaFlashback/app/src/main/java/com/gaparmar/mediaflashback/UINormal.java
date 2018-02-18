@@ -126,7 +126,7 @@ public class UINormal extends UIHandler {
                 try {
                     if (musicPlayer.getCurrSong() == null)
                         return;
-                }catch(NullPointerException e){
+                }  catch(NullPointerException e){
                     toggleState = ERROR_STATE;
                 }
 
@@ -153,8 +153,8 @@ public class UINormal extends UIHandler {
                             musicPlayer.getCurrSong().setCurrentState(DISLIKED);
                         }
 
-                        Toast dislikeToast = Toast.makeText(context, DISLIKE, Toast.LENGTH_SHORT);
-                        dislikeToast.show();
+                     /*   Toast dislikeToast = Toast.makeText(context, DISLIKE, Toast.LENGTH_SHORT);
+                        dislikeToast.show();*/
                         break;
 
                     // switch from dislike to neutral

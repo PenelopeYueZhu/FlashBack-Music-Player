@@ -24,6 +24,11 @@ public class Song {
     private final int LONGITUDE = 1;
     private final int THRESHOLD = 1000;
     private final String UNKNOW = "Unknown";
+
+    private final int MORNING = 0;
+    private final int AFTERNOON = 1;
+    private final int EVENING = 2;
+
     private String title;
     private String parentAlbum;
     private state currentState;
@@ -317,8 +322,27 @@ public class Song {
     public boolean isSameTime(int currTime, int time)
     {
         //TODO:: create method to determine if the current time interval is the same as last played time interval
-        return currTime == time;
+        return getTimeZone(currTime) == getTimeZone(time);
     }
+
+    /**
+     * Return if in the morning, afternoon, or evening
+     * @param time in hours
+     * @return 0 if morning, 1 if afternoon, 2 if evening
+     */
+    public int getTimeZone(int time) {
+        if (time >= 5 && time < 11) {
+            // 5 AM - 11 AM
+            return MORNING;
+        } else if (time >= 11 && time < 17) {
+            // 11 AM - 5 PM
+            return AFTERNOON;
+        } else {
+            // 5 PM - 5 AM
+            return EVENING;
+        }
+    }
+
     /**
      * This method uses the haversine formula to calculate distance between GPS coordinates
     */

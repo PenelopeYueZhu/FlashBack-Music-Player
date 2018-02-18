@@ -13,6 +13,7 @@ import android.media.MediaPlayer;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +37,8 @@ public class FlashbackPlayer extends MusicPlayer {
     private UserLocation userLocation;
 
 
-    ArrayList<Song> songsList = new ArrayList<Song>();
+    ArrayList<Song> sortedList = new ArrayList<Song>();
+    ArrayList<Integer> allSongs = new ArrayList<Integer>();
     // TODO: SEPARATE CLASS
     private static class SongCompare implements Comparator<Song>{
         public int compare(Song s1, Song s2)
@@ -54,36 +56,7 @@ public class FlashbackPlayer extends MusicPlayer {
         super(current, musicQueuer);
         this.context = current;
         final UserLocation userLocation = new UserLocation(current);
-       // mediaPlayer = new MediaPlayer();
-       // mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            /**
-             * Automatically play next song after each song completion
-             * @param mp
-             */
 
-        mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-            @Override
-            public boolean onError(MediaPlayer mp, int what, int extra) {
-                return true;
-            }
-        });
-           /* @Override
-            public void onCompletion(MediaPlayer mp) {
-                firstTime = false;
-                isFinished = (currInd == songsToPlay.size()-1);
-                // Updates the Song information in the Shared Preference resource
-                System.out.println("on completion listener from the flashback player called");
-                StorageHandler.storeSongLocation(current,getCurrentSongId(),userLocation.getLoc());
-                StorageHandler.storeSongDay(current, getCurrentSongId(), "Friday");
-                StorageHandler.storeSongTime(current, getCurrentSongId(), 0);
-                StorageHandler.storeSongState(current, getCurrentSongId(), Song.state.DISLIKED);
-                // if not finished, automatically play next song
-                if (!isFinished() && songsToPlay.size() > 0) {
-                    nextSong();
-                }
-            }
-        });
-        songsToPlay = new ArrayList<>();*/
     }
 
     /**
@@ -91,9 +64,9 @@ public class FlashbackPlayer extends MusicPlayer {
      * @param list The list of songs to play
      * @param current the context of the calling Activity
      */
-    public FlashbackPlayer(List<Integer> list, final Context current, MusicQueuer musicQueuer) {
+    public FlashbackPlayer(ArrayList<Integer> list, final Context current, MusicQueuer musicQueuer) {
         this(current, musicQueuer);
-        songsToPlay = list;
+        allSongs = list;
         makeFlashbackPlaylist();
     }
 
@@ -102,23 +75,24 @@ public class FlashbackPlayer extends MusicPlayer {
         return songsToPlay;
     }
 
-    /**
-     * TODO
-     */
     public void makeFlashbackPlaylist()
     {
-
-        for(Integer songId : songsToPlay){
+        for(Integer songId : allSongs){
             Song song = musicQueuer.getSong(songId);
             song.updateProbability(userLocation.getLoc(), context);
-            songsList.add(song);
+            sortedList.add(song);
         }
-        Collections.sort(songsList, new SongCompare());
+        Collections.sort(sortedList, new SongCompare());
 
-        for(Integer songId : songsToPlay)
+        for(Integer songId : allSongs)
         {
             Song song = musicQueuer.getSong(songId);
-            System.out.println(song.getTitle());
+            Log.d("songName", song.getTitle());
+
+        }
+
+        for (Song x : sortedList) {
+            Log.d("sortedList", x.getTitle());
         }
 
         /*maxWeight = 0;
@@ -144,4 +118,18 @@ public class FlashbackPlayer extends MusicPlayer {
         System.out.println(maxWeight);*/
     }
 
+    /**
+     * Add songs in album to songsToPlay List
+     */
+    public void loadPlaylist() {
+        resetSong();
+        songsToPlay.clear();
+        for (int i = 0; i < sortedList.size(); i++) {
+            Log.d("sortedList", sortedList.get(i).getTitle());
+            songsToPlay.add(sortedList.get(i).getResID());
+        }
+        if( firstTime ) firstTime = false;
+        currInd = 0;
+        loadMedia(songsToPlay.get(0));
+    }
 }
