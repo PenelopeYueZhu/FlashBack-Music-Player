@@ -120,6 +120,7 @@ public class FlashbackPlayer extends MusicPlayer {
         resetSong();
         songsToPlay.clear();
         for (int i = 0; i < sortedList.size(); i++) {
+            Log.d("sortedList", sortedList.get(i).getTitle());
             songsToPlay.add(sortedList.get(i).getResID());
         }
         if( firstTime ) firstTime = false;

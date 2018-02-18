@@ -55,6 +55,7 @@ public class FlashbackActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
+        initializeViewComponents();
 
         userLocation = new UserLocation(this);
 
@@ -78,11 +79,7 @@ public class FlashbackActivity extends AppCompatActivity {
             arr = mq.getEntireSongList();
         }
 
-        if (flashbackPlayer == null) {
-            flashbackPlayer = new FlashbackPlayer(arr,this, mq);
-        }
-
-        initializeViewComponents();
+        flashbackPlayer = new FlashbackPlayer(arr,this, mq);
 
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !flashbackPlayer.wasPlayingSong()) {
@@ -95,7 +92,8 @@ public class FlashbackActivity extends AppCompatActivity {
         }
 
         flashbackPlayer.makeFlashbackPlaylist();
-        //flashbackPlayer.loadPlaylist();
+        flashbackPlayer.loadPlaylist();
+        updateTrackInfo(flashbackPlayer.getCurrSong());
     }
 
     /**
@@ -114,7 +112,16 @@ public class FlashbackActivity extends AppCompatActivity {
      */
     public void onPlayButtonClick(View view){
         System.out.println("play button clicked");
+        // Dont't do anything if no song is currently selected
+        try {
+            if (flashbackPlayer.getCurrSong() == null)
+                return;
+
+        }   catch(NullPointerException e){
+            return;
+        }
         flashbackPlayer.playSong();
+
         // Replace the buttons
         playButton.setVisibility(View.GONE);
         pauseButton.setVisibility(View.VISIBLE);
