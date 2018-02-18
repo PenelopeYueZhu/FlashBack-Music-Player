@@ -5,6 +5,7 @@ import android.location.LocationManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +18,9 @@ import java.util.ArrayList;
 
 public class FlashbackActivity extends AppCompatActivity {
     private Song s;
-    ArrayList<Song> arr = new ArrayList<>();
+    ArrayList<Integer> arr = new ArrayList<>();
+
+    private Handler handler;
 
     // This is all the fields on the main screen
     TextView songTitleDisplay;
@@ -29,6 +32,7 @@ public class FlashbackActivity extends AppCompatActivity {
     ImageButton nextButton;
     ImageButton prevButton;
     Button launchRegularMode;
+
     FlashbackPlayer flashbackPlayer;
     MusicQueuer mq;
     UserLocation userLocation;
@@ -54,6 +58,7 @@ public class FlashbackActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
+        //initializeViewComponents();
 
         userLocation = new UserLocation(this);
 
@@ -67,59 +72,44 @@ public class FlashbackActivity extends AppCompatActivity {
         nextButton = (ImageButton) findViewById(R.id.next_button);
         prevButton = (ImageButton) findViewById(R.id.previous_button);
 
-        flashbackPlayer = new FlashbackPlayer(this, mq);
 
-        mq = new MusicQueuer(this);
-        mq.readSongs();
-        mq.readAlbums();
+        // Initializie the song functions
+        if( mq == null ) {
+            mq = new MusicQueuer(this);
+            mq.readSongs();
+            mq.readAlbums();
 
-        initializeViewComponents();
-
-        // Unless there is a song playing when we get back to normal mode, hide the button
-        if( !flashbackPlayer.wasPlayingSong()) {
-            playButton.setVisibility(View.VISIBLE);
-            pauseButton.setVisibility(View.GONE);
-        }
-        else {
-            playButton.setVisibility(View.GONE);
-            pauseButton.setVisibility(View.VISIBLE);
+            arr = mq.getEntireSongList();
         }
 
-        int songOne = R.raw.back_east;
-        int songTwo = R.raw.crane_city;
-        int songThree = R.raw.dreamatorium;
-        int songFour = R.raw.after_the_storm;
+        flashbackPlayer = new FlashbackPlayer(arr,this, mq);
 
-        int songFive = R.raw.hero_hell;
-        final Song s5 = new Song( "Back East", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songOne, new double[]{0.0,0.0});
+        flashbackPlayer.makeFlashbackPlaylist();
+        flashbackPlayer.loadPlaylist();
 
-        final Song s2 = new Song( "Jazz in Paris", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songTwo,new double[]{0.0,0.0});
-        final Song s3 = new Song( "Tightrope Walker", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songThree,new double[]{0.0,0.0});
-        final Song s4 = new Song( "After the Storm", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songFour,new double[]{0.0,0.0});
 
-        final Song s1 = new Song( "America Religious", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songFive,new double[]{0.0,0.0});
+        // Thread behind the scenes to update UI
+        handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                updateTrackInfo(flashbackPlayer.getCurrSong());
 
-        s1.setProbability(1);
-        s2.setProbability(4);
-        s3.setProbability(7);
-        s4.setProbability(13);
-        s5.setProbability(55);
+                // Unless there is a song playing when we get back to normal mode, hide the button
+                if( !flashbackPlayer.isPlaying()) {
+                    playButton.setVisibility(View.VISIBLE);
+                    pauseButton.setVisibility(View.GONE);
+                }
+                else {
+                    playButton.setVisibility(View.GONE);
+                    pauseButton.setVisibility(View.VISIBLE);
+                }
+                handler.postDelayed(this, 500);
+            }
+        });
 
-        ArrayList<Integer> list = new ArrayList<>();
-        list.add( s1.getResID() );
-        list.add( s2.getResID() );
-        list.add( s3.getResID() );
-        list.add( s4.getResID());
-        list.add( s5.getResID() );
-
-        flashbackPlayer = new FlashbackPlayer(list, this, mq);
-        flashbackPlayer.loadMedia( s5.getResID() );
     }
+
 
     /**
      * The onClick callback for the Regular mode button
@@ -137,16 +127,22 @@ public class FlashbackActivity extends AppCompatActivity {
      */
     public void onPlayButtonClick(View view){
         System.out.println("play button clicked");
+        // Dont't do anything if no song is currently selected
+        try {
+            if (flashbackPlayer.getCurrSong() == null)
+                return;
+
+        }   catch(NullPointerException e){
+            return;
+        }
         flashbackPlayer.playSong();
+
         // Replace the buttons
         playButton.setVisibility(View.GONE);
         pauseButton.setVisibility(View.VISIBLE);
 
         // Load all the information about the song
-        songTitleDisplay.setText( flashbackPlayer.getCurrSong().getTitle());
-        songDateDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getTimeLastPlayed()));
-        songLocationDisplay.setText(flashbackPlayer.getCurrSong().getLocationString(this));
-        songTimeDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getLengthInSeconds() ));
+        updateTrackInfo(flashbackPlayer.getCurrSong());
     }
 
     /**
