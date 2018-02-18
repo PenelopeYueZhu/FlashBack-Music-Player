@@ -5,6 +5,7 @@ package com.gaparmar.mediaflashback;
  */
 
 import android.content.Context;
+import android.content.MutableContextWrapper;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
@@ -15,9 +16,10 @@ import java.util.Comparator;
 import java.util.List;
 
 
-public class FlashbackPlayer extends AppCompatActivity {
+public class FlashbackPlayer extends MusicPlayer {
 
-    private MediaPlayer mediaPlayer;
+   /* private MediaPlayer mediaPlayer;
+    private MusicQueuer musicQueuer;
     private List<Song> songsToPlay;
     int currInd = 0;
     private boolean isFinished = false;
@@ -25,11 +27,12 @@ public class FlashbackPlayer extends AppCompatActivity {
 
     private int timeStamp;
     private Song lastPlayed;
-    private boolean playingSong = false;
+    private boolean playingSong = false;*/
     private Context context;
+    private UserLocation userLocation;
 
-    UserLocation userLocation;
 
+    ArrayList<Song> songsList = new ArrayList<Song>();
     // TODO: SEPARATE CLASS
     private static class SongCompare implements Comparator<Song>{
         public int compare(Song s1, Song s2)
@@ -42,16 +45,18 @@ public class FlashbackPlayer extends AppCompatActivity {
      * The constructor initializes the flashback player without a list of songs
      * @param current The context of the calling activity
      */
-    public FlashbackPlayer(final Context current) {
+
+    public FlashbackPlayer( final Context current, MusicQueuer musicQueuer) {
+        super(current, musicQueuer);
         this.context = current;
-         userLocation = new UserLocation(current);
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        final UserLocation userLocation = new UserLocation(current);
+       // mediaPlayer = new MediaPlayer();
+       // mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             /**
              * Automatically play next song after each song completion
              * @param mp
              */
-            @Override
+           /* @Override
             public void onCompletion(MediaPlayer mp) {
                 firstTime = false;
                 isFinished = (currInd == songsToPlay.size()-1);
@@ -67,7 +72,7 @@ public class FlashbackPlayer extends AppCompatActivity {
                 }
             }
         });
-        songsToPlay = new ArrayList<>();
+        songsToPlay = new ArrayList<>();*/
     }
 
     /**
@@ -75,13 +80,13 @@ public class FlashbackPlayer extends AppCompatActivity {
      * @param list The list of songs to play
      * @param current the context of the calling Activity
      */
-    public FlashbackPlayer(List<Song> list, final Context current) {
-        this(current);
+    public FlashbackPlayer(List<Integer> list, final Context current, MusicQueuer musicQueuer) {
+        this(current, musicQueuer);
         songsToPlay = list;
         makeFlashbackPlaylist();
     }
 
-    public List<Song> getSongsToPlay()
+    public List<Integer> getSongsToPlay()
     {
         return songsToPlay;
     }
@@ -91,13 +96,17 @@ public class FlashbackPlayer extends AppCompatActivity {
      */
     public void makeFlashbackPlaylist()
     {
-        for(Song song : songsToPlay){
-            song.updateProbability(userLocation.getLoc(), context);
-        }
-        Collections.sort(songsToPlay, new SongCompare());
 
-        for(Song song : songsToPlay)
+        for(Integer songId : songsToPlay){
+            Song song = musicQueuer.getSong(songId);
+            song.updateProbability(userLocation.getLoc(), context);
+            songsList.add(song);
+        }
+        Collections.sort(songsList, new SongCompare());
+
+        for(Integer songId : songsToPlay)
         {
+            Song song = musicQueuer.getSong(songId);
             System.out.println(song.getTitle());
         }
 
@@ -122,141 +131,6 @@ public class FlashbackPlayer extends AppCompatActivity {
             }
         }
         System.out.println(maxWeight);*/
-    }
-
-    public void loadMedia(int resourceID) {
-        if (mediaPlayer == null) {
-            mediaPlayer = new MediaPlayer();
-        }
-        AssetFileDescriptor assetFileDescriptor =
-                context.getResources().openRawResourceFd(resourceID);
-        try {
-            mediaPlayer.setDataSource(assetFileDescriptor);
-            mediaPlayer.prepareAsync();
-            mediaPlayer.setOnPreparedListener(
-                    new MediaPlayer.OnPreparedListener() {
-                        @Override
-                        public void onPrepared(MediaPlayer mp) {
-                            // automatically plays the next song not first
-                            if (!firstTime) {
-                                //firstTime = true;
-                                mediaPlayer.start();
-                            }
-                        }
-                    });
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-    }
-
-    public void playSong() {
-        if (mediaPlayer != null) {
-            mediaPlayer.start();
-            playingSong = true;
-        }
-    }
-
-    public void pauseSong() {
-        mediaPlayer.pause();
-    }
-
-    public void resetSong() {
-        mediaPlayer.reset();
-    }
-
-    public void nextSong() {
-        firstTime = false;
-        if (currInd != songsToPlay.size()-1 && songsToPlay.size() > 0) {
-            resetSong();
-            currInd++;
-
-            loadMedia(songsToPlay.get(currInd).getResID());
-            //if( firstTime ) playSong();
-            // DONT UNCOMMENT
-        }
-        //else {
-        // wrap around the list
-        //currInd = 0;
-        //loadMedia(songsToPlay.get(0).getResID());
-        //}
-    }
-
-    public void previousSong() {
-        if (currInd > 0) {
-            resetSong();
-            currInd--;
-            loadMedia(songsToPlay.get(currInd).getResID());
-            System.out.println( "Line 133 This index should be 0 " + currInd);
-        } /*else {
-            // wrap around to the last song.
-            currInd = songsToPlay.size() - 1;
-            System.out.println( "Line 137 This index should be 1 " + currInd);
-            loadMedia(songsToPlay.get(songsToPlay.size()-1).getResID());
-        }*/
-        //if( firstTime ) playSong();
-    }
-
-    public void loadNewSong(Song s) {
-        resetSong();
-        songsToPlay.clear(); // clear our album
-        songsToPlay.add(s);
-        loadMedia(s.getResID());
-        playSong();
-    }
-
-    /**
-     * Add songs in album to songsToPlay List
-     * @param a
-     */
-    public void loadAlbum(Album a) {
-        resetSong();
-        songsToPlay.clear();
-        for (int i = 0; i < a.getNumSongs(); i++) {
-            songsToPlay.add(a.getSongAtIndex(i));
-        }
-    }
-
-    public Song getCurrSong() {
-        System.out.println("currIndex\t"+currInd);
-        return songsToPlay.get(currInd);
-    }
-
-    public int getCurrentSongId(){
-        return getCurrSong().getResID();
-    }
-
-    public boolean isPlaying() {
-        return mediaPlayer.isPlaying();
-    }
-
-    public boolean isFinished() {
-        return currInd == songsToPlay.size();
-    }
-
-    public boolean wasPlayingSong() { return playingSong; }
-
-    /*
-     * To stop a song from playing in normal mode
-     */
-    public /*static*/ void stopPlaying() {
-        // If there is a song currently playing, record the song's info
-        if( playingSong ) {
-            playingSong = false;
-            lastPlayed = this.getCurrSong();
-            timeStamp = mediaPlayer.getCurrentPosition();
-        }
-    }
-
-    /*
-     * To resume a song when user coming back from flashback mode
-     */
-    public /*static*/ void resumePlaying() {
-        if( lastPlayed != null ) {
-            this.loadNewSong( lastPlayed );
-            mediaPlayer.seekTo( timeStamp ); // Get to where user left off
-            this.playSong();
-            playingSong = true;
-        }
     }
 
 }
