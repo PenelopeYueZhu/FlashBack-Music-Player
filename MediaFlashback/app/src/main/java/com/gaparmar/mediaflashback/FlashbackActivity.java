@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-
 public class FlashbackActivity extends AppCompatActivity {
     private Song s;
     ArrayList<Song> arr = new ArrayList<>();
@@ -56,8 +55,7 @@ public class FlashbackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
 
-         userLocation = new UserLocation(this);
-
+        userLocation = new UserLocation(this);
 
         launchRegularMode = (Button) findViewById(R.id.regular_button);
         songTitleDisplay = (TextView) findViewById(R.id.song_title);
@@ -91,6 +89,7 @@ public class FlashbackActivity extends AppCompatActivity {
         int songTwo = R.raw.crane_city;
         int songThree = R.raw.dreamatorium;
         int songFour = R.raw.after_the_storm;
+
         int songFive = R.raw.hero_hell;
         final Song s5 = new Song( "Back East", "I Will Not Be Afraid", "Unknown Artist",
                 0, 0, songOne, new double[]{0.0,0.0});
@@ -101,6 +100,7 @@ public class FlashbackActivity extends AppCompatActivity {
                 0, 0, songThree,new double[]{0.0,0.0});
         final Song s4 = new Song( "After the Storm", "I Will Not Be Afraid", "Unknown Artist",
                 0, 0, songFour,new double[]{0.0,0.0});
+
         final Song s1 = new Song( "America Religious", "I Will Not Be Afraid", "Unknown Artist",
                 0, 0, songFive,new double[]{0.0,0.0});
 

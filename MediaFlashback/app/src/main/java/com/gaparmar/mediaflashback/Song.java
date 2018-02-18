@@ -81,7 +81,11 @@ public class Song {
         this.yearOfRelease = yearOfRelease;
         this.resID = resID;
         this.probability = 1;
-        this.location = location;
+        if(location != null) {
+            this.location = location;
+        }else{
+            location = new double[]{0.0, 0.0};
+        }
 
     }
 
@@ -244,7 +248,7 @@ public class Song {
     {
         int prob = 0;
         this.probability = 1;
-        if(isWithinRange(currLocation, context)) // TODO : pass in users current location
+        if(isWithinRange(location, 1000)) // TODO : pass in users current location
         {
             prob++;
         }
@@ -292,7 +296,7 @@ public class Song {
         this.currTime = currTime;
     }
 
-    public boolean isWithinRange(double[] currLocation, Context context)
+    public boolean isWithinRange(double[] currLocation, int threshold)
     {
         //TODO:: create method to determine if the current location is in the same range as the last played location
         // 1000 ft
