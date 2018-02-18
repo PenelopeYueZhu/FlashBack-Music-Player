@@ -34,7 +34,7 @@ public class StorageHandler {
         SharedPreferences sharedPreferences = context.getSharedPreferences("location",
                 MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putFloat(song_id+"_0", (float) location[0]);
+        editor.putFloat(song_id+"_0", (float)location[0]);
         editor.putFloat(song_id+"_1", (float)location[1]);
         editor.apply();
     }

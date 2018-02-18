@@ -3,6 +3,9 @@ package com.gaparmar.mediaflashback;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +19,8 @@ import static com.gaparmar.mediaflashback.Song.state.DISLIKED;
 import static com.gaparmar.mediaflashback.Song.state.LIKED;
 import static com.gaparmar.mediaflashback.Song.state.NEITHER;
 
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private static MusicPlayer musicPlayer;
     private static MusicQueuer musicQueuer;

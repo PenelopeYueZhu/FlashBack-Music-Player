@@ -30,11 +30,11 @@ import static org.junit.Assert.assertEquals;
 
 public class FlashbackUnitTest {
 
-    int songOne = R.raw.bleed;
-    int songTwo = R.raw.dreamatorium;
+    int songOne = R.raw.back_east;
+    int songTwo = R.raw.tightrope_walker;
     int songThree = R.raw.after_the_storm;
-    int songFour = R.raw.origin;
-    final Song s1 = new Song( "Bleed", "I Will Not Be Afraid", "Unknown Artist",
+    int songFour = R.raw.america_religious;
+    final Song s1 = new Song( "Back East", "I Will Not Be Afraid", "Unknown Artist",
             0, 0, songOne, new double[]{34, -117});
     final Song s2 = new Song( "Tightrope Walker", "I Will Not Be Afraid", "Unknown Artist",
             0, 0, songTwo,null);

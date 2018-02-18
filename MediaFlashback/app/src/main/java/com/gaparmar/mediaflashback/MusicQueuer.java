@@ -75,7 +75,7 @@ public class MusicQueuer {
                 artist = UNKNOWN_STRING;
             // Create a song object
             Song song = new Song( title, album, artist, Integer.parseInt(duration),
-                    Integer.parseInt(year), songId, null);  //TODO maybe change null to location?
+                    Integer.parseInt(year), songId, StorageHandler.getSongLocation(context, songId));  //TODO maybe change null to location?
 
             // Put the song object inside the track hashmap
             allTracks.put(songId, song);
@@ -167,14 +167,14 @@ public class MusicQueuer {
      * @param ID ID of the song
      * @return An ArrayList of strings that contains the song's information
      */
-    public ArrayList<String> getSongInfo( int ID ) {
+    public ArrayList<String> getSongInfo( int ID) {
         ArrayList<String> infoBus = new ArrayList<String>();
         Song song = this.getSong(ID);
 
         infoBus.add(song.getTitle());
         infoBus.add(Integer.toString( song.getTimeLastPlayed()));
         infoBus.add(Double.toString(song.getLengthInSeconds()));
-        // infoBus.add(song.getLocation().toString());
+        infoBus.add(song.getLocationString(context));
         return infoBus;
     }
 

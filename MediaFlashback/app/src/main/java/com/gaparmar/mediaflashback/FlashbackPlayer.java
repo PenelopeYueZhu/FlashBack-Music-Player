@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+
 public class FlashbackPlayer extends AppCompatActivity {
 
     private MediaPlayer mediaPlayer;
@@ -41,6 +42,7 @@ public class FlashbackPlayer extends AppCompatActivity {
      */
     public FlashbackPlayer(final Context current) {
         this.context = current;
+        final UserLocation userLocation = new UserLocation(current);
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             /**
@@ -53,7 +55,7 @@ public class FlashbackPlayer extends AppCompatActivity {
                 isFinished = (currInd == songsToPlay.size()-1);
                 // Updates the Song information in the Shared Preference resource
                 System.out.println("on completion listener from the flashback player called");
-                StorageHandler.storeSongLocation(current,getCurrentSongId(),new double[]{3.2, 8.7});
+                StorageHandler.storeSongLocation(current,getCurrentSongId(),userLocation.getLoc());
                 StorageHandler.storeSongDay(current, getCurrentSongId(), "Friday");
                 StorageHandler.storeSongTime(current, getCurrentSongId(), 0);
                 StorageHandler.storeSongState(current, getCurrentSongId(), Song.state.DISLIKED);

@@ -1,5 +1,7 @@
 package com.gaparmar.mediaflashback;
 
+import android.content.SharedPreferences;
+import android.location.LocationManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +11,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+
 
 public class FlashbackActivity extends AppCompatActivity {
     private Song s;
@@ -27,6 +32,8 @@ public class FlashbackActivity extends AppCompatActivity {
     Button launchRegularMode;
     FlashbackPlayer flashbackPlayer;
     MusicQueuer mq;
+    UserLocation userLocation;
+    DecimalFormat decimalFormat = new DecimalFormat("#.000");
 
     /**
      * Initializes all the View components of this activity
@@ -49,6 +56,8 @@ public class FlashbackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
 
+         userLocation = new UserLocation(this);
+
 
         launchRegularMode = (Button) findViewById(R.id.regular_button);
         songTitleDisplay = (TextView) findViewById(R.id.song_title);
@@ -68,7 +77,6 @@ public class FlashbackActivity extends AppCompatActivity {
 
         initializeViewComponents();
 
-
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !flashbackPlayer.wasPlayingSong()) {
             playButton.setVisibility(View.VISIBLE);
@@ -79,13 +87,13 @@ public class FlashbackActivity extends AppCompatActivity {
             pauseButton.setVisibility(View.VISIBLE);
         }
 
-        int songOne = R.raw.bleed;
+        int songOne = R.raw.back_east;
         int songTwo = R.raw.dead_dove_do_not_eat;
         int songThree = R.raw.dreamatorium;
         int songFour = R.raw.after_the_storm;
         int songFive = R.raw.mangalam;
-        final Song s5 = new Song( "Bleed", "I Will Not Be Afraid", "Unknown Artist",
-                0, 0, songOne, new double[]{34, -117});
+        final Song s5 = new Song( "Back East", "I Will Not Be Afraid", "Unknown Artist",
+                0, 0, songOne, StorageHandler.getSongLocation(this, songOne));
 
         final Song s2 = new Song( "Jazz in Paris", "I Will Not Be Afraid", "Unknown Artist",
                 0, 0, songTwo,null);
@@ -109,8 +117,6 @@ public class FlashbackActivity extends AppCompatActivity {
         list.add( s4 );
         list.add( s5 );
 
-        double[] tmp = s5.getLocation();
-        s5.setLocation(tmp);
         flashbackPlayer = new FlashbackPlayer(list, this);
         flashbackPlayer.loadMedia( s5.getResID() );
     }
@@ -139,7 +145,7 @@ public class FlashbackActivity extends AppCompatActivity {
         // Load all the information about the song
         songTitleDisplay.setText( flashbackPlayer.getCurrSong().getTitle());
         songDateDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getTimeLastPlayed()));
-        songLocationDisplay.setText( "" + flashbackPlayer.getCurrSong().getLocation()[0]);
+        songLocationDisplay.setText(flashbackPlayer.getCurrSong().getLocationString(this));
         songTimeDisplay.setText( Integer.toString( flashbackPlayer.getCurrSong().getLengthInSeconds() ));
     }
 
@@ -185,7 +191,7 @@ public class FlashbackActivity extends AppCompatActivity {
     public void updateTrackInfo(Song currentSong) {
         songTitleDisplay.setText( currentSong.getTitle());
         songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-        songLocationDisplay.setText("" +  currentSong.getLocation());
+        songLocationDisplay.setText(flashbackPlayer.getCurrSong().getLocationString(this));
         songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
     }
 

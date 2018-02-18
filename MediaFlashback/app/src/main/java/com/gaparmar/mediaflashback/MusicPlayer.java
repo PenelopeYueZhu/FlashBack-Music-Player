@@ -40,7 +40,7 @@ public class MusicPlayer extends AppCompatActivity {
         this.tracker = MainActivity.getUITracker();
         this.context = current;
         mediaPlayer = new MediaPlayer();
-
+        final UserLocation userLocation = new UserLocation(current);
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             /**
              * Automatically play next song after each song completes
@@ -55,7 +55,12 @@ public class MusicPlayer extends AppCompatActivity {
                 // if not finished, automatically play next song
                 if (!isFinished() && songsToPlay.size() > 0) {
                     // TODO: Stores the location in a shared preference
-                    StorageHandler.storeSongLocation(current, getCurrentSongId(), new double[]{7.0, 8.0});
+
+                    StorageHandler.storeSongLocation(current,getCurrentSongId(),userLocation.getLoc());
+                    StorageHandler.storeSongDay(current, getCurrentSongId(), "Friday");
+                    StorageHandler.storeSongTime(current, getCurrentSongId(), 0);
+                    StorageHandler.storeSongState(current, getCurrentSongId(), Song.state.DISLIKED);
+                    nextSong();
                     //nextSong();
                     tracker.updateTrackInfo(nextSong());
                 }

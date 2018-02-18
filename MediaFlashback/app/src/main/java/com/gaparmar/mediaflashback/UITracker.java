@@ -22,6 +22,7 @@ public class UITracker {
     private final String NEUTRAL = "Neutral";
     private final String LIKE = "Liked";
     private final String DISLIKE = "Disliked";
+    private final String ERROR_STATE = "Error";
 
     // All the buttons and views on the MainActivity
     Context context;
@@ -40,7 +41,7 @@ public class UITracker {
     public final static int TITLE_POS = 0;
     public final static int DATE_POS = 1;
     public final static int DURATION_POS = 2;
-   // public final static int LOC_POS = 3;
+    public final static int LOC_POS = 3;
 
     // Initilize everything so we can actually use it
     public UITracker( Context context ){
@@ -67,20 +68,18 @@ public class UITracker {
      * Link all the buttons with listeners
      */
     public void setButtonFunctions() {
-        // Location of Brennan Hall
-        final double[] currLocation ={32.882988, -117.232886};
-        // Location of Geisel
-        final double[] destLocation = {32.881535, -117.237493};
-
         // Set the button's functions
-        Song test = new Song("", "", "", 0, 0, 0, currLocation);
         playButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                songLocationDisplay.setText(""+Song.calculateDist(destLocation, currLocation));
                 // Dont't do anything if no song is currently selected
-                if (musicPlayer.getCurrSong() == null)
+                try {
+                    if (musicPlayer.getCurrSong() == null)
+                        return;
+
+                }catch(NullPointerException e){
                     return;
+                }
 
                 musicPlayer.playSong();
                 updateTrackInfo();
@@ -99,11 +98,16 @@ public class UITracker {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                musicPlayer.nextSong();
-                Song currentSong = musicPlayer.getCurrSong();
-                // Dont't do anything if no song is currently selected
-                if (currentSong == null)
+                try {
+                    if (musicPlayer.getCurrSong() == null)
+                        return;
+                }catch(NullPointerException e){
                     return;
+                }
+
+                musicPlayer.nextSong();
+                // Dont't do anything if no song is currently selected
+
                 // Load all the information about the song
                 updateTrackInfo();
                 setButtonsPlaying();
@@ -113,11 +117,15 @@ public class UITracker {
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                musicPlayer.previousSong();
-                Song currentSong = musicPlayer.getCurrSong();
-                // Dont't do anything if no song is currently selected
-                if (currentSong == null)
+                try {
+                    if (musicPlayer.getCurrSong() == null)
+                        return;
+                }catch (NullPointerException e){
                     return;
+                }
+                musicPlayer.previousSong();
+                // Dont't do anything if no song is currently selected
+
                 // Load all the information about the song
                 updateTrackInfo();
                 setButtonsPlaying();
@@ -128,6 +136,13 @@ public class UITracker {
             @Override
             public void onClick(View view) {
                 String toggleState = toggleBtn.getTag().toString();
+                try {
+                    if (musicPlayer.getCurrSong() == null)
+                        return;
+                }catch(NullPointerException e){
+                    toggleState = ERROR_STATE;
+                }
+
                 switch (toggleState) {
                     // switch from neutral to like
                     case NEUTRAL:
@@ -167,6 +182,8 @@ public class UITracker {
                         Toast neutralToast = Toast.makeText(context, NEUTRAL, Toast.LENGTH_SHORT);
                         neutralToast.show();
                         break;
+                    case ERROR_STATE:
+                        break;
                 }
 /*
                 musicPlayer.previousSong();
@@ -197,7 +214,7 @@ public class UITracker {
         ArrayList<String> songInfo = musicQueuer.getSongInfo(musicPlayer.getCurrentSongId());
         songTitleDisplay.setText( songInfo.get(TITLE_POS));
         songDateDisplay.setText( songInfo.get(DATE_POS));
-        // songLocationDisplay.setText( songInfo.get(LOC_POS));
+        songLocationDisplay.setText( songInfo.get(LOC_POS));
         songTimeDisplay.setText( songInfo.get(DURATION_POS));
     }
 
