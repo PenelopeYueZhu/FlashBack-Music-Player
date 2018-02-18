@@ -243,11 +243,11 @@ public class Song {
 
 
 
-    public void updateProbability(Context context)
+    public void updateProbability(double[] currLocation, Context context)
     {
         int prob = 0;
         this.probability = 1;
-        if(isWithinRange(location, 1000)) // TODO : pass in users current location
+        if(isWithinRange(currLocation, 1000)) // TODO : pass in users current location
         {
             prob++;
         }

@@ -28,6 +28,8 @@ public class FlashbackPlayer extends AppCompatActivity {
     private boolean playingSong = false;
     private Context context;
 
+    UserLocation userLocation;
+
     // TODO: SEPARATE CLASS
     private static class SongCompare implements Comparator<Song>{
         public int compare(Song s1, Song s2)
@@ -42,7 +44,7 @@ public class FlashbackPlayer extends AppCompatActivity {
      */
     public FlashbackPlayer(final Context current) {
         this.context = current;
-        final UserLocation userLocation = new UserLocation(current);
+         userLocation = new UserLocation(current);
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             /**
@@ -90,7 +92,7 @@ public class FlashbackPlayer extends AppCompatActivity {
     public void makeFlashbackPlaylist()
     {
         for(Song song : songsToPlay){
-            song.updateProbability(context);
+            song.updateProbability(userLocation.getLoc(), context);
         }
         Collections.sort(songsToPlay, new SongCompare());
 
