@@ -93,9 +93,10 @@ public class MusicPlayer extends AppCompatActivity {
                 getCurrSong().setFullTimeStampString(timeStampString);
                 // Set the time string
                 getCurrSong().setFullTimeStamp(new Date().getTime());
+
                 StorageHandler.storeSongState(current, getCurrentSongId(), getCurrSong().getCurrentState());
 
-                System.out.println("Song finished playing");
+                Log.d("MP:OnCompleteListener","Song finished playing");
                 firstTime = false;
                 isFinished = (currInd == songsToPlay.size()-1);
 
@@ -109,6 +110,7 @@ public class MusicPlayer extends AppCompatActivity {
                     mediaPlayer.reset();
                     if( songsToPlay.size() > 0) {
                         loadMedia(songsToPlay.get(0));
+                        Log.d("MP:OnCompleteListener", "Song reloaded after finishing");
                     }
                 }
             }
@@ -139,8 +141,7 @@ public class MusicPlayer extends AppCompatActivity {
                         public void onPrepared(MediaPlayer mp) {
                             // automatically plays the next song not first
                             if (!firstTime) {
-                                System.out.println("Song started");
-                                //firstTime = true;
+                                Log.d("MP:LoadMedia", "Song Started");
                                 mediaPlayer.start();
                                 playingSong = true;
                             }
@@ -157,6 +158,7 @@ public class MusicPlayer extends AppCompatActivity {
      */
     public void playSong() {
         if (mediaPlayer != null /*&& !playingSong*/) {
+            Log.d("MP:playSong", "song playing");
             playingSong = true;
             MainActivity.isPlaying = true;
             mediaPlayer.start();
@@ -168,6 +170,7 @@ public class MusicPlayer extends AppCompatActivity {
      * Pauses the currently playing song
      */
     public void pauseSong() {
+        Log.d("MP:pauseSong", "song pausing");
         playingSong = false;
         mediaPlayer.pause();
     }
@@ -176,6 +179,7 @@ public class MusicPlayer extends AppCompatActivity {
      * Resets the currently playing song
      */
     public void resetSong() {
+        Log.d("MP:reestSong", "song reset");
         playingSong = true;
         mediaPlayer.reset();
     }
@@ -194,18 +198,18 @@ public class MusicPlayer extends AppCompatActivity {
             musicQueuer.getSong((songsToPlay.get(currInd))).getResID();
             currInd++;
             song = musicQueuer.getSong(songsToPlay.get(currInd));
+
+            Log.d("MP:nextSong", "Loading the next song");
+
             loadMedia( song.getResID());
-            //if( firstTime ) playSong();
-            // DONT UNCOMMENT
         }
-        //else {
-            // wrap around the list
-            //currInd = 0;
-            //loadMedia(songsToPlay.get(0).getRawID());
-        //}
         return song;
     }
-
+    /**
+     * Starts playing the previous song in the queue and return the that song. If there is no song to
+     * play, return null
+     * @return the new song that started playing
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void previousSong() {
         firstTime = false;
@@ -213,17 +217,18 @@ public class MusicPlayer extends AppCompatActivity {
             resetSong();
             playingSong = true;
             currInd--;
+
+            Log.d("MP:previousSong", "Loading the previous song");
+
             loadMedia( musicQueuer.getSong(songsToPlay.get(currInd)).getResID());
 
-        } /*else {
-            // wrap around to the last song.
-            currInd = songsToPlay.size() - 1;
-            System.out.println( "Line 137 This index should be 1 " + currInd);
-            loadMedia(songsToPlay.get(songsToPlay.size()-1).getRawID());
-        }*/
-        //if( firstTime ) playSong();
+        }
     }
 
+    /**
+     * Load the new song that has the ID passed in.
+     * @param ID the ID of the song user wants to hear
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void loadNewSong(Integer ID) {
         resetSong();
@@ -232,6 +237,8 @@ public class MusicPlayer extends AppCompatActivity {
         songsToPlay.add(ID);
         currInd = 0;
         if( firstTime ) firstTime = false;
+        Log.d("MP:loadNewSong", "Loading the new song");
+
         loadMedia(ID);
     }
 
@@ -243,10 +250,14 @@ public class MusicPlayer extends AppCompatActivity {
         resetSong();
         songsToPlay.clear();
         for (int i = 0; i < a.getNumSongs(); i++) {
+            Log.d("MP:loadAlbum", "adding all the songs from album");
+
             songsToPlay.add(a.getSongAtIndex(i).getResID());
         }
         if( firstTime ) firstTime = false;
         currInd = 0;
+        Log.d("MP:loadAlbum", "Loading the first song of the album");
+
         loadMedia(songsToPlay.get(0));
         MainActivity.isPlaying = true;
     }

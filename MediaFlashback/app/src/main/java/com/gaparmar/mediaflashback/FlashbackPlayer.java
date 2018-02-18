@@ -22,17 +22,6 @@ import java.util.List;
 
 
 public class FlashbackPlayer extends MusicPlayer {
-
-   /* private MediaPlayer mediaPlayer;
-    private MusicQueuer musicQueuer;
-    private List<Song> songsToPlay;
-    int currInd = 0;
-    private boolean isFinished = false;
-    private boolean firstTime = true;
-
-    private int timeStamp;
-    private Song lastPlayed;
-    private boolean playingSong = false;*/
     private Context context;
     private UserLocation userLocation;
 
@@ -41,8 +30,8 @@ public class FlashbackPlayer extends MusicPlayer {
     ArrayList<Integer> allSongs = new ArrayList<Integer>();
     // TODO: SEPARATE CLASS
     private static class SongCompare implements Comparator<Song>{
-        public int compare(Song s1, Song s2)
-        {
+        public int compare(Song s1, Song s2) {
+
             return s2.getProbability() - s1.getProbability();
         }
     }
@@ -75,11 +64,15 @@ public class FlashbackPlayer extends MusicPlayer {
         return songsToPlay;
     }
 
+    /**
+     * Compile a list of songs to play for the user based on probability calculated
+     */
     public void makeFlashbackPlaylist()
     {
         for(Integer songId : allSongs){
             Song song = musicQueuer.getSong(songId);
             song.updateProbability(userLocation.getLoc(), context);
+            Log.d("FBP:makeFlashbackPlaylist", "Adding songs to the list");
             sortedList.add(song);
         }
         Collections.sort(sortedList, new SongCompare());
@@ -87,45 +80,23 @@ public class FlashbackPlayer extends MusicPlayer {
         for(Integer songId : allSongs)
         {
             Song song = musicQueuer.getSong(songId);
-            Log.d("songName", song.getTitle());
+            Log.d("FBP:makeFlashbackPlaylist","songName "+ song.getTitle());
 
         }
 
         for (Song x : sortedList) {
-            Log.d("sortedList", x.getTitle());
+            Log.d("FBP:makeFlashbackPlaylist", "sortedList "+ x.getTitle());
         }
-
-        /*maxWeight = 0;
-        intervalArray = new int[songsToPlay.size()][2];
-        for(Song s : songsToPlay)
-        {
-            s.updateProbability();
-        }
-        for(int i = 0; i < songsToPlay.size(); i++)
-        {
-            intervalArray[i][0] = i;
-            intervalArray[i][1] = songsToPlay.get(i).getProbability();
-            maxWeight += intervalArray[i][1];
-        }
-
-        for(int i = 0; i < intervalArray.length; i++)
-        {
-            for(int j = 0; j < intervalArray[i].length; j++)
-            {
-                System.out.println(intervalArray[i][j]);
-            }
-        }
-        System.out.println(maxWeight);*/
     }
 
     /**
-     * Add songs in album to songsToPlay List
+     * Add songs in album to the list of songs this flashback player plays through
      */
     public void loadPlaylist() {
         resetSong();
         songsToPlay.clear();
         for (int i = 0; i < sortedList.size(); i++) {
-            Log.d("sortedList", sortedList.get(i).getTitle());
+            Log.d("FBP:loadPlaylist", "sortedList " + sortedList.get(i).getTitle());
             songsToPlay.add(sortedList.get(i).getResID());
         }
         if( firstTime ) firstTime = false;
