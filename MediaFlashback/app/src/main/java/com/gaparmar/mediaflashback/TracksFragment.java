@@ -77,6 +77,8 @@ public class TracksFragment extends Fragment {
                 Integer ID = mq.getSong( songs.get(position)).getResID();
                 System.out.println( "Song is clicked " + mq.getSong(ID).getTitle());
                 mp.loadNewSong(ID);
+                MainActivity.isPlaying = true;
+                onDetach();
             }
         });
     }

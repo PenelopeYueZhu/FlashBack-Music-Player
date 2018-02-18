@@ -1,7 +1,10 @@
 package com.gaparmar.mediaflashback;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -10,6 +13,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,16 +32,19 @@ public class UserLocation {
     public static Criteria gpsCrit;
     public static LocationListener mLocationListener;
     private static LocationManager mLocationManager;
+    public static boolean hasPermission = true;
     static Geocoder geocoder;
     static List<Address> addressList;
     final Looper looper = null;
+    private static Context context;
+    private static Activity activity;
 
-    public UserLocation(Context context){
+    public UserLocation(Context context) {
 
+        this.context = context;
         geocoder = new Geocoder(context, Locale.getDefault());
 
-
-         mLocationListener = new LocationListener() {
+        mLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 lat = location.getLatitude();
@@ -64,18 +72,40 @@ public class UserLocation {
         try {
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100,
                     0, mLocationListener);
-        }catch(SecurityException e) {
+        } catch (SecurityException e) {
             e.printStackTrace();
         }
     }
 
+    private static void askForPermission(String permission, Integer requestCode) {
+        if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
 
-    @SuppressLint("MissingPermission")
-    public static double[] getLoc(){
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
+
+                //This is called if user has denied the permission before
+                //In this case I am just asking the permission again
+                ActivityCompat.requestPermissions(activity, new String[]{permission}, requestCode);
+
+            } else {
+
+                ActivityCompat.requestPermissions(activity, new String[]{permission}, requestCode);
+            }
+        } else {
+
+        }
+    }
+    public static double[] getLoc() {
         //
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
+
+        try {
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
+        }catch (SecurityException e){
+            hasPermission = false;
+        }
         return new double[]{lat, lon};
     }
+
 
     public static String getCity(double latitude, double longitude) {
 

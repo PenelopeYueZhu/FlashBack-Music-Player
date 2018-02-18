@@ -29,8 +29,8 @@ public class MusicPlayer extends AppCompatActivity {
     protected int currInd = 0;
     protected boolean isFinished = false;
     protected boolean firstTime = true; /* flag representing if this is first song played */
-    protected int timeStamp;
-    protected Song lastPlayed;
+    protected int timeStamp = 0;
+    protected static Song lastPlayed;
     protected boolean playingSong = false;
     protected Context context;
 
@@ -54,6 +54,13 @@ public class MusicPlayer extends AppCompatActivity {
         currDate = Calendar.getInstance();
         mediaPlayer = new MediaPlayer();
         final UserLocation userLocation = new UserLocation(current);
+
+        mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                return true;
+            }
+        });
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             /**
              * Automatically play next song after each song completes
@@ -63,7 +70,11 @@ public class MusicPlayer extends AppCompatActivity {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 // Update the date, time, and location
-                StorageHandler.storeSongLocation(current,getCurrentSongId(),new double[]{0.0,0.0});//userLocation.getLoc());
+
+                userLocation.getLoc();
+                if(UserLocation.hasPermission) {
+                    StorageHandler.storeSongLocation(current, getCurrentSongId(), userLocation.getLoc());
+                }
                 String weekdayStr = dayFormat.format(currDate.getTime());
                 getCurrSong().setDayOfWeek(weekdayStr);
                 StorageHandler.storeSongDay(current, getCurrentSongId(), weekdayStr);
@@ -77,8 +88,6 @@ public class MusicPlayer extends AppCompatActivity {
                 isFinished = (currInd == songsToPlay.size()-1);
                 // if not finished, automatically play next song
                 if (!isFinished() && songsToPlay.size() > 1) {
-                    // TODO: Stores the location in a shared preference
-
                     StorageHandler.storeSongLocation(current,getCurrentSongId(),new double[]{0.0,0.0});//userLocation.getLoc());
                     weekdayStr = dayFormat.format(currDate.getTime());
                     getCurrSong().setDayOfWeek(weekdayStr);
@@ -124,6 +133,7 @@ public class MusicPlayer extends AppCompatActivity {
                                 System.out.println("Song started");
                                 //firstTime = true;
                                 mediaPlayer.start();
+                                playingSong = true;
                             }
                         }
                     });
@@ -138,8 +148,8 @@ public class MusicPlayer extends AppCompatActivity {
      */
     public void playSong() {
         if (mediaPlayer != null /*&& !playingSong*/) {
-            mediaPlayer.start();
             playingSong = true;
+            mediaPlayer.start();
         }
     }
 
@@ -148,6 +158,7 @@ public class MusicPlayer extends AppCompatActivity {
      * Pauses the currently playing song
      */
     public void pauseSong() {
+        playingSong = false;
         mediaPlayer.pause();
     }
 
@@ -155,6 +166,7 @@ public class MusicPlayer extends AppCompatActivity {
      * Resets the currently playing song
      */
     public void resetSong() {
+        playingSong = true;
         mediaPlayer.reset();
     }
 
@@ -189,6 +201,7 @@ public class MusicPlayer extends AppCompatActivity {
         firstTime = false;
         if (currInd > 0) {
             resetSong();
+            playingSong = true;
             currInd--;
             loadMedia( musicQueuer.getSong(songsToPlay.get(currInd)).getResID());
 
@@ -204,6 +217,7 @@ public class MusicPlayer extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void loadNewSong(Integer ID) {
         resetSong();
+        playingSong = true;
         songsToPlay.clear(); // clear our album
         songsToPlay.add(ID);
         currInd = 0;
@@ -240,8 +254,6 @@ public class MusicPlayer extends AppCompatActivity {
         return getCurrSong().getResID();
     }
 
-
-
     public boolean isPlaying() {
         return mediaPlayer.isPlaying();
     }
@@ -252,28 +264,34 @@ public class MusicPlayer extends AppCompatActivity {
 
     public boolean wasPlayingSong() { return playingSong; }
 
+    public int getTimeStamp(){
+        return mediaPlayer.getCurrentPosition();
+    }
+
 
     /**
      * Stops playing the current song being played in normal mode
      */
-    public void stopPlaying() {
+    public int[] stopPlaying() {
       // If there is a song currently playing, record the song's info
+        timeStamp = getTimeStamp();
       if( playingSong ) {
-        playingSong = false;
         lastPlayed = this.getCurrSong();
-        timeStamp = mediaPlayer.getCurrentPosition();
+       // mediaPlayer.pause();
       }
+        return new int[]{timeStamp, getCurrSong().getResID()};
     }
 
     /**
      * To resume a song when user coming back from flashback mode 
      */
-    public void resumePlaying() {
-      if( lastPlayed != null ) {
-        this.loadNewSong( lastPlayed.getResID() );
-        mediaPlayer.seekTo( timeStamp ); // Get to where user left off
+    public void resumePlaying(int timeStamp, int songId) {
+  //    if( lastPlayed != null ) {
+        this.loadNewSong( songId );
+           playingSong = true;
         this.playSong();
-        playingSong = true;
-      }
+        mediaPlayer.seekTo( timeStamp ); // Get to where user left off
+
+   //   }
     }
 }

@@ -187,6 +187,13 @@ public class UINormal extends UIHandler {
         songTimeDisplay.setText( songInfo.get(DURATION_POS));
     }
 
+    public void resetInfo(){
+        songTitleDisplay.setText("None");
+        songDateDisplay.setText("None");
+        songLocationDisplay.setText("None");
+        songTitleDisplay.setText("None");
+    }
+
     /**
      * Hide play button and show pause button
      */

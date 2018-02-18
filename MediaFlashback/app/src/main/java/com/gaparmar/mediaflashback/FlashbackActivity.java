@@ -1,11 +1,15 @@
 package com.gaparmar.mediaflashback;
 
+import android.Manifest;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.os.Handler;
+
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +40,6 @@ public class FlashbackActivity extends AppCompatActivity {
     FlashbackPlayer flashbackPlayer;
     MusicQueuer mq;
     UserLocation userLocation;
-    DecimalFormat decimalFormat = new DecimalFormat("#.000");
 
     /**
      * Initializes all the View components of this activity
@@ -56,6 +59,7 @@ public class FlashbackActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
         //initializeViewComponents();
@@ -109,7 +113,6 @@ public class FlashbackActivity extends AppCompatActivity {
         });
 
     }
-
 
     /**
      * The onClick callback for the Regular mode button
