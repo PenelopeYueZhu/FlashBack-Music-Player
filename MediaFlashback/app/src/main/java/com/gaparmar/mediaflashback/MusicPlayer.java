@@ -70,7 +70,7 @@ public class MusicPlayer extends AppCompatActivity {
                 int timeOfDay = Integer.parseInt(hourFormat.format(currDate.getTime()));
                 getCurrSong().setTimeLastPlayed(timeOfDay);
                 StorageHandler.storeSongTime(current, getCurrentSongId(), timeOfDay);
-                StorageHandler.storeSongState(current, getCurrentSongId(), Song.state.DISLIKED);
+                StorageHandler.storeSongState(current, getCurrentSongId(), getCurrSong().getCurrentState());
 
                 System.out.println("Song finished playing");
                 firstTime = false;
@@ -78,15 +78,6 @@ public class MusicPlayer extends AppCompatActivity {
                 // if not finished, automatically play next song
                 if (!isFinished() && songsToPlay.size() > 1) {
                     // TODO: Stores the location in a shared preference
-
-                    StorageHandler.storeSongLocation(current,getCurrentSongId(),new double[]{0.0,0.0});//userLocation.getLoc());
-                    weekdayStr = dayFormat.format(currDate.getTime());
-                    getCurrSong().setDayOfWeek(weekdayStr);
-                    StorageHandler.storeSongDay(current, getCurrentSongId(), weekdayStr);
-                    timeOfDay = Integer.parseInt(hourFormat.format(currDate.getTime()));
-                    getCurrSong().setTimeLastPlayed(timeOfDay);
-                    StorageHandler.storeSongTime(current, getCurrentSongId(), timeOfDay);
-                    StorageHandler.storeSongState(current, getCurrentSongId(), Song.state.DISLIKED);
                     nextSong();
                 }
                 else {
