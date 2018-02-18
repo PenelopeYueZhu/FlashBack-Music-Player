@@ -180,15 +180,15 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if (isPlaying) {
             if(!browsing) {
-                // Update buttons and infos
-                tracker.setButtonsPlaying();
+                // Update buttons and info
+                tracker.setButtonsPausing();
                 tracker.updateTrackInfo();
                 //musicPlayer.resumePlaying(songTime, stoppedInfo[1]);
-                musicPlayer.playSong();
+                //musicPlayer.playSong();
                 isPlaying = true;
             }
         }else{
-            tracker.resetInfo();
+           // tracker.resetInfo();
         }
         browsing = false;
     }
