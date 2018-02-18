@@ -32,7 +32,6 @@ public class FlashbackActivity extends AppCompatActivity {
     FlashbackPlayer flashbackPlayer;
     MusicQueuer mq;
     UserLocation userLocation;
-    DecimalFormat decimalFormat = new DecimalFormat("#.000");
 
     /**
      * Initializes all the View components of this activity
@@ -119,6 +118,9 @@ public class FlashbackActivity extends AppCompatActivity {
 
         flashbackPlayer = new FlashbackPlayer(list, this, mq);
         flashbackPlayer.loadMedia( s5.getResID() );
+
+        flashbackPlayer.playSong();
+        updateTrackInfo(flashbackPlayer.getCurrSong());
     }
 
     /**
