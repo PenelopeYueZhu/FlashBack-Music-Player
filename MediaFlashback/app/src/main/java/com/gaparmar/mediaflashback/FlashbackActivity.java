@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import static com.gaparmar.mediaflashback.MainActivity.loc;
 
 public class FlashbackActivity extends AppCompatActivity {
     private Song s;
@@ -88,12 +87,12 @@ public class FlashbackActivity extends AppCompatActivity {
             pauseButton.setVisibility(View.VISIBLE);
         }
 
-        int songOne = R.raw.bleed;
+        int songOne = R.raw.back_east;
         int songTwo = R.raw.dead_dove_do_not_eat;
         int songThree = R.raw.dreamatorium;
         int songFour = R.raw.after_the_storm;
         int songFive = R.raw.mangalam;
-        final Song s5 = new Song( "Bleed", "I Will Not Be Afraid", "Unknown Artist",
+        final Song s5 = new Song( "Back East", "I Will Not Be Afraid", "Unknown Artist",
                 0, 0, songOne, StorageHandler.getSongLocation(this, songOne));
 
         final Song s2 = new Song( "Jazz in Paris", "I Will Not Be Afraid", "Unknown Artist",

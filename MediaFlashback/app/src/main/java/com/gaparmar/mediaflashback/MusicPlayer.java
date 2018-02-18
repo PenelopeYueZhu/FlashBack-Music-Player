@@ -20,6 +20,7 @@ import java.util.List;
 public class MusicPlayer extends AppCompatActivity {
     private MusicQueuer musicQueuer;
     private MediaPlayer mediaPlayer;
+    private UITracker tracker;
     private List<Integer> songsToPlay;
     private int currInd = 0;
     private boolean isFinished = false;
@@ -36,6 +37,7 @@ public class MusicPlayer extends AppCompatActivity {
      */
     public MusicPlayer(final Context current, MusicQueuer musicQueuer ) {
         this.musicQueuer = musicQueuer;
+        this.tracker = MainActivity.getUITracker();
         this.context = current;
         mediaPlayer = new MediaPlayer();
         final UserLocation userLocation = new UserLocation(current);
@@ -53,11 +55,14 @@ public class MusicPlayer extends AppCompatActivity {
                 // if not finished, automatically play next song
                 if (!isFinished() && songsToPlay.size() > 0) {
                     // TODO: Stores the location in a shared preference
+
                     StorageHandler.storeSongLocation(current,getCurrentSongId(),userLocation.getLoc());
                     StorageHandler.storeSongDay(current, getCurrentSongId(), "Friday");
                     StorageHandler.storeSongTime(current, getCurrentSongId(), 0);
                     StorageHandler.storeSongState(current, getCurrentSongId(), Song.state.DISLIKED);
                     nextSong();
+                    //nextSong();
+                    tracker.updateTrackInfo(nextSong());
                 }
             }
         });
@@ -125,17 +130,20 @@ public class MusicPlayer extends AppCompatActivity {
     }
 
     /**
-     * Starts playing the next song in the queue
+     * Starts playing the next song in the queue and return the that song. If there is no song to
+     * play, return null
+     * @return the new song that started playing
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void nextSong() {
+    public Song nextSong() {
+        Song song = null;
         firstTime = false;
         if (currInd != songsToPlay.size()-1 && songsToPlay.size() > 0) {
             resetSong();
             musicQueuer.getSong((songsToPlay.get(currInd))).getResID();
             currInd++;
-            System.out.println( "Line 122 this index should be 1 " + currInd );
-            loadMedia( musicQueuer.getSong(songsToPlay.get(currInd)).getResID());
+            song = musicQueuer.getSong(songsToPlay.get(currInd));
+            loadMedia( song.getResID());
             //if( firstTime ) playSong();
             // DONT UNCOMMENT
         }
@@ -144,15 +152,17 @@ public class MusicPlayer extends AppCompatActivity {
             //currInd = 0;
             //loadMedia(songsToPlay.get(0).getRawID());
         //}
+        return song;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void previousSong() {
+        firstTime = false;
         if (currInd > 0) {
             resetSong();
             currInd--;
             loadMedia( musicQueuer.getSong(songsToPlay.get(currInd)).getResID());
-            System.out.println( "Line 133 This index should be 0 " + currInd);
+
         } /*else {
             // wrap around to the last song.
             currInd = songsToPlay.size() - 1;
@@ -167,6 +177,7 @@ public class MusicPlayer extends AppCompatActivity {
         resetSong();
         songsToPlay.clear(); // clear our album
         songsToPlay.add(ID);
+        currInd = 0;
         if( firstTime ) firstTime = false;
         loadMedia(ID);
     }
@@ -181,6 +192,9 @@ public class MusicPlayer extends AppCompatActivity {
         for (int i = 0; i < a.getNumSongs(); i++) {
             songsToPlay.add(a.getSongAtIndex(i).getResID());
         }
+        if( firstTime ) firstTime = false;
+        currInd = 0;
+        loadMedia(songsToPlay.get(0));
     }
 
     /**

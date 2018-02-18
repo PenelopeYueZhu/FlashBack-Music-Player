@@ -17,7 +17,7 @@ public class Album {
     private String albumTitle;
 
     // The music queuer for this album
-    MusicQueuer mq;
+    MusicQueuer mq = MainActivity.getMusicQueuer();
 
 
     /**
@@ -50,14 +50,12 @@ public class Album {
     /**
      * Constructor that takes list of songs, music queuer and album title
      * @param songLists List of ID of songs
-     * @param mq The MusicQueuer object
      * @param name The title of the Album
      */
-    public Album(ArrayList<Integer> songLists, MusicQueuer mq, String name ){
+    public Album(ArrayList<Integer> songLists, String name ){
         this();
         this.songs = songLists;
         this.numSongs = songs.size();
-        this.mq = mq;
         this.albumTitle = name;
         // If input array is not empty
         if (numSongs> 0){

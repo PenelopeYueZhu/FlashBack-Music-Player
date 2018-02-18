@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static com.gaparmar.mediaflashback.MainActivity.loc;
 
 public class FlashbackPlayer extends AppCompatActivity {
 
@@ -78,6 +77,11 @@ public class FlashbackPlayer extends AppCompatActivity {
         this(current);
         songsToPlay = list;
         makeFlashbackPlaylist();
+    }
+
+    public List<Song> getSongsToPlay()
+    {
+        return songsToPlay;
     }
 
     /**

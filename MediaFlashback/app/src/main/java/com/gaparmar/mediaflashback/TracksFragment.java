@@ -45,10 +45,7 @@ public class TracksFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        mq = new MusicQueuer(getContext());
-        mq.readSongs();
-        mq.readAlbums();
-
+        mq =MainActivity.getMusicQueuer();
         mp = MainActivity.getMusicPlayer();
     }
 
@@ -80,9 +77,6 @@ public class TracksFragment extends Fragment {
                 Integer ID = mq.getSong( songs.get(position)).getResID();
                 System.out.println( "Song is clicked " + mq.getSong(ID).getTitle());
                 mp.loadNewSong(ID);
-
-                // open music player page
-                startActivity(new Intent(getActivity(), MainActivity.class));
             }
         });
     }
