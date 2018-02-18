@@ -10,26 +10,38 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by veronica.lin1218 on 2/4/2018.
  */
 
 public class MusicPlayer extends AppCompatActivity {
-    private MusicQueuer musicQueuer;
-    private MediaPlayer mediaPlayer;
-    private UITracker tracker;
-    private List<Integer> songsToPlay;
-    private int currInd = 0;
-    private boolean isFinished = false;
-    private boolean firstTime = true; /* flag representing if this is first song played */
-    private int timeStamp;
-    private Song lastPlayed;
-    public boolean playingSong = false;
-    private Context context;
+    protected MusicQueuer musicQueuer;
+    protected MediaPlayer mediaPlayer;
+    protected UINormal tracker;
+    protected List<Integer> songsToPlay;
+    protected int currInd = 0;
+    protected boolean isFinished = false;
+    protected boolean firstTime = true; /* flag representing if this is first song played */
+    protected int timeStamp;
+    protected Song lastPlayed;
+    protected boolean playingSong = false;
+    protected Context context;
 
+    protected Calendar currDate;
+    protected SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
+    protected SimpleDateFormat hourFormat = new SimpleDateFormat("HH", Locale.US);
+
+    /**
+     * default contructor. Doesn't do anything
+     */
+    public MusicPlayer(){}
     /**
      * Default MusicPlayer constructor
      * @param current The reference activity context
@@ -39,6 +51,7 @@ public class MusicPlayer extends AppCompatActivity {
         this.musicQueuer = musicQueuer;
         this.tracker = MainActivity.getUITracker();
         this.context = current;
+        currDate = Calendar.getInstance();
         mediaPlayer = new MediaPlayer();
         final UserLocation userLocation = new UserLocation(current);
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -49,20 +62,36 @@ public class MusicPlayer extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onCompletion(MediaPlayer mp) {
+                // Update the date, time, and location
+                StorageHandler.storeSongLocation(current,getCurrentSongId(),new double[]{0.0,0.0});//userLocation.getLoc());
+                String weekdayStr = dayFormat.format(currDate.getTime());
+                getCurrSong().setDayOfWeek(weekdayStr);
+                StorageHandler.storeSongDay(current, getCurrentSongId(), weekdayStr);
+                int timeOfDay = Integer.parseInt(hourFormat.format(currDate.getTime()));
+                getCurrSong().setTimeLastPlayed(timeOfDay);
+                StorageHandler.storeSongTime(current, getCurrentSongId(), timeOfDay);
+                StorageHandler.storeSongState(current, getCurrentSongId(), Song.state.DISLIKED);
+
                 System.out.println("Song finished playing");
                 firstTime = false;
                 isFinished = (currInd == songsToPlay.size()-1);
                 // if not finished, automatically play next song
-                if (!isFinished() && songsToPlay.size() > 0) {
+                if (!isFinished() && songsToPlay.size() > 1) {
                     // TODO: Stores the location in a shared preference
 
-                    StorageHandler.storeSongLocation(current,getCurrentSongId(),userLocation.getLoc());
-                    StorageHandler.storeSongDay(current, getCurrentSongId(), "Friday");
-                    StorageHandler.storeSongTime(current, getCurrentSongId(), 0);
+                    StorageHandler.storeSongLocation(current,getCurrentSongId(),new double[]{0.0,0.0});//userLocation.getLoc());
+                    weekdayStr = dayFormat.format(currDate.getTime());
+                    getCurrSong().setDayOfWeek(weekdayStr);
+                    StorageHandler.storeSongDay(current, getCurrentSongId(), weekdayStr);
+                    timeOfDay = Integer.parseInt(hourFormat.format(currDate.getTime()));
+                    getCurrSong().setTimeLastPlayed(timeOfDay);
+                    StorageHandler.storeSongTime(current, getCurrentSongId(), timeOfDay);
                     StorageHandler.storeSongState(current, getCurrentSongId(), Song.state.DISLIKED);
                     nextSong();
-                    //nextSong();
-                    tracker.updateTrackInfo(nextSong());
+                }
+                else {
+                    mediaPlayer.reset();
+                    tracker.setButtonsPausing();
                 }
             }
         });

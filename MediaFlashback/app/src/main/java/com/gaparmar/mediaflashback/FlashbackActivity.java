@@ -47,7 +47,7 @@ public class FlashbackActivity extends AppCompatActivity {
         pauseButton = findViewById(R.id.pause_button);
         nextButton = findViewById(R.id.next_button);
         prevButton = findViewById(R.id.previous_button);
-        flashbackPlayer = new FlashbackPlayer(this);
+        flashbackPlayer = new FlashbackPlayer(this, mq);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class FlashbackActivity extends AppCompatActivity {
         nextButton = (ImageButton) findViewById(R.id.next_button);
         prevButton = (ImageButton) findViewById(R.id.previous_button);
 
-        flashbackPlayer = new FlashbackPlayer(this);
+        flashbackPlayer = new FlashbackPlayer(this, mq);
 
         mq = new MusicQueuer(this);
         mq.readSongs();
@@ -110,14 +110,14 @@ public class FlashbackActivity extends AppCompatActivity {
         s4.setProbability(13);
         s5.setProbability(55);
 
-        ArrayList<Song> list = new ArrayList<>();
-        list.add( s1 );
-        list.add( s2 );
-        list.add( s3 );
-        list.add( s4 );
-        list.add( s5 );
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add( s1.getResID() );
+        list.add( s2.getResID() );
+        list.add( s3.getResID() );
+        list.add( s4.getResID());
+        list.add( s5.getResID() );
 
-        flashbackPlayer = new FlashbackPlayer(list, this);
+        flashbackPlayer = new FlashbackPlayer(list, this, mq);
         flashbackPlayer.loadMedia( s5.getResID() );
     }
 

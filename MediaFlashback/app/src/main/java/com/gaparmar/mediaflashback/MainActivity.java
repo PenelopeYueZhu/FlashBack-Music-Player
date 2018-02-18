@@ -20,18 +20,24 @@ import static com.gaparmar.mediaflashback.Song.state.LIKED;
 import static com.gaparmar.mediaflashback.Song.state.NEITHER;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
+
     private static MusicPlayer musicPlayer;
     private static MusicQueuer musicQueuer;
-    private static UITracker tracker;
+    private static UINormal tracker;
 
+    public static Map<String, Integer> weekDays;
     public static MusicPlayer getMusicPlayer(){
         return musicPlayer;
     }
     public static MusicQueuer getMusicQueuer() { return musicQueuer; }
 
-    public static UITracker getUITracker() {
+    public static UINormal getUITracker() {
         return tracker;
     }
 
@@ -40,8 +46,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        weekDays = new HashMap<String, Integer>();
+        weekDays.put("Monday", 1);
+        weekDays.put("Tuesday", 2);
+        weekDays.put("Wednesday", 3);
+        weekDays.put("Thursday", 4);
+        weekDays.put("Friday", 5);
+        weekDays.put("Saturday", 6);
+        weekDays.put("Sunday", 7);
+
+
         // Initialize UI
-        tracker = new UITracker(this);
+        tracker = new UINormal(this);
         tracker.setButtonFunctions();
 
         // Initializie the song functions
