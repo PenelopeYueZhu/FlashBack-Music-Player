@@ -39,6 +39,7 @@ public class UINormal extends UIHandler {
         super(context);
         musicQueuer = MainActivity.getMusicQueuer();
         musicPlayer = MainActivity.getMusicPlayer();
+        this.context = context;
 
         playButton =  (ImageButton) ((Activity)context).findViewById(R.id.play_button);
         pauseButton = (ImageButton) ((Activity)context).findViewById(R.id.pause_button);
