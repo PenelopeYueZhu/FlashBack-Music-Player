@@ -2,6 +2,8 @@ package com.gaparmar.mediaflashback;
 
 import android.content.Context;
 
+import java.util.Calendar;
+
 /**
  * Created by gauravparmar on 2/2/18.
  */
@@ -9,7 +11,7 @@ import android.content.Context;
 // -1, NA, represents uninitialized value
 public class Song {
 
-    enum state {
+    public enum state {
         LIKED, DISLIKED, NEITHER
     }
 
@@ -28,8 +30,12 @@ public class Song {
     private int resID;
     private int lengthInSeconds;
     private int yearOfRelease;
+    private int dayOfWeek;
     private int timeLastPlayed; // TODO:: temporary way of storing the time stamp
-    private int probability; // TODO:: not yet implemented?
+    private int probability;
+    private int currDay;
+    private double[] currLocation;
+    private int currTime;
 
 
     /**
@@ -50,6 +56,7 @@ public class Song {
         yearOfRelease = -1;
         timeLastPlayed = -1;
         probability = 1;
+        dayOfWeek = -1;
     }
 
     /**
@@ -74,6 +81,7 @@ public class Song {
         this.resID = resID;
         this.probability = 1;
         this.location = location;
+
     }
 
     /**
@@ -207,18 +215,32 @@ public class Song {
 
     public int getResID() { return this.resID; }
 
+    public void setDayOfWeek(int dayOfWeek)
+    {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public int getDayOfWeek()
+    {
+        return dayOfWeek;
+    }
+
+
+
+
     public void updateProbability(Context context)
     {
         int prob = 0;
-        if(isWithinRange(new double[2], context)) // TODO : pass in users current location
+        this.probability = 1;
+        if(isWithinRange(currLocation, context)) // TODO : pass in users current location
         {
             prob++;
         }
-        if(isSameDay())
+        if(isSameDay(currDay, dayOfWeek))
         {
             prob++;
         }
-        if(isSameTime())
+        if(isSameTime(currTime, timeLastPlayed))
         {
             prob++;
         }
@@ -243,6 +265,21 @@ public class Song {
         probability = x;
     }
 
+    public void setCurrDay(int currDay)
+    {
+        this.currDay = currDay;
+    }
+
+    public void setCurrLocation(double[] currLocation)
+    {
+        this.currLocation = currLocation;
+    }
+
+    public void setCurrTime(int currTime)
+    {
+        this.currTime = currTime;
+    }
+
     public boolean isWithinRange(double[] currLocation, Context context)
     {
         //TODO:: create method to determine if the current location is in the same range as the last played location
@@ -250,16 +287,17 @@ public class Song {
         return calculateDist(currLocation, getLocation()) <= 1000;
     }
 
-    public boolean isSameDay()
+    public boolean isSameDay(int currDay, int day)
     {
         //TODO:: create method to determine if the current day is the same as last played day
-        return false;
+
+        return currDay == day;
     }
 
-    public boolean isSameTime()
+    public boolean isSameTime(int currTime, int time)
     {
         //TODO:: create method to determine if the current time interval is the same as last played time interval
-        return false;
+        return currTime == time;
     }
     /**
      * This method uses the haversine formula to calculate distance between GPS coordinates

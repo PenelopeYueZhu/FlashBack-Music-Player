@@ -87,6 +87,9 @@ public class FlashbackPlayer extends AppCompatActivity {
      */
     public void makeFlashbackPlaylist()
     {
+        for(Song song : songsToPlay){
+            song.updateProbability(context);
+        }
         Collections.sort(songsToPlay, new SongCompare());
 
         for(Song song : songsToPlay)
