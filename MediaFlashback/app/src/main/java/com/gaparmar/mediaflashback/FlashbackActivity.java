@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -25,6 +26,13 @@ public class FlashbackActivity extends AppCompatActivity {
     ArrayList<Integer> arr = new ArrayList<>();
 
     private Handler handler;
+
+    public final static int TITLE_POS = 0;
+    public final static int DATE_POS = 1;
+    public final static int DURATION_POS = 2;
+    public final static int LOC_POS = 3;
+    public final static int ALBUM_POS = 5;
+    public final static int ARTIST_POS = 4;
 
     // This is all the fields on the main screen
     TextView songTitleDisplay;
@@ -191,18 +199,19 @@ public class FlashbackActivity extends AppCompatActivity {
 
     }
 
-
-    /**
-     * Updates the displayed track information on the UI
-     * @param currentSong The song that is currently playing
-     */
+        /**
+         * Updates the displayed track information on the UI
+         * @param currentSong The song that is currently playing
+         */
     public void updateTrackInfo(Song currentSong) {
-        songTitleDisplay.setText( currentSong.getTitle());
-        songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-        songLocationDisplay.setText(flashbackPlayer.getCurrSong().getLocationString(this));
-        songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
-        songAlbumDisplay.setText(flashbackPlayer.getCurrSong().getArtistName());
-        songArtistDisplay.setText(flashbackPlayer.getCurrSong().getParentAlbum());
+        Log.d("UINormal", "Reset displayed information of the song to the current song");
+        ArrayList<String> songInfo = mq.getSongInfo(currentSong.getResID());
+        songTitleDisplay.setText( songInfo.get(TITLE_POS));
+        songDateDisplay.setText( songInfo.get(DATE_POS));
+        songLocationDisplay.setText( songInfo.get(LOC_POS));
+        songTimeDisplay.setText( songInfo.get(DURATION_POS));
+        songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
+        songArtistDisplay.setText(songInfo.get(ARTIST_POS));
     }
 
 }

@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gaparmar.mediaflashback.FlashbackActivity"
     android:background="#232625"
-    android:orientation="vertical">
+    android:gravity="center"
+    tools:context="com.gaparmar.mediaflashback.FlashbackActivity">
+
+>>>>>>> b368c0ebfdfbf17b8283f377d33e305db03cfcd4
 
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="top|center"
+        android:gravity="center"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp">
 
@@ -240,17 +242,17 @@
 
 
         <LinearLayout
-            android:layout_width="300dp"
+            android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/previous_button"
-                android:layout_width="25dp"
+                android:layout_width="30dp"
                 android:layout_height="55dp"
-                android:layout_marginEnd="34dp"
-                android:layout_marginStart="78dp"
+                android:layout_marginRight="25dp"
                 android:layout_weight="1"
                 android:background="#467750"
                 android:onClick="onPreviousButtonClick"
@@ -261,7 +263,7 @@
                 app:srcCompat="@android:drawable/ic_media_previous" />
 
             <RelativeLayout
-                android:layout_width="55dp"
+                android:layout_width="wrap_content"
                 android:layout_height="55dp"
                 android:layout_weight="1">
 
@@ -295,9 +297,9 @@
 
             <ImageButton
                 android:id="@+id/next_button"
-                android:layout_width="25dp"
+                android:layout_width="30dp"
                 android:layout_height="55dp"
-                android:layout_marginEnd="22dp"
+                android:layout_marginLeft="25dp"
                 android:layout_weight="1"
                 android:background="#467750"
                 android:onClick="onNextButtonClick"
@@ -313,6 +315,7 @@
             android:id="@+id/regular_button"
             android:layout_width="316dp"
             android:layout_height="45dp"
+            android:layout_marginTop="10dp"
             android:background="#7adf9e"
             android:onClick="onRegularModeClick"
             android:text="Regular Mode"
@@ -326,4 +329,4 @@
     </LinearLayout>
 
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

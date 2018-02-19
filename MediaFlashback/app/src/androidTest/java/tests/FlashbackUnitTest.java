@@ -30,10 +30,11 @@ import static org.junit.Assert.assertEquals;
 
 public class FlashbackUnitTest {
 
-    int songOne = R.raw.back_east;
+
+    int songOne = R.raw.tightrope_walker;
     int songTwo = R.raw.tightrope_walker;
-    int songThree = R.raw.after_the_storm;
-    int songFour = R.raw.america_religious;
+    int songThree = R.raw.tightrope_walker;
+    int songFour = R.raw.tightrope_walker;
     final Song s1 = new Song( "Back East", "I Will Not Be Afraid", "Unknown Artist",
             0, 0, songOne, new double[]{34, -117});
     final Song s2 = new Song( "Tightrope Walker", "I Will Not Be Afraid", "Unknown Artist",
@@ -90,40 +91,37 @@ public class FlashbackUnitTest {
         int timeLastPlayed = 0;
         Song.state s = Song.state.LIKED;
 
-        s1.setCurrDay(Calendar.SUNDAY);
+        s1.setCurrDay("Sunday");
         s1.setCurrLocation(currLocation);
         s1.setCurrTime(0);
 
-        s1.setLocation(new double[]{1000,1000});
-        s1.setCurrentState(Song.state.LIKED);
+        s1.setLocation(new double[]{1000,1000},mockContext);
+
+        s1.setCurrentState(1);
         s1.setTimeLastPlayed(0);
-        s1.setDayOfWeek(Calendar.SUNDAY);
+        s1.setDayOfWeek("Sunday");
 
-        s1.updateProbability(mockContext);
-
-        assertEquals(s1.getProbability(), 5);
-
-        s1.setLocation(new double[]{1000.001, 1000.01});
-
-        s1.updateProbability(mockContext);
+        s1.updateProbability(new double[]{1000, 1000},mockContext);
 
         assertEquals(s1.getProbability(), 5);
 
-        s1.setCurrentState(Song.state.DISLIKED);
+        s1.setLocation(new double[]{1000.001, 1000.01}, mockContext);
 
-        s1.updateProbability(mockContext);
+        s1.updateProbability(s1.getLocation(mockContext), mockContext);
+
+        assertEquals(s1.getProbability(), 5);
+
+        s1.setCurrentState(-1);
+
+        s1.updateProbability(s1.getLocation(mockContext), mockContext);
 
         assertEquals(s1.getProbability(), 0);
 
-        s1.setCurrentState(Song.state.NEITHER);
+        s1.setCurrentState(0);
 
-        s1.updateProbability(mockContext);
+        s1.updateProbability(s1.getLocation(mockContext), mockContext);
 
         assertEquals(s1.getProbability(), 4);
-
-        //public Song(String title, String parentAlbum,
-        //String artistName, int lengthInSeconds,
-        //int yearOfRelease, int resID, double[] location, int dayOfWeek)
     }
 
 

@@ -93,7 +93,7 @@ public class StorageHandler {
         SharedPreferences sharedPreferences = context.getSharedPreferences("time",
                 MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(song_id+"_0", time);
+        editor.putInt(Integer.toString(song_id)/*+"_0"*/, time);
         editor.apply();
     }
 
@@ -108,6 +108,33 @@ public class StorageHandler {
         return sharedPreferences.getInt(Integer.toString(song_id), 0);
     }
 
+    /**
+     * Stores the entire time stamp of when the song is lastly played
+     * @param context the context of calling parent activity
+     * @param song_id the resource id of the song
+     * @param stamp the time stamp string
+     */
+    public static void storeSongBigTimeStamp(Context context, int song_id, String stamp){
+        System.out.println("Storing the entire time stamp for the song. SongID:\t" +
+        song_id + " \t timeStamp: \t" + stamp);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("bigTimeStamp",
+                MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Integer.toString(song_id), stamp);
+        editor.apply();
+    }
+
+    /**
+     * Get the stored big stamp stored for the song when it was last played
+     * @param context the calling context (activity)
+     * @param song_id the the song's resource id
+     * @return the big time stamp that represents the time the song is lastly played
+     */
+    public static String getSongBigTimeStamp(Context context, int song_id){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("bigTimeStamp",
+                MODE_PRIVATE);
+        return sharedPreferences.getString(Integer.toString(song_id), "");
+    }
 
     /**
      * Stores the time when the song was last played
@@ -121,19 +148,19 @@ public class StorageHandler {
         SharedPreferences sharedPreferences = context.getSharedPreferences("state",
                 MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        /*switch (state){
+        switch (state){
             case LIKED:
                 editor.putInt(Integer.toString(song_id), LIKED);
                 break;
             case DISLIKED:
                 editor.putInt(Integer.toString(song_id), DISLIKED);
                 break;
-            case NEITHER:
+            case NEUTRAL:
                 editor.putInt(Integer.toString(song_id), NEUTRAL);
                 break;
             default:
                 editor.putInt(Integer.toString(song_id), NEUTRAL);
-        }*/
+        }
         editor.apply();
     }
 

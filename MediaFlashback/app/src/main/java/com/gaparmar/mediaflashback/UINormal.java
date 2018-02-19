@@ -126,6 +126,7 @@ public class UINormal extends UIHandler {
                 }
 
                 musicPlayer.nextSong();
+                setButtonToggle(context, musicPlayer.getCurrentSongId());
                 // Dont't do anything if no song is currently selected
 
                 // Load all the information about the song
@@ -146,6 +147,7 @@ public class UINormal extends UIHandler {
                     return;
                 }
                 musicPlayer.previousSong();
+                setButtonToggle(context, musicPlayer.getCurrentSongId());
                 // Dont't do anything if no song is currently selected
 
                 // Load all the information about the song
@@ -229,6 +231,40 @@ public class UINormal extends UIHandler {
         songTimeDisplay.setText( songInfo.get(DURATION_POS));
         songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
         songArtistDisplay.setText(songInfo.get(ARTIST_POS));
+        /*switch(musicPlayer.getCurrSong().getCurrentState(context))
+        {
+            case 0:
+                toggleBtn.setImageResource(R.drawable.like);
+                toggleBtn.setTag(LIKE);
+                break;
+            case -1:
+                toggleBtn.setImageResource(R.drawable.neutral);
+                toggleBtn.setTag(NEUTRAL);
+                break;
+            case 1:
+                toggleBtn.setImageResource(R.drawable.unlike);
+                toggleBtn.setTag(DISLIKE);
+                break;
+        }*/
+    }
+
+    public void setButtonToggle(Context context, int id)
+    {
+        switch(StorageHandler.getSongState(context, id))
+        {
+            case 1:
+                toggleBtn.setImageResource(R.drawable.like);
+                toggleBtn.setTag(LIKE);
+                break;
+            case 0:
+                toggleBtn.setImageResource(R.drawable.neutral);
+                toggleBtn.setTag(NEUTRAL);
+                break;
+            case -1:
+                toggleBtn.setImageResource(R.drawable.unlike);
+                toggleBtn.setTag(DISLIKE);
+                break;
+        }
     }
 
     /**
