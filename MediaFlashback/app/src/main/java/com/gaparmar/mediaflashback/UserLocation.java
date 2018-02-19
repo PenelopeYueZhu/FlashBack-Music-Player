@@ -108,7 +108,7 @@ public class UserLocation {
      * @return The city name located at [latitude, longitude]
      */
     public static String getCity(double latitude, double longitude) {
-        
+
         try {
             addressList = geocoder.getFromLocation(latitude, longitude, 1);
         } catch (IOException e) {
