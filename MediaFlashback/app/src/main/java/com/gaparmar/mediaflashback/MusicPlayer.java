@@ -177,7 +177,11 @@ public class MusicPlayer extends AppCompatActivity {
 
             Log.d("MP:nextSong", "Loading the next song");
 
-            loadMedia( song.getResID());
+            loadMedia(song.getResID());
+            if (song != null)
+            {
+                tracker.setButtonToggle(context, song.getResID());
+            }
         }
         return song;
     }
@@ -188,15 +192,17 @@ public class MusicPlayer extends AppCompatActivity {
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void previousSong() {
+        Song song = null;
         firstTime = false;
         if (currInd > 0) {
             resetSong();
             playingSong = true;
             currInd--;
-
+            song = musicQueuer.getSong(songsToPlay.get(currInd));
             Log.d("MP:previousSong", "Loading the previous song");
 
             loadMedia( musicQueuer.getSong(songsToPlay.get(currInd)).getResID());
+            tracker.setButtonToggle(context, song.getResID());
 
         }
     }
