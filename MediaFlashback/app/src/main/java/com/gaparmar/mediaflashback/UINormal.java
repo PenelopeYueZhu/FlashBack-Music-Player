@@ -82,6 +82,8 @@ public class UINormal extends UIHandler {
      */
     public void setButtonFunctions() {
         // Set the button's functions
+
+        // Plays the song and updates the UI when the play button is pressed
         playButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,6 +103,7 @@ public class UINormal extends UIHandler {
             }
         });
 
+        // Pauses the song and updates the UI when the pause button is pressed
         pauseButton.setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick( View view ) {
@@ -110,6 +113,7 @@ public class UINormal extends UIHandler {
             }
         });
 
+        // Skips to the next song and updates the UI when the next button is pressed
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,6 +135,7 @@ public class UINormal extends UIHandler {
             }
         });
 
+        // Goes to previous song and updates UI when previous button is pressed
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -151,6 +156,8 @@ public class UINormal extends UIHandler {
             }
         });
 
+        // Switches the liked button and changes the state of the song
+        // when clicked.
         toggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -170,7 +177,7 @@ public class UINormal extends UIHandler {
                         toggleBtn.setTag(LIKE);
 
                         if (musicPlayer.getCurrSong() != null) {
-                            musicPlayer.getCurrSong().setCurrentState(1);
+                            //musicPlayer.getCurrSong().setCurrentState(1);
                             StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), 1);
                         }
 
@@ -184,12 +191,12 @@ public class UINormal extends UIHandler {
                         toggleBtn.setTag(DISLIKE);
 
                         if (musicPlayer.getCurrSong() != null) {
-                            musicPlayer.getCurrSong().setCurrentState(-1);
+                            //musicPlayer.getCurrSong().setCurrentState(-1);
                             StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), -1);
                         }
 
-                     /*   Toast dislikeToast = Toast.makeText(context, DISLIKE, Toast.LENGTH_SHORT);
-                        dislikeToast.show();*/
+                        Toast dislikeToast = Toast.makeText(context, DISLIKE, Toast.LENGTH_SHORT);
+                        dislikeToast.show();
                         break;
 
                     // switch from dislike to neutral
@@ -198,7 +205,7 @@ public class UINormal extends UIHandler {
                         toggleBtn.setTag(NEUTRAL);
 
                         if (musicPlayer.getCurrSong() != null) {
-                            musicPlayer.getCurrSong().setCurrentState(0);
+                            //musicPlayer.getCurrSong().setCurrentState(0);
                             StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), 0);
                         }
 
@@ -224,21 +231,6 @@ public class UINormal extends UIHandler {
         songTimeDisplay.setText( songInfo.get(DURATION_POS));
         songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
         songArtistDisplay.setText(songInfo.get(ARTIST_POS));
-        /*switch(musicPlayer.getCurrSong().getCurrentState(context))
-        {
-            case 0:
-                toggleBtn.setImageResource(R.drawable.like);
-                toggleBtn.setTag(LIKE);
-                break;
-            case -1:
-                toggleBtn.setImageResource(R.drawable.neutral);
-                toggleBtn.setTag(NEUTRAL);
-                break;
-            case 1:
-                toggleBtn.setImageResource(R.drawable.unlike);
-                toggleBtn.setTag(DISLIKE);
-                break;
-        }*/
     }
 
     public void setButtonToggle(Context context, int id)
@@ -260,6 +252,9 @@ public class UINormal extends UIHandler {
         }
     }
 
+    /**
+     * Changes all elements of the UI to their default value
+     */
     public void resetInfo(){
         Log.d("UINomral", "Reset displayed information of songs to NONE");
         songTitleDisplay.setText(INIT_INFO);

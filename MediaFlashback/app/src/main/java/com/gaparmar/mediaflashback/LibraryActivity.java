@@ -10,25 +10,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+/**
+ * Represents the Browse Music screen
+ */
 public class LibraryActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
 
+    // Represents the nagivation bar at the bottom to see tracks / albums / ret
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment selectedFragment = null;
+            // Checks if the user selected the tracks screen
             switch (item.getItemId()) {
                 case R.id.navigation_songs:
                     mTextMessage.setText(R.string.title_songs);
                     selectedFragment = TracksFragment.newInstance();
                     break;
+                // Checks if the user selected the albums screen
                 case R.id.navigation_albums:
                     mTextMessage.setText(R.string.title_albums);
                     selectedFragment = AlbumsFragment.newInstance();
                     break;
+                // Checks if the user selected the back button
                 case R.id.navigation_mplayer:
                     mTextMessage.setText(R.string.title_mplayer);
                     startPlayer();
@@ -43,11 +50,18 @@ public class LibraryActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Returns the screen back to the regular mode
+     */
     public void startPlayer() {
         startActivity(new Intent(LibraryActivity.this, MainActivity.class));
         finish();
     }
 
+    /**
+     * Runs when the activity is created. creates the bottom navigation bar
+     * @param savedInstanceState The Bundle that is passed in
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

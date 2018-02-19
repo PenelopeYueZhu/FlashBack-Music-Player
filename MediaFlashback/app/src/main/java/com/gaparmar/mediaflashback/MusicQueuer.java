@@ -109,7 +109,7 @@ public class MusicQueuer {
         }
     }
 
-    /*
+    /**
      * Read in albums from song lists
      * Populates the allAlbums hashmap
      */

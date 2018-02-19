@@ -136,14 +136,30 @@ public class Song {
         return StorageHandler.getSongState(context, this.getResID());
     }
 
+    public void setLocation(double[] location)
+    {
+        this.location = location;
+    }
+
+    public double[] getLocation()
+    {
+        return location;
+    }
+
+    public void setState(int state)
+    {
+        this.currentState = state;
+    }
+
+
+
     /**
      * Updates the current state of the Song
      * @param currentState the new state of the Song to be updated to
      */
 
-    public void setCurrentState(int currentState){
-        StorageHandler.getSongState(, this.getResID())
-        this.currentState = currentState;
+    public void setCurrentState(Context context, int id, int currentState){
+        StorageHandler.storeSongState(context, id, currentState);
     }
 
     /**
@@ -162,7 +178,7 @@ public class Song {
     public String getLocationString(Context context){
         double songLat = getLocation(context)[0];
         double songLong = getLocation(context)[1];
-        if(songLat == 0 || songLong == 0){
+        if(songLat == -1 || songLong == -1){
             return "None";
         }
         return UserLocation.getCity(songLat, songLong) + ", " +
@@ -333,6 +349,41 @@ public class Song {
         this.probability += prob;
 
         System.out.println("Song title: "+ getTitle() + " probability: " + this.probability);
+    }
+
+    public void updateProbability(double[] currLocation)
+    {
+        int prob = 0;
+        this.probability = 1;
+        currDay= getDayOfWeek(Calendar.DAY_OF_WEEK);
+        if(isWithinRange(currLocation, 1000)) // TODO : pass in users current location
+        {
+            prob++;
+        }
+        if(isSameDay(currDay, dayOfWeek))
+        {
+            prob++;
+        }
+        if(isSameTime(currTime, timeLastPlayed))
+        {
+            prob++;
+        }
+        if(getCurrentState() == 1)
+        {
+            prob++;
+        }
+        if(getCurrentState() == -1)
+        {
+            prob = 0;
+            this.probability = 0;
+        }
+        this.probability += prob;
+
+    }
+
+    public int getCurrentState()
+    {
+        return currentState;
     }
 
     public int getProbability(){

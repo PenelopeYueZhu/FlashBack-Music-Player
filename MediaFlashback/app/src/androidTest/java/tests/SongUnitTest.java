@@ -60,10 +60,10 @@ public class SongUnitTest {
 
     @Test
     public void testSongState() throws Exception{
-        assertEquals(0, A.getCurrentState(context));
-        assertEquals(0, B.getCurrentState(context));
-        A.setCurrentState(1);
-        assertEquals(1, A.getCurrentState(context));
+        assertEquals(A.getCurrentState(), 0);
+        assertEquals(B.getCurrentState(), 0);
+        A.setState(1);
+        assertEquals(A.getCurrentState(), 1);
     }
 
 
