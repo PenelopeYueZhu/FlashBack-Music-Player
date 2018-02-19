@@ -7,6 +7,10 @@ import java.util.ArrayList;
  * Created by gauravparmar on 2/3/18.
  */
 
+/**
+ * This class represents an album, and allows for the creation and
+ * manipulation of one.
+ */
 public class Album {
 
     private int numSongs;
@@ -72,7 +76,7 @@ public class Album {
 
     /**
      * Adds a song to the Album
-     * @param s
+     * @param s The song to add
      * @throws InvalidParameterException
      */
     public void addSong(Song s) throws InvalidParameterException{
@@ -107,6 +111,10 @@ public class Album {
         }
     }
 
+    /**
+     * Sets the MusicQueuer to the given one
+     * @param mq The new MusicQueuer
+     */
     public void setMusicQueuer(MusicQueuer mq) {
         this.mq= mq;
     }
@@ -141,30 +149,51 @@ public class Album {
         }
     }
 
-    public int getNum_songs(){
-        return this.numSongs;
-    }
-
+    /**
+     * Gets the song at a current index
+     * @param i The index to get a song at
+     * @return The song at that index
+     */
     public Song getSongAtIndex(int i){
         return mq.getSong( songs.get( i ));
     }
 
+    /**
+     * Gets the number of songs in the album
+     * @return The number of songs
+     */
     public int getNumSongs(){
         return this.numSongs;
     }
 
+    /**
+     * Gets the artists name
+     * @return The artist's name
+     */
     public String getArtistName(){
         return this.artistName;
     }
 
+    /**
+     * Gets the release year of the album
+     * @return The release year
+     */
     public int getReleaseYear(){
         return this.releaseYear;
     }
 
+    /**
+     * Gets the length of the song
+     * @return How long the song is
+     */
     public int getLengthInSeconds(){
         return this.lengthInSeconds;
     }
 
+    /**
+     * Gets the title of the album
+     * @return The album's title
+     */
     public String getAlbumTitle(){return this.albumTitle;}
 
 }

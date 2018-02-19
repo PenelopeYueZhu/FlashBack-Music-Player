@@ -34,9 +34,10 @@ public class AlbumsFragment extends Fragment {
     private MusicPlayer mp;
     private MusicQueuer mq;
 
-    public AlbumsFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * The required empty constructor
+     */
+    public AlbumsFragment() {}
 
     public static AlbumsFragment newInstance() {
         AlbumsFragment fragment = new AlbumsFragment();
@@ -44,6 +45,10 @@ public class AlbumsFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Runs when the activity is created
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +57,13 @@ public class AlbumsFragment extends Fragment {
         mp = MainActivity.getMusicPlayer();
     }
 
+    /**
+     * Runs when the view is created
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return The view created by the activity
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,6 +72,12 @@ public class AlbumsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_albums, container, false);
     }
 
+    /**
+     * Creates the buttons that are displayed and causes them to play
+     * the selected album
+     * @param view
+     * @param savedInstanceState
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
 
@@ -67,10 +85,10 @@ public class AlbumsFragment extends Fragment {
         mListView = (ListView)getView().findViewById(R.id.album_list);
         String[] titles = new String[albums.size()];
 
+        // Loads in the album titles
         for(int i = 0; i < titles.length; ++i){
             titles[i] = albums.get(i);
         }
-
 
         ArrayAdapter adapter = new ArrayAdapter(this.getContext(),
                 android.R.layout.simple_list_item_1, titles);
@@ -93,18 +111,7 @@ public class AlbumsFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-    /*
-        @Override
-        public void onAttach(Context context) {
-            super.onAttach(context);
-            if (context instanceof OnFragmentInteractionListener) {
-                mListener = (OnFragmentInteractionListener) context;
-            } else {
-                throw new RuntimeException(context.toString()
-                        + " must implement OnFragmentInteractionListener");
-            }
-        }
-    */
+
     @Override
     public void onDetach() {
         super.onDetach();
