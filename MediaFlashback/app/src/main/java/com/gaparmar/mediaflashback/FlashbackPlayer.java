@@ -4,15 +4,7 @@ package com.gaparmar.mediaflashback;
  * Created by Aaron on 2/14/2018.
  */
 
-import android.Manifest;
 import android.content.Context;
-import android.content.MutableContextWrapper;
-import android.content.pm.PackageManager;
-import android.content.res.AssetFileDescriptor;
-import android.media.MediaPlayer;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -20,7 +12,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-
+/**
+ * Handles the music events of Flashback Mode
+ */
 public class FlashbackPlayer extends MusicPlayer {
     private Context context;
     private UserLocation userLocation;
@@ -28,10 +22,8 @@ public class FlashbackPlayer extends MusicPlayer {
 
     ArrayList<Song> sortedList = new ArrayList<Song>();
     ArrayList<Integer> allSongs = new ArrayList<Integer>();
-    // TODO: SEPARATE CLASS
     private static class SongCompare implements Comparator<Song>{
         public int compare(Song s1, Song s2) {
-
             return s2.getProbability() - s1.getProbability();
         }
     }
