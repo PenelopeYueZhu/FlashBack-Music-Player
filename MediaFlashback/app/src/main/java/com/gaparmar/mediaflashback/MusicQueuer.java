@@ -190,7 +190,7 @@ public class MusicQueuer {
      * @return The corresponding
      */
     public Song getSong( int ID ){
-        return allTracks.get(ID);
+        return allTracks.get(new Integer(ID));
     }
 
     /**
@@ -206,6 +206,8 @@ public class MusicQueuer {
         infoBus.add(StorageHandler.getSongDay(context, ID));
         infoBus.add(StorageHandler.getSongBigTimeStamp(context, ID));
         infoBus.add(song.getLocationString(context));
+        infoBus.add(song.getArtistName());
+        infoBus.add(song.getParentAlbum());
         return infoBus;
     }
 
