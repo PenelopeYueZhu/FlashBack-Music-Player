@@ -247,13 +247,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="410dp"
             android:layout_height="60dp"
             android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/previous_button"
-                android:layout_width="55dp"
+                android:layout_width="25dp"
                 android:layout_height="55dp"
                 android:layout_marginEnd="34dp"
                 android:layout_marginStart="78dp"
@@ -265,21 +265,10 @@
                 app:layout_constraintTop_toTopOf="@+id/next_button"
                 app:srcCompat="@android:drawable/ic_media_previous" />
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/constraintLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"><![CDATA[>
-
-
-
-
-
-                ]]>
+            <RelativeLayout
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_weight="1">
 
                 <ImageButton
                     android:id="@+id/pause_button"
@@ -303,16 +292,13 @@
                     android:layout_height="55dp"
                     android:layout_weight="1"
                     android:background="#7698b3"
-                    app:layout_constraintBottom_toBottomOf="@+id/next_button"
-                    app:layout_constraintEnd_toStartOf="@+id/next_button"
-                    app:layout_constraintStart_toEndOf="@+id/previous_button"
                     app:srcCompat="@android:drawable/ic_media_play" />
 
-            </android.support.constraint.ConstraintLayout>
+            </RelativeLayout>
 
             <ImageButton
                 android:id="@+id/next_button"
-                android:layout_width="55dp"
+                android:layout_width="25dp"
                 android:layout_height="55dp"
                 android:layout_marginEnd="22dp"
                 android:layout_weight="1"

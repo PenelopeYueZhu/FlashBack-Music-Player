@@ -33,6 +33,8 @@ public class UINormal extends UIHandler {
     public final static int DATE_POS = 1;
     public final static int DURATION_POS = 2;
     public final static int LOC_POS = 3;
+    public final static int ALBUM_POS = 5;
+    public final static int ARTIST_POS = 4;
 
     // Initilize everything so we can actually use it
     public UINormal( Context context ){
@@ -185,6 +187,8 @@ public class UINormal extends UIHandler {
         songDateDisplay.setText( songInfo.get(DATE_POS));
         songLocationDisplay.setText( songInfo.get(LOC_POS));
         songTimeDisplay.setText( songInfo.get(DURATION_POS));
+        songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
+        songArtistDisplay.setText(songInfo.get(ARTIST_POS));
     }
 
     public void resetInfo(){
@@ -192,6 +196,8 @@ public class UINormal extends UIHandler {
         songDateDisplay.setText("None");
         songLocationDisplay.setText("None");
         songTitleDisplay.setText("None");
+        songAlbumDisplay.setText("None");
+        songArtistDisplay.setText("None");
     }
 
     /**

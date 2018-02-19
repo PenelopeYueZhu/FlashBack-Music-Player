@@ -56,6 +56,8 @@ public class UIHandler {
             songDateDisplay.setText("NONE");
             // songLocationDisplay.setText( songInfo.get(LOC_POS));
             songTimeDisplay.setText("NONE");
+            songAlbumDisplay.setText("NONE");
+            songArtistDisplay.setText("NONE");
         }
     }
 }
