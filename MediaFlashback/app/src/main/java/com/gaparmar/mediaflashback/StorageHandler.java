@@ -121,19 +121,19 @@ public class StorageHandler {
         SharedPreferences sharedPreferences = context.getSharedPreferences("state",
                 MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        /*switch (state){
+        switch (state){
             case LIKED:
                 editor.putInt(Integer.toString(song_id), LIKED);
                 break;
             case DISLIKED:
                 editor.putInt(Integer.toString(song_id), DISLIKED);
                 break;
-            case NEITHER:
+            case NEUTRAL:
                 editor.putInt(Integer.toString(song_id), NEUTRAL);
                 break;
             default:
                 editor.putInt(Integer.toString(song_id), NEUTRAL);
-        }*/
+        }
         editor.apply();
     }
 
