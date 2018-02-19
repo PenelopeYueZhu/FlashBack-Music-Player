@@ -2,10 +2,12 @@ package com.gaparmar.mediaflashback;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Handler;
 
 import java.util.ArrayList;
 
@@ -21,6 +23,7 @@ public class UINormal extends UIHandler {
 
     // All the buttons and views on the MainActivity
     Context context;
+    private Handler handler;
     private ImageButton playButton;
     private ImageButton pauseButton;
     private ImageButton nextButton;
@@ -39,6 +42,7 @@ public class UINormal extends UIHandler {
         super(context);
         musicQueuer = MainActivity.getMusicQueuer();
         musicPlayer = MainActivity.getMusicPlayer();
+        this.context = context;
 
         playButton =  (ImageButton) ((Activity)context).findViewById(R.id.play_button);
         pauseButton = (ImageButton) ((Activity)context).findViewById(R.id.pause_button);
@@ -48,6 +52,26 @@ public class UINormal extends UIHandler {
 
         toggleBtn.setImageResource(R.drawable.neutral);
         toggleBtn.setTag(NEUTRAL);
+
+        handler = new android.os.Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+
+                if( musicPlayer != null ) {
+                    // Unless there is a song playing when we get back to normal mode, hide the button
+                    if (!musicPlayer.isPlaying()) {
+                        playButton.setVisibility(View.VISIBLE);
+                        pauseButton.setVisibility(View.GONE);
+                    } else {
+                        updateTrackInfo();
+                        playButton.setVisibility(View.GONE);
+                        pauseButton.setVisibility(View.VISIBLE);
+                    }
+                    handler.postDelayed(this, 500);
+                }
+            }
+        });
 
     }
 
@@ -59,6 +83,7 @@ public class UINormal extends UIHandler {
         playButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("UINomarl", "playbutton clicked");
                 // Dont't do anything if no song is currently selected
                 try {
                     if (musicPlayer.getCurrSong() == null)
@@ -77,6 +102,7 @@ public class UINormal extends UIHandler {
         pauseButton.setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick( View view ) {
+                Log.d("UINomarl", "pausebutton clicked");
                 musicPlayer.pauseSong();
                 setButtonsPausing();
             }
@@ -85,6 +111,7 @@ public class UINormal extends UIHandler {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("UINomarl", "nextbutton clicked");
                 try {
                     if (musicPlayer.getCurrSong() == null)
                         return;
@@ -104,6 +131,7 @@ public class UINormal extends UIHandler {
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("UINomarl", "prevbutton clicked");
                 try {
                     if (musicPlayer.getCurrSong() == null)
                         return;
@@ -122,6 +150,7 @@ public class UINormal extends UIHandler {
         toggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("UINomarl", "togglebutton clicked");
                 String toggleState = toggleBtn.getTag().toString();
                 try {
                     if (musicPlayer.getCurrSong() == null)
@@ -137,7 +166,8 @@ public class UINormal extends UIHandler {
                         toggleBtn.setTag(LIKE);
 
                         if (musicPlayer.getCurrSong() != null) {
-                            musicPlayer.getCurrSong().setCurrentState(LIKED);
+                            musicPlayer.getCurrSong().setCurrentState(1);
+                            StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), 1);
                         }
 
                         Toast likeToast = Toast.makeText(context, LIKE, Toast.LENGTH_SHORT);
@@ -150,7 +180,8 @@ public class UINormal extends UIHandler {
                         toggleBtn.setTag(DISLIKE);
 
                         if (musicPlayer.getCurrSong() != null) {
-                            musicPlayer.getCurrSong().setCurrentState(DISLIKED);
+                            musicPlayer.getCurrSong().setCurrentState(-1);
+                            StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), -1);
                         }
 
                      /*   Toast dislikeToast = Toast.makeText(context, DISLIKE, Toast.LENGTH_SHORT);
@@ -163,7 +194,8 @@ public class UINormal extends UIHandler {
                         toggleBtn.setTag(NEUTRAL);
 
                         if (musicPlayer.getCurrSong() != null) {
-                            musicPlayer.getCurrSong().setCurrentState(NEITHER);
+                            musicPlayer.getCurrSong().setCurrentState(0);
+                            StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), 0);
                         }
 
                         Toast neutralToast = Toast.makeText(context, NEUTRAL, Toast.LENGTH_SHORT);
@@ -180,6 +212,7 @@ public class UINormal extends UIHandler {
      * Grab information about the song that's playing right now and display on UI
      */
     public void updateTrackInfo() {
+        Log.d("UINormal", "Reset displayed information of the song to the current song");
         ArrayList<String> songInfo = musicQueuer.getSongInfo(musicPlayer.getCurrentSongId());
         songTitleDisplay.setText( songInfo.get(TITLE_POS));
         songDateDisplay.setText( songInfo.get(DATE_POS));
@@ -188,16 +221,18 @@ public class UINormal extends UIHandler {
     }
 
     public void resetInfo(){
-        songTitleDisplay.setText("None");
-        songDateDisplay.setText("None");
-        songLocationDisplay.setText("None");
-        songTitleDisplay.setText("None");
+        Log.d("UINomral", "Reset displayed information of songs to NONE");
+        songTitleDisplay.setText(INIT_INFO);
+        songDateDisplay.setText(INIT_INFO);
+        songLocationDisplay.setText(INIT_INFO);
+        songTitleDisplay.setText(INIT_INFO);
     }
 
     /**
      * Hide play button and show pause button
      */
     public void setButtonsPlaying() {
+        Log.d("UINormal", "set button playing");
         playButton.setVisibility(View.GONE);
         pauseButton.setVisibility(View.VISIBLE);
     }
@@ -206,6 +241,7 @@ public class UINormal extends UIHandler {
      * Hide pause button and show play button
      */
     public void setButtonsPausing() {
+        Log.d("UINormal", "set Button Pauseing");
         playButton.setVisibility(View.VISIBLE);
         pauseButton.setVisibility(View.GONE);
     }
