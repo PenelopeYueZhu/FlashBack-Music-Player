@@ -67,7 +67,6 @@ public class TracksFragment extends Fragment {
             titles[i] = mq.getSong(songs.get(i)).getTitle();
         }
 
-
         ArrayAdapter adapter = new ArrayAdapter(this.getContext(),
                 android.R.layout.simple_list_item_1, titles);
         mListView.setAdapter(adapter);
@@ -83,32 +82,6 @@ public class TracksFragment extends Fragment {
         });
     }
 
-/*
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-    */
-/*
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }*/
 
     @Override
     public void onDetach() {

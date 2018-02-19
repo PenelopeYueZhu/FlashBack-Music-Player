@@ -189,6 +189,11 @@ public class StorageHandler {
         editor.apply();
     }
 
+    /**
+     * Gets the last mode that the song was in.
+     * @param context
+     * @return
+     */
     public static int getLastMode(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences("mode",
                 MODE_PRIVATE);
