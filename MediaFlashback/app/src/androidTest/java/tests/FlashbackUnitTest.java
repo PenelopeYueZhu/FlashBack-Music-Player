@@ -96,35 +96,32 @@ public class FlashbackUnitTest {
         s1.setCurrTime(0);
 
         s1.setLocation(new double[]{1000,1000},mockContext);
+
         s1.setCurrentState(1);
         s1.setTimeLastPlayed(0);
         s1.setDayOfWeek("Sunday");
 
-        s1.updateProbability(new double[]{1000, 10000},mockContext);
+        s1.updateProbability(new double[]{1000, 1000},mockContext);
 
         assertEquals(s1.getProbability(), 5);
 
         s1.setLocation(new double[]{1000.001, 1000.01}, mockContext);
 
-        s1.updateProbability(new double[]{1000.001, 1000.01}, mockContext);
+        s1.updateProbability(s1.getLocation(mockContext), mockContext);
 
         assertEquals(s1.getProbability(), 5);
 
         s1.setCurrentState(-1);
 
-        s1.updateProbability(new double[]{1000.001, 1000.01},mockContext);
+        s1.updateProbability(s1.getLocation(mockContext), mockContext);
 
         assertEquals(s1.getProbability(), 0);
 
         s1.setCurrentState(0);
 
-        s1.updateProbability(new double[]{1000.001, 1000.01},mockContext);
+        s1.updateProbability(s1.getLocation(mockContext), mockContext);
 
         assertEquals(s1.getProbability(), 4);
-
-        //public Song(String title, String parentAlbum,
-        //String artistName, int lengthInSeconds,
-        //int yearOfRelease, int resID, double[] location, int dayOfWeek)
     }
 
 

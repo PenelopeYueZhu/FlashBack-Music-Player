@@ -140,6 +140,7 @@ public class Song {
      * Updates the current state of the Song
      * @param currentState the new state of the Song to be updated to
      */
+
     public void setCurrentState(int currentState){
         this.currentState = currentState;
     }
