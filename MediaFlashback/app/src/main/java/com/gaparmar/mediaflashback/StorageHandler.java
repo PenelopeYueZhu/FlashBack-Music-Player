@@ -48,8 +48,8 @@ public class StorageHandler {
         SharedPreferences sharedPreferences = context.getSharedPreferences("location",
                 MODE_PRIVATE);
         double[] latLong = new double[2];
-        latLong[0] = sharedPreferences.getFloat(song_id+"_0", (float)0.0);
-        latLong[1] = sharedPreferences.getFloat(song_id+"_1", (float)0.0);
+        latLong[0] = sharedPreferences.getFloat(song_id+"_0", (float)-1.0);
+        latLong[1] = sharedPreferences.getFloat(song_id+"_1", (float)-1.0);
 
         return latLong;
     }
@@ -93,7 +93,7 @@ public class StorageHandler {
         SharedPreferences sharedPreferences = context.getSharedPreferences("time",
                 MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(song_id+"_0", time);
+        editor.putInt(Integer.toString(song_id)/*+"_0"*/, time);
         editor.apply();
     }
 
@@ -189,6 +189,11 @@ public class StorageHandler {
         editor.apply();
     }
 
+    /**
+     * Gets the last mode that the song was in.
+     * @param context
+     * @return
+     */
     public static int getLastMode(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences("mode",
                 MODE_PRIVATE);

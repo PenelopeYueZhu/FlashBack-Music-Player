@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+/**
+ * This class represents the Flashback Mode screen
+ */
 public class FlashbackActivity extends AppCompatActivity {
     private Song s;
     ArrayList<Integer> arr = new ArrayList<>();
@@ -64,6 +67,11 @@ public class FlashbackActivity extends AppCompatActivity {
         flashbackPlayer = new FlashbackPlayer(this, mq);
     }
 
+    /**
+     * Runs when the activity is created. Initializes the buttons,
+     * UI, and music functinos
+     * @param savedInstanceState The saved Bundle passed in
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -190,21 +198,11 @@ public class FlashbackActivity extends AppCompatActivity {
         updateTrackInfo(currentSong);
 
     }
-    public void launchActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
-        setResult(Activity.RESULT_OK, intent);
-        startActivity(intent);
-    }
 
-   /* public void updateTrackInfo(Song currentSong) {
-        songTitleDisplay.setText( currentSong.getTitle());
-        songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
-        songLocationDisplay.setText(flashbackPlayer.getCurrSong().getLocationString(this));
-        songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
-        songAlbumDisplay.setText(flashbackPlayer.getCurrSong().getArtistName());
-        songArtistDisplay.setText();
-    }*/
-
+        /**
+         * Updates the displayed track information on the UI
+         * @param currentSong The song that is currently playing
+         */
     public void updateTrackInfo(Song currentSong) {
         Log.d("UINormal", "Reset displayed information of the song to the current song");
         ArrayList<String> songInfo = mq.getSongInfo(currentSong.getResID());

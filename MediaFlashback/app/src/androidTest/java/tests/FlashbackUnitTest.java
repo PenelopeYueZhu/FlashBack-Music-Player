@@ -29,15 +29,12 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class FlashbackUnitTest {
-    Context context;
-    @Rule
-    public ActivityTestRule<MainActivity> mainActivity =
-            new ActivityTestRule<MainActivity>(MainActivity.class);
-
+    
     int songOne = R.raw.back_east;
     int songTwo = R.raw.at_midnight;
     int songThree = R.raw.after_the_storm;
     int songFour = R.raw.america_religious;
+
     final Song s1 = new Song( "Back East", "I Will Not Be Afraid", "Unknown Artist",
             0, 0, songOne, new double[]{34, -117});
     final Song s2 = new Song( "Tightrope Walker", "I Will Not Be Afraid", "Unknown Artist",
@@ -88,7 +85,7 @@ public class FlashbackUnitTest {
     @Test
     public void mockProbabilityTest()
     {
-        Context mockContext = mainActivity.getActivity().getBaseContext();
+        //Context mockContext = mainActivity.getActivity().getBaseContext();
         double[] currLocation = new double[] {1000, 1000};
         int dayOfWeek = Calendar.SUNDAY;
         int timeLastPlayed = 0;
@@ -99,6 +96,13 @@ public class FlashbackUnitTest {
         s1.setCurrTime(0);
 
         s1.setLocation(new double[]{1000,1000});
+        s1.setState(1);
+        s1.setTimeLastPlayed(0);
+        s1.setDayOfWeek("Sunday");
+
+        s1.updateProbability(new double[]{1000, 1000});
+        s1.setLocation(new double[]{1000,1000});
+
         s1.setState(1);
         s1.setTimeLastPlayed(0);
         s1.setDayOfWeek("Sunday");
