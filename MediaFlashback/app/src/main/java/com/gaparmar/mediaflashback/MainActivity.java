@@ -30,13 +30,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Creates and handles events relating to the regular mode UI screen
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static MusicPlayer musicPlayer;
     private static MusicQueuer musicQueuer;
     private static UINormal tracker;
     private static int[] stoppedInfo = new int[2];
-    private int songTime;
     public static boolean isPlaying;
     private static boolean browsing = false;
 
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         userLocation = new UserLocation(this);
 
+        // Stores the days of the week
         weekDays = new HashMap<String, Integer>();
         weekDays.put("Monday", 1);
         weekDays.put("Tuesday", 2);
@@ -109,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick( View view ){
                 isPlaying = musicPlayer.isPlaying();
-                songTime = musicPlayer.getTimeStamp();
-               // musicPlayer.resetSong();
                 StorageHandler.storeLastMode(MainActivity.this, 1);
                 launchActivity();
             }
@@ -126,30 +127,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Requests location permission from the user
+     * @param permission The permission being requested
+     * @param requestCode The code for the permissions
+     */
     private void askForPermission(String permission, Integer requestCode) {
         if (ContextCompat.checkSelfPermission(MainActivity.this, permission) != PackageManager.PERMISSION_GRANTED) {
 
-            // Should we show an explanation?
+            // Checks if the user requires permissions
             if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permission)) {
 
-                //This is called if user has denied the permission before
-                //In this case I am just asking the permission again
-
+                // If they do, ask for it
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
-
-
-            } else {
-            //    Log.d("permission", "denied permission");
-            //    ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
-
             }
-        } else {
-
-
-
         }
     }
 
+    /**
+     * Launches flashback mode activity
+     */
     public void launchActivity(){
         //input = (EditText)findViewById(R.id.in_time) ;
         Intent intent = new Intent(this, FlashbackActivity.class);
@@ -158,19 +155,27 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Launches the browse music screen
+     */
     public void launchLibrary() {
         Intent intent = new Intent(this, LibraryActivity.class);
         setResult(Activity.RESULT_OK, intent);
-        songTime = musicPlayer.getTimeStamp();
         browsing = true;
         startActivity(intent);
     }
 
+    /**
+     * Pauses the song when the activity is paused
+     */
     @Override
     public void onPause(){
         super.onPause();
+
+        // Checks if the user is not browsing songs, but is playing one
         if(!browsing) {
             if (isPlaying) {
+                // If they are, the song pauses
                 stoppedInfo = musicPlayer.stopPlaying();
                 musicPlayer.pauseSong();
                 isPlaying = true;
@@ -182,16 +187,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Resumes the song when the activity is resumed
+     */
     @Override
     public void onResume() {
         super.onResume();
+        // Checks if the user is playing a song, but now browsing
         if (isPlaying) {
             if(!browsing) {
-                Log.i("Main:onResume","THIS SHOULD NOT BE PRINTING!!!!!");
+                // Updates buttons accordingly.
+                Log.i("Main:onResume","song playing, you are not browsing");
                 tracker.setButtonsPausing();
                 tracker.updateTrackInfo();
                 isPlaying = true;
             }else{
+                // Updates the buttons differently if the user is browsing
                 Log.i("Main:onResume", "updating the buttons");
                 tracker.setButtonsPlaying();
                 tracker.updateTrackInfo();
