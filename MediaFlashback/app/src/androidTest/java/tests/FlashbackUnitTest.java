@@ -35,7 +35,7 @@ public class FlashbackUnitTest {
             new ActivityTestRule<MainActivity>(MainActivity.class);
 
     int songOne = R.raw.back_east;
-    int songTwo = R.raw.tightrope_walker;
+    int songTwo = R.raw.at_midnight;
     int songThree = R.raw.after_the_storm;
     int songFour = R.raw.america_religious;
     final Song s1 = new Song( "Back East", "I Will Not Be Afraid", "Unknown Artist",
@@ -88,7 +88,7 @@ public class FlashbackUnitTest {
     @Test
     public void mockProbabilityTest()
     {
-        Context mockContext = null;
+        Context mockContext = mainActivity.getActivity().getBaseContext();
         double[] currLocation = new double[] {1000, 1000};
         int dayOfWeek = Calendar.SUNDAY;
         int timeLastPlayed = 0;
@@ -98,32 +98,32 @@ public class FlashbackUnitTest {
         s1.setCurrLocation(currLocation);
         s1.setCurrTime(0);
 
-        s1.setLocation(new double[]{1000,1000}, mockContext);
-        s1.setCurrentState(1);
+        s1.setLocation(new double[]{1000,1000});
+        s1.setState(1);
         s1.setTimeLastPlayed(0);
         s1.setDayOfWeek("Sunday");
 
-        s1.updateProbability(new double[]{1000, 1000}, mockContext);
+        s1.updateProbability(new double[]{1000, 1000});
 
-        assertEquals(s1.getProbability(), 5);
+        assertEquals(s1.getProbability(), 4);
 
-        s1.setLocation(new double[]{1000.001, 1000.01}, mockContext);
+        s1.setLocation(new double[]{1000.001, 1000.01});
 
-        s1.updateProbability(s1.getLocation(mockContext), mockContext);
+        s1.updateProbability(s1.getLocation());
 
-        assertEquals(s1.getProbability(), 5);
+        assertEquals(s1.getProbability(), 4);
 
-        s1.setCurrentState(-1);
+        s1.setState(-1);
 
-        s1.updateProbability(s1.getLocation(mockContext), mockContext);
+        s1.updateProbability(s1.getLocation());
 
         assertEquals(s1.getProbability(), 0);
 
-        s1.setCurrentState(0);
+        s1.setState(0);
 
-        s1.updateProbability(s1.getLocation(mockContext), mockContext);
+        s1.updateProbability(s1.getLocation());
 
-        assertEquals(s1.getProbability(), 4);
+        assertEquals(s1.getProbability(), 3);
     }
 
 

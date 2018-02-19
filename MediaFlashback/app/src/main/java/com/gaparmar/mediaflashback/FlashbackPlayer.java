@@ -73,6 +73,7 @@ public class FlashbackPlayer extends MusicPlayer {
             Song song = musicQueuer.getSong(songId);
             song.updateProbability(userLocation.getLoc(), context);
             Log.d("FBP:makeFlashbackPlaylist", "Adding songs to the list");
+            //if(StorageHandler.getSongDay())
             sortedList.add(song);
         }
         Collections.sort(sortedList, new SongCompare());
