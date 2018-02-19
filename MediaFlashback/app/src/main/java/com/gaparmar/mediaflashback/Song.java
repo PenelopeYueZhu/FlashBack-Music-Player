@@ -160,7 +160,7 @@ public class Song {
     public String getLocationString(Context context){
         double songLat = getLocation(context)[0];
         double songLong = getLocation(context)[1];
-        if(songLat == 0 || songLong == 0){
+        if(songLat == -1 || songLong == -1){
             return "None";
         }
         return UserLocation.getCity(songLat, songLong) + ", " +
