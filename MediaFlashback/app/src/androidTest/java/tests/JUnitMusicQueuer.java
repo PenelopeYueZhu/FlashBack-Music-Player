@@ -25,7 +25,7 @@ public class JUnitMusicQueuer {
 
     MusicQueuer mq;
     final static int numOfSongs = 18;
-    final static int numOfAlbums = 2;
+    final static int numOfAlbums = 5;
     Context context;
 
     @Rule

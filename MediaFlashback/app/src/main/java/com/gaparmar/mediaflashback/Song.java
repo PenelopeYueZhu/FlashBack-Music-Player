@@ -142,6 +142,7 @@ public class Song {
      */
 
     public void setCurrentState(int currentState){
+        StorageHandler.getSongState(, this.getResID())
         this.currentState = currentState;
     }
 
