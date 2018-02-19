@@ -16,6 +16,7 @@ public class UIHandler {
     final String LIKE = "Liked";
     final String DISLIKE = "Disliked";
     final String ERROR_STATE = "Error";
+    final String INIT_INFO = "NONE";
 
     // All the buttons and views on the MainActivity
     Context context;

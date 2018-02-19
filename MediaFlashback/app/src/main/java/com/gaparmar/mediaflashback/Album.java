@@ -107,15 +107,23 @@ public class Album {
         }
     }
 
-
     public void setMusicQueuer(MusicQueuer mq) {
         this.mq= mq;
     }
 
+    /**
+     * Check if a song is contained in the album
+     * @param s the song we want to check
+     */
     public boolean hasSong(Song s){
         return this.songs.contains(s.getResID());
     }
 
+    /**
+     * Remove a song from the album
+     * @param s the song that we want to remove
+     * @throws InvalidParameterException
+     */
     public void removeSong(Song s) throws InvalidParameterException{
         if (s == null){
             System.err.println("The Song object is uninitialized");
