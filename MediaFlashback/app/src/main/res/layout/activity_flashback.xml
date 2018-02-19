@@ -240,15 +240,9 @@
 
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="410dp"
+            android:layout_width="300dp"
             android:layout_height="60dp"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <ImageButton
