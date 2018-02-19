@@ -180,7 +180,7 @@ public class MusicQueuer {
      * @return The corresponding
      */
     public Song getSong( int ID ){
-        return allTracks.get(ID);
+        return allTracks.get(new Integer(ID));
     }
 
     /**
@@ -196,6 +196,8 @@ public class MusicQueuer {
         infoBus.add(song.getDayOfWeek());
         infoBus.add(song.getFullTimeStampString());
         infoBus.add(song.getLocationString(context));
+        infoBus.add(song.getArtistName());
+        infoBus.add(song.getParentAlbum());
         return infoBus;
     }
 
