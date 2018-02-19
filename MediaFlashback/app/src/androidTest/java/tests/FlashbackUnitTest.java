@@ -29,6 +29,10 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class FlashbackUnitTest {
+    Context context;
+    @Rule
+    public ActivityTestRule<MainActivity> mainActivity =
+            new ActivityTestRule<MainActivity>(MainActivity.class);
 
     int songOne = R.raw.back_east;
     int songTwo = R.raw.tightrope_walker;
