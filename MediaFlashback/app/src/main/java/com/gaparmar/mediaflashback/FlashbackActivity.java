@@ -28,6 +28,8 @@ public class FlashbackActivity extends AppCompatActivity {
     TextView songLocationDisplay;
     TextView songDateDisplay;
     TextView songTimeDisplay;
+    TextView songAlbumDisplay;
+    TextView songArtistDisplay;
     ImageButton playButton;
     ImageButton pauseButton;
     ImageButton nextButton;
@@ -72,6 +74,8 @@ public class FlashbackActivity extends AppCompatActivity {
         pauseButton = (ImageButton) findViewById(R.id.pause_button);
         nextButton = (ImageButton) findViewById(R.id.next_button);
         prevButton = (ImageButton) findViewById(R.id.previous_button);
+        songArtistDisplay = findViewById(R.id.artist_title);
+        songAlbumDisplay = findViewById(R.id.album_title);
 
 
         // Initializie the song functions
@@ -189,6 +193,8 @@ public class FlashbackActivity extends AppCompatActivity {
         songDateDisplay.setText( Integer.toString( currentSong.getTimeLastPlayed()));
         songLocationDisplay.setText(flashbackPlayer.getCurrSong().getLocationString(this));
         songTimeDisplay.setText( Integer.toString( currentSong.getLengthInSeconds() ));
+        songAlbumDisplay.setText(flashbackPlayer.getCurrSong().getArtistName());
+        songArtistDisplay.setText(flashbackPlayer.getCurrSong().getParentAlbum());
     }
 
 }
