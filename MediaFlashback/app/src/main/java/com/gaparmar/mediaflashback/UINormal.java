@@ -177,7 +177,7 @@ public class UINormal extends UIHandler {
                         toggleBtn.setTag(LIKE);
 
                         if (musicPlayer.getCurrSong() != null) {
-                            musicPlayer.getCurrSong().setCurrentState(1);
+                            //musicPlayer.getCurrSong().setCurrentState(1);
                             StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), 1);
                         }
 
@@ -191,7 +191,7 @@ public class UINormal extends UIHandler {
                         toggleBtn.setTag(DISLIKE);
 
                         if (musicPlayer.getCurrSong() != null) {
-                            musicPlayer.getCurrSong().setCurrentState(-1);
+                            //musicPlayer.getCurrSong().setCurrentState(-1);
                             StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), -1);
                         }
 
@@ -205,7 +205,7 @@ public class UINormal extends UIHandler {
                         toggleBtn.setTag(NEUTRAL);
 
                         if (musicPlayer.getCurrSong() != null) {
-                            musicPlayer.getCurrSong().setCurrentState(0);
+                            //musicPlayer.getCurrSong().setCurrentState(0);
                             StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), 0);
                         }
 
