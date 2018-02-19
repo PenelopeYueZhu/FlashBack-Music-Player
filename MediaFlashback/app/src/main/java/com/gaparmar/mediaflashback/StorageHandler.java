@@ -93,7 +93,7 @@ public class StorageHandler {
         SharedPreferences sharedPreferences = context.getSharedPreferences("time",
                 MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(song_id+"_0", time);
+        editor.putInt(Integer.toString(song_id)/*+"_0"*/, time);
         editor.apply();
     }
 
