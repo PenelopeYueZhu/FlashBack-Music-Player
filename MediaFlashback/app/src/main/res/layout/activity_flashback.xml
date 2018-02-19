@@ -8,343 +8,322 @@
     android:background="#232625">
 
 
-    <TextView
-        android:id="@+id/line3"
-        android:layout_width="330dp"
-        android:layout_height="24dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="-------------------------------------------------------------------------"
-        android:textColor="#2e5448"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.552" />
-
-    <TextView
-        android:id="@+id/song_time"
-        android:layout_width="236dp"
-        android:layout_height="26dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="None"
-        android:textColor="#ffffff"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.848"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498" />
-
-    <TextView
-        android:id="@+id/song_date"
-        android:layout_width="236dp"
-        android:layout_height="26dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="None"
-        android:textColor="#ffffff"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.848"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.42" />
-
-    <TextView
-        android:id="@+id/song_location"
-        android:layout_width="223dp"
-        android:layout_height="26dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="None"
-        android:textColor="#ffffff"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.82"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.345" />
-
-    <TextView
-        android:id="@+id/time_title"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="Time:"
-        android:textColor="#467750"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.088"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:gravity="top|center"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="8dp">
 
-    <TextView
-        android:id="@+id/date_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="Date:"
-        android:textColor="#467750"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.085"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.42" />
+        <TextView
+            android:id="@+id/flashback_mode_title"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="Flashback Mode"
+            android:textColor="#7adf9e"
+            android:textSize="30dp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="57dp" />
 
-    <TextView
-        android:id="@+id/location_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="Location:"
-        android:textColor="#467750"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.096"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.346" />
+        <TextView
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:text="-------------------------------------------------------------------------"
+            android:textColor="#FCF7F8"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="15dp"
+            tools:layout_editor_absoluteY="166dp" />
 
-    <TextView
-        android:id="@+id/last_played_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="Last Played"
-        android:textColor="#7adf9e"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.288" />
 
-    <ImageButton
-        android:id="@+id/play_button"
-        android:layout_width="55dp"
-        android:layout_height="51dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#467750"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.65"
-        app:srcCompat="@android:drawable/ic_media_play"
-        android:onClick="onPlayButtonClick"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteY="71dp">
 
-    <ImageButton
-        android:id="@+id/pause_button"
-        android:layout_width="55dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#467750"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.649"
-        app:srcCompat="@android:drawable/ic_media_pause"
-        android:onClick="onPauseButtonClick"/>
+            <TextView
+                android:id="@+id/playing_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Playing"
+                android:textColor="#7adf9e"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/song_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line2" />
 
-    <Button
-        android:id="@+id/regular_button"
-        android:layout_width="315dp"
-        android:layout_height="52dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#7ADF9E"
-        android:text="Regular Mode"
-        android:textAllCaps="false"
-        android:textColor="#232625"
-        android:textSize="23dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.819"
-        android:onClick="onRegularModeClick"/>
+            <TextView
+                android:id="@+id/song_title"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:gravity="center"
+                android:text="None"
+                android:textColor="#ffffff"
+                android:textSize="16dp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="98dp" />
 
-    <TextView
-        android:id="@+id/flashback_mode_title"
-        android:layout_width="247dp"
-        android:layout_height="47dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="Flashback Mode"
-        android:textColor="#7adf9e"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+            <TextView
+                android:id="@+id/artist_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="none"
+                android:textAlignment="center"
+                android:textColor="@android:color/background_light"
+                android:textSize="15dp"
+                tools:layout_editor_absoluteX="164dp"
+                tools:layout_editor_absoluteY="122dp" />
 
-    <TextView
-        android:id="@+id/song_title"
-        android:layout_width="328dp"
-        android:layout_height="24dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="None"
-        android:textColor="#ffffff"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.19" />
+            <TextView
+                android:id="@+id/album_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="none"
+                android:textAlignment="center"
+                android:textColor="@android:color/background_light"
+                android:textSize="15dp"
+                tools:layout_editor_absoluteX="164dp"
+                tools:layout_editor_absoluteY="145dp" />
 
-    <TextView
-        android:id="@+id/playing_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="Playing"
-        android:textColor="#7adf9e"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/line1"
-        android:layout_width="330dp"
-        android:layout_height="24dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="-------------------------------------------------------------------------"
-        android:textColor="#2e5448"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25" />
+        <TextView
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:text="-------------------------------------------------------------------------"
+            android:textColor="#FCF7F8"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/regular_mode_title"
+            tools:layout_editor_absoluteX="15dp" />
 
-    <TextView
-        android:id="@+id/line2"
-        android:layout_width="330dp"
-        android:layout_height="24dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="-------------------------------------------------------------------------"
-        android:textColor="#2e5448"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.09" />
+        <TextView
+            android:id="@+id/last_played_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Last Played"
+            android:textAlignment="center"
+            android:textColor="#7adf9e"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteY="181dp" />
 
-    <ImageButton
-        android:id="@+id/next_button"
-        android:layout_width="41dp"
-        android:layout_height="37dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#467750"
-        app:layout_constraintBottom_toBottomOf="@+id/pause_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.37"
-        app:layout_constraintStart_toEndOf="@+id/pause_button"
-        app:layout_constraintTop_toTopOf="@+id/pause_button"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@android:drawable/ic_media_next"
-        android:onClick="onNextButtonClick"/>
 
-    <ImageButton
-        android:id="@+id/previous_button"
-        android:layout_width="41dp"
-        android:layout_height="37dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#467750"
-        app:layout_constraintBottom_toBottomOf="@+id/pause_button"
-        app:layout_constraintEnd_toStartOf="@+id/pause_button"
-        app:layout_constraintHorizontal_bias="0.638"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pause_button"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@android:drawable/ic_media_previous"
-        android:onClick="onPreviousButtonClick"/>
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraint"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="244dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/location_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="26dp"
+                    android:gravity="center"
+                    android:text="Location:"
+                    android:textAlignment="textEnd"
+                    android:textColor="#467750"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="36dp"
+                    tools:layout_editor_absoluteY="217dp" />
+
+                <TextView
+                    android:id="@+id/date_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="26dp"
+                    android:gravity="center"
+                    android:text="Date:"
+                    android:textAlignment="textEnd"
+                    android:textColor="#467750"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="36dp"
+                    tools:layout_editor_absoluteY="242dp" />
+
+                <TextView
+                    android:id="@+id/time_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="26dp"
+                    android:gravity="center"
+                    android:text="Time:"
+                    android:textAlignment="textEnd"
+                    android:textColor="#467750"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="36dp"
+                    tools:layout_editor_absoluteY="271dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="32dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/song_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="26dp"
+                    android:gravity="center"
+                    android:text="None"
+                    android:textColor="#ffffff"
+                    android:textSize="16dp"
+                    tools:layout_editor_absoluteX="121dp"
+                    tools:layout_editor_absoluteY="243dp" />
+
+                <TextView
+                    android:id="@+id/song_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="26dp"
+                    android:gravity="center"
+                    android:text="None"
+                    android:textColor="#ffffff"
+                    android:textSize="16dp"
+                    tools:layout_editor_absoluteX="121dp"
+                    tools:layout_editor_absoluteY="217dp" />
+
+                <TextView
+                    android:id="@+id/song_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="26dp"
+                    android:gravity="center"
+                    android:text="None"
+                    android:textColor="#ffffff"
+                    android:textSize="16dp"
+                    tools:layout_editor_absoluteX="121dp"
+                    tools:layout_editor_absoluteY="272dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/line3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="121dp"
+                android:layout_marginTop="298dp"
+                android:gravity="center"
+                android:text="-------------------------------------------------------------------------"
+                android:textColor="#FCF7F8"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/browse_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/previous_button"
+                android:layout_width="25dp"
+                android:layout_height="55dp"
+                android:layout_marginEnd="34dp"
+                android:layout_marginStart="78dp"
+                android:layout_weight="1"
+                android:background="#467750"
+                android:onClick="onPreviousButtonClick"
+                app:layout_constraintBottom_toBottomOf="@+id/pause_button"
+                app:layout_constraintEnd_toStartOf="@+id/play_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/next_button"
+                app:srcCompat="@android:drawable/ic_media_previous" />
+
+            <RelativeLayout
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:id="@+id/pause_button"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_weight="1"
+                    android:background="#467750"
+                    android:onClick="onPauseButtonClick"
+                    app:layout_constraintBottom_toBottomOf="@+id/play_button"
+                    app:layout_constraintEnd_toEndOf="@+id/play_button"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/play_button"
+                    app:layout_constraintTop_toTopOf="@+id/play_button"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@android:drawable/ic_media_pause" />
+
+                <ImageButton
+                    android:id="@+id/play_button"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_weight="1"
+                    android:background="#467750"
+                    android:onClick="onPlayButtonClick"
+                    app:srcCompat="@android:drawable/ic_media_play" />
+
+            </RelativeLayout>
+
+            <ImageButton
+                android:id="@+id/next_button"
+                android:layout_width="25dp"
+                android:layout_height="55dp"
+                android:layout_marginEnd="22dp"
+                android:layout_weight="1"
+                android:background="#467750"
+                android:onClick="onNextButtonClick"
+                app:layout_constraintBottom_toBottomOf="@+id/toggleBtn"
+                app:layout_constraintEnd_toStartOf="@+id/toggleBtn"
+                app:layout_constraintStart_toEndOf="@+id/play_button"
+                app:layout_constraintTop_toTopOf="@+id/toggleBtn"
+                app:srcCompat="@android:drawable/ic_media_next" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/regular_button"
+            android:layout_width="316dp"
+            android:layout_height="45dp"
+            android:background="#7adf9e"
+            android:onClick="onRegularModeClick"
+            android:text="Regular Mode"
+            android:textAllCaps="false"
+            android:textColor="#232625"
+            android:textSize="23dp"
+            tools:layout_editor_absoluteX="22dp"
+            tools:layout_editor_absoluteY="403dp" />
+
+
+    </LinearLayout>
+
 
 </android.support.constraint.ConstraintLayout>

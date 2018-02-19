@@ -24,6 +24,8 @@ public class UIHandler {
     TextView songLocationDisplay;
     TextView songDateDisplay;
     TextView songTimeDisplay;
+    TextView songArtistDisplay;
+    TextView songAlbumDisplay;
 
     public UIHandler(){}
     // Initilize everything so we can actually use it
@@ -33,6 +35,8 @@ public class UIHandler {
         songLocationDisplay = (TextView) ((Activity)context).findViewById(R.id.song_location);
         songDateDisplay = (TextView) ((Activity)context).findViewById(R.id.song_date);
         songTimeDisplay = (TextView) ((Activity)context).findViewById(R.id.song_time);
+        songArtistDisplay = (TextView) ((Activity)context).findViewById(R.id.artist_title);
+        songAlbumDisplay = (TextView) ((Activity)context).findViewById(R.id.album_title);
     }
 
     /**
@@ -45,12 +49,16 @@ public class UIHandler {
             songDateDisplay.setText(Integer.toString(song.getTimeLastPlayed()));
             // songLocationDisplay.setText( songInfo.get(LOC_POS));
             songTimeDisplay.setText(Double.toString(song.getLengthInSeconds()));
+            songAlbumDisplay.setText(song.getParentAlbum());
+            songArtistDisplay.setText(song.getArtistName());
         }
         else {
             songTitleDisplay.setText("NONE");
             songDateDisplay.setText("NONE");
             // songLocationDisplay.setText( songInfo.get(LOC_POS));
             songTimeDisplay.setText("NONE");
+            songAlbumDisplay.setText("NONE");
+            songArtistDisplay.setText("NONE");
         }
     }
 }
