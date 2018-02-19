@@ -8,9 +8,6 @@
   <component name="ChangeListManager">
     <list default="true" id="077e08f5-2fe2-4436-a88a-ccd217f045a4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MusicPlayer.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MusicPlayer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/StorageHandler.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/StorageHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/UINormal.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/UINormal.java" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -390,7 +387,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1519007575814" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1519016018438" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -438,7 +435,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1519007575814" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1519016018438" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
