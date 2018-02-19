@@ -43,13 +43,11 @@ public class UIHandler {
         if ( song != null ) {
             songTitleDisplay.setText(song.getTitle());
             songDateDisplay.setText(Integer.toString(song.getTimeLastPlayed()));
-            // songLocationDisplay.setText( songInfo.get(LOC_POS));
             songTimeDisplay.setText(Double.toString(song.getLengthInSeconds()));
         }
         else {
             songTitleDisplay.setText("NONE");
             songDateDisplay.setText("NONE");
-            // songLocationDisplay.setText( songInfo.get(LOC_POS));
             songTimeDisplay.setText("NONE");
         }
     }

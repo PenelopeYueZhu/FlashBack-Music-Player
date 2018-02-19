@@ -38,11 +38,6 @@ public class MusicPlayer extends AppCompatActivity {
     protected boolean playingSong = false;
     protected Context context;
 
-    protected Calendar currDate;
-    protected SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
-    protected SimpleDateFormat hourFormat = new SimpleDateFormat("HH", Locale.US);
-    protected SimpleDateFormat fullTimeFormat = new SimpleDateFormat("HH:mm 'at' MM/dd/YY");
-
     /**
      * default contructor. Doesn't do anything
      */
@@ -56,7 +51,6 @@ public class MusicPlayer extends AppCompatActivity {
         this.musicQueuer = musicQueuer;
         this.tracker = MainActivity.getUITracker();
         this.context = current;
-        currDate = Calendar.getInstance();
         mediaPlayer = new MediaPlayer();
         final UserLocation userLocation = new UserLocation(current);
 
@@ -76,26 +70,7 @@ public class MusicPlayer extends AppCompatActivity {
             public void onCompletion(MediaPlayer mp) {
                 // Update the date, time, and location
 
-                userLocation.getLoc();
-                if(UserLocation.hasPermission) {
-                    StorageHandler.storeSongLocation(current, getCurrentSongId(), userLocation.getLoc());
-                }
-                // Get the weekday
-                String weekdayStr = dayFormat.format(currDate.getTime());
-                getCurrSong().setDayOfWeek(weekdayStr);
-                StorageHandler.storeSongDay(current, getCurrentSongId(), weekdayStr);
-                // Get the time of the day when the song is played
-                int timeOfDay = Integer.parseInt(hourFormat.format(currDate.getTime()));
-                getCurrSong().setTimeLastPlayed(timeOfDay);
-                StorageHandler.storeSongTime(current, getCurrentSongId(), timeOfDay);
-
-                // Get the whole time time/month/day/year for the song
-                String timeStampString = fullTimeFormat.format( currDate.getTime());
-                getCurrSong().setFullTimeStampString(timeStampString);
-                // Set the time string
-                getCurrSong().setFullTimeStamp(new Date().getTime());
-
-                StorageHandler.storeSongState(current, getCurrentSongId(), getCurrSong().getCurrentState(current));
+                musicQueuer.storeSongInfo(getCurrentSongId());
 
                 Log.d("MP:OnCompleteListener","Song finished playing");
                 firstTime = false;

@@ -8,9 +8,13 @@ import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -28,6 +32,10 @@ public class MusicQueuer {
     final private String PACKAGE = "com.gaparmar.mediaflashback";
     final private String RES_FOLDER = "raw";
     final private String URI_PREFIX = "android.resource://com.gaparmar.mediaflashback/raw/";
+    protected Calendar currDate;
+    protected SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
+    protected SimpleDateFormat hourFormat = new SimpleDateFormat("HH", Locale.US);
+    protected SimpleDateFormat fullTimeFormat = new SimpleDateFormat("HH:mm 'at' MM/dd/YY");
 
 
     /**
@@ -157,6 +165,8 @@ public class MusicQueuer {
             HashMap.Entry currEntry = (HashMap.Entry) it.next();
             Album currAlbum = (Album) currEntry.getValue();
 
+            Log.d("MQ:getEntireAlbumList", "putting the album " + currAlbum.getAlbumTitle()
+            + " into the list");
             albums.add( currAlbum.getAlbumTitle() );
         }
         return albums;
@@ -193,10 +203,41 @@ public class MusicQueuer {
         Song song = this.getSong(ID);
 
         infoBus.add(song.getTitle());
-        infoBus.add(song.getDayOfWeek());
-        infoBus.add(song.getFullTimeStampString());
+        infoBus.add(StorageHandler.getSongDay(context, ID));
+        infoBus.add(StorageHandler.getSongBigTimeStamp(context, ID));
         infoBus.add(song.getLocationString(context));
         return infoBus;
+    }
+
+    /**
+     * Store song information
+     * @param ID the id of the song we are storing information for
+     */
+    public void storeSongInfo( int ID ){
+        final UserLocation userLocation = new UserLocation(context);
+        currDate = Calendar.getInstance();
+
+        userLocation.getLoc();
+        if(UserLocation.hasPermission) {
+            StorageHandler.storeSongLocation(context, ID, userLocation.getLoc());
+        }
+        // Get the weekday
+        String weekdayStr = dayFormat.format(currDate.getTime());
+        getSong(ID).setDayOfWeek(weekdayStr);
+        StorageHandler.storeSongDay(context, ID, weekdayStr);
+        // Get the time of the day when the song is played
+        int timeOfDay = Integer.parseInt(hourFormat.format(currDate.getTime()));
+        getSong(ID).setTimeLastPlayed(timeOfDay);
+        StorageHandler.storeSongTime(context, ID, timeOfDay);
+
+        // Get the whole time time/month/day/year for the song
+        String timeStampString = fullTimeFormat.format( currDate.getTime());
+        getSong(ID).setFullTimeStampString(timeStampString);
+        // Set the time string
+        getSong(ID).setFullTimeStamp(new Date().getTime());
+        StorageHandler.storeSongBigTimeStamp(context, ID, timeStampString);
+
+        StorageHandler.storeSongState(context, ID, getSong(ID).getCurrentState(context));
     }
 
     /**
