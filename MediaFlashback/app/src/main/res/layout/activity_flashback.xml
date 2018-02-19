@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.gaparmar.mediaflashback.FlashbackActivity"
-    android:background="#232625">
-
+    android:background="#232625"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/linearLayout4"

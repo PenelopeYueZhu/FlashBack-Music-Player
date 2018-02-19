@@ -24,6 +24,8 @@ import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * Created by Gordee on 2/17/2018.
+ * This class is used to store and retrieve information about
+ * the users location.
  */
 
 public class UserLocation {
@@ -39,6 +41,11 @@ public class UserLocation {
     private static Context context;
     private static Activity activity;
 
+    /**
+     * Constructs an instance of a UserLocation
+     * Creates a locationListener that gets the users location
+     * @param context The context that the userLocation is created in
+     */
     public UserLocation(Context context) {
 
         this.context = context;
@@ -68,6 +75,7 @@ public class UserLocation {
 
         };
 
+        // Requests the location from the user's phone
         mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         try {
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100,
@@ -77,8 +85,12 @@ public class UserLocation {
         }
     }
 
+    /**
+     * Gets the GPS coordinates of the user
+     * @return A double representing [latitude, longitude], or -1, -1 if
+     *         the user does not have locations enabled.
+     */
     public static double[] getLoc() {
-        //
 
         try {
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
@@ -89,9 +101,14 @@ public class UserLocation {
     }
 
 
-
+    /**
+     * Returns the city that is located at the given location
+     * @param latitude The latitude to check for
+     * @param longitude The longitude to check for
+     * @return The city name located at [latitude, longitude]
+     */
     public static String getCity(double latitude, double longitude) {
-
+        
         try {
             addressList = geocoder.getFromLocation(latitude, longitude, 1);
         } catch (IOException e) {
@@ -101,6 +118,12 @@ public class UserLocation {
 
     }
 
+    /**
+     * Gets the state of the given GPS coordinates
+     * @param latitude The latitude to check for
+     * @param longitude The longitude to check for
+     * @return The state located at [latitude, longitude]
+     */
     public static String getState(double latitude, double longitude){
         try {
             addressList = geocoder.getFromLocation(latitude, longitude, 1);
