@@ -133,13 +133,18 @@ public class MainActivity extends AppCompatActivity {
 
                 //This is called if user has denied the permission before
                 //In this case I am just asking the permission again
+
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
+
 
             } else {
+            //    Log.d("permission", "denied permission");
+            //    ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
 
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
             }
         } else {
+
+
 
         }
     }

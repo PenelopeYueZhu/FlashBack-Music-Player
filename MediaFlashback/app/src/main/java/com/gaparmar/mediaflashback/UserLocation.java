@@ -101,10 +101,11 @@ public class UserLocation {
         try {
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
         }catch (SecurityException e){
-            hasPermission = false;
+            return new double[]{-1.0, -1.0};
         }
         return new double[]{lat, lon};
     }
+
 
 
     public static String getCity(double latitude, double longitude) {

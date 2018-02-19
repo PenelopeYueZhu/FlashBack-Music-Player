@@ -71,8 +71,9 @@ public class MusicPlayer extends AppCompatActivity {
             public void onCompletion(MediaPlayer mp) {
                 // Update the date, time, and location
 
-                userLocation.getLoc();
-                if(UserLocation.hasPermission) {
+                double[] location = userLocation.getLoc();
+                // If -1, location is turned off and should not be used
+                if(location[0] != -1) {
                     StorageHandler.storeSongLocation(current, getCurrentSongId(), userLocation.getLoc());
                 }
                 String weekdayStr = dayFormat.format(currDate.getTime());
