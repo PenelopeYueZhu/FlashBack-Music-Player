@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#232625"
+    android:gravity="center_vertical"
     tools:context="com.gaparmar.mediaflashback.MainActivity"
     tools:layout_editor_absoluteY="81dp">
 
@@ -247,16 +248,17 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="410dp"
+            android:layout_width="wrap_content"
             android:layout_height="60dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/previous_button"
-                android:layout_width="25dp"
+                android:layout_width="30dp"
                 android:layout_height="55dp"
-                android:layout_marginEnd="34dp"
-                android:layout_marginStart="78dp"
+                android:layout_marginRight="25dp"
                 android:layout_weight="1"
                 android:background="#7698b3"
                 app:layout_constraintBottom_toBottomOf="@+id/pause_button"
@@ -298,9 +300,9 @@
 
             <ImageButton
                 android:id="@+id/next_button"
-                android:layout_width="25dp"
+                android:layout_width="30dp"
                 android:layout_height="55dp"
-                android:layout_marginEnd="22dp"
+                android:layout_marginLeft="25dp"
                 android:layout_weight="1"
                 android:background="#7698b3"
                 app:layout_constraintBottom_toBottomOf="@+id/toggleBtn"
@@ -313,8 +315,8 @@
                 android:id="@+id/toggleBtn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginBottom="139dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
@@ -324,6 +326,7 @@
                 app:layout_constraintStart_toEndOf="@+id/next_button"
                 app:srcCompat="@drawable/like" />
         </LinearLayout>
+
         <Button
             android:id="@+id/flashback_button"
             android:layout_width="316dp"
@@ -351,7 +354,6 @@
     </LinearLayout>
 
 
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
 
 
