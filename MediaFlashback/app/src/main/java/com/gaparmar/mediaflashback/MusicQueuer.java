@@ -5,6 +5,7 @@ import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class MusicQueuer {
             // Push a new object
             // Get the name of the song
             String name = songLists[count].getName();
+            Log.d("MQ:readSongs", "Loading the song "+ name);
             // Get the ID of the song
             int songId = context.getResources().getIdentifier(name, RES_FOLDER, PACKAGE);
             // Get the path of the song
@@ -63,6 +65,7 @@ public class MusicQueuer {
             String artist = UNKNOWN_STRING;
             try{
                 retriever.setDataSource(context, songPath);
+                Log.d("MQ:readSong", "Retrieving the song's metadata");
                 title = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
                 year = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR);
                 duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
@@ -90,10 +93,11 @@ public class MusicQueuer {
 
             // Create a song object
             Song song = new Song( title, album, artist, Integer.parseInt(duration),
-                    Integer.parseInt(year), songId, StorageHandler.getSongLocation(context, songId));  //TODO maybe change null to location?
+                    Integer.parseInt(year), songId, StorageHandler.getSongLocation(context, songId));
 
             // Put the song object inside the track hashmap
             allTracks.put(songId, song);
+            Log.d("MQ:readSong()", "Just loaded song " + song.getTitle() + " into map");
         }
     }
 
@@ -108,6 +112,7 @@ public class MusicQueuer {
             Map.Entry<Integer, Song> currEntry = it.next();
             Song currSong = currEntry.getValue();
 
+            Log.d("MQ:readAlbum", "Getting the song " + currSong.getTitle());
             String albumName = currSong.getParentAlbum();
             if( albumName == null )albumName = UNKNOWN_STRING;
             Album currAlbum = allAlbums.get(albumName);
@@ -116,8 +121,9 @@ public class MusicQueuer {
             if (currAlbum == null) {
                 currAlbum = new Album(albumName);
                 allAlbums.put(albumName, currAlbum);
-                //Log.i("Putting Album", albumName);
             }
+            Log.d("readAlbum", "Putting the song " + currSong.getTitle() + " into Album"
+            + currAlbum.getAlbumTitle());
             currAlbum.addSong(currSong);
         }
     }
@@ -188,12 +194,13 @@ public class MusicQueuer {
 
         infoBus.add(song.getTitle());
         infoBus.add(song.getDayOfWeek());
-        infoBus.add(Integer.toString(song.getTimeLastPlayed()));
+        infoBus.add(song.getFullTimeStampString());
         infoBus.add(song.getLocationString(context));
         return infoBus;
     }
 
     /**
+     * Get the number of songs queued
      * @return the total number of currently stored songs
      */
     public int getNumSongs( ){
@@ -201,6 +208,7 @@ public class MusicQueuer {
     }
 
     /**
+     * Get the number of albums queued
      * @return the total number of currently stored albums
      */
     public int getNumAlbums(){

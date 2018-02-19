@@ -43,7 +43,8 @@ public class Song {
     private String currDay;
     private double[] currLocation;
     private int currTime;
-
+    private long fullTimeStamp;
+    private String fullTimeStampString;
 
     /**
      *  the default constructor
@@ -128,6 +129,7 @@ public class Song {
 
     /**
      * Retrives the current state of the Song
+     * @param context the current activity that the song lives on
      * @return whether the song is LIKED/DISLIKED/NEUTRAl
      */
     public int getCurrentState(Context context){
@@ -150,6 +152,11 @@ public class Song {
         return StorageHandler.getSongLocation(context, this.resID);
     }
 
+    /**
+     * Get the location whre the song is lastly played in readable String
+     * @param context the current context the song lives on
+     * @return the string that presents the location
+     */
     public String getLocationString(Context context){
         double songLat = getLocation(context)[0];
         double songLong = getLocation(context)[1];
@@ -247,9 +254,20 @@ public class Song {
         return dayOfWeek;
     }
 
+    public long getFullTimeStamp() {
+        return fullTimeStamp;
+    }
+
+    public String getFullTimeStampString() {
+        return fullTimeStampString;
+    }
 
 
-
+    /**
+     * Get the day of the week
+     * @param value the number of the day of the week, 1-monday so on
+     * @return the string value of that day
+     */
     private String getDayOfWeek(int value)
     {
         String day = "";
@@ -278,6 +296,12 @@ public class Song {
         }
         return day;
     }
+
+    /**
+     * Update probabilily of a song being played based on the location and time it was last played
+     * @param currLocation the current location of the user
+     * @param context the current activity the song lives on
+     */
     public void updateProbability(double[] currLocation, Context context)
     {
         int prob = 0;
@@ -333,6 +357,20 @@ public class Song {
         this.currTime = currTime;
     }
 
+    public void setFullTimeStamp( long timeStamp ) {
+        this.fullTimeStamp = timeStamp;
+    }
+
+    public void setFullTimeStampString( String timeStampString ) {
+        this.fullTimeStampString = timeStampString;
+    }
+
+    /**
+     * Calculate if the song is with in a certain threshold of where it was last played
+     * @param currLocation the current location of the user
+     * @param threshold the range we want to set - within that range, we say the song is close enough
+     * @return true if the song is close enough, false otherwise
+     */
     public boolean isWithinRange(double[] currLocation, int threshold)
     {
         //TODO:: create method to determine if the current location is in the same range as the last played location
@@ -375,8 +413,11 @@ public class Song {
     }
 
     /**
-     * This method uses the haversine formula to calculate distance between GPS coordinates
-    */
+     * Uses the haversine formula to calculate distance between GPS coordinates
+     * @param loc1 the current location user is at
+     * @param loc2 the location where the song is last played
+     * @return the distance between two location
+     */
     public static double calculateDist(double[] loc1, double[] loc2)
     {
 
@@ -414,7 +455,12 @@ public class Song {
 
     }
 
-    public static double toRadians(double degrees){
+    /**
+     * helper function that converts degree to radiant
+     * @param degrees the degree we are trying to convert
+     * @return the radiant converted from parameter degree
+     */
+    private static double toRadians(double degrees){
         return degrees * Math.PI / 180;
     }
 

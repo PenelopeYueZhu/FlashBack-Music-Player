@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             musicQueuer.readAlbums();
         }
 
+        // Initialized the player
         if (musicPlayer == null) {
             musicPlayer = new MusicPlayer(this, musicQueuer);
         }
@@ -164,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
     public void onPause(){
         super.onPause();
         if(!browsing) {
-            //songTime = musicPlayer.getTimeStamp();
             if (isPlaying) {
                 stoppedInfo = musicPlayer.stopPlaying();
                 musicPlayer.pauseSong();
@@ -182,21 +182,16 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if (isPlaying) {
             if(!browsing) {
-                System.out.println("THIS SHOULD NOT BE PRINTING!!!!!");
-                // Update buttons and info
+                Log.i("Main:onResume","THIS SHOULD NOT BE PRINTING!!!!!");
                 tracker.setButtonsPausing();
                 tracker.updateTrackInfo();
-                //musicPlayer.resumePlaying(songTime, stoppedInfo[1]);
-                //musicPlayer.playSong();
                 isPlaying = true;
             }else{
+                Log.i("Main:onResume", "updating the buttons");
                 tracker.setButtonsPlaying();
                 tracker.updateTrackInfo();
             }
-        }else{
-           //tracker.setButtonsPlaying();
         }
-
         browsing = false;
     }
 }

@@ -81,6 +81,8 @@ public class AlbumsFragment extends Fragment {
                 Album a = mq.getAlbum(albums.get(position));
 
                 mp.loadAlbum(a);
+                MainActivity.isPlaying = true;
+                onDetach();
             }
         });
     }
