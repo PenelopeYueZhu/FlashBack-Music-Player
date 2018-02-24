@@ -28,7 +28,7 @@ import static android.content.Context.LOCATION_SERVICE;
  * the users location.
  */
 
-public class UserLocation {
+public class  UserLocation {
     public static double lat;
     public static double lon;
     public static Criteria gpsCrit;

@@ -29,9 +29,9 @@ public class MusicQueuer {
     private final static String UNKNOWN_STRING = "Unknown";
     private final static String UNKNOWN_INT = "0";
     private Context context;
-    final private String PACKAGE = "com.gaparmar.mediaflashback";
+   // final private String PACKAGE = "com.gaparmar.mediaflashback";
     final private String RES_FOLDER = "raw";
-    final private String URI_PREFIX = "android.resource://com.gaparmar.mediaflashback/raw/";
+    //final private String URI_PREFIX = "android.resource://com.gaparmar.mediaflashback/raw/";
     protected Calendar currDate;
     protected SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
     protected SimpleDateFormat hourFormat = new SimpleDateFormat("HH", Locale.US);
@@ -61,9 +61,9 @@ public class MusicQueuer {
             String name = songLists[count].getName();
             Log.d("MQ:readSongs", "Loading the song "+ name);
             // Get the ID of the song
-            int songId = context.getResources().getIdentifier(name, RES_FOLDER, PACKAGE);
+            int songId = context.getResources().getIdentifier(name, RES_FOLDER, Constant.PACKAGE_NAME);
             // Get the path of the song
-            Uri songPath = Uri.parse(URI_PREFIX+name );
+            Uri songPath = Uri.parse(Constant.URI_PREFIX+name );
             // Get all the metadata
             MediaMetadataRetriever retriever = new MediaMetadataRetriever();
             String title = UNKNOWN_STRING;
@@ -205,7 +205,7 @@ public class MusicQueuer {
         infoBus.add(song.getTitle());
         infoBus.add(StorageHandler.getSongDay(context, ID));
         infoBus.add(StorageHandler.getSongBigTimeStamp(context, ID));
-        infoBus.add(song.getLocationString(context));
+        infoBus.add(StorageHandler.getSongLocationString(context, ID));
         infoBus.add(song.getArtistName());
         infoBus.add(song.getParentAlbum());
         return infoBus;
@@ -216,13 +216,18 @@ public class MusicQueuer {
      * @param ID the id of the song we are storing information for
      */
     public void storeSongInfo( int ID ){
-        final UserLocation userLocation = new UserLocation(context);
+        //final UserLocation userLocation = new UserLocation(context);
+        final AddressRetriver ar = MainActivity.getAddressRetriver();
         currDate = Calendar.getInstance();
 
-        userLocation.getLoc();
+        StorageHandler.storeSongLocationString(context, ID, ar.getAddress());
+        Log.d("MQ:storeSongInfo", "Storing song address: " + ar.getAddress());
+        getSong(ID).setLocation(ar.getLatLon());
+        /*userLocation.getLoc();
         if(UserLocation.hasPermission) {
             StorageHandler.storeSongLocation(context, ID, userLocation.getLoc());
-        }
+        }*/
+
         // Get the weekday
         String weekdayStr = dayFormat.format(currDate.getTime());
         getSong(ID).setDayOfWeek(weekdayStr);
