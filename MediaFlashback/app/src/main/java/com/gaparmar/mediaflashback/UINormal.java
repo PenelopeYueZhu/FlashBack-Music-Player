@@ -56,20 +56,24 @@ public class UINormal extends UIHandler {
         toggleBtn.setTag(NEUTRAL);
 
         handler = new android.os.Handler();
+
+        // Async thread
         handler.post(new Runnable() {
             @Override
             public void run() {
-
                 if( musicPlayer != null ) {
-                    // Unless there is a song playing when we get back to normal mode, hide the button
+                    // Show play button if no song is currently playing
                     if (!musicPlayer.isPlaying()) {
                         playButton.setVisibility(View.VISIBLE);
                         pauseButton.setVisibility(View.GONE);
                     } else {
+                        // Show the pause button and update tracking information
+                        // If no song is currently playing
                         updateTrackInfo();
                         playButton.setVisibility(View.GONE);
                         pauseButton.setVisibility(View.VISIBLE);
                     }
+                    // Delay 500 ms before next iteration of the thread
                     handler.postDelayed(this, 500);
                 }
             }
