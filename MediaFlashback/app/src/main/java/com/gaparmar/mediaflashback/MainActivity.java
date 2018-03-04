@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         return tracker;
     }
 
+    private MusicDownloader md;
+    private String songURL = "http://soundbible.com/grab.php?id=2190&type=mp3";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, 666);
@@ -116,6 +119,13 @@ public class MainActivity extends AppCompatActivity {
                 launchActivity();
             }
         });
+        md = new MusicDownloader(this);
+    }
+
+    public void downloadSong(View view) {
+        Log.d("testDownload", "downloading song");
+        md.downloadSong(songURL, "Song");
+
     }
 
 
