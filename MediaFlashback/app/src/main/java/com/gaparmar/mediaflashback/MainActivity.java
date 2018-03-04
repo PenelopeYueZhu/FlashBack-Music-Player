@@ -5,11 +5,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,14 +17,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import static com.gaparmar.mediaflashback.Song.state.DISLIKED;
-import static com.gaparmar.mediaflashback.Song.state.LIKED;
-import static com.gaparmar.mediaflashback.Song.state.NEITHER;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static MusicPlayer musicPlayer;
     private static MusicQueuer musicQueuer;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private Handler addressHandler;
+    private static AddressRetriver addressRetriver;
     private static UINormal tracker;
     private static int[] stoppedInfo = new int[2];
     public static boolean isPlaying;
@@ -47,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
         return musicPlayer;
     }
     public static MusicQueuer getMusicQueuer() { return musicQueuer; }
+    public static AddressRetriver getAddressRetriver() {
+        return addressRetriver;
+    }
     private UserLocation userLocation;
     public static UINormal getUITracker() {
         return tracker;
@@ -86,6 +88,29 @@ public class MainActivity extends AppCompatActivity {
         // Initialized the player
         if (musicPlayer == null) {
             musicPlayer = new MusicPlayer(this, musicQueuer);
+        }
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        try {
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                Log.d("MA:mFusedLocationClient","Got the location" );
+                                addressRetriver.setLocation(location);
+                            }
+                        }
+                    });
+        } catch( SecurityException e) {
+            System.out.println("Security Alert");
+        }
+
+        // Initialize the addresss retriver
+        if( addressRetriver == null ) {
+            addressHandler = new Handler( );
+            addressRetriver = new AddressRetriver(this, addressHandler );
         }
 
         // Unless there is a song playing when we get back to normal mode, hide the button
