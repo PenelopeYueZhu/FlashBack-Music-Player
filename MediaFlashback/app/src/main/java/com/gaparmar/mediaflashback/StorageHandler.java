@@ -55,6 +55,25 @@ public class StorageHandler {
     }
 
     /**
+     * Gets the location string of the song stored in a shared preference
+     * @param context The context of calling parent Activity
+     * @param song_id The resource id of the song to be retrieved
+     * @param address The address string
+     */
+    public static void storeSongLocationString( Context context, int song_id, String address ){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LocationString", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Integer.toString(song_id), address);
+        editor.apply();
+    }
+
+    public static String getSongLocationString( Context context, int song_id ){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LocationString", MODE_PRIVATE);
+        String address = sharedPreferences.getString(Integer.toString(song_id), "");
+        return address;
+    }
+
+    /**
      * Stores the Day when the Song was last played
      * @param context The context of calling parent Activity
      * @param song_id The resource id of the song to be stored
