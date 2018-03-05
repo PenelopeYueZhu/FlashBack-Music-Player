@@ -144,7 +144,6 @@
                     android:layout_height="26dp"
                     android:gravity="center"
                     android:text="Location:"
-                    android:textAlignment="textEnd"
                     android:textColor="#7698b3"
                     android:textSize="16dp"
                     android:textStyle="bold"
@@ -157,7 +156,6 @@
                     android:layout_height="26dp"
                     android:gravity="center"
                     android:text="Date:"
-                    android:textAlignment="textEnd"
                     android:textColor="#7698b3"
                     android:textSize="16dp"
                     android:textStyle="bold"
@@ -170,7 +168,6 @@
                     android:layout_height="26dp"
                     android:gravity="center"
                     android:text="Time:"
-                    android:textAlignment="textEnd"
                     android:textColor="#7698b3"
                     android:textSize="16dp"
                     android:textStyle="bold"
@@ -232,11 +229,7 @@
                 android:gravity="center"
                 android:text="-------------------------------------------------------------------------"
                 android:textColor="#FCF7F8"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/browse_button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textStyle="bold" />
         </android.support.constraint.ConstraintLayout>
 
 

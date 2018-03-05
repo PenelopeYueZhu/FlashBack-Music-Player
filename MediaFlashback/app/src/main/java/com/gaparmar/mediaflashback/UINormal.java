@@ -231,12 +231,23 @@ public class UINormal extends UIHandler {
             public void onClick(View view) {
                 Log.d("UINomarl", "downloadButton clicked");
 
+                Log.d("UINomarl",inputURL.getText().toString());
                 // need to have input
                 if (inputURL.getText() != null) {
-                    musicDownloader.downloadData(inputURL.getText().toString(),"Song name", "mp3");
-
-                    Toast downloadingToast = Toast.makeText(context, "Downloading...", Toast.LENGTH_SHORT);
+                    String url = inputURL.getText().toString();
+                    Toast downloadingToast = Toast.makeText(context, "Downloading from "
+                            + url, Toast.LENGTH_SHORT);
                     downloadingToast.show();
+
+                    if (musicDownloader == null) {
+                        musicDownloader = MainActivity.getMusicDownloader();
+                    }
+                    musicDownloader.downloadData(url, "Song name", "mp3");
+
+                } else {
+                  // no url link provided
+                    Toast noURLToast = Toast.makeText(context, "Please enter URL", Toast.LENGTH_SHORT);
+                    noURLToast.show();
                 }
             }
         });
