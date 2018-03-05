@@ -9,6 +9,7 @@ public final class Constant {
     public static final int SUCCESS_RESULT = 0;
     public static final int FAILURE_RESULT = 1;
     public static final int MAX_ADDRESS_ACURACITY = 1;
+    public static final String UNKNONW = "Unknown";
     public static final String PACKAGE_NAME =
             "com.gaparmar.mediaflashback";
     public static final String RECEIVER = PACKAGE_NAME + ".RECEIVER";

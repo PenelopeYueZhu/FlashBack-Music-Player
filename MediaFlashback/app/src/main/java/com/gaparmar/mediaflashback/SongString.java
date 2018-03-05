@@ -5,27 +5,103 @@ package com.gaparmar.mediaflashback;
  */
 
 public class SongString {
-    String id;
-    String lat;
-    String lon;
+    int id;
+    double lat;
+    double lon;
+
+    // metadata fields
+    String title;
+    String album;
+    String artist;
+    int year;
+
+    int timeStamp;
+    int time;
+    String dayOfWeek;
+    String address;
+    String userName;
+
 
     public SongString(){}
 
-    public SongString(String lat, String lon, String id){
-        this.lat = lat;
-        this.lon = lon;
+    public SongString(int id){
         this.id = id;
     }
 
-    public String getLat(){
+    /************************ setters ***************************************/
+    /**
+     * Set the coordinates where a song is lastly played
+     * @param lat the latitiude
+     * @param lon the longitutde
+     */
+    protected void setCoords( double lat, double lon ) {
+        this.lat = lat;
+        this.lon = lon;
+    }
+
+    /**
+     * Set the address string where the song is lastly played
+     * @param address the string
+     */
+    protected void setAddress( String address ){
+        this.address = address;
+    }
+
+    /**
+     * Set the day of the week this song is lastly played
+     * @param dayOfWeek the day of the week represented in string, "Monday", "Tuesday" etc
+     */
+    protected void setDayOfWeek( String dayOfWeek ){
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    /**
+     * Set the full timestamp of the song
+     * @param timeStamp the int timeStamp
+     */
+    protected void setTimeStamp( int timeStamp ){
+        this.timeStamp = timeStamp;
+    }
+
+    /**
+     * Set the username who most recently played the song
+     * @param userName the username
+     */
+    protected  void setUserName( String userName ){
+        this.userName = userName;
+    }
+
+    /**
+     * Set the metadata of a song
+     * @param title title of the song
+     * @param album album of the song
+     * @param artist artist of the song
+     * @param year year of released
+     */
+    protected void setMetadata( String title, String album, String artist, int year ){
+        this.title = title;
+        this.album = album;
+        this.artist = artist;
+        this.year = year;
+    }
+
+    /**
+     * Set the time of the day when a song was played
+     * @param time the time of the day when the song is played
+     */
+    protected void setTime( int time ){
+        this.time = time;
+    }
+
+    /*******************************getters************************************/
+    public int getId() {
+        return id;
+    }
+    public double getLat(){
         return lat;
     }
 
-    public String getLon() {
+    public double getLon() {
         return lon;
-    }
-
-    public String getId() {
-        return id;
     }
 }

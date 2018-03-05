@@ -45,6 +45,7 @@ public class Song {
     private int currTime;
     private long fullTimeStamp;
     private String fullTimeStampString;
+    private double lat, lon;
 
     /**
      *  the default constructor
@@ -56,8 +57,8 @@ public class Song {
         parentAlbum = "NA";
         currentState = 0;
         location = new double[2];
-        location[LATITUDE] = 0.0;
-        location[LONGITUDE] = 0.0;
+        lat = location[LATITUDE] = 0.0;
+        lon = location[LONGITUDE] = 0.0;
         artistName = "";
         resID = 0;
         lengthInSeconds = -1;
@@ -138,6 +139,8 @@ public class Song {
 
     public void setLocation(double[] location)
     {
+        this.lat = location[0];
+        this.lon = location[1];
         this.location = location;
     }
 

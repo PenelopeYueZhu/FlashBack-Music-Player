@@ -19,7 +19,7 @@ import static com.gaparmar.mediaflashback.Song.state.NEITHER;
  * Created by lxyzh on 2/17/2018.
  */
 
-public class UINormal extends UIHandler {
+public class UINormal extends UIHandler implements FirebaseObserver{
 
     // All the buttons and views on the MainActivity
     Context context;
@@ -31,19 +31,21 @@ public class UINormal extends UIHandler {
     private ImageButton toggleBtn;
     MusicQueuer musicQueuer;
     MusicPlayer musicPlayer;
+    FirebaseHandler firebaseHandler;
 
     public final static int TITLE_POS = 0;
-    public final static int DATE_POS = 1;
-    public final static int DURATION_POS = 2;
-    public final static int LOC_POS = 3;
-    public final static int ALBUM_POS = 5;
-    public final static int ARTIST_POS = 4;
+    public final static int DATE_POS = 3;
+    public final static int DURATION_POS = 4;
+    public final static int LOC_POS = 5;
+    public final static int ALBUM_POS = 2;
+    public final static int ARTIST_POS = 1;
 
     // Initilize everything so we can actually use it
     public UINormal( Context context ){
         super(context);
         musicQueuer = MainActivity.getMusicQueuer();
         musicPlayer = MainActivity.getMusicPlayer();
+        firebaseHandler = MainActivity.getFirebaseHandler();
         this.context = context;
 
         playButton =  (ImageButton) ((Activity)context).findViewById(R.id.play_button);
@@ -226,13 +228,49 @@ public class UINormal extends UIHandler {
         Log.d("UINormal", "Reset displayed information of the song to the current song");
         ArrayList<String> songInfo = musicQueuer.getSongInfo(musicPlayer.getCurrentSongId());
         songTitleDisplay.setText( songInfo.get(TITLE_POS));
+        songArtistDisplay.setText(songInfo.get(ARTIST_POS));
         songDateDisplay.setText( songInfo.get(DATE_POS));
         songLocationDisplay.setText( songInfo.get(LOC_POS));
         songTimeDisplay.setText( songInfo.get(DURATION_POS));
         songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
-        songArtistDisplay.setText(songInfo.get(ARTIST_POS));
     }
 
+    /**
+     * Update all the information about the song when it is playing
+     */
+    public void updateUI() {
+        Log.d("UINormal", "Reset displayed information of the song to the current song");
+        ArrayList<String> songInfo = musicQueuer.getSongInfo(musicPlayer.getCurrentSongId());
+        songTitleDisplay.setText( songInfo.get(TITLE_POS));
+        songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
+        songArtistDisplay.setText(songInfo.get(ARTIST_POS));
+        firebaseHandler.getAddress(musicPlayer.getCurrentSongId());
+        firebaseHandler.getDayOfWeek(musicPlayer.getCurrentSongId());
+        firebaseHandler.getUsername(musicPlayer.getCurrentSongId());
+    }
+
+    /************* Observer that listens in for the changes ********************/
+    public void updateLocation( int id, String locationString ){
+        songLocationDisplay.setText( locationString);
+    }
+
+    public void updateDayOfWeek( int id, String dayOfWeek ){
+        songTimeDisplay.setText( dayOfWeek );
+    }
+
+    public void updateUserName( int id, String userName ) {
+        songDateDisplay.setText(userName);
+    }
+
+    public void updateCoord( int id, double lat, double lon ){}
+
+    public void updateTimeStamp(int id, long timeStamp ){}
+
+    /**
+     * Change the buttons according to the song's state
+     * @param context the calling context of the song
+     * @param id the id of the song
+     */
     public void setButtonToggle(Context context, int id)
     {
         switch(StorageHandler.getSongState(context, id))

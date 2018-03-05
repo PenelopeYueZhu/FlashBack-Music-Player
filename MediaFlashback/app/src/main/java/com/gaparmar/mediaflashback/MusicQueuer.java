@@ -37,7 +37,6 @@ public class MusicQueuer {
     protected SimpleDateFormat hourFormat = new SimpleDateFormat("HH", Locale.US);
     protected SimpleDateFormat fullTimeFormat = new SimpleDateFormat("HH:mm 'at' MM/dd/YY");
 
-
     /**
      * The constructor of the MusicQueuer Object
      * @param context the activity context reference
@@ -105,6 +104,12 @@ public class MusicQueuer {
 
             // Put the song object inside the track hashmap
             allTracks.put(songId, song);
+
+            // TRY TO STORE IT TO THE CLOUD
+            SongString songString = new SongString(songId);
+            songString.setMetadata(title, album, artist, Integer.parseInt(year));
+            FirebaseHandler.saveSong(songString);
+
             Log.d("MQ:readSong()", "Just loaded song " + song.getTitle() + " into map");
         }
     }
@@ -203,11 +208,11 @@ public class MusicQueuer {
         Song song = this.getSong(ID);
 
         infoBus.add(song.getTitle());
+        infoBus.add(song.getArtistName());
+        infoBus.add(song.getParentAlbum());
         infoBus.add(StorageHandler.getSongDay(context, ID));
         infoBus.add(StorageHandler.getSongBigTimeStamp(context, ID));
         infoBus.add(StorageHandler.getSongLocationString(context, ID));
-        infoBus.add(song.getArtistName());
-        infoBus.add(song.getParentAlbum());
         return infoBus;
     }
 
@@ -245,6 +250,45 @@ public class MusicQueuer {
         StorageHandler.storeSongBigTimeStamp(context, ID, timeStampString);
 
         StorageHandler.storeSongState(context, ID, getSong(ID).getCurrentState(context));
+
+        this.updateSongInfo(ID);
+    }
+
+    /**
+     * upload song information
+     * @param ID the id of the song we are storing information for
+     */
+    public void updateSongInfo( int ID ){
+        //final UserLocation userLocation = new UserLocation(context);
+        final AddressRetriver ar = MainActivity.getAddressRetriver();
+        currDate = Calendar.getInstance();
+
+        FirebaseHandler.storeAddress(ID, ar.getAddress());
+        Log.d("MQ:storeSongInfo", "Storing song address: " + ar.getAddress());
+        getSong(ID).setLocation(ar.getLatLon());
+        /*userLocation.getLoc();
+        if(UserLocation.hasPermission) {
+            StorageHandler.storeSongLocation(context, ID, userLocation.getLoc());
+        }*/
+
+        // Get the weekday
+        String weekdayStr = dayFormat.format(currDate.getTime());
+        getSong(ID).setDayOfWeek(weekdayStr);
+        FirebaseHandler.storeDayOfWeek(ID, weekdayStr);
+        // Get the time of the day when the song is played
+        int timeOfDay = Integer.parseInt(hourFormat.format(currDate.getTime()));
+        getSong(ID).setTimeLastPlayed(timeOfDay);
+        FirebaseHandler.storeTime(ID, timeOfDay);
+
+        // Get the whole time time/month/day/year for the song
+        String timeStampString = fullTimeFormat.format( currDate.getTime());
+        getSong(ID).setFullTimeStampString(timeStampString);
+        // Set the time string
+        getSong(ID).setFullTimeStamp(new Date().getTime());
+        Long timeStamp = System.currentTimeMillis()/1000;
+        FirebaseHandler.storeTimeStamp(ID, timeStamp);
+
+        StorageHandler.storeSongState(context, ID, getSong(ID).getCurrentState(context));
     }
 
     /**
@@ -262,5 +306,4 @@ public class MusicQueuer {
     public int getNumAlbums(){
         return allAlbums.size();
     }
-
 }

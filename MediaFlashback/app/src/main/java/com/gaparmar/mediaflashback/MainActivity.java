@@ -33,23 +33,35 @@ public class MainActivity extends AppCompatActivity {
 
     private static MusicPlayer musicPlayer;
     private static MusicQueuer musicQueuer;
+
+    // Objects for location
     private FusedLocationProviderClient mFusedLocationClient;
     private Handler addressHandler;
     private static AddressRetriver addressRetriver;
     private static UINormal tracker;
+
+    // Objects for info updates
+    private static FirebaseHandler firebaseHandler;
+    private static FirebaseObject firebaseInfoBus;
+    private static FirebaseObserver retriver;
+
     private static int[] stoppedInfo = new int[2];
     public static boolean isPlaying;
     private static boolean browsing = false;
 
     public static Map<String, Integer> weekDays;
+
+    // Getters for static variables
     public static MusicPlayer getMusicPlayer(){
         return musicPlayer;
     }
     public static MusicQueuer getMusicQueuer() { return musicQueuer; }
+
+    public static FirebaseObject getFirebaseInfoBus() { return firebaseInfoBus; }
     public static AddressRetriver getAddressRetriver() {
         return addressRetriver;
     }
-    private UserLocation userLocation;
+    public static FirebaseHandler getFirebaseHandler() { return firebaseHandler;}
     public static UINormal getUITracker() {
         return tracker;
     }
@@ -60,8 +72,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*SongString songstring = new SongString(898993);
+        songstring.setCoords(10.01, 12.01);
+        songstring.setDayOfWeek("Monday");
+        SongString songString2 = new SongString(898990);
+        songString2.setCoords(10.2, 12.2);
+        SongString songString3 = new SongString(199812);
+        songString3.setDayOfWeek("Tuesday");
+        FirebaseHandler.saveSong(songstring);
+        FirebaseHandler.saveSong(songString2);
+        FirebaseHandler.saveSong(songString3);
 
-        userLocation = new UserLocation(this);
+        //double[] location = FirebaseHandler.getLocation(songstring.getId());
+        FirebaseHandler.storeLocation(songString2.getId(), new double[]{9.10, 8.009});
+        FirebaseHandler.storeDayOfWeek(songString2.getId(), "Friday");*/
 
         // Stores the days of the week
         weekDays = new HashMap<String, Integer>();
@@ -120,6 +144,11 @@ public class MainActivity extends AppCompatActivity {
         else {
             tracker.setButtonsPlaying();
         }
+
+        firebaseInfoBus = new FirebaseInfoBus();
+        retriver = new FirebaseRetriver();
+        firebaseInfoBus.register(retriver);
+        firebaseInfoBus.register(tracker);
 
         //mPlayer.loadMedia(R.raw.replay);
         Button launchFlashbackActivity = (Button) findViewById(R.id.flashback_button);
