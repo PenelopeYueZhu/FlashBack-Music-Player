@@ -15,6 +15,9 @@
         android:launchMode="singleInstance"
         android:theme="@style/AppTheme">
 
+        <service android:name=".FetchAddressIntentService"
+            android:exported="false"/>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
