@@ -101,7 +101,7 @@ public class MusicQueuer {
 
             // Create a song object
             Song song = new Song( title, album, artist, Integer.parseInt(duration),
-                    Integer.parseInt(year), songId, StorageHandler.getSongLocation(context, songId));
+                    Integer.parseInt(year), songId, "", StorageHandler.getSongLocation(context, songId));
 
             // Put the song object inside the track hashmap
             allTracks.put(songId, song);

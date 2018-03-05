@@ -351,12 +351,31 @@
             tools:layout_editor_absoluteX="22dp"
             tools:layout_editor_absoluteY="450dp" />
 
-        <Button
-            android:id="@+id/download"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="downloadSong"
-            android:text="download" />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/inputURL"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Input URL to download"
+                android:inputType="textPersonName"
+                android:textAlignment="center"
+                android:textColor="@android:color/background_light"
+                android:textColorHint="#ffffff"
+                android:theme="@style/AlertDialog.AppCompat.Light" />
+
+            <ImageButton
+                android:id="@+id/downloadBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@android:drawable/stat_sys_download" />
+        </LinearLayout>
 
     </LinearLayout>
 

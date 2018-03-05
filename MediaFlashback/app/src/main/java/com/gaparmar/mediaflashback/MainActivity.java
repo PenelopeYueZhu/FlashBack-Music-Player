@@ -37,12 +37,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static MusicPlayer musicPlayer;
     private static MusicQueuer musicQueuer;
+    private static MusicDownloader musicDownloader;
     private static UINormal tracker;
     private static int[] stoppedInfo = new int[2];
     public static boolean isPlaying;
     private static boolean browsing = false;
 
     public static Map<String, Integer> weekDays;
+    public static MusicDownloader getMusicDownloader() { return musicDownloader; }
     public static MusicPlayer getMusicPlayer(){
         return musicPlayer;
     }
@@ -52,8 +54,7 @@ public class MainActivity extends AppCompatActivity {
         return tracker;
     }
 
-    private MusicDownloader md;
-    private String songURL = "http://soundbible.com/grab.php?id=2190&type=mp3";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,11 @@ public class MainActivity extends AppCompatActivity {
             musicPlayer = new MusicPlayer(this, musicQueuer);
         }
 
+        // Initialize the music downloader
+        if (musicDownloader == null) {
+            musicDownloader = new MusicDownloader(this);
+        }
+
         // Unless there is a song playing when we get back to normal mode, hide the button
         if( !musicPlayer.wasPlayingSong()) {
             tracker.setButtonsPausing();
@@ -119,15 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 launchActivity();
             }
         });
-        md = new MusicDownloader(this);
     }
-
-    public void downloadSong(View view) {
-        Log.d("testDownload", "downloading song");
-        md.downloadSong(songURL, "Song");
-
-    }
-
 
     @Override
     public void onStart(){

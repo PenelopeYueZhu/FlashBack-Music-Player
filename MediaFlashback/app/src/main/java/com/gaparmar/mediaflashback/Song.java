@@ -35,6 +35,7 @@ public class Song {
     private double[] location;    // [Latitude, Longitude] stored as double[]
     private String artistName;
     private int resID;
+    private String songURL;
     private int lengthInSeconds;
     private int yearOfRelease;
     private String dayOfWeek;
@@ -60,6 +61,7 @@ public class Song {
         location[LONGITUDE] = 0.0;
         artistName = "";
         resID = 0;
+        songURL = "";
         lengthInSeconds = -1;
         yearOfRelease = -1;
         timeLastPlayed = -1;
@@ -79,7 +81,7 @@ public class Song {
      */
     public Song(String title, String parentAlbum,
                 String artistName, int lengthInSeconds,
-                int yearOfRelease, int resID, double[] location){
+                int yearOfRelease, int resID, String songURL, double[] location){
         this();
         this.title = title;
         this.parentAlbum = parentAlbum;
@@ -87,6 +89,7 @@ public class Song {
         this.artistName = artistName;
         this.yearOfRelease = yearOfRelease;
         this.resID = resID;
+        this.songURL = songURL;
         this.probability = 1;
         if(location != null) {
             this.location = location;
