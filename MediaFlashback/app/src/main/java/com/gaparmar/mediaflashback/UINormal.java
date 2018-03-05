@@ -307,6 +307,8 @@ public class UINormal extends UIHandler implements FirebaseObserver{
         this.setButtonToggle(context, (int)rate);
     }
 
+    public void updateProb(int id, int prob){}
+
     /******************************** end of observer listners ****************************/
 
     /**

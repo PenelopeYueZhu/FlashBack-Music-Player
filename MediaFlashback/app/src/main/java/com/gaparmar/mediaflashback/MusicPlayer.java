@@ -70,7 +70,7 @@ public class MusicPlayer extends AppCompatActivity {
             public void onCompletion(MediaPlayer mp) {
                 // Update the date, time, and location
                 musicQueuer.storeSongInfo(getCurrentSongId());
-                musicQueuer.updateSongInfo(getCurrentSongId());
+                musicQueuer.updateTrackInfo(getCurrentSongId());
 
 
                 Log.d("MP:OnCompleteListener","Song finished playing");
@@ -236,6 +236,26 @@ public class MusicPlayer extends AppCompatActivity {
             Log.d("MP:loadAlbum", "adding all the songs from album");
 
             songsToPlay.add(a.getSongAtIndex(i).getResID());
+        }
+        if( firstTime ) firstTime = false;
+        currInd = 0;
+        Log.d("MP:loadAlbum", "Loading the first song of the album");
+
+        loadMedia(songsToPlay.get(0));
+        MainActivity.isPlaying = true;
+    }
+
+    /**
+     * Add songs in a list to songsToPlay List
+     * @param songs the list of songs' ids
+     */
+    public void loadList(ArrayList<Integer> songs ) {
+        resetSong();
+        songsToPlay.clear();
+        for (int i = 0; i < songs.size(); i++) {
+            Log.d("MP:loadAlbum", "adding all the songs from album");
+
+            songsToPlay.add(songs.get(i));
         }
         if( firstTime ) firstTime = false;
         currInd = 0;

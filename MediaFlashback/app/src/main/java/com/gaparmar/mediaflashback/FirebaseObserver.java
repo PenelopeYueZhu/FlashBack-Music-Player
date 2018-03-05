@@ -15,4 +15,5 @@ public interface FirebaseObserver {
     public void updateTimeStamp( int id, long timeStamp );
     public void updateTime( int id, long time);
     public void updateRate(int id, long rate);
+    public void updateProb( int id, int prob);
 }

@@ -64,13 +64,13 @@ public class Album {
         // If input array is not empty
         if (numSongs> 0){
             this.artistName = mq.getSong(songs.get(0)).getArtistName();
-            this.releaseYear = mq.getSong(songs.get(0)).getYearOfRelease();
+            //this.releaseYear = mq.getSong(songs.get(0)).getYear();
         }
 
         // Calculate the sum of the length of each song
         int totalLength = 0;
-        for (int i = 0; i< numSongs; i++)
-            totalLength += mq.getSong( songs.get( i )).getLengthInSeconds();
+        //for (int i = 0; i< numSongs; i++)
+          //  totalLength += mq.getSong( songs.get( i )).getLengthInSeconds();
         this.lengthInSeconds = totalLength;
     }
 
@@ -89,25 +89,25 @@ public class Album {
         if( numSongs == 0 ) {
             this.songs.add( s.getResID() );
             this.numSongs++;
-            this.releaseYear = s.getYearOfRelease();
+            this.releaseYear = 0;//s.getYearOfRelease();
             this.artistName = s.getArtistName();
-            this.lengthInSeconds = s.getLengthInSeconds();
+            this.lengthInSeconds = 0;//s.getLengthInSeconds();
         }
         if (hasSong(s)){
             System.out.println("The song already exists in album");
             invalidInput = true;
         }
 
-        if (s.getYearOfRelease() != this.releaseYear){
-            System.out.println("The song was released in a different year");
+       // if (s.getYearOfRelease() != this.releaseYear){
+         //   System.out.println("The song was released in a different year");
             invalidInput = true;
-        }
+        //}
 
         // Only add if the input song is valid
         if (!invalidInput){
             this.songs.add(s.getResID());
             this.numSongs++;
-            lengthInSeconds += s.getLengthInSeconds();
+            //lengthInSeconds += s.getLengthInSeconds();
         }
     }
 
@@ -145,7 +145,7 @@ public class Album {
         if(!invalidInput){
             this.songs.indexOf(s);
             this.numSongs--;
-            this.lengthInSeconds -= s.getLengthInSeconds();
+            //this.lengthInSeconds -= s.getLengthInSeconds();
         }
     }
 

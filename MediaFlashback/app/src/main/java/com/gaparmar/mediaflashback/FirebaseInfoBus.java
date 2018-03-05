@@ -104,4 +104,16 @@ public class FirebaseInfoBus implements FirebaseObject {
         }
     }
 
+    /**
+     * Notify all the observers registered to the object of the probablity of the song
+     * @param id the id of the song
+     * @param prob the probability of the song
+     */
+    public void notifyProb( int id, int prob ){
+        for (FirebaseObserver observer : observers) {
+            observer.updateProb(id, prob);
+        }
+    }
+
+
 }

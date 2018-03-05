@@ -1,17 +1,21 @@
 package com.gaparmar.mediaflashback;
 
+import android.content.Context;
+
+import static java.lang.Math.toRadians;
+
 /**
  * Created by lxyzh on 3/4/2018.
  */
 
-public class SongString {
+public class Track {
     int id;
 
     // metadata fields
     String title;
     String album;
     String artist;
-    int year;
+    String year;
 
     // Play data field
     double lat = 0.0;
@@ -25,10 +29,13 @@ public class SongString {
     // Rate of the song, default neutral
     int rate = 0;
 
+    // Probablity of the getting played
+    int probablity = 1;
 
-    public SongString(){}
 
-    public SongString(int id){
+    public Track(){}
+
+    public Track(int id){
         this.id = id;
     }
 
@@ -100,7 +107,7 @@ public class SongString {
      * @param artist artist of the song
      * @param year year of released
      */
-    protected void setMetadata( String title, String album, String artist, int year ){
+    protected void setMetadata( String title, String album, String artist, String year ){
         this.title = title;
         this.album = album;
         this.artist = artist;
@@ -123,14 +130,40 @@ public class SongString {
     public String getTitle(){
         return title;
     }
-    
-    public double getLat(){
-        return lat;
+    public String getYear() {
+        return year;
     }
-    public double getLon() {
-        return lon;
+
+    // For probablity calculation
+
+
+    /************************ checkers *****************************************/
+    public boolean isInRange( double[] location) {
+        double userLat = location[0];
+        double userLon = location[1];
+
+        double userLatR = toRadians(userLat);
+        double storedLatR = toRadians(this.lat);
+
+        double deltaLat = toRadians(userLat - this.lat);
+        double deltaLon = toRadians(userLon - this.lon);
+
+        // Raidus of earth in feet
+        double radius = 3959 * 5280;
+
+        // a = sin^2(deltaLat/2) + cos(lat1R) * cos(lat2R) * sin^2(deltaLon/2)
+        double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2)
+                + Math.cos(userLatR) * Math.cos(storedLatR) * Math.sin(deltaLon / 2)
+                * Math.sin(deltaLon / 2);
+
+
+        // c = 2 * atan2(sqrt(a) * sqrt(1-a))
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt((1-a)));
+
+        // d = radius * c
+
+        double distance = radius * c;
+        if( distance <= Constant.LOC_THRESHOLD) return true;
+        else return false;
     }
-    public double[] getCoord() {return new double[]{lat, lon};}
-    public int getTime() {return time;}
-    public int getRate() {return rate;}
 }

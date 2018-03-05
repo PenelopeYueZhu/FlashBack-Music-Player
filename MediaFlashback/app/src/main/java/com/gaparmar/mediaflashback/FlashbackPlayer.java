@@ -17,8 +17,8 @@ import java.util.List;
  */
 public class FlashbackPlayer extends MusicPlayer {
     private Context context;
-    private UserLocation userLocation;
 
+    VibeQueuer vibeQueuer;
 
     ArrayList<Song> sortedList = new ArrayList<Song>();
     ArrayList<Integer> allSongs = new ArrayList<Integer>();
@@ -36,7 +36,7 @@ public class FlashbackPlayer extends MusicPlayer {
     public FlashbackPlayer( final Context current, MusicQueuer musicQueuer) {
         super(current, musicQueuer);
         this.context = current;
-        final UserLocation userLocation = new UserLocation(current);
+        vibeQueuer = new VibeQueuer(context);
 
     }
 
@@ -48,7 +48,7 @@ public class FlashbackPlayer extends MusicPlayer {
     public FlashbackPlayer(ArrayList<Integer> list, final Context current, MusicQueuer musicQueuer) {
         this(current, musicQueuer);
         allSongs = list;
-        makeFlashbackPlaylist();
+       // makeFlashbackPlaylist();
     }
 
     public List<Integer> getSongsToPlay()
@@ -59,11 +59,11 @@ public class FlashbackPlayer extends MusicPlayer {
     /**
      * Compile a list of songs to play for the user based on probability calculated
      */
-    public void makeFlashbackPlaylist()
+   /* public void makeFlashbackPlaylist()
     {
         for(Integer songId : allSongs){
             Song song = musicQueuer.getSong(songId);
-            song.updateProbability(userLocation.getLoc(), context);
+            //song.updateProbability(userLocation.getLoc(), context);
             Log.d("FBP:makeFlashbackPlaylist", "Adding songs to the list");
             //if(StorageHandler.getSongDay())
             sortedList.add(song);
@@ -80,12 +80,12 @@ public class FlashbackPlayer extends MusicPlayer {
         for (Song x : sortedList) {
             Log.d("FBP:makeFlashbackPlaylist", "sortedList "+ x.getTitle());
         }
-    }
+    }*/
 
     /**
      * Add songs in album to the list of songs this flashback player plays through
      */
-    public void loadPlaylist() {
+    /*public void loadPlaylist() {
         resetSong();
         songsToPlay.clear();
         for (int i = 0; i < sortedList.size(); i++) {
@@ -95,5 +95,5 @@ public class FlashbackPlayer extends MusicPlayer {
         if( firstTime ) firstTime = false;
         currInd = 0;
         loadMedia(songsToPlay.get(0));
-    }
+    }*/
 }

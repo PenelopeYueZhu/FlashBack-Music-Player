@@ -29,7 +29,7 @@ public class FirebaseHandler {
      * Save a new song into database
      * @param song the song to be stored
      */
-    public static void saveSong(SongString song){
+    public static void saveSong(Track song){
         final int songId = song.getId();
         Query songQuery = songs.orderByChild(Constant.ID_FIELD).equalTo(songId);
         if( songQuery == null ) songs.child(Integer.toString(songId)).setValue(song);
@@ -131,6 +131,20 @@ public class FirebaseHandler {
     }
 
     /**
+     * Store the probability of a song being queued into the database
+     * @param ID the id of the song we are storing
+     * @param prob the probability
+     */
+    public static void storeProb(int ID, int prob) {
+        DatabaseReference updateRef = songs.child(Integer.toString(ID));
+        Map<String, Object> updateMap = new HashMap<>();
+
+        updateMap.put(Constant.PROB_FIELD, prob);
+        updateRef.updateChildren(updateMap);
+    }
+
+
+    /**
      * Get the field specified by the argument that a song stored in the database
      * @param ID the id of the song
      * @param field the field we are trying to get
@@ -215,6 +229,16 @@ public class FirebaseHandler {
                             }
                             else rate = (Long) ((HashMap) ((HashMap) dataSnapshot.getValue()).get(id)).get(fieldString);
                             MainActivity.getFirebaseInfoBus().notifyRate(Integer.parseInt(id), rate);
+                            break;
+
+                        case Constant.PROB_FIELD:
+                            int prob;
+                            if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString) == null ){
+                                prob = 1;
+                                Log.d("FH:getAddress", fieldString + " does not exist");
+                            }
+                            else prob = (int) ((HashMap) ((HashMap) dataSnapshot.getValue()).get(id)).get(fieldString);
+                            MainActivity.getFirebaseInfoBus().notifyProb(Integer.parseInt(id), prob);
                             break;
 
                         default:

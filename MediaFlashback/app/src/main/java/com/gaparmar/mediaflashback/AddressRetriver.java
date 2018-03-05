@@ -22,6 +22,7 @@ public class AddressRetriver {
      */
     class AddressResultReceiver extends ResultReceiver implements Parcelable{
         String mAddressOutput;
+        double[] coordinates;
         public AddressResultReceiver(Handler handler) {
             super(handler);
         }
@@ -37,7 +38,8 @@ public class AddressRetriver {
             // Display the address string
             // or an error message sent from the intent service.
             mAddressOutput = resultData.getString(Constant.RESULT_DATA_KEY);
-
+            coordinates[0] = resultData.getDouble(Constant.LAT_DATA_KEY);
+            coordinates[1] = resultData.getDouble(Constant.LON_DATA_KEY);
             // Show a toast message if an address was found.
             if (resultCode == Constant.SUCCESS_RESULT) {
                 Log.d("ARR:onReceiveResult", context.getString(R.string.address_found));
@@ -53,6 +55,14 @@ public class AddressRetriver {
         public String getAddress(){
             Log.d("ARR:getAddress", "Getting the Address " + mAddressOutput);
             return mAddressOutput;
+        }
+
+        /**
+         * Get the latitude and Longitude by the intentService
+         * @return double string to represent coordiantes
+         */
+        public double[] getLatLon(){
+            return coordinates;
         }
     }
 
@@ -104,10 +114,10 @@ public class AddressRetriver {
      * @return double of the location
      */
     public double[] getLatLon() {
-        double[] loc = new double[2];
-        loc[0] = mLastLocation.getLatitude();
-        loc[1] = mLastLocation.getLongitude();
-        return loc;
+        //startIntentService();
+        //System.out.println(mResultReceiver.getLatLon()[0]);
+        //return mResultReceiver.getLatLon();
+        return new double[]{mLastLocation.getLatitude(), mLastLocation.getLongitude()};
     }
 
 

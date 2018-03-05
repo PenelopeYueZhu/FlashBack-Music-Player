@@ -24,8 +24,8 @@ import java.util.Map;
 public class MusicQueuer {
 
     // Member variables of the class
-    private HashMap<Integer, Song> allTracks = new HashMap<>();
-    private HashMap<String, Album> allAlbums = new HashMap<>();
+    protected HashMap<Integer, Song> allTracks = new HashMap<>();
+    protected HashMap<String, Album> allAlbums = new HashMap<>();
     private final static String UNKNOWN_STRING = "Unknown";
     private final static String UNKNOWN_INT = "0";
     private Context context;
@@ -37,6 +37,8 @@ public class MusicQueuer {
     protected SimpleDateFormat hourFormat = new SimpleDateFormat("HH", Locale.US);
     protected SimpleDateFormat fullTimeFormat = new SimpleDateFormat("HH:mm 'at' MM/dd/YY");
 
+    // Default constructor
+    public MusicQueuer () {}
     /**
      * The constructor of the MusicQueuer Object
      * @param context the activity context reference
@@ -65,7 +67,7 @@ public class MusicQueuer {
             Uri songPath = Uri.parse(Constant.URI_PREFIX+name );
             // Get all the metadata
             MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-            String title = UNKNOWN_STRING;
+            String title = Constant.UNKNOWN;
             String year = UNKNOWN_INT;
             String duration = UNKNOWN_INT;
             String album = UNKNOWN_STRING;
@@ -106,9 +108,9 @@ public class MusicQueuer {
             allTracks.put(songId, song);
 
             // TRY TO STORE IT TO THE CLOUD
-            SongString songString = new SongString(songId);
-            songString.setMetadata(title, album, artist, Integer.parseInt(year));
-            FirebaseHandler.saveSong(songString);
+            Track track = new Track(songId);
+            track.setMetadata(title, album, artist, year);
+            FirebaseHandler.saveSong(track);
 
             Log.d("MQ:readSong()", "Just loaded song " + song.getTitle() + " into map");
         }
@@ -140,7 +142,6 @@ public class MusicQueuer {
             currAlbum.addSong(currSong);
         }
     }
-
 
     /**
      * ArrayList of all the Song IDs
@@ -239,24 +240,24 @@ public class MusicQueuer {
         StorageHandler.storeSongDay(context, ID, weekdayStr);
         // Get the time of the day when the song is played
         int timeOfDay = Integer.parseInt(hourFormat.format(currDate.getTime()));
-        getSong(ID).setTimeLastPlayed(timeOfDay);
+        getSong(ID).setTime(timeOfDay);
         StorageHandler.storeSongTime(context, ID, timeOfDay);
 
         // Get the whole time time/month/day/year for the song
-        String timeStampString = fullTimeFormat.format( currDate.getTime());
-        getSong(ID).setFullTimeStampString(timeStampString);
+       // String timeStampString = fullTimeFormat.format( currDate.getTime());
+       // getSong(ID).setFullTimeStampString(timeStampString);
         // Set the time string
-        getSong(ID).setFullTimeStamp(new Date().getTime());
-        StorageHandler.storeSongBigTimeStamp(context, ID, timeStampString);
+        getSong(ID).setTimeStamp(new Date().getTime());
+       // StorageHandler.storeSongBigTimeStamp(context, ID, timeStampString);
 
-        StorageHandler.storeSongState(context, ID, getSong(ID).getCurrentState(context));
+        StorageHandler.storeSongState(context, ID, getSong(ID).getRate());
     }
 
     /**
      * upload song information
      * @param ID the id of the song we are storing information for
      */
-    public void updateSongInfo( int ID ){
+    public void updateTrackInfo( int ID ){
         //final UserLocation userLocation = new UserLocation(context);
         final AddressRetriver ar = MainActivity.getAddressRetriver();
         currDate = Calendar.getInstance();
@@ -276,19 +277,19 @@ public class MusicQueuer {
 
         // Store the time of the day when the song is played
         int timeOfDay = Integer.parseInt(hourFormat.format(currDate.getTime()));
-        getSong(ID).setTimeLastPlayed(timeOfDay);
+        getSong(ID).setTime(timeOfDay);
         FirebaseHandler.storeTime(ID, timeOfDay);
 
         // Get the whole time time/month/day/year for the song
-        String timeStampString = fullTimeFormat.format( currDate.getTime());
-        getSong(ID).setFullTimeStampString(timeStampString);
+       // String timeStampString = fullTimeFormat.format( currDate.getTime());
+       // getSong(ID).setFullTimeStampString(timeStampString);
 
         // Store the time string
-        getSong(ID).setFullTimeStamp(new Date().getTime());
         Long timeStamp = System.currentTimeMillis()/1000;
+        getSong(ID).setTimeStamp(timeStamp);
         FirebaseHandler.storeTimeStamp(ID, timeStamp);
 
-        StorageHandler.storeSongState(context, ID, getSong(ID).getCurrentState(context));
+        StorageHandler.storeSongState(context, ID, getSong(ID).getRate());
     }
 
     /**

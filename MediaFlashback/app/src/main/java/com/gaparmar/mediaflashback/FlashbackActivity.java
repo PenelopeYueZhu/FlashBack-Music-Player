@@ -2,7 +2,11 @@ package com.gaparmar.mediaflashback;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import android.os.Handler;
@@ -14,6 +18,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -24,6 +33,8 @@ import java.util.ArrayList;
 public class FlashbackActivity extends AppCompatActivity {
     private Song s;
     ArrayList<Integer> arr = new ArrayList<>();
+
+    private FusedLocationProviderClient mFusedLocationClient;
 
     private Handler handler;
 
@@ -49,6 +60,7 @@ public class FlashbackActivity extends AppCompatActivity {
 
     FlashbackPlayer flashbackPlayer;
     MusicQueuer mq;
+    VibeQueuer vq;
     UserLocation userLocation;
 
     /**
@@ -79,7 +91,62 @@ public class FlashbackActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flashback);
         //initializeViewComponents();
 
+
         userLocation = new UserLocation(this);
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        try {
+            Log.d("FBActivity", "Trying to get the location");
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                Log.d("FB:mFusedLocationClient","Got the location" + location);
+                                MainActivity.getAddressRetriver().setLocation(location);
+                            }
+                            else {
+                                Log.d("FB:mFusedLocationClient", "Can't get the location");
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure( Exception e) {
+                            Log.d("FB:mFusedLocationClient", "Error trying to get last GPS location");
+                            e.printStackTrace();
+                        }
+                    });
+
+        } catch( SecurityException e) {
+            System.out.println("Security Alert");
+        }
+        Log.d("FBActivity", "Finished getting location");
+
+        // Acquire a reference to the system Location Manager
+       // LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+        // Define a listener that responds to location updates
+      /*  LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                // Called when a new location is found by the network location provider.
+                MainActivity.getAddressRetriver().setLocation(location);
+                Log.d("FBLgetting location", "Setting the location to address retriver");
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            public void onProviderEnabled(String provider) {}
+
+            public void onProviderDisabled(String provider) {}
+        };
+
+        // Register the listener with the Location Manager to receive location updates
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        } catch( SecurityException e){
+
+        }*/
 
         launchRegularMode = (Button) findViewById(R.id.regular_button);
         songTitleDisplay = (TextView) findViewById(R.id.song_title);
@@ -103,10 +170,20 @@ public class FlashbackActivity extends AppCompatActivity {
             arr = mq.getEntireSongList();
         }
 
+        if( vq == null ) {
+            vq = new VibeQueuer(this);
+            vq.readSongs();
+            vq.readAlbums();
+
+            arr = vq.getEntireSongList();
+        }
+
         flashbackPlayer = new FlashbackPlayer(arr,this, mq);
 
-        flashbackPlayer.makeFlashbackPlaylist();
-        flashbackPlayer.loadPlaylist();
+        //flashbackPlayer.makeFlashbackPlaylist();
+        //flashbackPlayer.loadPlaylist();
+        vq.makeVibeList();
+        vq.loadPlaylist(flashbackPlayer);
 
 
         // Thread behind the scenes to update UI
