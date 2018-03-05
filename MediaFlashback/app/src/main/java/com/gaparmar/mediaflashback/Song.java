@@ -169,33 +169,33 @@ public class Song {
      * Retrieves the Currently Stored Location in the Song
      * @return the location coords
      */
-    public double[] getLocation(Context context){
-        return StorageHandler.getSongLocation(context, this.resID);
-    }
+    //public double[] getLocation(Context context){
+    //    return StorageHandler.getSongLocation(context, this.resID);
+   // }
 
     /**
      * Get the location whre the song is lastly played in readable String
      * @param context the current context the song lives on
      * @return the string that presents the location
      */
-    public String getLocationString(Context context){
-        double songLat = getLocation(context)[0];
-        double songLong = getLocation(context)[1];
-        if(songLat == -1 || songLong == -1){
-            return "None";
-        }
-        return UserLocation.getCity(songLat, songLong) + ", " +
-                UserLocation.getState(songLat, songLong);
-    }
+   // public String getLocationString(Context context){
+  //      double songLat = getLocation(context)[0];
+   //     double songLong = getLocation(context)[1];
+   //     if(songLat == -1 || songLong == -1){
+    //        return "None";
+  //      }
+   //     return UserLocation.getCity(songLat, songLong) + ", " +
+   //             UserLocation.getState(songLat, songLong);
+  //  }
 
     /**
      * Sets the Location in the Song
      * @param location
      */
-    public void setLocation(double[] location, Context context){
-        StorageHandler.storeSongLocation(context, this.resID, location);
-        this.location = StorageHandler.getSongLocation(context, this.resID);
-    }
+  //  public void setLocation(double[] location, Context context){
+   //     StorageHandler.storeSongLocation(context, this.resID, location);
+  //      this.location = StorageHandler.getSongLocation(context, this.resID);
+  //  }
 
     /**
      * Retrieves the Name of the Artist

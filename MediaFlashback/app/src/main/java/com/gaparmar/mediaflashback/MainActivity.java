@@ -5,11 +5,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,14 +17,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import static com.gaparmar.mediaflashback.Song.state.DISLIKED;
-import static com.gaparmar.mediaflashback.Song.state.LIKED;
-import static com.gaparmar.mediaflashback.Song.state.NEITHER;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private static MusicPlayer musicPlayer;
     private static MusicQueuer musicQueuer;
     private static MusicDownloader musicDownloader;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private Handler addressHandler;
+    private static AddressRetriver addressRetriver;
     private static UINormal tracker;
     private static int[] stoppedInfo = new int[2];
     public static boolean isPlaying;
@@ -45,16 +44,15 @@ public class MainActivity extends AppCompatActivity {
 
     public static Map<String, Integer> weekDays;
     public static MusicDownloader getMusicDownloader() { return musicDownloader; }
-    public static MusicPlayer getMusicPlayer(){
-        return musicPlayer;
-    }
+    public static MusicPlayer getMusicPlayer(){ return musicPlayer; }
     public static MusicQueuer getMusicQueuer() { return musicQueuer; }
+    public static AddressRetriver getAddressRetriver() {
+        return addressRetriver;
+    }
     private UserLocation userLocation;
     public static UINormal getUITracker() {
         return tracker;
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         tracker.setButtonFunctions();
 
         // Initializie the song functions
-        if( musicQueuer == null ) {
+        if (musicQueuer == null) {
             musicQueuer = new MusicQueuer(this);
             musicQueuer.readSongs();
             musicQueuer.readAlbums();
@@ -95,36 +93,58 @@ public class MainActivity extends AppCompatActivity {
         // Initialize the music downloader
         if (musicDownloader == null) {
             musicDownloader = new MusicDownloader(this);
-        }
 
-        // Unless there is a song playing when we get back to normal mode, hide the button
-        if( !musicPlayer.wasPlayingSong()) {
-            tracker.setButtonsPausing();
-        }
-        else {
-            tracker.setButtonsPlaying();
-        }
-
-        //mPlayer.loadMedia(R.raw.replay);
-        Button launchFlashbackActivity = (Button) findViewById(R.id.flashback_button);
-        ImageButton playButton = (ImageButton) findViewById(R.id.play_button);
-        Button browseBtn = (Button) findViewById(R.id.browse_button);
-        browseBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick( View view ){
-                launchLibrary();
-                finish();
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+            try {
+                mFusedLocationClient.getLastLocation()
+                        .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                // Got last known location. In some rare situations this can be null.
+                                if (location != null) {
+                                    Log.d("MA:mFusedLocationClient", "Got the location");
+                                    addressRetriver.setLocation(location);
+                                }
+                            }
+                        });
+            } catch (SecurityException e) {
+                System.out.println("Security Alert");
             }
-        });
 
-        launchFlashbackActivity.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick( View view ){
-                isPlaying = musicPlayer.isPlaying();
-                StorageHandler.storeLastMode(MainActivity.this, 1);
-                launchActivity();
+            // Initialize the addresss retriver
+            if (addressRetriver == null) {
+                addressHandler = new Handler();
+                addressRetriver = new AddressRetriver(this, addressHandler);
             }
-        });
+
+            // Unless there is a song playing when we get back to normal mode, hide the button
+            if (!musicPlayer.wasPlayingSong()) {
+                tracker.setButtonsPausing();
+            } else {
+                tracker.setButtonsPlaying();
+            }
+
+            //mPlayer.loadMedia(R.raw.replay);
+            Button launchFlashbackActivity = (Button) findViewById(R.id.flashback_button);
+            ImageButton playButton = (ImageButton) findViewById(R.id.play_button);
+            Button browseBtn = (Button) findViewById(R.id.browse_button);
+            browseBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    launchLibrary();
+                    finish();
+                }
+            });
+
+            launchFlashbackActivity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    isPlaying = musicPlayer.isPlaying();
+                    StorageHandler.storeLastMode(MainActivity.this, 1);
+                    launchActivity();
+                }
+            });
+        }
     }
 
     @Override
