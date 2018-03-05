@@ -92,4 +92,16 @@ public class FirebaseInfoBus implements FirebaseObject {
             observer.updateTime(id, time);
         }
     }
+
+    /**
+     * Notify all the observers registered to the object of the rate of the song
+     * @param id the id of the song
+     * @param rate the rate of the song
+     */
+    public void notifyRate( int id, long rate ){
+        for (FirebaseObserver observer : observers) {
+            observer.updateRate(id, rate);
+        }
+    }
+
 }

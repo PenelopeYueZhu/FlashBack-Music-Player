@@ -6,8 +6,6 @@ package com.gaparmar.mediaflashback;
 
 public class SongString {
     int id;
-    double lat;
-    double lon;
 
     // metadata fields
     String title;
@@ -15,11 +13,17 @@ public class SongString {
     String artist;
     int year;
 
+    // Play data field
+    double lat;
+    double lon;
     int timeStamp;
     int time;
     String dayOfWeek;
     String address;
     String userName;
+
+    // Rate of the song, default neutral
+    int rate = 0;
 
 
     public SongString(){}
@@ -61,6 +65,16 @@ public class SongString {
      */
     protected void setTimeStamp( int timeStamp ){
         this.timeStamp = timeStamp;
+    }
+
+    /**
+     * Set the rate of the song
+     * @param rate - 1 like
+     *             - 0 neural
+     *             - -1 dislike
+     */
+    protected void setRate( int rate ){
+        this.rate = rate;
     }
 
     /**

@@ -19,4 +19,5 @@ public interface FirebaseObject {
     public void notifyUserName( int ID, String userName);
     public void notifyTimeStamp( int ID, long timeStamp);
     public void notifyTime( int id, long time);
+    public void notifyRate( int id, long rate );
 }

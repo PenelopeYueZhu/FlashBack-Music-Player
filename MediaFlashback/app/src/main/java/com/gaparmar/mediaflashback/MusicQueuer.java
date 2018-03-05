@@ -250,8 +250,6 @@ public class MusicQueuer {
         StorageHandler.storeSongBigTimeStamp(context, ID, timeStampString);
 
         StorageHandler.storeSongState(context, ID, getSong(ID).getCurrentState(context));
-
-        this.updateSongInfo(ID);
     }
 
     /**
@@ -263,15 +261,20 @@ public class MusicQueuer {
         final AddressRetriver ar = MainActivity.getAddressRetriver();
         currDate = Calendar.getInstance();
 
+        // Store address string
         FirebaseHandler.storeAddress(ID, ar.getAddress());
         Log.d("MQ:updateSongInfo", "Storing song address: " + ar.getAddress());
         getSong(ID).setLocation(ar.getLatLon());
 
-        // Get the weekday
+        // Store the coordinates
+        FirebaseHandler.storeLocation(ID, ar.getLatLon());
+
+        // Store the weekday
         String weekdayStr = dayFormat.format(currDate.getTime());
         getSong(ID).setDayOfWeek(weekdayStr);
         FirebaseHandler.storeDayOfWeek(ID, weekdayStr);
-        // Get the time of the day when the song is played
+
+        // Store the time of the day when the song is played
         int timeOfDay = Integer.parseInt(hourFormat.format(currDate.getTime()));
         getSong(ID).setTimeLastPlayed(timeOfDay);
         FirebaseHandler.storeTime(ID, timeOfDay);
@@ -279,7 +282,8 @@ public class MusicQueuer {
         // Get the whole time time/month/day/year for the song
         String timeStampString = fullTimeFormat.format( currDate.getTime());
         getSong(ID).setFullTimeStampString(timeStampString);
-        // Set the time string
+
+        // Store the time string
         getSong(ID).setFullTimeStamp(new Date().getTime());
         Long timeStamp = System.currentTimeMillis()/1000;
         FirebaseHandler.storeTimeStamp(ID, timeStamp);

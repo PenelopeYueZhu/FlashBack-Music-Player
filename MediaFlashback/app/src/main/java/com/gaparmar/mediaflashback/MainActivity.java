@@ -72,21 +72,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*SongString songstring = new SongString(898993);
-        songstring.setCoords(10.01, 12.01);
-        songstring.setDayOfWeek("Monday");
-        SongString songString2 = new SongString(898990);
-        songString2.setCoords(10.2, 12.2);
-        SongString songString3 = new SongString(199812);
-        songString3.setDayOfWeek("Tuesday");
-        FirebaseHandler.saveSong(songstring);
-        FirebaseHandler.saveSong(songString2);
-        FirebaseHandler.saveSong(songString3);
-
-        //double[] location = FirebaseHandler.getLocation(songstring.getId());
-        FirebaseHandler.storeLocation(songString2.getId(), new double[]{9.10, 8.009});
-        FirebaseHandler.storeDayOfWeek(songString2.getId(), "Friday");*/
-
         // Stores the days of the week
         weekDays = new HashMap<String, Integer>();
         weekDays.put("Monday", 1);
@@ -258,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 // Updates the buttons differently if the user is browsing
                 Log.i("Main:onResume", "updating the buttons");
+                tracker.updateToggle(); 
                 tracker.setButtonsPlaying();
                 tracker.updateTrackInfo();
             }

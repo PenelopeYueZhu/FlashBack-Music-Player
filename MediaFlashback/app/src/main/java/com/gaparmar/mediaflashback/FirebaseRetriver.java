@@ -29,4 +29,8 @@ public class FirebaseRetriver implements FirebaseObserver {
     }
 
     public void updateTime(int id, long time ){}
+
+    public void updateRate(int id, long rate){
+        MainActivity.getMusicQueuer().getSong(id).setState((int)rate);
+    }
 }

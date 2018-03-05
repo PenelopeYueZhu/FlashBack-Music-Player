@@ -2,6 +2,7 @@ package com.gaparmar.mediaflashback;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.constraint.solver.widgets.ConstraintAnchor;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -131,7 +132,7 @@ public class UINormal extends UIHandler implements FirebaseObserver{
                 }
 
                 musicPlayer.nextSong();
-                setButtonToggle(context, musicPlayer.getCurrentSongId());
+                updateToggle();
                 // Dont't do anything if no song is currently selected
 
                 // Load all the information about the song
@@ -157,6 +158,7 @@ public class UINormal extends UIHandler implements FirebaseObserver{
 
                 // Load all the information about the song
                 updateUI();
+                updateToggle();
                 setButtonsPlaying();
             }
         });
@@ -184,10 +186,12 @@ public class UINormal extends UIHandler implements FirebaseObserver{
                         if (musicPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(1);
                             StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), 1);
+                            FirebaseHandler.storeRate(musicPlayer.getCurrentSongId(), Constant.LIKED);
                         }
 
                         Toast likeToast = Toast.makeText(context, LIKE, Toast.LENGTH_SHORT);
                         likeToast.show();
+                        FirebaseHandler.storeRate(musicPlayer.getCurrentSongId(), Constant.LIKED);
                         break;
 
                     // switch from like to dislike
@@ -198,6 +202,7 @@ public class UINormal extends UIHandler implements FirebaseObserver{
                         if (musicPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(-1);
                             StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), -1);
+                            FirebaseHandler.storeRate(musicPlayer.getCurrentSongId(), Constant.DISPLIKED);
                         }
 
                         Toast dislikeToast = Toast.makeText(context, DISLIKE, Toast.LENGTH_SHORT);
@@ -212,6 +217,7 @@ public class UINormal extends UIHandler implements FirebaseObserver{
                         if (musicPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(0);
                             StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), 0);
+                            FirebaseHandler.storeRate(musicPlayer.getCurrentSongId(), Constant.NEUTRAL);
                         }
 
                         Toast neutralToast = Toast.makeText(context, NEUTRAL, Toast.LENGTH_SHORT);
@@ -253,6 +259,13 @@ public class UINormal extends UIHandler implements FirebaseObserver{
         firebaseHandler.getField(musicPlayer.getCurrentSongId(), Constant.USER_FIELD);
     }
 
+    /**
+     * Update toggle button
+     */
+    public void updateToggle(){
+        firebaseHandler.getField(musicPlayer.getCurrentSongId(), Constant.RATE_FIELD);
+    }
+
     /************* Observer that listens in for the changes ********************/
     public void updateLocation( int id, String locationString ){
         songLocationDisplay.setText( locationString);
@@ -268,18 +281,18 @@ public class UINormal extends UIHandler implements FirebaseObserver{
 
     public void updateTime( int id, long time) {
         String timeZone;
-        if (time >= 5 && time < 11) {
+        if (time >= Constant.MORNING_DIVIDER && time < Constant.NOON_DIVIVER) {
             // 5 AM - 11 AM
-            timeZone= "Morning";
-        } else if (time >= 11 && time < 17) {
+            timeZone= Constant.MORNING;
+        } else if (time >= Constant.NOON_DIVIVER && time < Constant.EVENING_DIVIDER) {
             // 11 AM - 5 PM
-            timeZone= "Afternoon";
-        } else if (time >= 17 || time < 5 ){
+            timeZone= Constant.AFTERNOON;
+        } else if (time >= Constant.EVENING_DIVIDER || time < Constant.MORNING_DIVIDER ){
             // 5 PM - 5 AM
-            timeZone = "Evening";
+            timeZone = Constant.EVENING;
         } else {
             // Unknown
-            timeZone = Constant.UNKNONW;
+            timeZone = Constant.UNKNOWN;
         }
 
         timeOfDay = timeZone;
@@ -288,6 +301,11 @@ public class UINormal extends UIHandler implements FirebaseObserver{
     public void updateCoord( int id, double lat, double lon ){}
 
     public void updateTimeStamp(int id, long timeStamp ){}
+
+    public void updateRate(int id, long rate){
+        Log.d("UINormal:updateRate", "Updating state to " + rate );
+        this.setButtonToggle(context, (int)rate);
+    }
 
     /******************************** end of observer listners ****************************/
 
@@ -298,7 +316,7 @@ public class UINormal extends UIHandler implements FirebaseObserver{
      */
     public void setButtonToggle(Context context, int id)
     {
-        switch(StorageHandler.getSongState(context, id))
+        switch(id)
         {
             case 1:
                 toggleBtn.setImageResource(R.drawable.like);

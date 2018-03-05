@@ -59,7 +59,7 @@ public class FirebaseHandler {
         DatabaseReference updateRef = songs.child(Integer.toString(ID));
         Map<String, Object> updateMap = new HashMap<>();
 
-        updateMap.put("dayOfWeek", dayOfWeek);
+        updateMap.put(Constant.WEEKDAY_FIELD, dayOfWeek);
         updateRef.updateChildren(updateMap);
     }
 
@@ -72,7 +72,7 @@ public class FirebaseHandler {
         DatabaseReference updateRef = songs.child(Integer.toString(ID));
         Map<String, Object> updateMap = new HashMap<>();
 
-        updateMap.put("address", address);
+        updateMap.put(Constant.ADDRESS_FIELD, address);
         updateRef.updateChildren(updateMap);
     }
 
@@ -85,7 +85,7 @@ public class FirebaseHandler {
         DatabaseReference updateRef = songs.child(Integer.toString(ID));
         Map<String, Object> updateMap = new HashMap<>();
 
-        updateMap.put("userName", username);
+        updateMap.put(Constant.USER_FIELD, username);
         updateRef.updateChildren(updateMap);
     }
 
@@ -98,7 +98,7 @@ public class FirebaseHandler {
         DatabaseReference updateRef = songs.child(Integer.toString(ID));
         Map<String, Object> updateMap = new HashMap<>();
 
-        updateMap.put("timeStamp", timeStamp);
+        updateMap.put(Constant.STAMP_FIELD, timeStamp);
         updateRef.updateChildren(updateMap);
     }
 
@@ -111,7 +111,22 @@ public class FirebaseHandler {
         DatabaseReference updateRef = songs.child(Integer.toString(ID));
         Map<String, Object> updateMap = new HashMap<>();
 
-        updateMap.put("time", hour);
+        updateMap.put(Constant.TIME_FIELD, hour);
+        updateRef.updateChildren(updateMap);
+    }
+
+    /**
+     * Store the rating of a song latly played into the database
+     * @param ID the id of the song we are storing
+     * @param rate -1 dislike
+     *             0 neutral
+     *             1 like
+     */
+    public static void storeRate(int ID, int rate) {
+        DatabaseReference updateRef = songs.child(Integer.toString(ID));
+        Map<String, Object> updateMap = new HashMap<>();
+
+        updateMap.put(Constant.RATE_FIELD, rate);
         updateRef.updateChildren(updateMap);
     }
 
@@ -135,27 +150,49 @@ public class FirebaseHandler {
                     Log.d("FH:getAddress", "Can find the object");
                     switch( fieldString ){
                         case Constant.ADDRESS_FIELD:
-                            String address = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString);
+                            String address;
+                            // Check if the field is stored already
+                            if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString) == null ){
+                                Log.d("FH:getAddress", fieldString + " does not exist");
+                                address = Constant.UNKNOWN;
+                            }
+                            else address = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString);
                             MainActivity.getFirebaseInfoBus().notifyAddress(Integer.parseInt(id), address);
                             break;
 
                         case Constant.TIME_FIELD:
-                            long time = (Long) ((HashMap) ((HashMap) dataSnapshot.getValue()).get(id)).get(fieldString);
+                            long time;
+                            if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString) == null ){
+                                time = Constant.UNKNOWN_INT;
+                            }
+                            else time = (Long) ((HashMap) ((HashMap) dataSnapshot.getValue()).get(id)).get(fieldString);
                             MainActivity.getFirebaseInfoBus().notifyTime(Integer.parseInt(id), time);
                             break;
 
                         case Constant.STAMP_FIELD:
-                            long timeStamp = (Integer)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString);
+                            long timeStamp;
+                            if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString) == null ){
+                                timeStamp = Constant.UNKNOWN_INT;
+                            }
+                            timeStamp = (Integer)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString);
                             MainActivity.getFirebaseInfoBus().notifyTimeStamp(Integer.parseInt(id), timeStamp);
                             break;
 
                         case Constant.WEEKDAY_FIELD:
-                            String dayOfWeek = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString);
+                            String dayOfWeek;
+                            if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString) == null ){
+                                dayOfWeek = Constant.UNKNOWN;
+                            }
+                            else dayOfWeek = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString);
                             MainActivity.getFirebaseInfoBus().notifyDayOfWeek(Integer.parseInt(id), dayOfWeek);
                             break;
 
                         case Constant.USER_FIELD:
-                            String userName = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString);
+                            String userName;
+                            if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString) == null ){
+                                userName = Constant.UNKNOWN;
+                            }
+                            else userName = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString);
                             MainActivity.getFirebaseInfoBus().notifyUserName(Integer.parseInt(id), userName);
                             break;
 
@@ -165,9 +202,19 @@ public class FirebaseHandler {
                             double lon = (Double)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get("lon");
                             MainActivity.getFirebaseInfoBus().notifyLocation(Integer.parseInt(id),lat, lon);
                             break;
+
+                        case Constant.RATE_FIELD:
+                            long rate;
+                            if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString) == null ){
+                                rate = Constant.UNKNOWN_INT;
+                            }
+                            else rate = (Long) ((HashMap) ((HashMap) dataSnapshot.getValue()).get(id)).get(fieldString);
+                            MainActivity.getFirebaseInfoBus().notifyRate(Integer.parseInt(id), rate);
+                            break;
+
                         default:
                             Log.d("FH:getField", "Cannot find field " + fieldString );
-                            break;  
+                            break;
                     }
                 }
             }

@@ -70,6 +70,7 @@ public class MusicPlayer extends AppCompatActivity {
             public void onCompletion(MediaPlayer mp) {
                 // Update the date, time, and location
                 musicQueuer.storeSongInfo(getCurrentSongId());
+                musicQueuer.updateSongInfo(getCurrentSongId());
 
 
                 Log.d("MP:OnCompleteListener","Song finished playing");
