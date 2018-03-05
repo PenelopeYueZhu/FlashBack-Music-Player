@@ -2,10 +2,8 @@ package com.gaparmar.mediaflashback;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,13 +14,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         userLocation = new UserLocation(this);
 
+        // TODO: refactor this into the Constant.java
         // Stores the days of the week
         weekDays = new HashMap<String, Integer>();
         weekDays.put("Monday", 1);
@@ -147,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
+        // Launches flashback mode if that 
+        // was the lastmode
         if(StorageHandler.getLastMode(this) == 1){
             launchActivity();
         }
