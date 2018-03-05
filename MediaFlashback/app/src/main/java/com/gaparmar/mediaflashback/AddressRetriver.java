@@ -42,6 +42,7 @@ public class AddressRetriver {
             if (resultCode == Constant.SUCCESS_RESULT) {
                 Log.d("ARR:onReceiveResult", context.getString(R.string.address_found));
             }
+            else Log.d("ARR:onReceiveResult", context.getString(R.string.no_address_found));
 
         }
 
@@ -50,6 +51,7 @@ public class AddressRetriver {
          * @return string represents the address
          */
         public String getAddress(){
+            Log.d("ARR:getAddress", "Getting the Address " + mAddressOutput);
             return mAddressOutput;
         }
     }
@@ -73,7 +75,7 @@ public class AddressRetriver {
 
     protected void startIntentService() {
         Intent intent = new Intent(context, FetchAddressIntentService.class);
-        Log.d("AR:startIntentService", "PUtting extras");
+        Log.d("AR:startIntentService", "Putting extras");
         intent.putExtra(Constant.RECEIVER, mResultReceiver);
         intent.putExtra(Constant.LOCATION_DATA_EXTRA, mLastLocation);
         context.startService(intent);

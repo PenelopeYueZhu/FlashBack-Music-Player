@@ -264,12 +264,8 @@ public class MusicQueuer {
         currDate = Calendar.getInstance();
 
         FirebaseHandler.storeAddress(ID, ar.getAddress());
-        Log.d("MQ:storeSongInfo", "Storing song address: " + ar.getAddress());
+        Log.d("MQ:updateSongInfo", "Storing song address: " + ar.getAddress());
         getSong(ID).setLocation(ar.getLatLon());
-        /*userLocation.getLoc();
-        if(UserLocation.hasPermission) {
-            StorageHandler.storeSongLocation(context, ID, userLocation.getLoc());
-        }*/
 
         // Get the weekday
         String weekdayStr = dayFormat.format(currDate.getTime());

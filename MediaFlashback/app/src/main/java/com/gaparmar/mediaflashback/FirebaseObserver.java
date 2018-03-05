@@ -13,4 +13,5 @@ public interface FirebaseObserver {
     public void updateUserName( int id, String userName );
     public void updateCoord( int id, double lat, double lon );
     public void updateTimeStamp( int id, long timeStamp );
+    public void updateTime( int id, long time);
 }

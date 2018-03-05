@@ -81,4 +81,15 @@ public class FirebaseInfoBus implements FirebaseObject {
             observer.updateTimeStamp(id, timeStamp);
         }
     }
+
+    /**
+     * Notify all the observers registered to this object
+     * @param id the id of the song
+     * @param time the time lastly played the song last time
+     */
+    public void notifyTime( int id, long time ) {
+        for (FirebaseObserver observer : observers) {
+            observer.updateTime(id, time);
+        }
+    }
 }

@@ -274,8 +274,14 @@ public class FirebaseHandler {
                 }
                 else {
                     Log.d("FH:getTime", "Can find the object");
-                    int time = (Integer)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get("time=");
-                    MainActivity.getFirebaseInfoBus().notifyTimeStamp(Integer.parseInt(id), time);
+                    if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get("time") == null ) {
+                        MainActivity.getFirebaseInfoBus().notifyTime(Integer.parseInt(id), -1);
+                    }
+                    else {
+                        long time = (Long) ((HashMap) ((HashMap) dataSnapshot.getValue()).get(id)).get("time");
+                        MainActivity.getFirebaseInfoBus().notifyTime(Integer.parseInt(id), time);
+                    }
+
                 }
             }
 

@@ -40,6 +40,8 @@ public class UINormal extends UIHandler implements FirebaseObserver{
     public final static int ALBUM_POS = 2;
     public final static int ARTIST_POS = 1;
 
+    String timeOfDay;
+
     // Initilize everything so we can actually use it
     public UINormal( Context context ){
         super(context);
@@ -68,7 +70,8 @@ public class UINormal extends UIHandler implements FirebaseObserver{
                         playButton.setVisibility(View.VISIBLE);
                         pauseButton.setVisibility(View.GONE);
                     } else {
-                        updateTrackInfo();
+                       // updateTrackInfo();
+                        updateUI();
                         playButton.setVisibility(View.GONE);
                         pauseButton.setVisibility(View.VISIBLE);
                     }
@@ -100,7 +103,7 @@ public class UINormal extends UIHandler implements FirebaseObserver{
                 }
 
                 musicPlayer.playSong();
-                updateTrackInfo();
+                updateUI();
                 setButtonsPlaying();
             }
         });
@@ -132,7 +135,7 @@ public class UINormal extends UIHandler implements FirebaseObserver{
                 // Dont't do anything if no song is currently selected
 
                 // Load all the information about the song
-                updateTrackInfo();
+                updateUI();
                 setButtonsPlaying();
             }
         });
@@ -153,7 +156,7 @@ public class UINormal extends UIHandler implements FirebaseObserver{
                 // Dont't do anything if no song is currently selected
 
                 // Load all the information about the song
-                updateTrackInfo();
+                updateUI();
                 setButtonsPlaying();
             }
         });
@@ -244,6 +247,7 @@ public class UINormal extends UIHandler implements FirebaseObserver{
         songTitleDisplay.setText( songInfo.get(TITLE_POS));
         songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
         songArtistDisplay.setText(songInfo.get(ARTIST_POS));
+        firebaseHandler.getTime(musicPlayer.getCurrentSongId());
         firebaseHandler.getAddress(musicPlayer.getCurrentSongId());
         firebaseHandler.getDayOfWeek(musicPlayer.getCurrentSongId());
         firebaseHandler.getUsername(musicPlayer.getCurrentSongId());
@@ -255,11 +259,30 @@ public class UINormal extends UIHandler implements FirebaseObserver{
     }
 
     public void updateDayOfWeek( int id, String dayOfWeek ){
-        songTimeDisplay.setText( dayOfWeek );
+        songTimeDisplay.setText( timeOfDay + " on " + dayOfWeek );
     }
 
     public void updateUserName( int id, String userName ) {
         songDateDisplay.setText(userName);
+    }
+
+    public void updateTime( int id, long time) {
+        String timeZone;
+        if (time >= 5 && time < 11) {
+            // 5 AM - 11 AM
+            timeZone= "Morning";
+        } else if (time >= 11 && time < 17) {
+            // 11 AM - 5 PM
+            timeZone= "Afternoon";
+        } else if (time >= 17 || time < 5 ){
+            // 5 PM - 5 AM
+            timeZone = "Evening";
+        } else {
+            // Unknown
+            timeZone = Constant.UNKNONW;
+        }
+
+        timeOfDay = timeZone;
     }
 
     public void updateCoord( int id, double lat, double lon ){}

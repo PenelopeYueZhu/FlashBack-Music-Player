@@ -27,4 +27,6 @@ public class FirebaseRetriver implements FirebaseObserver {
     public void updateTimeStamp(int id, long timeStamp ){
         MainActivity.getMusicQueuer().getSong(id).setFullTimeStamp(timeStamp);
     }
+
+    public void updateTime(int id, long time ){}
 }

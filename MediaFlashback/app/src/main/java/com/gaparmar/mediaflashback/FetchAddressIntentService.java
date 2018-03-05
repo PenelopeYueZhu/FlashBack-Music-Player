@@ -50,6 +50,7 @@ public class FetchAddressIntentService extends IntentService{
      */
     @Override
     protected void onHandleIntent(Intent intent){
+        Log.d("FA:onHandleIntent", "Starting the intent");
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
         String errorMessage = "";

@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onSuccess(Location location) {
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
-                                Log.d("MA:mFusedLocationClient","Got the location" );
+                                Log.d("MA:mFusedLocationClient","Got the location" + location);
                                 addressRetriver.setLocation(location);
                             }
                         }
