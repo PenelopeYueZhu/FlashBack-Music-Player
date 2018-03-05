@@ -247,10 +247,10 @@ public class UINormal extends UIHandler implements FirebaseObserver{
         songTitleDisplay.setText( songInfo.get(TITLE_POS));
         songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
         songArtistDisplay.setText(songInfo.get(ARTIST_POS));
-        firebaseHandler.getTime(musicPlayer.getCurrentSongId());
-        firebaseHandler.getAddress(musicPlayer.getCurrentSongId());
-        firebaseHandler.getDayOfWeek(musicPlayer.getCurrentSongId());
-        firebaseHandler.getUsername(musicPlayer.getCurrentSongId());
+        firebaseHandler.getField(musicPlayer.getCurrentSongId(), Constant.TIME_FIELD);
+        firebaseHandler.getField(musicPlayer.getCurrentSongId(), Constant.ADDRESS_FIELD);
+        firebaseHandler.getField(musicPlayer.getCurrentSongId(), Constant.WEEKDAY_FIELD);
+        firebaseHandler.getField(musicPlayer.getCurrentSongId(), Constant.USER_FIELD);
     }
 
     /************* Observer that listens in for the changes ********************/
@@ -288,6 +288,8 @@ public class UINormal extends UIHandler implements FirebaseObserver{
     public void updateCoord( int id, double lat, double lon ){}
 
     public void updateTimeStamp(int id, long timeStamp ){}
+
+    /******************************** end of observer listners ****************************/
 
     /**
      * Change the buttons according to the song's state

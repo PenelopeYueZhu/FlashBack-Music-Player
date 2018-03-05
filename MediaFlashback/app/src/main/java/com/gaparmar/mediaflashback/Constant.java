@@ -10,6 +10,12 @@ public final class Constant {
     public static final int FAILURE_RESULT = 1;
     public static final int MAX_ADDRESS_ACURACITY = 1;
     public static final String UNKNONW = "Unknown";
+    public static final String ADDRESS_FIELD = "address";
+    public static final String USER_FIELD = "userName";
+    public static final String WEEKDAY_FIELD = "dayOfWeek";
+    public static final String TIME_FIELD = "time";
+    public static final String COORD_FIELD = "location";
+    public static final String STAMP_FIELD = "timeStamp";
     public static final String PACKAGE_NAME =
             "com.gaparmar.mediaflashback";
     public static final String RECEIVER = PACKAGE_NAME + ".RECEIVER";

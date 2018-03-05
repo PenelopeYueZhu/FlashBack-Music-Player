@@ -51,37 +51,6 @@ public class FirebaseHandler {
     }
 
     /**
-     * Get the location of a song stored in the database
-     * @param ID the id of the song
-     */
-    public static void getLocation(int ID){
-        Query songQuery = songs.orderByChild("id").equalTo(ID);
-        final String id = Integer.toString(ID);
-        songQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("FH:getLoation", "OnDataChange called");
-                if( dataSnapshot== null || dataSnapshot.getValue() == null ){
-                    Log.d("FH: getLocation","Can't find the object");
-                }
-                else {
-                    Log.d("FH:getLocation", "Can find the object");
-                    double lat = (Double)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get("lat");
-                    Log.d("FH:getLocation", "Retrieved latitude: " + lat);
-                    double lon = (Double)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get("lon");
-                    MainActivity.getFirebaseInfoBus().notifyLocation(Integer.parseInt(id),lat, lon);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-
-    /**
      * Store the day of the week a song latly played into the database
      * @param ID the id of the song we are storing
      * @param dayOfWeek the day of the week this song is played
@@ -92,34 +61,6 @@ public class FirebaseHandler {
 
         updateMap.put("dayOfWeek", dayOfWeek);
         updateRef.updateChildren(updateMap);
-    }
-
-    /**
-     * Get the day of the week of a song stored in the database
-     * @param ID the id of the song
-     */
-    public static void getDayOfWeek(int ID){
-        Query songQuery = songs.orderByChild("id").equalTo(ID);
-        final String id = Integer.toString(ID);
-        songQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("FH:getDayOfWeek", "OnDataChange called");
-                if( dataSnapshot== null || dataSnapshot.getValue() == null ){
-                    Log.d("FH: getDayOfWeek","Can't find the object");
-                }
-                else {
-                    Log.d("FH:getDayOfWeek", "Can find the object");
-                    String dayOfWeek = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get("dayOfWeek");
-                    MainActivity.getFirebaseInfoBus().notifyDayOfWeek(Integer.parseInt(id), dayOfWeek);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     /**
@@ -136,34 +77,6 @@ public class FirebaseHandler {
     }
 
     /**
-     * Get the address that a song stored in the database
-     * @param ID the id of the song
-     */
-    public static void getAddress(int ID){
-        Query songQuery = songs.orderByChild("id").equalTo(ID);
-        final String id = Integer.toString(ID);
-        songQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("FH:getAddress", "OnDataChange called");
-                if( dataSnapshot== null || dataSnapshot.getValue() == null ){
-                    Log.d("FH: getAddress","Can't find the object");
-                }
-                else {
-                    Log.d("FH:getAddress", "Can find the object");
-                    String address = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get("address");
-                    MainActivity.getFirebaseInfoBus().notifyAddress(Integer.parseInt(id), address);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    /**
      * Store the the address string where a song latly played into the database
      * @param ID the id of the song we are storing
      * @param username the user who played the song
@@ -174,34 +87,6 @@ public class FirebaseHandler {
 
         updateMap.put("userName", username);
         updateRef.updateChildren(updateMap);
-    }
-
-    /**
-     * Get the user name of a song stored in the database
-     * @param ID the id of the song
-     */
-    public static void getUsername(int ID){
-        Query songQuery = songs.orderByChild("id").equalTo(ID);
-        final String id = Integer.toString(ID);
-        songQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("FH:getUsername", "OnDataChange called");
-                if( dataSnapshot== null || dataSnapshot.getValue() == null ){
-                    Log.d("FH: getUsername","Can't find the object");
-                }
-                else {
-                    Log.d("FH:getUsername", "Can find the object");
-                    String userName = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get("userName");
-                    MainActivity.getFirebaseInfoBus().notifyUserName(Integer.parseInt(id), userName);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     /**
@@ -218,34 +103,6 @@ public class FirebaseHandler {
     }
 
     /**
-     * Get the full timeStamp when a song stored in the database
-     * @param ID the id of the song
-     */
-    public static void getTimeStamp(int ID){
-        Query songQuery = songs.orderByChild("id").equalTo(ID);
-        final String id = Integer.toString(ID);
-        songQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("FH:getTimeStamp", "OnDataChange called");
-                if( dataSnapshot== null || dataSnapshot.getValue() == null ){
-                    Log.d("FH: getTimeStamp","Can't find the object");
-                }
-                else {
-                    Log.d("FH:getTimeStamp", "Can find the object");
-                    long timeStamp = (Integer)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get("timeStamp");
-                    MainActivity.getFirebaseInfoBus().notifyTimeStamp(Integer.parseInt(id), timeStamp);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    /**
      * Store the time of the day that a song latly played into the database
      * @param ID the id of the song we are storing
      * @param hour timeStamp when the user who played the song
@@ -259,29 +116,59 @@ public class FirebaseHandler {
     }
 
     /**
-     * Get the hour when a song stored in the database
+     * Get the field specified by the argument that a song stored in the database
      * @param ID the id of the song
+     * @param field the field we are trying to get
      */
-    public static void getTime(int ID){
+    public static void getField(int ID, String field){
         Query songQuery = songs.orderByChild("id").equalTo(ID);
         final String id = Integer.toString(ID);
+        final String fieldString = field;
         songQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("FH:getTime", "OnDataChange called");
+                Log.d("FH:getAddress", "OnDataChange called");
                 if( dataSnapshot== null || dataSnapshot.getValue() == null ){
-                    Log.d("FH: getTime","Can't find the object");
+                    Log.d("FH: getAddress","Can't find the object");
                 }
                 else {
-                    Log.d("FH:getTime", "Can find the object");
-                    if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get("time") == null ) {
-                        MainActivity.getFirebaseInfoBus().notifyTime(Integer.parseInt(id), -1);
-                    }
-                    else {
-                        long time = (Long) ((HashMap) ((HashMap) dataSnapshot.getValue()).get(id)).get("time");
-                        MainActivity.getFirebaseInfoBus().notifyTime(Integer.parseInt(id), time);
-                    }
+                    Log.d("FH:getAddress", "Can find the object");
+                    switch( fieldString ){
+                        case Constant.ADDRESS_FIELD:
+                            String address = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString);
+                            MainActivity.getFirebaseInfoBus().notifyAddress(Integer.parseInt(id), address);
+                            break;
 
+                        case Constant.TIME_FIELD:
+                            long time = (Long) ((HashMap) ((HashMap) dataSnapshot.getValue()).get(id)).get(fieldString);
+                            MainActivity.getFirebaseInfoBus().notifyTime(Integer.parseInt(id), time);
+                            break;
+
+                        case Constant.STAMP_FIELD:
+                            long timeStamp = (Integer)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString);
+                            MainActivity.getFirebaseInfoBus().notifyTimeStamp(Integer.parseInt(id), timeStamp);
+                            break;
+
+                        case Constant.WEEKDAY_FIELD:
+                            String dayOfWeek = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString);
+                            MainActivity.getFirebaseInfoBus().notifyDayOfWeek(Integer.parseInt(id), dayOfWeek);
+                            break;
+
+                        case Constant.USER_FIELD:
+                            String userName = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString);
+                            MainActivity.getFirebaseInfoBus().notifyUserName(Integer.parseInt(id), userName);
+                            break;
+
+                        case Constant.COORD_FIELD:
+                            double lat = (Double)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get("lat");
+                            Log.d("FH:getLocation", "Retrieved latitude: " + lat);
+                            double lon = (Double)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get("lon");
+                            MainActivity.getFirebaseInfoBus().notifyLocation(Integer.parseInt(id),lat, lon);
+                            break;
+                        default:
+                            Log.d("FH:getField", "Cannot find field " + fieldString );
+                            break;  
+                    }
                 }
             }
 
