@@ -17,6 +17,9 @@ public final class Constant {
     // For FirebaseHandler
     public static final String UNKNOWN = "Unknown";
     public static final int UNKNOWN_INT = 0;
+    public static final String SONG_SUBTREE = "songs";
+    // Song's Object Fields
+    public static final String ID_FIELD = "id";
     public static final String ADDRESS_FIELD = "address";
     public static final String USER_FIELD = "userName";
     public static final String WEEKDAY_FIELD = "dayOfWeek";

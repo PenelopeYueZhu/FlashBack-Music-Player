@@ -23,7 +23,7 @@ public class FirebaseHandler {
     static DatabaseReference ref = database.getReference();
 
     // The subtree of songs
-    static DatabaseReference songs = ref.child("songs");
+    static DatabaseReference songs = ref.child(Constant.SONG_SUBTREE);
 
     /**
      * Save a new song into database
@@ -31,7 +31,7 @@ public class FirebaseHandler {
      */
     public static void saveSong(SongString song){
         final int songId = song.getId();
-        Query songQuery = songs.orderByChild("id").equalTo(songId);
+        Query songQuery = songs.orderByChild(Constant.ID_FIELD).equalTo(songId);
         if( songQuery == null ) songs.child(Integer.toString(songId)).setValue(song);
         else return;
     }
@@ -136,7 +136,7 @@ public class FirebaseHandler {
      * @param field the field we are trying to get
      */
     public static void getField(int ID, String field){
-        Query songQuery = songs.orderByChild("id").equalTo(ID);
+        Query songQuery = songs.orderByChild(Constant.ID_FIELD).equalTo(ID);
         final String id = Integer.toString(ID);
         final String fieldString = field;
         songQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -163,6 +163,7 @@ public class FirebaseHandler {
                         case Constant.TIME_FIELD:
                             long time;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString) == null ){
+                                Log.d("FH:getAddress", fieldString + " does not exist");
                                 time = Constant.UNKNOWN_INT;
                             }
                             else time = (Long) ((HashMap) ((HashMap) dataSnapshot.getValue()).get(id)).get(fieldString);
@@ -172,6 +173,7 @@ public class FirebaseHandler {
                         case Constant.STAMP_FIELD:
                             long timeStamp;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString) == null ){
+                                Log.d("FH:getAddress", fieldString + " does not exist");
                                 timeStamp = Constant.UNKNOWN_INT;
                             }
                             timeStamp = (Integer)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString);
@@ -181,6 +183,7 @@ public class FirebaseHandler {
                         case Constant.WEEKDAY_FIELD:
                             String dayOfWeek;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString) == null ){
+                                Log.d("FH:getAddress", fieldString + " does not exist");
                                 dayOfWeek = Constant.UNKNOWN;
                             }
                             else dayOfWeek = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString);
@@ -190,6 +193,7 @@ public class FirebaseHandler {
                         case Constant.USER_FIELD:
                             String userName;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString) == null ){
+                                Log.d("FH:getAddress", fieldString + " does not exist");
                                 userName = Constant.UNKNOWN;
                             }
                             else userName = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString);
@@ -207,6 +211,7 @@ public class FirebaseHandler {
                             long rate;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(id)).get(fieldString) == null ){
                                 rate = Constant.UNKNOWN_INT;
+                                Log.d("FH:getAddress", fieldString + " does not exist");
                             }
                             else rate = (Long) ((HashMap) ((HashMap) dataSnapshot.getValue()).get(id)).get(fieldString);
                             MainActivity.getFirebaseInfoBus().notifyRate(Integer.parseInt(id), rate);

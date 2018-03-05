@@ -14,13 +14,13 @@ public class SongString {
     int year;
 
     // Play data field
-    double lat;
-    double lon;
-    int timeStamp;
-    int time;
-    String dayOfWeek;
-    String address;
-    String userName;
+    double lat = 0.0;
+    double lon = 0.0;
+    int timeStamp = 0;
+    int time = 0;
+    String dayOfWeek = Constant.UNKNOWN;
+    String address = Constant.UNKNOWN;
+    String userName = Constant.UNKNOWN;
 
     // Rate of the song, default neutral
     int rate = 0;
@@ -86,6 +86,14 @@ public class SongString {
     }
 
     /**
+     * Set the time of the day when a song was played
+     * @param time the time of the day when the song is played
+     */
+    protected void setTime( int time ){
+        this.time = time;
+    }
+
+    /**
      * Set the metadata of a song
      * @param title title of the song
      * @param album album of the song
@@ -99,23 +107,30 @@ public class SongString {
         this.year = year;
     }
 
-    /**
-     * Set the time of the day when a song was played
-     * @param time the time of the day when the song is played
-     */
-    protected void setTime( int time ){
-        this.time = time;
-    }
-
     /*******************************getters************************************/
+    // For ID checking
     public int getId() {
         return id;
     }
+
+    // For UI display
+    public String getAlbum() {
+        return album;
+    }
+    public String getArtist() {
+        return artist;
+    }
+    public String getTitle(){
+        return title;
+    }
+    
     public double getLat(){
         return lat;
     }
-
     public double getLon() {
         return lon;
     }
+    public double[] getCoord() {return new double[]{lat, lon};}
+    public int getTime() {return time;}
+    public int getRate() {return rate;}
 }

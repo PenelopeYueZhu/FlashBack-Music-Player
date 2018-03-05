@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 // Updates the buttons differently if the user is browsing
                 Log.i("Main:onResume", "updating the buttons");
-                tracker.updateToggle(); 
+                tracker.updateToggle();
                 tracker.setButtonsPlaying();
                 tracker.updateTrackInfo();
             }
