@@ -39,7 +39,8 @@ public class MusicDownloader {
         request.setDescription(url);
         request.setTitle(songTitle);
 
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS + "/myDownloads", songTitle+"." + type);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS
+                + "/myDownloads", songTitle+"." + type);
         DownloadManager dm = (DownloadManager) myContext.getSystemService(DOWNLOAD_SERVICE);
 
         // add song to download list

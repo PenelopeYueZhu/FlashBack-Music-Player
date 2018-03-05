@@ -40,7 +40,7 @@ public class AddressRetriver {
 
             // Show a toast message if an address was found.
             if (resultCode == Constant.SUCCESS_RESULT) {
-                Log.d("ARR:onReceiveResult", context.getString(R.string.address_found));
+                //Log.d("ARR:onReceiveResult", context.getString(R.string.address_found));
             }
 
         }
