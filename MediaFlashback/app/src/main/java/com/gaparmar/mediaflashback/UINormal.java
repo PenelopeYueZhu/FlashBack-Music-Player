@@ -226,6 +226,7 @@ public class UINormal extends UIHandler {
                 }
             }
         });
+
         downloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
