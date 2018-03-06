@@ -16,7 +16,6 @@ import java.util.Comparator;
 public class VibeQueuer extends MusicQueuer{
 
     ArrayList<Song>sortedList = new ArrayList<Song>();
-    ArrayList<Integer>sortedSongID = new ArrayList<>();
     MusicPlayer musicPlayer = MainActivity.getMusicPlayer();
 
     public VibeQueuer (Context context){
@@ -83,11 +82,8 @@ public class VibeQueuer extends MusicQueuer{
     /**
      * Add songs in album to the list of songs this flashback player plays through
      */
-    public void loadPlaylist( MusicPlayer mq ) {
-        for (Song x : sortedList) {
-            sortedSongID.add(x.getResID());
-        }
-        mq.loadList(sortedSongID);
+    public void loadPlaylist( FlashbackPlayer mq ) {
+        mq.setPlayList(sortedList);
     }
 
 

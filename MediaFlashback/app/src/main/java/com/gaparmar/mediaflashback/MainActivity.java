@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
@@ -35,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private static MusicQueuer musicQueuer;
 
     // Objects for location
-    private FusedLocationProviderClient mFusedLocationClient;
     private Handler addressHandler;
     private static AddressRetriver addressRetriver;
     private static UINormal tracker;
@@ -99,21 +100,44 @@ public class MainActivity extends AppCompatActivity {
             musicPlayer = new MusicPlayer(this, musicQueuer);
         }
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    100);
+            Log.d("test1","ins");
+            return;
+        }else {
+            Log.d("test2", "outs");
+        }
+
+        // Acquire a reference to the system Location Manager
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        String locationProvider = LocationManager.GPS_PROVIDER;
+
+        // Define a listener that responds to location updates
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                // Called when a new location is found by the network location provider.
+                MainActivity.getAddressRetriver().setLocation(location);
+                Log.d("FBLgetting location", "Setting the location to address retriver");
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            public void onProviderEnabled(String provider) {}
+
+            public void onProviderDisabled(String provider) {}
+        };
+
+        /// Register the listener with the Location Manager to receive location updates
         try {
-            mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                Log.d("MA:mFusedLocationClient","Got the location" + location);
-                                addressRetriver.setLocation(location);
-                            }
-                        }
-                    });
-        } catch( SecurityException e) {
-            System.out.println("Security Alert");
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        } catch( SecurityException e){
+
         }
 
         // Initialize the addresss retriver

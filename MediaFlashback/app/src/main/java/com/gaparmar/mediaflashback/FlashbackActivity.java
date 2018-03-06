@@ -1,9 +1,11 @@
 package com.gaparmar.mediaflashback;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 
 import android.os.Handler;
 
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -91,77 +94,7 @@ public class FlashbackActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flashback);
         //initializeViewComponents();
 
-
-        userLocation = new UserLocation(this);
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        try {
-            Log.d("FBActivity", "Trying to get the location");
-            mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                Log.d("FB:mFusedLocationClient","Got the location" + location);
-                                MainActivity.getAddressRetriver().setLocation(location);
-                            }
-                            else {
-                                Log.d("FB:mFusedLocationClient", "Can't get the location");
-                            }
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure( Exception e) {
-                            Log.d("FB:mFusedLocationClient", "Error trying to get last GPS location");
-                            e.printStackTrace();
-                        }
-                    });
-
-        } catch( SecurityException e) {
-            System.out.println("Security Alert");
-        }
-        Log.d("FBActivity", "Finished getting location");
-
-        // Acquire a reference to the system Location Manager
-       // LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-        // Define a listener that responds to location updates
-      /*  LocationListener locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                // Called when a new location is found by the network location provider.
-                MainActivity.getAddressRetriver().setLocation(location);
-                Log.d("FBLgetting location", "Setting the location to address retriver");
-            }
-
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-            public void onProviderEnabled(String provider) {}
-
-            public void onProviderDisabled(String provider) {}
-        };
-
-        // Register the listener with the Location Manager to receive location updates
-        try {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        } catch( SecurityException e){
-
-        }*/
-
-        launchRegularMode = (Button) findViewById(R.id.regular_button);
-        songTitleDisplay = (TextView) findViewById(R.id.song_title);
-        songDateDisplay = (TextView) findViewById(R.id.song_date);
-        songLocationDisplay = (TextView) findViewById(R.id.song_location);
-        songTimeDisplay = (TextView) findViewById(R.id.song_time);
-        playButton = (ImageButton) findViewById(R.id.play_button);
-        pauseButton = (ImageButton) findViewById(R.id.pause_button);
-        nextButton = (ImageButton) findViewById(R.id.next_button);
-        prevButton = (ImageButton) findViewById(R.id.previous_button);
-        songArtistDisplay = findViewById(R.id.artist_title);
-        songAlbumDisplay = findViewById(R.id.album_title);
-
-
-        // Initializie the song functions
+// Initializie the song functions
         if( mq == null ) {
             mq = new MusicQueuer(this);
             mq.readSongs();
@@ -180,10 +113,61 @@ public class FlashbackActivity extends AppCompatActivity {
 
         flashbackPlayer = new FlashbackPlayer(arr,this, mq);
 
-        //flashbackPlayer.makeFlashbackPlaylist();
-        //flashbackPlayer.loadPlaylist();
-        vq.makeVibeList();
-        vq.loadPlaylist(flashbackPlayer);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    100);
+            Log.d("test1","ins");
+            return;
+        }else {
+            Log.d("test2", "outs");
+        }
+
+        // Acquire a reference to the system Location Manager
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        String locationProvider = LocationManager.GPS_PROVIDER;
+
+        // Define a listener that responds to location updates
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                // Called when a new location is found by the network location provider.
+                MainActivity.getAddressRetriver().setLocation(location);
+                Log.d("FBLgetting location", "Setting the location to address retriver");
+                vq.makeVibeList();
+                vq.loadPlaylist(flashbackPlayer);
+                flashbackPlayer.loadList();
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            public void onProviderEnabled(String provider) {}
+
+            public void onProviderDisabled(String provider) {}
+        };
+
+        /// Register the listener with the Location Manager to receive location updates
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        } catch( SecurityException e){
+
+        }
+
+        launchRegularMode = (Button) findViewById(R.id.regular_button);
+        songTitleDisplay = (TextView) findViewById(R.id.song_title);
+        songDateDisplay = (TextView) findViewById(R.id.song_date);
+        songLocationDisplay = (TextView) findViewById(R.id.song_location);
+        songTimeDisplay = (TextView) findViewById(R.id.song_time);
+        playButton = (ImageButton) findViewById(R.id.play_button);
+        pauseButton = (ImageButton) findViewById(R.id.pause_button);
+        nextButton = (ImageButton) findViewById(R.id.next_button);
+        prevButton = (ImageButton) findViewById(R.id.previous_button);
+        songArtistDisplay = findViewById(R.id.artist_title);
+        songAlbumDisplay = findViewById(R.id.album_title);
+
 
 
         // Thread behind the scenes to update UI
@@ -191,14 +175,13 @@ public class FlashbackActivity extends AppCompatActivity {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                updateTrackInfo(flashbackPlayer.getCurrSong());
-
                 // Unless there is a song playing when we get back to normal mode, hide the button
                 if( !flashbackPlayer.isPlaying()) {
                     playButton.setVisibility(View.VISIBLE);
                     pauseButton.setVisibility(View.GONE);
                 }
                 else {
+                    updateTrackInfo(flashbackPlayer.getCurrSong());
                     playButton.setVisibility(View.GONE);
                     pauseButton.setVisibility(View.VISIBLE);
                 }

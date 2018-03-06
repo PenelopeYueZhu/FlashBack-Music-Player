@@ -22,7 +22,7 @@ public class AddressRetriver {
      */
     class AddressResultReceiver extends ResultReceiver implements Parcelable{
         String mAddressOutput;
-        double[] coordinates;
+        double[] coordinates = new double[2];
         public AddressResultReceiver(Handler handler) {
             super(handler);
         }
