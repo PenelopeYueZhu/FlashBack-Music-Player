@@ -48,6 +48,7 @@ public class FlashbackActivity extends AppCompatActivity {
     public final static int ALBUM_POS = 5;
     public final static int ARTIST_POS = 4;
 
+    public static boolean flashBackIsPlaying = false;
     // This is all the fields on the main screen
     TextView songTitleDisplay;
     TextView songLocationDisplay;
@@ -62,6 +63,8 @@ public class FlashbackActivity extends AppCompatActivity {
     Button launchRegularMode;
 
     FlashbackPlayer flashbackPlayer;
+    LocationManager locationManager;
+    LocationListener locationListener;
     MusicQueuer mq;
     VibeQueuer vq;
     UserLocation userLocation;
@@ -92,6 +95,8 @@ public class FlashbackActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
+        flashBackIsPlaying = true;
+
         //initializeViewComponents();
 
 // Initializie the song functions
@@ -128,11 +133,11 @@ public class FlashbackActivity extends AppCompatActivity {
         }*/
 
         // Acquire a reference to the system Location Manager
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         String locationProvider = LocationManager.GPS_PROVIDER;
 
         // Define a listener that responds to location updates
-        LocationListener locationListener = new LocationListener() {
+        locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
                 // Called when a new location is found by the network location provider.
                 MainActivity.getAddressRetriver().setLocation(location);
@@ -151,7 +156,9 @@ public class FlashbackActivity extends AppCompatActivity {
 
         /// Register the listener with the Location Manager to receive location updates
         try {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
+            if( flashBackIsPlaying) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
+            }
         } catch( SecurityException e){
 
         }
@@ -197,6 +204,8 @@ public class FlashbackActivity extends AppCompatActivity {
      */
     public void onRegularModeClick(View view){
         flashbackPlayer.resetSong();
+        flashBackIsPlaying = false;
+        locationManager.removeUpdates(locationListener);
         StorageHandler.storeLastMode(FlashbackActivity.this, 0);
         finish();
     }

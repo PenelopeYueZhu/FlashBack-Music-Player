@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
         /// Register the listener with the Location Manager to receive location updates
         try {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
         } catch( SecurityException e){
 
         }
