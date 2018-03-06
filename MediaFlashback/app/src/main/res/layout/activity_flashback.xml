@@ -8,7 +8,6 @@
     android:gravity="center"
     tools:context="com.gaparmar.mediaflashback.FlashbackActivity">
 
->>>>>>> b368c0ebfdfbf17b8283f377d33e305db03cfcd4
 
     <LinearLayout
         android:id="@+id/linearLayout4"
