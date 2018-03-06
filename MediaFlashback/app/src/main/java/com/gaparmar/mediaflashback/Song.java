@@ -114,6 +114,15 @@ public class Song {
 
    public Song( int id ){
        this.resID = id;
+       dayOfWeek = Constant.UNKNOWN;
+       time = -1;
+       probability = 1;
+       lat = 0.0;
+       lon = 0.0;
+       rate = 0;
+       timeStamp = 0;
+       address = Constant.UNKNOWN;
+       userName = Constant.UNKNOWN;
    }
 
    /********************************* Setters ***********************************************/

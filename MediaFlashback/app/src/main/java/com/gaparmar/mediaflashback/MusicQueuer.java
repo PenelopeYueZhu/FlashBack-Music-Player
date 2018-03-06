@@ -101,16 +101,19 @@ public class MusicQueuer {
                 artist = UNKNOWN_STRING;
 
             // Create a song object
-            Song song = new Song( title, album, artist, Integer.parseInt(duration),
-                    Integer.parseInt(year), songId, StorageHandler.getSongLocation(context, songId));
+            //Song song = new Song( title, album, artist, Integer.parseInt(duration),
+                 //   Integer.parseInt(year), songId, StorageHandler.getSongLocation(context, songId));
 
             // Put the song object inside the track hashmap
+            Song song = new Song( songId );
+            song.setMetadata(title, album, artist, year);
             allTracks.put(songId, song);
 
+            FirebaseHandler.saveSong(song);
             // TRY TO STORE IT TO THE CLOUD
-            Track track = new Track(songId);
-            track.setMetadata(title, album, artist, year);
-            FirebaseHandler.saveSong(track);
+            //Track track = new Track(songId);
+            //track.setMetadata(title, album, artist, year);
+            //FirebaseHandler.saveSong(track);
 
             Log.d("MQ:readSong()", "Just loaded song " + song.getTitle() + " into map");
         }

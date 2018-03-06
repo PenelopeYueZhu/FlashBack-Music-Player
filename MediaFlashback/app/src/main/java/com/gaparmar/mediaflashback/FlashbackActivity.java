@@ -113,7 +113,7 @@ public class FlashbackActivity extends AppCompatActivity {
 
         flashbackPlayer = new FlashbackPlayer(arr,this, mq);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+     /*   if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
@@ -125,7 +125,7 @@ public class FlashbackActivity extends AppCompatActivity {
             return;
         }else {
             Log.d("test2", "outs");
-        }
+        }*/
 
         // Acquire a reference to the system Location Manager
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -151,7 +151,7 @@ public class FlashbackActivity extends AppCompatActivity {
 
         /// Register the listener with the Location Manager to receive location updates
         try {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
         } catch( SecurityException e){
 
         }

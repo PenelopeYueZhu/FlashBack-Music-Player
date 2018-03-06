@@ -29,10 +29,12 @@ public class FirebaseHandler {
      * Save a new song into database
      * @param song the song to be stored
      */
-    public static void saveSong(Track song){
-        final int songId = song.getId();
+    public static void saveSong(Song song){
+        final int songId = song.getResID();
         Query songQuery = songs.orderByChild(Constant.ID_FIELD).equalTo(songId);
-        if( songQuery == null ) songs.child(Integer.toString(songId)).setValue(song);
+        if( songQuery == null ) {
+            songs.child(Integer.toString(songId)).setValue(song);
+        }
         else return;
     }
 

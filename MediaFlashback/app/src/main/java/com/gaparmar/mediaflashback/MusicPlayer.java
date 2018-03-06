@@ -51,7 +51,9 @@ public class MusicPlayer extends AppCompatActivity {
         this.musicQueuer = musicQueuer;
         this.tracker = MainActivity.getUITracker();
         this.context = current;
-        mediaPlayer = new MediaPlayer();
+        if( mediaPlayer == null ) {
+            mediaPlayer = new MediaPlayer();
+        }
         final UserLocation userLocation = new UserLocation(current);
 
         mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
@@ -249,7 +251,7 @@ public class MusicPlayer extends AppCompatActivity {
      * Add songs in a list to songsToPlay List
      * @param songs the list of songs' ids
      */
-    public void loadList(ArrayList<Integer> songs ) {
+    /*public void loadList(ArrayList<Integer> songs ) {
         resetSong();
         songsToPlay.clear();
         for (int i = 0; i < songs.size(); i++) {
@@ -263,7 +265,7 @@ public class MusicPlayer extends AppCompatActivity {
 
         loadMedia(songsToPlay.get(0));
         MainActivity.isPlaying = true;
-    }
+    }*/
 
     /**
      * @return The current Song to be Played

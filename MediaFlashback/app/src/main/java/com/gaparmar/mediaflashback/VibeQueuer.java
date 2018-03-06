@@ -23,6 +23,7 @@ public class VibeQueuer extends MusicQueuer{
     }
     protected int updateProbablity( int id ){
         Song track = getSong(id);
+        Log.d("VQ:updateProbability", "Updating song " + track.getTitle());
         int prob = track.getProbability();
 
         final AddressRetriver ar = MainActivity.getAddressRetriver();
