@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         // Redirect URL for web based applications.
         // Can be empty too.
-        String redirectUrl = "urn:ietf:wg:oauth:2.0:oob";
+        String redirectUrl = "";
 
 
         // Exchange auth code for access token
