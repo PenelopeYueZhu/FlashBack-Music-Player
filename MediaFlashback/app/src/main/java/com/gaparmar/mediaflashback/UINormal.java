@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,11 @@ public class UINormal extends UIHandler {
     private ImageButton nextButton;
     private ImageButton prevButton;
     private ImageButton toggleBtn;
+    private ImageButton downloadBtn;
+    private EditText inputURL;
+
+    MusicDownloader musicDownloader;
+    private String songURL = "http://soundbible.com/grab.php?id=2190&type=mp3";
     MusicQueuer musicQueuer;
     MusicPlayer musicPlayer;
 
@@ -44,6 +50,7 @@ public class UINormal extends UIHandler {
         super(context);
         musicQueuer = MainActivity.getMusicQueuer();
         musicPlayer = MainActivity.getMusicPlayer();
+        musicDownloader = MainActivity.getMusicDownloader();
         this.context = context;
 
         playButton =  (ImageButton) ((Activity)context).findViewById(R.id.play_button);
@@ -51,6 +58,8 @@ public class UINormal extends UIHandler {
         nextButton = (ImageButton) ((Activity)context).findViewById(R.id.next_button);
         prevButton = (ImageButton) ((Activity)context).findViewById(R.id.previous_button);
         toggleBtn = (ImageButton) ((Activity)context).findViewById(R.id.toggleBtn);
+        inputURL = (EditText) ((Activity)context).findViewById(R.id.inputURL);
+        downloadBtn = (ImageButton) ((Activity)context).findViewById(R.id.downloadBtn);
 
         toggleBtn.setImageResource(R.drawable.neutral);
         toggleBtn.setTag(NEUTRAL);
@@ -101,6 +110,7 @@ public class UINormal extends UIHandler {
                 updateTrackInfo();
                 setButtonsPlaying();
             }
+
         });
 
         // Pauses the song and updates the UI when the pause button is pressed
@@ -126,7 +136,7 @@ public class UINormal extends UIHandler {
                 }
 
                 musicPlayer.nextSong();
-                setButtonToggle(context, musicPlayer.getCurrentSongId());
+                setButtonToggle(context, musicPlayer.getCurrentSongFileName());
                 // Dont't do anything if no song is currently selected
 
                 // Load all the information about the song
@@ -147,7 +157,7 @@ public class UINormal extends UIHandler {
                     return;
                 }
                 musicPlayer.previousSong();
-                setButtonToggle(context, musicPlayer.getCurrentSongId());
+                setButtonToggle(context, musicPlayer.getCurrentSongFileName());
                 // Dont't do anything if no song is currently selected
 
                 // Load all the information about the song
@@ -178,7 +188,7 @@ public class UINormal extends UIHandler {
 
                         if (musicPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(1);
-                            StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), 1);
+                            StorageHandler.storeSongState(context, musicPlayer.getCurrentSongFileName(), 1);
                         }
 
                         Toast likeToast = Toast.makeText(context, LIKE, Toast.LENGTH_SHORT);
@@ -192,7 +202,7 @@ public class UINormal extends UIHandler {
 
                         if (musicPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(-1);
-                            StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), -1);
+                            StorageHandler.storeSongState(context, musicPlayer.getCurrentSongFileName(), -1);
                         }
 
                         Toast dislikeToast = Toast.makeText(context, DISLIKE, Toast.LENGTH_SHORT);
@@ -206,7 +216,7 @@ public class UINormal extends UIHandler {
 
                         if (musicPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(0);
-                            StorageHandler.storeSongState(context, musicPlayer.getCurrentSongId(), 0);
+                            StorageHandler.storeSongState(context, musicPlayer.getCurrentSongFileName(), 0);
                         }
 
                         Toast neutralToast = Toast.makeText(context, NEUTRAL, Toast.LENGTH_SHORT);
@@ -217,6 +227,33 @@ public class UINormal extends UIHandler {
                 }
             }
         });
+
+        downloadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("UINomarl", "downloadButton clicked");
+
+                Log.d("UINomarl",inputURL.getText().toString());
+                // need to have input
+                if (inputURL.getText() != null) {
+                    String url = inputURL.getText().toString();
+                    Toast downloadingToast = Toast.makeText(context, "Downloading from "
+                            + url, Toast.LENGTH_SHORT);
+                    downloadingToast.show();
+
+                    if (musicDownloader == null) {
+                        musicDownloader = MainActivity.getMusicDownloader();
+                    }
+                    musicDownloader.downloadData(url, "Song name", "mp3");
+
+                } else {
+                  // no url link provided
+                    Toast noURLToast = Toast.makeText(context, "Please enter URL", Toast.LENGTH_SHORT);
+                    noURLToast.show();
+                }
+            }
+        });
+
     }
 
     /**
@@ -224,7 +261,7 @@ public class UINormal extends UIHandler {
      */
     public void updateTrackInfo() {
         Log.d("UINormal", "Reset displayed information of the song to the current song");
-        ArrayList<String> songInfo = musicQueuer.getSongInfo(musicPlayer.getCurrentSongId());
+        ArrayList<String> songInfo = musicQueuer.getSongInfo(musicPlayer.getCurrentSongFileName());
         songTitleDisplay.setText( songInfo.get(TITLE_POS));
         songDateDisplay.setText( songInfo.get(DATE_POS));
         songLocationDisplay.setText( songInfo.get(LOC_POS));
@@ -233,9 +270,9 @@ public class UINormal extends UIHandler {
         songArtistDisplay.setText(songInfo.get(ARTIST_POS));
     }
 
-    public void setButtonToggle(Context context, int id)
+    public void setButtonToggle(Context context, String fileName)
     {
-        switch(StorageHandler.getSongState(context, id))
+        switch(StorageHandler.getSongState(context, fileName))
         {
             case 1:
                 toggleBtn.setImageResource(R.drawable.like);

@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static MusicPlayer musicPlayer;
     private static MusicQueuer musicQueuer;
+    private static MusicDownloader musicDownloader;
     private FusedLocationProviderClient mFusedLocationClient;
     private Handler addressHandler;
     private static AddressRetriver addressRetriver;
@@ -42,14 +43,25 @@ public class MainActivity extends AppCompatActivity {
     private static boolean browsing = false;
 
     public static Map<String, Integer> weekDays;
-    public static MusicPlayer getMusicPlayer(){
+
+    public static MusicDownloader getMusicDownloader() {
+        return musicDownloader;
+    }
+
+    public static MusicPlayer getMusicPlayer() {
         return musicPlayer;
     }
-    public static MusicQueuer getMusicQueuer() { return musicQueuer; }
+
+    public static MusicQueuer getMusicQueuer() {
+        return musicQueuer;
+    }
+
     public static AddressRetriver getAddressRetriver() {
         return addressRetriver;
     }
+
     private UserLocation userLocation;
+
     public static UINormal getUITracker() {
         return tracker;
     }
@@ -79,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         tracker.setButtonFunctions();
 
         // Initializie the song functions
-        if( musicQueuer == null ) {
+        if (musicQueuer == null) {
             musicQueuer = new MusicQueuer(this);
             musicQueuer.readSongs();
             musicQueuer.readAlbums();
@@ -90,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
             musicPlayer = new MusicPlayer(this, musicQueuer);
         }
 
+        // Initialize the music downloader
+        if (musicDownloader == null) {
+            musicDownloader = new MusicDownloader(this);
+        }
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         try {
             mFusedLocationClient.getLastLocation()
@@ -98,26 +114,25 @@ public class MainActivity extends AppCompatActivity {
                         public void onSuccess(Location location) {
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
-                                Log.d("MA:mFusedLocationClient","Got the location" );
+                                Log.d("MA:mFusedLocationClient", "Got the location");
                                 addressRetriver.setLocation(location);
                             }
                         }
                     });
-        } catch( SecurityException e) {
+        } catch (SecurityException e) {
             System.out.println("Security Alert");
         }
 
         // Initialize the addresss retriver
-        if( addressRetriver == null ) {
-            addressHandler = new Handler( );
-            addressRetriver = new AddressRetriver(this, addressHandler );
+        if (addressRetriver == null) {
+            addressHandler = new Handler();
+            addressRetriver = new AddressRetriver(this, addressHandler);
         }
 
         // Unless there is a song playing when we get back to normal mode, hide the button
-        if( !musicPlayer.wasPlayingSong()) {
+        if (!musicPlayer.wasPlayingSong()) {
             tracker.setButtonsPausing();
-        }
-        else {
+        } else {
             tracker.setButtonsPlaying();
         }
 
@@ -125,24 +140,24 @@ public class MainActivity extends AppCompatActivity {
         Button launchFlashbackActivity = (Button) findViewById(R.id.flashback_button);
         ImageButton playButton = (ImageButton) findViewById(R.id.play_button);
         Button browseBtn = (Button) findViewById(R.id.browse_button);
-        browseBtn.setOnClickListener(new View.OnClickListener(){
+
+        browseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick( View view ){
+            public void onClick(View view) {
                 launchLibrary();
                 finish();
             }
         });
 
-        launchFlashbackActivity.setOnClickListener(new View.OnClickListener(){
+        launchFlashbackActivity.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick( View view ){
+            public void onClick(View view) {
                 isPlaying = musicPlayer.isPlaying();
                 StorageHandler.storeLastMode(MainActivity.this, 1);
                 launchActivity();
             }
         });
     }
-
 
     @Override
     public void onStart(){
@@ -173,9 +188,9 @@ public class MainActivity extends AppCompatActivity {
      * Launches flashback mode activity
      */
     public void launchActivity(){
+        Log.d("MainActivity", "Launching Flashback mode");
         //input = (EditText)findViewById(R.id.in_time) ;
         Intent intent = new Intent(this, FlashbackActivity.class);
-        //intent.putExtra("transferred_string", input.getText().toString());
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }
@@ -184,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
      * Launches the browse music screen
      */
     public void launchLibrary() {
+        Log.d("MainActivity", "Launching library");
         Intent intent = new Intent(this, LibraryActivity.class);
         setResult(Activity.RESULT_OK, intent);
         browsing = true;

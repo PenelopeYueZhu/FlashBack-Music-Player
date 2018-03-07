@@ -35,6 +35,8 @@ public class Song {
     private double[] location;    // [Latitude, Longitude] stored as double[]
     private String artistName;
     private int resID;
+    private String songURL;
+    private String fileName;
     private int lengthInSeconds;
     private int yearOfRelease;
     private String dayOfWeek;
@@ -60,6 +62,8 @@ public class Song {
         location[LONGITUDE] = 0.0;
         artistName = "";
         resID = 0;
+        songURL = "";
+        fileName = "";
         lengthInSeconds = -1;
         yearOfRelease = -1;
         timeLastPlayed = -1;
@@ -74,19 +78,20 @@ public class Song {
      * @param artistName The name of the Artist
      * @param lengthInSeconds The length of the Song is seconds
      * @param yearOfRelease The release year of the Song
-     * @param resID The Resource ID of the song
+     * @param fileName The file name of the song
      * @param location The last played Location coords of the Song
      */
     public Song(String title, String parentAlbum,
                 String artistName, int lengthInSeconds,
-                int yearOfRelease, int resID, double[] location){
+                int yearOfRelease, String fileName, String songURL, double[] location){
         this();
         this.title = title;
         this.parentAlbum = parentAlbum;
         this.lengthInSeconds = lengthInSeconds;
         this.artistName = artistName;
         this.yearOfRelease = yearOfRelease;
-        this.resID = resID;
+        this.fileName = fileName;
+        this.songURL = songURL;
         this.probability = 1;
         if(location != null) {
             this.location = location;
@@ -133,7 +138,11 @@ public class Song {
      * @return whether the song is LIKED/DISLIKED/NEUTRAl
      */
     public int getCurrentState(Context context){
-        return StorageHandler.getSongState(context, this.getResID());
+        return StorageHandler.getSongState(context, this.getFileName());
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 
     public void setLocation(double[] location)
@@ -158,8 +167,8 @@ public class Song {
      * @param currentState the new state of the Song to be updated to
      */
 
-    public void setCurrentState(Context context, int id, int currentState){
-        StorageHandler.storeSongState(context, id, currentState);
+    public void setCurrentState(Context context, String fileName, int currentState){
+        StorageHandler.storeSongState(context, fileName, currentState);
     }
 
     /**
