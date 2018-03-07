@@ -9,6 +9,8 @@ import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Created by veronica.lin1218 on 2/12/2018.
@@ -218,12 +221,20 @@ public class MusicQueuer {
 
     public void addSong(String songPath, String fileName) {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+
+        InputStream input = null;
+        Properties prop = new Properties();
+
         String title = UNKNOWN_STRING;
         String year = UNKNOWN_INT;
         String duration = UNKNOWN_INT;
         String album = UNKNOWN_STRING;
         String artist = UNKNOWN_STRING;
+        String url = UNKNOWN_STRING;
+
         try {
+            input = new FileInputStream(songPath);
+            prop.load(input);
             retriever.setDataSource(context, Uri.parse(songPath));
             Log.d("MQ:readSong", "Retrieving the song's metadata");
             title = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
@@ -231,6 +242,8 @@ public class MusicQueuer {
             duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
             album = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
             artist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
+            url = prop.getProperty("Comments");
+
         } catch (Exception e) {
             //e.printStackTrace();
             title = UNKNOWN_STRING;
@@ -238,6 +251,7 @@ public class MusicQueuer {
             duration = UNKNOWN_INT;
             album = UNKNOWN_STRING;
             artist = UNKNOWN_STRING;
+            url = UNKNOWN_STRING;
         }
         // If any field is null, set it to default values
         if (title == null)
@@ -249,6 +263,8 @@ public class MusicQueuer {
         if (album == null)
             album = UNKNOWN_STRING;
         if (artist == null)
+            artist = UNKNOWN_STRING;
+        if (url == null)
             artist = UNKNOWN_STRING;
 
         // Create a song object
@@ -296,6 +312,10 @@ public class MusicQueuer {
                 }
             }
         }
+    }
+
+    public void copyRawToSD() {
+
     }
 
 }
