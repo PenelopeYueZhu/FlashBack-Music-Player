@@ -2,10 +2,8 @@ package com.gaparmar.mediaflashback;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,13 +14,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -144,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         browseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchLibrary();
+                launchLibraryActivity();
                 finish();
             }
         });
@@ -154,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 isPlaying = musicPlayer.isPlaying();
                 StorageHandler.storeLastMode(MainActivity.this, 1);
-                launchActivity();
+                launchFlashbackActivity();
             }
         });
     }
@@ -163,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
     public void onStart(){
         super.onStart();
         if(StorageHandler.getLastMode(this) == 1){
-            launchActivity();
+            launchFlashbackActivity();
         }
     }
 
@@ -187,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Launches flashback mode activity
      */
-    public void launchActivity(){
+    public void launchFlashbackActivity(){
         Log.d("MainActivity", "Launching Flashback mode");
         //input = (EditText)findViewById(R.id.in_time) ;
         Intent intent = new Intent(this, FlashbackActivity.class);
@@ -198,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Launches the browse music screen
      */
-    public void launchLibrary() {
+    public void launchLibraryActivity() {
         Log.d("MainActivity", "Launching library");
         Intent intent = new Intent(this, LibraryActivity.class);
         setResult(Activity.RESULT_OK, intent);

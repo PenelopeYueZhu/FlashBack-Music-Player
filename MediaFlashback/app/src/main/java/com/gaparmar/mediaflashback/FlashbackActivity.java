@@ -1,12 +1,8 @@
 package com.gaparmar.mediaflashback;
 
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-
 import android.os.Handler;
-
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,15 +10,12 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
  * This class represents the Flashback Mode screen
  */
 public class FlashbackActivity extends AppCompatActivity {
-    private Song s;
     ArrayList<String> arr = new ArrayList<>();
 
     private Handler handler;
@@ -81,15 +74,15 @@ public class FlashbackActivity extends AppCompatActivity {
 
         userLocation = new UserLocation(this);
 
-        launchRegularMode = (Button) findViewById(R.id.regular_button);
-        songTitleDisplay = (TextView) findViewById(R.id.song_title);
-        songDateDisplay = (TextView) findViewById(R.id.song_date);
-        songLocationDisplay = (TextView) findViewById(R.id.song_location);
-        songTimeDisplay = (TextView) findViewById(R.id.song_time);
-        playButton = (ImageButton) findViewById(R.id.play_button);
-        pauseButton = (ImageButton) findViewById(R.id.pause_button);
-        nextButton = (ImageButton) findViewById(R.id.next_button);
-        prevButton = (ImageButton) findViewById(R.id.previous_button);
+        launchRegularMode = findViewById(R.id.regular_button);
+        songTitleDisplay = findViewById(R.id.song_title);
+        songDateDisplay = findViewById(R.id.song_date);
+        songLocationDisplay = findViewById(R.id.song_location);
+        songTimeDisplay = findViewById(R.id.song_time);
+        playButton = findViewById(R.id.play_button);
+        pauseButton = findViewById(R.id.pause_button);
+        nextButton = findViewById(R.id.next_button);
+        prevButton =  findViewById(R.id.previous_button);
         songArtistDisplay = findViewById(R.id.artist_title);
         songAlbumDisplay = findViewById(R.id.album_title);
 
