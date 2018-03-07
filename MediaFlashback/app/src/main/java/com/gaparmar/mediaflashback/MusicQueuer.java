@@ -266,7 +266,7 @@ public class MusicQueuer {
     public void readSongs() {
         File dir = new File(MEDIA_PATH);
         File[] fileList = dir.listFiles();
-        Log.i("MQ", "Reading all files: " + fileList.length);
+        Log.i("MQ", "Reading all files");
         if (fileList != null) {
             for (File f : fileList) {
                 Log.i("MQ: Reading file ", f.getName());
