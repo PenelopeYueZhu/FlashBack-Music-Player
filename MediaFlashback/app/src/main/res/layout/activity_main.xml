@@ -7,7 +7,8 @@
     android:background="#232625"
     android:gravity="center_vertical|fill"
     tools:context="com.gaparmar.mediaflashback.MainActivity"
-    tools:layout_editor_absoluteY="81dp">
+    tools:layout_editor_absoluteY="81dp"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/linearLayout4"
@@ -39,7 +40,6 @@
             android:textStyle="bold"
             tools:layout_editor_absoluteX="15dp"
             tools:layout_editor_absoluteY="166dp" />
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -121,7 +121,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             tools:layout_editor_absoluteY="181dp" />
-
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/constraint"
@@ -329,7 +328,7 @@
         <Button
             android:id="@+id/flashback_button"
             android:layout_width="316dp"
-            android:layout_height="45dp"
+            android:layout_height="40dp"
             android:background="#c4d7f2"
             android:text="Flashback Mode"
             android:textAllCaps="false"
@@ -341,7 +340,7 @@
         <Button
             android:id="@+id/browse_button"
             android:layout_width="316dp"
-            android:layout_height="45dp"
+            android:layout_height="40dp"
             android:background="#36668e"
             android:text="Browse Music"
             android:textAllCaps="false"
@@ -351,34 +350,44 @@
             tools:layout_editor_absoluteY="450dp" />
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="horizontal">-->
 
-            <EditText
-                android:id="@+id/inputURL"
-                style="@style/Widget.AppCompat.EditText"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:ems="10"
-                android:hint="Input URL to download"
-                android:inputType="textPersonName"
-                android:textAlignment="center"
-                android:textColor="@android:color/background_light"
-                android:textColorHint="#ffffff"
-                android:theme="@style/AlertDialog.AppCompat.Light" />
+            <!--<EditText-->
+                <!--android:id="@+id/inputURL"-->
+                <!--style="@style/Widget.AppCompat.EditText"-->
+                <!--android:layout_width="300dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:ems="10"-->
+                <!--android:hint="Input URL to download"-->
+                <!--android:inputType="textPersonName"-->
+                <!--android:textAlignment="center"-->
+                <!--android:textColor="@android:color/background_light"-->
+                <!--android:textColorHint="#ffffff"-->
+                <!--android:theme="@style/AlertDialog.AppCompat.Light" />-->
 
-            <ImageButton
-                android:id="@+id/downloadBtn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:srcCompat="@android:drawable/stat_sys_download" />
-        </LinearLayout>
+            <!--<ImageButton-->
+                <!--android:id="@+id/downloadBtn"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--app:srcCompat="@android:drawable/stat_sys_download" />-->
+        <!--</LinearLayout>-->
 
     </LinearLayout>
 
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:background="?android:attr/windowBackground"
+        android:padding="0dp"
+        app:menu="@menu/root_navigation" />
 
 </LinearLayout>
 

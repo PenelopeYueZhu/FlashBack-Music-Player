@@ -53,13 +53,13 @@ public class UINormal extends UIHandler {
         musicDownloader = MainActivity.getMusicDownloader();
         this.context = context;
 
-        playButton =  (ImageButton) ((Activity)context).findViewById(R.id.play_button);
-        pauseButton = (ImageButton) ((Activity)context).findViewById(R.id.pause_button);
-        nextButton = (ImageButton) ((Activity)context).findViewById(R.id.next_button);
-        prevButton = (ImageButton) ((Activity)context).findViewById(R.id.previous_button);
-        toggleBtn = (ImageButton) ((Activity)context).findViewById(R.id.toggleBtn);
-        inputURL = (EditText) ((Activity)context).findViewById(R.id.inputURL);
-        downloadBtn = (ImageButton) ((Activity)context).findViewById(R.id.downloadBtn);
+        playButton =  ((Activity)context).findViewById(R.id.play_button);
+        pauseButton =((Activity)context).findViewById(R.id.pause_button);
+        nextButton = ((Activity)context).findViewById(R.id.next_button);
+        prevButton = ((Activity)context).findViewById(R.id.previous_button);
+        toggleBtn = ((Activity)context).findViewById(R.id.toggleBtn);
+        inputURL = ((Activity)context).findViewById(R.id.inputURL);
+        downloadBtn = ((Activity)context).findViewById(R.id.downloadBtn);
 
         toggleBtn.setImageResource(R.drawable.neutral);
         toggleBtn.setTag(NEUTRAL);
