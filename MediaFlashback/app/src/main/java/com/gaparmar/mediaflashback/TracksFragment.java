@@ -59,7 +59,7 @@ public class TracksFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
 
-        final ArrayList<Integer> songs = mq.getEntireSongList();
+        final ArrayList<String> songs = mq.getEntireSongList();
         mListView = (ListView)getView().findViewById(R.id.album_list);
         String[] titles = new String[songs.size()];
 
@@ -73,9 +73,9 @@ public class TracksFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Integer ID = mq.getSong( songs.get(position)).getResID();
-                System.out.println( "Song is clicked " + mq.getSong(ID).getTitle());
-                mp.loadNewSong(ID);
+                String fileName = mq.getSong( songs.get(position)).getFileName();
+                System.out.println( "Song is clicked " + mq.getSong(fileName).getTitle());
+                mp.loadNewSong(fileName);
                 MainActivity.isPlaying = true;
                 onDetach();
             }
