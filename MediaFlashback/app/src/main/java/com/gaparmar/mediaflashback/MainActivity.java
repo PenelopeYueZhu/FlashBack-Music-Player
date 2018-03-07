@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 // The serverClientId is an OAuth 2.0 web client ID
-                .requestServerAuthCode("292202723687-3e1sd82h0mnnf7dnak791imudspvfpj0.apps.googleusercontent.com")
+                .requestServerAuthCode("292202723687-bfhvb9ntufbr7dti0bnt0a1holr76vu0.apps.googleusercontent.com")
                 .requestEmail()
                 .requestScopes(new Scope(Scopes.PLUS_LOGIN),
                         new Scope(PeopleScopes.CONTACTS_READONLY),
@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         // Redirect URL for web based applications.
         // Can be empty too.
-        String redirectUrl = "";
+        String redirectUrl = "urn:ietf:wg:oauth:2.0:oob";
 
 
         // Exchange auth code for access token
@@ -278,31 +278,21 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 People peopleService = setUp(MainActivity.this, params[0]);
 
                 ListConnectionsResponse response = peopleService.people().connections()
-                        .list("people/me")
-                        // This line's really important! Here's why:
-                        // http://stackoverflow.com/questions/35604406/retrieving-information-about-a-contact-with-google-people-api-java
-                        .setRequestMaskIncludeField("person.names,person.emailAddresses,person.phoneNumbers")
+                        .list("people/me").setRequestMaskIncludeField("person.names")
                         .execute();
                 List<Person> connections = response.getConnections();
 
-                for (Person person : connections) {
-                    if (!person.isEmpty()) {
-                        List<Name> names = person.getNames();
-                        List<EmailAddress> emailAddresses = person.getEmailAddresses();
-                        List<PhoneNumber> phoneNumbers = person.getPhoneNumbers();
-
-                        if (phoneNumbers != null)
-                            for (PhoneNumber phoneNumber : phoneNumbers)
-                                Log.d("MainActivity", "phone: " + phoneNumber.getValue());
-
-                        if (emailAddresses != null)
-                            for (EmailAddress emailAddress : emailAddresses)
-                                Log.d("MainActivity", "email: " + emailAddress.getValue());
-
-                        if (names != null)
-                            for (Name name : names)
-                                nameList.add(name.getDisplayName());
-
+                if(connections != null) {
+                    for (Person person : connections) {
+                        if (!person.isEmpty()) {
+                            List<Name> names = person.getNames();
+                            if (names != null)
+                                System.out.println("Names");
+                                for (Name name : names) {
+                                    nameList.add(name.getDisplayName());
+                                    System.out.println(name.getDisplayName());
+                                }
+                        }
                     }
                 }
 
