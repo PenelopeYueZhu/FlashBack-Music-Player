@@ -276,6 +276,10 @@ public class MusicQueuer {
                     addSong(f.getPath(),f.getName() );
                 }
             }
+        } else {
+            // if directory does not exist, create a new one
+            File newDir = new File(Environment.getExternalStorageDirectory() + File.separator + "myDownloads");
+            newDir.mkdirs();
         }
     }
 
