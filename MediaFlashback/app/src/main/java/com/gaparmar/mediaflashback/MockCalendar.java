@@ -2,23 +2,39 @@ package com.gaparmar.mediaflashback;
 
 import java.util.Calendar;
 
+import static com.gaparmar.mediaflashback.Constant.MORNING_DIVIDER;
+import static com.gaparmar.mediaflashback.Constant.NOON_DIVIVER;
+
 /**
  * Created by Gordee on 3/7/2018.
  */
 
 class MockCalendar extends Calendar{
 
-    public long millis;
+    int hour;
+    Calendar cal;
 
     public MockCalendar(){
     }
 
-    public void setTimeInMillis(long millis){
-        this.millis = millis;
+    public void setTime(int hour){
+        this.hour = hour;
+        cal.set(0,0,0,hour,0);
     }
 
-    public long getTimeInMillis(){
-        return this.millis;
+    public int getHour(){
+      return cal.HOUR_OF_DAY;
+    }
+
+    //TODO make into enum
+    public int getState(){
+        if(cal.HOUR_OF_DAY >= 0 && cal.HOUR_OF_DAY <= MORNING_DIVIDER ){
+            return 0;
+        }else if (cal.HOUR_OF_DAY > MORNING_DIVIDER && cal.HOUR_OF_DAY <= NOON_DIVIVER){
+            return 1;
+        }else{
+            return 2;
+        }
     }
 
     public static MockCalendar getInstance(){
