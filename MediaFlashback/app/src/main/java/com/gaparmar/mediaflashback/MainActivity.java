@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
@@ -33,34 +35,40 @@ public class MainActivity extends AppCompatActivity {
 
     private static MusicPlayer musicPlayer;
     private static MusicQueuer musicQueuer;
+
+    // Objects for location
     private static MusicDownloader musicDownloader;
     private FusedLocationProviderClient mFusedLocationClient;
     private Handler addressHandler;
     private static AddressRetriver addressRetriver;
     private static UINormal tracker;
-    private static int[] stoppedInfo = new int[2];
+
+    // Objects for info updates
+    private static FirebaseHandler firebaseHandler;
+    private static FirebaseObject firebaseInfoBus;
+    private static FirebaseObserver retriver;
+
+    private static ArrayList<String> stoppedInfo = new ArrayList<>();
     public static boolean isPlaying;
     private static boolean browsing = false;
 
     public static Map<String, Integer> weekDays;
 
-    public static MusicDownloader getMusicDownloader() {
-        return musicDownloader;
-    }
-
-    public static MusicPlayer getMusicPlayer() {
+    // Getters for static variables
+    public static MusicPlayer getMusicPlayer(){
         return musicPlayer;
     }
+    public static MusicQueuer getMusicQueuer() { return musicQueuer; }
 
-    public static MusicQueuer getMusicQueuer() {
-        return musicQueuer;
-    }
-
+    public static FirebaseObject getFirebaseInfoBus() { return firebaseInfoBus; }
     public static AddressRetriver getAddressRetriver() {
         return addressRetriver;
     }
+    public static FirebaseHandler getFirebaseHandler() { return firebaseHandler;}
 
-    private UserLocation userLocation;
+    public static MusicDownloader getMusicDownloader() {
+        return musicDownloader;
+    }
 
     public static UINormal getUITracker() {
         return tracker;
@@ -71,9 +79,6 @@ public class MainActivity extends AppCompatActivity {
         askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, 666);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        userLocation = new UserLocation(this);
 
         // Stores the days of the week
         weekDays = new HashMap<String, Integer>();
@@ -100,6 +105,46 @@ public class MainActivity extends AppCompatActivity {
         // Initialized the player
         if (musicPlayer == null) {
             musicPlayer = new MusicPlayer(this, musicQueuer);
+        }
+
+        /*if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    100);
+            Log.d("test1","ins");
+            return;
+        }else {
+            Log.d("test2", "outs");
+        }*/
+
+        // Acquire a reference to the system Location Manager
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        String locationProvider = LocationManager.GPS_PROVIDER;
+
+        // Define a listener that responds to location updates
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                // Called when a new location is found by the network location provider.
+                MainActivity.getAddressRetriver().setLocation(location);
+                Log.d("FBLgetting location", "Setting the location to address retriver");
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            public void onProviderEnabled(String provider) {}
+
+            public void onProviderDisabled(String provider) {}
+        };
+
+        /// Register the listener with the Location Manager to receive location updates
+        try {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
+        } catch( SecurityException e) {
+
         }
 
         // Initialize the music downloader
@@ -135,6 +180,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             tracker.setButtonsPlaying();
         }
+
+        firebaseInfoBus = new FirebaseInfoBus();
+        retriver = new FirebaseRetriver();
+        firebaseInfoBus.register(retriver);
+        firebaseInfoBus.register(tracker);
 
         //mPlayer.loadMedia(R.raw.replay);
         Button launchFlashbackActivity = (Button) findViewById(R.id.flashback_button);
@@ -245,6 +295,7 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 // Updates the buttons differently if the user is browsing
                 Log.i("Main:onResume", "updating the buttons");
+                tracker.updateToggle();
                 tracker.setButtonsPlaying();
                 tracker.updateTrackInfo();
             }
