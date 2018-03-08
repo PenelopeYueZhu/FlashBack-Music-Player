@@ -21,7 +21,7 @@ public class FlashbackPlayer extends MusicPlayer {
     VibeQueuer vibeQueuer;
 
     ArrayList<Song> sortedList = new ArrayList<Song>();
-    ArrayList<Integer> allSongs = new ArrayList<Integer>();
+    ArrayList<String> allSongs = new ArrayList<String>();
     private static class SongCompare implements Comparator<Song>{
         public int compare(Song s1, Song s2) {
             return s2.getProbability() - s1.getProbability();
@@ -45,13 +45,13 @@ public class FlashbackPlayer extends MusicPlayer {
      * @param list The list of songs to play
      * @param current the context of the calling Activity
      */
-    public FlashbackPlayer(ArrayList<Integer> list, final Context current, MusicQueuer musicQueuer) {
+    public FlashbackPlayer(ArrayList<String> list, final Context current, MusicQueuer musicQueuer) {
         this(current, musicQueuer);
         allSongs = list;
        // makeFlashbackPlaylist();
     }
 
-    public List<Integer> getSongsToPlay()
+    public List<String> getSongsToPlay()
     {
         return songsToPlay;
     }
@@ -59,7 +59,7 @@ public class FlashbackPlayer extends MusicPlayer {
     /**
      * Set the playlist
      */
-    public void setPlayList(ArrayList<Song> list){
+    public void setPlayList(ArrayList<Song> list) {
         for (int i = 0; i < list.size(); i++) {
             sortedList.add(list.get(i));
         }
@@ -73,7 +73,7 @@ public class FlashbackPlayer extends MusicPlayer {
         songsToPlay.clear();
         for (int i = 0; i < sortedList.size(); i++) {
             Log.d("FBP:loadPlaylist", "sortedList " + sortedList.get(i).getTitle());
-            songsToPlay.add(sortedList.get(i).getResID());
+            songsToPlay.add(sortedList.get(i).getFileName());
         }
         if( firstTime ) firstTime = false;
         currInd = 0;

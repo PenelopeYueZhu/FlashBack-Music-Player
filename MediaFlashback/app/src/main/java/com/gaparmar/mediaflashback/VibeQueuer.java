@@ -21,8 +21,8 @@ public class VibeQueuer extends MusicQueuer{
     public VibeQueuer (Context context){
         super(context);
     }
-    protected int updateProbablity( int id ){
-        Song track = getSong(id);
+    protected int updateProbablity( String filename ){
+        Song track = getSong(filename);
         Log.d("VQ:updateProbability", "Updating song " + track.getTitle());
         int prob = 1;
 
@@ -51,7 +51,7 @@ public class VibeQueuer extends MusicQueuer{
         else if (track.getRate() == Constant.DISPLIKED ) prob = 0;
 
         track.setProbability( prob );
-        FirebaseHandler.storeProb(id, prob);
+        FirebaseHandler.storeProb(filename, prob);
         return prob;
     }
 
@@ -59,18 +59,18 @@ public class VibeQueuer extends MusicQueuer{
      * Compile a list of songs to play for vibe mode
      */
     protected void makeVibeList(){
-        for(Integer songId : getEntireSongList()){
-            Song song = getSong(songId);
-            updateProbablity( songId );
+        for(String filename : getEntireSongList()){
+            Song song = getSong(filename);
+            updateProbablity( filename );
             Log.d("VQ:makeVibeList", "Adding songs to the list");
             //if(StorageHandler.getSongDay())
             sortedList.add(song);
         }
         Collections.sort(sortedList, new SongCompare());
 
-        for(Integer songId : getEntireSongList())
+        for(String filename : getEntireSongList())
         {
-            Song song = getSong(songId);
+            Song song = getSong(filename);
             Log.d("FBP:makeFlashbackPlaylist","songName "+ song.getTitle());
 
         }

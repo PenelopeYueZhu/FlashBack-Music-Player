@@ -42,7 +42,7 @@ public class AddressRetriver {
             coordinates[1] = resultData.getDouble(Constant.LON_DATA_KEY);
             // Show a toast message if an address was found.
             if (resultCode == Constant.SUCCESS_RESULT) {
-                Log.d("ARR:onReceiveResult", context.getString(R.string.address_found));
+                //Log.d("ARR:onReceiveResult", context.getString(R.string.address_found));
             }
             else Log.d("ARR:onReceiveResult", context.getString(R.string.no_address_found));
 

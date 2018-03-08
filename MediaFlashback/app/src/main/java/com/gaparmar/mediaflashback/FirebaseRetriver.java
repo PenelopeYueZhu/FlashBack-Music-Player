@@ -10,34 +10,34 @@ import java.util.ArrayList;
 
 public class FirebaseRetriver implements FirebaseObserver {
 
-    public void updateLocation( int id, String locationString ){
+    public void updateLocation( String filename, String locationString ){
 
     }
 
-    public void updateDayOfWeek( int id, String dayOfWeek ){
-        MainActivity.getMusicQueuer().getSong(id).setDayOfWeek( dayOfWeek );
+    public void updateDayOfWeek( String filename, String dayOfWeek ){
+        MainActivity.getMusicQueuer().getSong(filename).setDayOfWeek( dayOfWeek );
     }
 
-    public void updateUserName( int id, String userName ) {
+    public void updateUserName( String filename, String userName ) {
     }
 
-    public void updateCoord( int id, double lat, double lon ){
-        MainActivity.getMusicQueuer().getSong(id).setLocation(new double[]{lat, lon});
+    public void updateCoord( String filename, double lat, double lon ){
+        MainActivity.getMusicQueuer().getSong(filename).setLocation(new double[]{lat, lon});
     }
 
-    public void updateTimeStamp(int id, long timeStamp ){
-        MainActivity.getMusicQueuer().getSong(id).setTimeStamp((int)timeStamp);
+    public void updateTimeStamp(String filename, long timeStamp ){
+        MainActivity.getMusicQueuer().getSong(filename).setTimeStamp((int)timeStamp);
     }
 
-    public void updateTime(int id, long time ){
-        MainActivity.getMusicQueuer().getSong(id).setTime( (int) time);
+    public void updateTime(String filename, long time ){
+        MainActivity.getMusicQueuer().getSong(filename).setTime( (int) time);
     }
 
-    public void updateRate(int id, long rate){
-        MainActivity.getMusicQueuer().getSong(id).setState((int)rate);
+    public void updateRate(String filename, long rate){
+        MainActivity.getMusicQueuer().getSong(filename).setState((int)rate);
     }
 
-    public void updateProb( int id, int prob ){
-        MainActivity.getMusicQueuer().getSong(id).setProbability(prob);
+    public void updateProb( String filename, int prob ){
+        MainActivity.getMusicQueuer().getSong(filename).setProbability(prob);
     }
 }

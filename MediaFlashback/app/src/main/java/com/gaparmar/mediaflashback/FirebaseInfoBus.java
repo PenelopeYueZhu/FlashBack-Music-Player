@@ -28,90 +28,90 @@ public class FirebaseInfoBus implements FirebaseObject {
 
     /**
      * Notify the change of the coordiantes to all the observers registered to this object
-     * @param id the id of the song
+     * @param filename the id of the song
      * @param lat the latitude of the coordinates
      * @param lon the longitutde of the coordinates
      */
-    public void notifyLocation(int id, double lat, double lon){
+    public void notifyLocation(String filename, double lat, double lon){
         for( FirebaseObserver observer : observers){
-            observer.updateCoord(id, lat, lon);
+            observer.updateCoord(filename, lat, lon);
         }
     }
 
     /**
      * Notify the change of location address to all the observers registered to this object
-     * @param id the id of the song
+     * @param filename the id of the song
      * @param locationString the address string
      */
-    public void notifyAddress( int id, String locationString ){
+    public void notifyAddress( String filename, String locationString ){
         for( FirebaseObserver observer : observers){
-            observer.updateLocation(id, locationString);
+            observer.updateLocation(filename, locationString);
         }
     }
 
     /**
      * Notify the day of the week change to all the observers registered to this object
-     * @param id the id of the song
+     * @param filename the id of the song
      * @param dayOfWeek the time when the song is lastly played
      */
-    public void notifyDayOfWeek( int id, String dayOfWeek ){
+    public void notifyDayOfWeek( String filename, String dayOfWeek ){
         for( FirebaseObserver observer : observers){
-            observer.updateDayOfWeek(id, dayOfWeek);
+            observer.updateDayOfWeek(filename, dayOfWeek);
         }
     }
 
     /**
      * Notify all the observers registered to this object
-     * @param id the id of the song
+     * @param filename the id of the song
      * @param userName the user who played the song last time
      */
-    public void notifyUserName( int id, String userName ) {
+    public void notifyUserName( String filename, String userName ) {
         for (FirebaseObserver observer : observers) {
-            observer.updateUserName(id, userName);
+            observer.updateUserName(filename, userName);
         }
     }
 
     /**
      * Notify all the observers registered to this object
-     * @param id the id of the song
+     * @param filename the id of the song
      * @param timeStamp the time lastly played the song last time
      */
-    public void notifyTimeStamp( int id, long timeStamp ) {
+    public void notifyTimeStamp( String filename, long timeStamp ) {
         for (FirebaseObserver observer : observers) {
-            observer.updateTimeStamp(id, timeStamp);
+            observer.updateTimeStamp(filename, timeStamp);
         }
     }
 
     /**
      * Notify all the observers registered to this object
-     * @param id the id of the song
+     * @param filename the id of the song
      * @param time the time lastly played the song last time
      */
-    public void notifyTime( int id, long time ) {
+    public void notifyTime( String filename, long time ) {
         for (FirebaseObserver observer : observers) {
-            observer.updateTime(id, time);
+            observer.updateTime(filename, time);
         }
     }
 
     /**
      * Notify all the observers registered to the object of the rate of the song
-     * @param id the id of the song
+     * @param filename the id of the song
      * @param rate the rate of the song
      */
-    public void notifyRate( int id, long rate ){
+    public void notifyRate( String filename, long rate ){
         for (FirebaseObserver observer : observers) {
-            observer.updateRate(id, rate);
+            observer.updateRate(filename, rate);
         }
     }
 
     /**
      * Notify all the observers registered to the object of the probablity of the song
-     * @param id the id of the song
+     * @param filename the id of the song
      * @param prob the probability of the song
      */
-    public void notifyProb( int id, int prob ){
+    public void notifyProb( String filename, int prob ){
         for (FirebaseObserver observer : observers) {
-            observer.updateProb(id, prob);
+            observer.updateProb(filename, prob);
         }
     }
 

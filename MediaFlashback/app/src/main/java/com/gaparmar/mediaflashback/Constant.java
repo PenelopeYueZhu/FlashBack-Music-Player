@@ -1,5 +1,9 @@
 package com.gaparmar.mediaflashback;
 
+import android.os.Environment;
+
+import java.util.ArrayList;
+
 /**
  * Created by lxyzh on 2/24/2018.
  */
@@ -14,13 +18,19 @@ public final class Constant {
             "com.gaparmar.mediaflashback";
     public static final String URI_PREFIX = "android.resource://com.gaparmar.mediaflashback/raw/";
     public final static String RES_FOLDER = "raw";
+    public final static String MEDIA_PATH =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                    +"/myDownloads";
 
     // For FirebaseHandler
     public static final String UNKNOWN = "Unknown";
     public static final int UNKNOWN_INT = 0;
     public static final String SONG_SUBTREE = "songs";
+    public static final String[] SPECIAL_CHAR = new String[]{".", "#", "\\[", "\\]"};
+
     // Song's Object Fields
-    public static final String ID_FIELD = "id";
+    public static final String FILENAME_FIELD = "fileName";
+    public static final String FILEID_FIELD = "firebaseID";
     public static final String ADDRESS_FIELD = "address";
     public static final String USER_FIELD = "userName";
     public static final String WEEKDAY_FIELD = "dayOfWeek";

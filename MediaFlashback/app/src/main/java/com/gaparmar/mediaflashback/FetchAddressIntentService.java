@@ -72,7 +72,7 @@ public class FetchAddressIntentService extends IntentService{
                             Constant.MAX_ADDRESS_ACURACITY);
         }catch(IOException ioException) {
             // Catch the network or other I/O exception
-            errorMessage = getString( R.string.service_not_available);
+           // errorMessage = getString( R.string.service_not_available);
             Log.e("FA:Location Error", errorMessage + " Latitude = " + location.getLatitude()+
                                              ", Longitutde = " + location.getLongitude());
         }
@@ -80,7 +80,7 @@ public class FetchAddressIntentService extends IntentService{
         //Handle cases where no address is found
         if( addresses == null || addresses.size() == 0 ){
             if( errorMessage.isEmpty() ){
-                errorMessage = getString(R.string.no_address_found);
+              //  errorMessage = getString(R.string.no_address_found);
                 Log.e("FA:Location Error", errorMessage+ " Latitude = " + location.getLatitude()+
                         ", Longitutde = " + location.getLongitude());
             }
@@ -94,7 +94,7 @@ public class FetchAddressIntentService extends IntentService{
             for( int i = 0 ; i <= address.getMaxAddressLineIndex(); i++ ){
                 addressFragments.add(address.getAddressLine(i));
             }
-            Log.i("FA:onHandleIntent", getString(R.string.address_found));
+            //Log.i("FA:onHandleIntent", getString(R.string.address_found));
             deliverResultToReceiver(Constant.SUCCESS_RESULT,
                     TextUtils.join(System.getProperty("line.separator"),
                             addressFragments), location.getLatitude(), location.getLongitude());

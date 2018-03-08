@@ -13,12 +13,12 @@ public interface FirebaseObject {
     public void register( FirebaseObserver observer);
     public void remove( FirebaseObserver observer);
 
-    public void notifyLocation(int ID, double lat, double lon);
-    public void notifyAddress(int ID, String address);
-    public void notifyDayOfWeek( int ID, String dayOfWeek);
-    public void notifyUserName( int ID, String userName);
-    public void notifyTimeStamp( int ID, long timeStamp);
-    public void notifyTime( int id, long time);
-    public void notifyRate( int id, long rate );
-    public void notifyProb( int id, int prob);
+    public void notifyLocation(String filename, double lat, double lon);
+    public void notifyAddress(String filename, String address);
+    public void notifyDayOfWeek( String filename, String dayOfWeek);
+    public void notifyUserName( String filename, String userName);
+    public void notifyTimeStamp( String filename, long timeStamp);
+    public void notifyTime( String filename, long time);
+    public void notifyRate( String filename, long rate );
+    public void notifyProb( String filename, int prob);
 }

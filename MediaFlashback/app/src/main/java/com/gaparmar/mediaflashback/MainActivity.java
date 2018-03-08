@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private static MusicQueuer musicQueuer;
 
     // Objects for location
+    private static MusicDownloader musicDownloader;
+    private FusedLocationProviderClient mFusedLocationClient;
     private Handler addressHandler;
     private static AddressRetriver addressRetriver;
     private static UINormal tracker;
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private static FirebaseObject firebaseInfoBus;
     private static FirebaseObserver retriver;
 
-    private static int[] stoppedInfo = new int[2];
+    private static ArrayList<String> stoppedInfo = new ArrayList<>();
     public static boolean isPlaying;
     private static boolean browsing = false;
 
@@ -63,6 +65,12 @@ public class MainActivity extends AppCompatActivity {
         return addressRetriver;
     }
     public static FirebaseHandler getFirebaseHandler() { return firebaseHandler;}
+
+    public static MusicDownloader getMusicDownloader() {
+        return musicDownloader;
+    }
+
+    private UserLocation userLocation;
     public static UINormal getUITracker() {
         return tracker;
     }
@@ -89,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         tracker.setButtonFunctions();
 
         // Initializie the song functions
-        if( musicQueuer == null ) {
+        if (musicQueuer == null) {
             musicQueuer = new MusicQueuer(this);
             musicQueuer.readSongs();
             musicQueuer.readAlbums();
@@ -100,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             musicPlayer = new MusicPlayer(this, musicQueuer);
         }
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        /*if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
@@ -112,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }else {
             Log.d("test2", "outs");
-        }
+        }*/
 
         // Acquire a reference to the system Location Manager
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -136,21 +144,41 @@ public class MainActivity extends AppCompatActivity {
         /// Register the listener with the Location Manager to receive location updates
         try {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
-        } catch( SecurityException e){
+        } catch( SecurityException e) {
 
+        }
+
+        // Initialize the music downloader
+        if (musicDownloader == null) {
+            musicDownloader = new MusicDownloader(this);
+        }
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        try {
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                Log.d("MA:mFusedLocationClient", "Got the location");
+                                addressRetriver.setLocation(location);
+                            }
+                        }
+                    });
+        } catch (SecurityException e) {
+            System.out.println("Security Alert");
         }
 
         // Initialize the addresss retriver
-        if( addressRetriver == null ) {
-            addressHandler = new Handler( );
-            addressRetriver = new AddressRetriver(this, addressHandler );
+        if (addressRetriver == null) {
+            addressHandler = new Handler();
+            addressRetriver = new AddressRetriver(this, addressHandler);
         }
 
         // Unless there is a song playing when we get back to normal mode, hide the button
-        if( !musicPlayer.wasPlayingSong()) {
+        if (!musicPlayer.wasPlayingSong()) {
             tracker.setButtonsPausing();
-        }
-        else {
+        } else {
             tracker.setButtonsPlaying();
         }
 
@@ -163,24 +191,24 @@ public class MainActivity extends AppCompatActivity {
         Button launchFlashbackActivity = (Button) findViewById(R.id.flashback_button);
         ImageButton playButton = (ImageButton) findViewById(R.id.play_button);
         Button browseBtn = (Button) findViewById(R.id.browse_button);
-        browseBtn.setOnClickListener(new View.OnClickListener(){
+
+        browseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick( View view ){
+            public void onClick(View view) {
                 launchLibrary();
                 finish();
             }
         });
 
-        launchFlashbackActivity.setOnClickListener(new View.OnClickListener(){
+        launchFlashbackActivity.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick( View view ){
+            public void onClick(View view) {
                 isPlaying = musicPlayer.isPlaying();
                 StorageHandler.storeLastMode(MainActivity.this, 1);
                 launchActivity();
             }
         });
     }
-
 
     @Override
     public void onStart(){
@@ -211,9 +239,9 @@ public class MainActivity extends AppCompatActivity {
      * Launches flashback mode activity
      */
     public void launchActivity(){
+        Log.d("MainActivity", "Launching Flashback mode");
         //input = (EditText)findViewById(R.id.in_time) ;
         Intent intent = new Intent(this, FlashbackActivity.class);
-        //intent.putExtra("transferred_string", input.getText().toString());
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }
@@ -222,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
      * Launches the browse music screen
      */
     public void launchLibrary() {
+        Log.d("MainActivity", "Launching library");
         Intent intent = new Intent(this, LibraryActivity.class);
         setResult(Activity.RESULT_OK, intent);
         browsing = true;

@@ -17,7 +17,7 @@ public class Album {
     private String artistName;
     private int releaseYear;
     private int lengthInSeconds;
-    private ArrayList<Integer> songs;
+    private ArrayList<String> songs;
     private String albumTitle;
 
     // The music queuer for this album
@@ -56,7 +56,7 @@ public class Album {
      * @param songLists List of ID of songs
      * @param name The title of the Album
      */
-    public Album(ArrayList<Integer> songLists, String name ){
+    public Album(ArrayList<String> songLists, String name ){
         this();
         this.songs = songLists;
         this.numSongs = songs.size();
@@ -87,7 +87,7 @@ public class Album {
         boolean invalidInput = false;
         // If there is no song in the album yet
         if( numSongs == 0 ) {
-            this.songs.add( s.getResID() );
+            this.songs.add( s.getFileName() );
             this.numSongs++;
             this.releaseYear = 0;//s.getYearOfRelease();
             this.artistName = s.getArtistName();
@@ -105,7 +105,7 @@ public class Album {
 
         // Only add if the input song is valid
         if (!invalidInput){
-            this.songs.add(s.getResID());
+            this.songs.add(s.getFileName());
             this.numSongs++;
             //lengthInSeconds += s.getLengthInSeconds();
         }
@@ -124,7 +124,7 @@ public class Album {
      * @param s the song we want to check
      */
     public boolean hasSong(Song s){
-        return this.songs.contains(s.getResID());
+        return this.songs.contains(s.getFileName());
     }
 
     /**

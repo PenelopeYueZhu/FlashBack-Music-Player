@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-feature android:name="android.hardware.location.gps"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -17,6 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:launchMode="singleInstance"
+        android:installLocation="preferExternal"
         android:theme="@style/AppTheme">
 
         <service android:name=".FetchAddressIntentService"
@@ -34,5 +37,7 @@
             android:name=".LibraryActivity"
             android:label="@string/title_activity_library"></activity>
     </application>
+
+
 
 </manifest>
