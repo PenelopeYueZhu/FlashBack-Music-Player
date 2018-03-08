@@ -2,20 +2,15 @@ package com.gaparmar.mediaflashback;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
 import android.support.constraint.solver.widgets.ConstraintAnchor;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.os.Handler;
 
 import java.util.ArrayList;
-
-import static com.gaparmar.mediaflashback.Song.state.DISLIKED;
-import static com.gaparmar.mediaflashback.Song.state.LIKED;
-import static com.gaparmar.mediaflashback.Song.state.NEITHER;
 
 /**
  * Created by lxyzh on 2/17/2018.
@@ -58,13 +53,13 @@ public class UINormal extends UIHandler implements FirebaseObserver{
         musicDownloader = MainActivity.getMusicDownloader();
         this.context = context;
 
-        playButton =  (ImageButton) ((Activity)context).findViewById(R.id.play_button);
-        pauseButton = (ImageButton) ((Activity)context).findViewById(R.id.pause_button);
-        nextButton = (ImageButton) ((Activity)context).findViewById(R.id.next_button);
-        prevButton = (ImageButton) ((Activity)context).findViewById(R.id.previous_button);
-        toggleBtn = (ImageButton) ((Activity)context).findViewById(R.id.toggleBtn);
-        inputURL = (EditText) ((Activity)context).findViewById(R.id.inputURL);
-        downloadBtn = (ImageButton) ((Activity)context).findViewById(R.id.downloadBtn);
+        playButton =  ((Activity)context).findViewById(R.id.play_button);
+        pauseButton =((Activity)context).findViewById(R.id.pause_button);
+        nextButton = ((Activity)context).findViewById(R.id.next_button);
+        prevButton = ((Activity)context).findViewById(R.id.previous_button);
+        toggleBtn = ((Activity)context).findViewById(R.id.toggleBtn);
+//        inputURL = ((Activity)context).findViewById(R.id.inputURL);
+//        downloadBtn = ((Activity)context).findViewById(R.id.downloadBtn);
 
         toggleBtn.setImageResource(R.drawable.neutral);
         toggleBtn.setTag(NEUTRAL);
@@ -237,31 +232,6 @@ public class UINormal extends UIHandler implements FirebaseObserver{
             }
         });
 
-        downloadBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("UINomarl", "downloadButton clicked");
-
-                Log.d("UINomarl",inputURL.getText().toString());
-                // need to have input
-                if (inputURL.getText() != null) {
-                    String url = inputURL.getText().toString();
-                    Toast downloadingToast = Toast.makeText(context, "Downloading from "
-                            + url, Toast.LENGTH_SHORT);
-                    downloadingToast.show();
-
-                    if (musicDownloader == null) {
-                        musicDownloader = MainActivity.getMusicDownloader();
-                    }
-                    musicDownloader.downloadData(url, "Song name", "mp3");
-
-                } else {
-                  // no url link provided
-                    Toast noURLToast = Toast.makeText(context, "Please enter URL", Toast.LENGTH_SHORT);
-                    noURLToast.show();
-                }
-            }
-        });
 
     }
 

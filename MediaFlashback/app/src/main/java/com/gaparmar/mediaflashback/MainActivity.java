@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -18,7 +17,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -186,15 +184,17 @@ public class MainActivity extends AppCompatActivity {
         firebaseInfoBus.register(retriver);
         firebaseInfoBus.register(tracker);
 
+
         //mPlayer.loadMedia(R.raw.replay);
-        Button launchFlashbackActivity = (Button) findViewById(R.id.flashback_button);
-        ImageButton playButton = (ImageButton) findViewById(R.id.play_button);
-        Button browseBtn = (Button) findViewById(R.id.browse_button);
+        Button launchFlashbackActivity = findViewById(R.id.flashback_button);
+        ImageButton playButton =  findViewById(R.id.play_button);
+        Button browseBtn = findViewById(R.id.browse_button);
+
 
         browseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchLibrary();
+                launchLibraryActivity();
                 finish();
             }
         });
@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 isPlaying = musicPlayer.isPlaying();
                 StorageHandler.storeLastMode(MainActivity.this, 1);
-                launchActivity();
+                launchFlashbackActivity();
             }
         });
     }
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
     public void onStart(){
         super.onStart();
         if(StorageHandler.getLastMode(this) == 1){
-            launchActivity();
+            //launchFlashbackActivity();
         }
     }
 
@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Launches flashback mode activity
      */
-    public void launchActivity(){
+    public void launchFlashbackActivity(){
         Log.d("MainActivity", "Launching Flashback mode");
         //input = (EditText)findViewById(R.id.in_time) ;
         Intent intent = new Intent(this, FlashbackActivity.class);
@@ -248,11 +248,21 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Launches the browse music screen
      */
-    public void launchLibrary() {
+    public void launchLibraryActivity() {
         Log.d("MainActivity", "Launching library");
         Intent intent = new Intent(this, LibraryActivity.class);
         setResult(Activity.RESULT_OK, intent);
         browsing = true;
+        startActivity(intent);
+    }
+
+    /**
+     * Launches the download activity screen
+     */
+    public void launchDownloadActivity(){
+        Log.d("MainActivity", "Launching downloads");
+        Intent intent = new Intent(this, DownloadHandlerActivity.class);
+        setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }
 
@@ -301,5 +311,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         browsing = false;
+    }
+
+    /**
+     * Starts the download activity
+     * @param view
+     */
+    public void OnLaunchDownloadClick(View view){
+        launchDownloadActivity();
     }
 }
