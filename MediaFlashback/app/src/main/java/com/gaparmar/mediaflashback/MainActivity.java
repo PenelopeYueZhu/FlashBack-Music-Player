@@ -132,10 +132,12 @@ public class MainActivity extends AppCompatActivity {
             tracker.setButtonsPlaying();
         }
 
+
         //mPlayer.loadMedia(R.raw.replay);
-        Button launchFlashbackActivity = (Button) findViewById(R.id.flashback_button);
-        ImageButton playButton = (ImageButton) findViewById(R.id.play_button);
-        Button browseBtn = (Button) findViewById(R.id.browse_button);
+        Button launchFlashbackActivity = findViewById(R.id.flashback_button);
+        ImageButton playButton =  findViewById(R.id.play_button);
+        Button browseBtn = findViewById(R.id.browse_button);
+
 
         browseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     public void onStart(){
         super.onStart();
         if(StorageHandler.getLastMode(this) == 1){
-            launchFlashbackActivity();
+            //launchFlashbackActivity();
         }
     }
 
@@ -256,5 +258,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         browsing = false;
+    }
+
+    /**
+     * Starts the download activity
+     * @param view
+     */
+    public void OnLaunchDownloadClick(View view){
+        launchDownloadActivity();
     }
 }

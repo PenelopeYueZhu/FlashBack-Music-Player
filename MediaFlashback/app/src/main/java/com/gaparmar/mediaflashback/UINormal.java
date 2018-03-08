@@ -223,7 +223,7 @@ public class UINormal extends UIHandler {
             }
         });
 
-        downloadBtn.setOnClickListener(new View.OnClickListener() {
+        /*ownloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("UINomarl", "downloadButton clicked");
@@ -247,7 +247,7 @@ public class UINormal extends UIHandler {
                     noURLToast.show();
                 }
             }
-        });
+        });*/
 
     }
 
