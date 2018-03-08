@@ -203,6 +203,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Launches the download activity screen
+     */
+    public void launchDownloadActivity(){
+        Log.d("MainActivity", "Launching downloads");
+        Intent intent = new Intent(this, DownloadHandlerActivity.class);
+        setResult(Activity.RESULT_OK, intent);
+        startActivity(intent);
+    }
+
+    /**
      * Pauses the song when the activity is paused
      */
     @Override
