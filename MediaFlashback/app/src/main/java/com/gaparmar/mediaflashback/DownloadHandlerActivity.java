@@ -7,8 +7,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 public class DownloadHandlerActivity extends AppCompatActivity {
     EditText EditText_url;
+    EditText time;
     private MusicDownloader musicDownloader;
 
     @Override
@@ -17,6 +20,7 @@ public class DownloadHandlerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_download_handler);
         EditText_url = findViewById(R.id.url_entered);
         musicDownloader = new MusicDownloader(this);
+        time = findViewById(R.id.timeMock);
     }
 
     /**
@@ -35,5 +39,10 @@ public class DownloadHandlerActivity extends AppCompatActivity {
             Toast.makeText(this, "Downloading from " + url, Toast.LENGTH_SHORT).show();
             musicDownloader.downloadData(url, "Song name", "mp3");
         }
+     }
+
+     public void mockTime(View view){
+        MockCalendar mockCal = new MockCalendar();
+        mockCal.setHour(Integer.parseInt(time.getText().toString()));
      }
 }

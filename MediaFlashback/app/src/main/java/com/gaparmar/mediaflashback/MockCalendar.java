@@ -17,7 +17,7 @@ class MockCalendar extends Calendar{
     public MockCalendar(){
     }
 
-    public void setTime(int hour){
+    public void setHour(int hour){
         this.hour = hour;
         cal.set(0,0,0,hour,0);
     }
