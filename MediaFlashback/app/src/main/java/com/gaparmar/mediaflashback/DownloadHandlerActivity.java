@@ -27,7 +27,8 @@ public class DownloadHandlerActivity extends AppCompatActivity {
         Log.d("DownloadHandlerActivity", "downloadButton clicked");
         Log.d("DownloadHandlerActivity", EditText_url.getText().toString());
         // Check if the url field is empty
-        if (EditText_url.getText() == null){
+
+        if (EditText_url.getText() == null || EditText_url.getText().toString().equals("Enter URL here")){
             Toast.makeText(this, "Please enter URL", Toast.LENGTH_SHORT).show();
         } else{
             String url = EditText_url.getText().toString();

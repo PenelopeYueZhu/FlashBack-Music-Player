@@ -329,6 +329,7 @@
             android:id="@+id/flashback_button"
             android:layout_width="316dp"
             android:layout_height="40dp"
+            android:layout_marginTop="10dp"
             android:background="#c4d7f2"
             android:text="Flashback Mode"
             android:textAllCaps="false"
@@ -410,7 +411,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:onClick="OnLaunchDownloadClick"
-            android:src="@android:drawable/stat_sys_download" />
+            android:src="@android:drawable/ic_menu_manage" />
     </LinearLayout>
 
 </LinearLayout>
