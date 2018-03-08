@@ -46,8 +46,8 @@ public class UIHandler {
     public void updateTrackInfo( Song song ) {
         if ( song != null ) {
             songTitleDisplay.setText(song.getTitle());
-            songDateDisplay.setText(Integer.toString(song.getTimeLastPlayed()));
-            songTimeDisplay.setText(Double.toString(song.getLengthInSeconds()));
+            //songDateDisplay.setText(Integer.toString(song.getTime));
+            //songTimeDisplay.setText(Double.toString(song.getLengthInSeconds()));
             songAlbumDisplay.setText(song.getParentAlbum());
             songArtistDisplay.setText(song.getArtistName());
         }

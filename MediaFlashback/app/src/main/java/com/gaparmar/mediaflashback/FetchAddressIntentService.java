@@ -31,7 +31,7 @@ public class FetchAddressIntentService extends IntentService{
      * Name is only to name that thread.
      */
     public FetchAddressIntentService(){
-        super("UserLocation");
+        super("UserLocationIntentService");
     }
 
     /**
@@ -39,9 +39,11 @@ public class FetchAddressIntentService extends IntentService{
      * @param resultCode the int to indicate success or failure
      * @param message the data we get and tried to pass by
      */
-    private void deliverResultToReceiver( int resultCode, String message ){
+    private void deliverResultToReceiver( int resultCode, String message, double lat, double lon ){
         Bundle bundle = new Bundle();
         bundle.putString( Constant.RESULT_DATA_KEY, message );
+        bundle.putDouble( Constant.LAT_DATA_KEY, lat );
+        bundle.putDouble( Constant.LON_DATA_KEY, lon);
         Log.d("FA:deliverResultToReceiver", "receiver sending messages");
         mReceiver.send( resultCode, bundle);
     }
@@ -50,6 +52,7 @@ public class FetchAddressIntentService extends IntentService{
      */
     @Override
     protected void onHandleIntent(Intent intent){
+        Log.d("FA:onHandleIntent", "Starting the intent");
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
         String errorMessage = "";
@@ -81,7 +84,7 @@ public class FetchAddressIntentService extends IntentService{
                 Log.e("FA:Location Error", errorMessage+ " Latitude = " + location.getLatitude()+
                         ", Longitutde = " + location.getLongitude());
             }
-            deliverResultToReceiver(Constant.FAILURE_RESULT, errorMessage);
+            deliverResultToReceiver(Constant.FAILURE_RESULT, errorMessage, 0.0, 0.0);
         }
         else {
             Address address = addresses.get(0);
@@ -94,7 +97,7 @@ public class FetchAddressIntentService extends IntentService{
             //Log.i("FA:onHandleIntent", getString(R.string.address_found));
             deliverResultToReceiver(Constant.SUCCESS_RESULT,
                     TextUtils.join(System.getProperty("line.separator"),
-                            addressFragments));
+                            addressFragments), location.getLatitude(), location.getLongitude());
         }
     }
 

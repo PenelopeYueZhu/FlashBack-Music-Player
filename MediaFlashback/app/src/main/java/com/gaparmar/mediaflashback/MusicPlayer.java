@@ -55,8 +55,9 @@ public class MusicPlayer extends AppCompatActivity {
         this.musicQueuer = musicQueuer;
         this.tracker = MainActivity.getUITracker();
         this.context = current;
-        mediaPlayer = new MediaPlayer();
-        final UserLocation userLocation = new UserLocation(current);
+        if( mediaPlayer == null ) {
+            mediaPlayer = new MediaPlayer();
+        }
 
         mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
@@ -73,8 +74,7 @@ public class MusicPlayer extends AppCompatActivity {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 // Update the date, time, and location
-                musicQueuer.storeSongInfo(getCurrentSongFileName());
-
+                musicQueuer.updateTrackInfo(getCurrentSongFileName());
 
                 Log.d("MP:OnCompleteListener","Song finished playing");
                 firstTime = false;
@@ -175,7 +175,7 @@ public class MusicPlayer extends AppCompatActivity {
             loadMedia(songsToPlay.get(currInd));
             if (song != null)
             {
-                tracker.setButtonToggle(context, song.getFileName());
+                tracker.updateToggle();
             }
         }
         return song;
@@ -197,7 +197,7 @@ public class MusicPlayer extends AppCompatActivity {
             Log.d("MP:previousSong", "Loading the previous song");
 
             loadMedia( songsToPlay.get(currInd));
-            tracker.setButtonToggle(context, song.getFileName());
+            tracker.updateToggle();
 
         }
     }
@@ -266,14 +266,17 @@ public class MusicPlayer extends AppCompatActivity {
     /**
      * Stops playing the current song being played in normal mode
      */
-    public int[] stopPlaying() {
+    public ArrayList<String> stopPlaying() {
+        ArrayList<String> songInfo = new ArrayList<>();
       // If there is a song currently playing, record the song's info
         timeStamp = getTimeStamp();
       if( playingSong ) {
         lastPlayed = this.getCurrSong();
         mediaPlayer.pause();
       }
-        return new int[]{timeStamp, getCurrSong().getResID()};
+      songInfo.add( Integer.toString(timeStamp));
+      songInfo.add( getCurrentSongFileName());
+      return songInfo;
     }
 
     /**
