@@ -1,7 +1,5 @@
 package com.gaparmar.mediaflashback;
 
-import android.app.usage.ConfigurationStats;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -40,6 +38,30 @@ public class FirebaseHandler {
             Log.d("FH:saveSong", "Saving song with file ID " + songFileName);
         }
         else return;
+    }
+
+    /**
+     * Saves the Song object to the new_song_list subdirectory
+     * @param song The song to be added
+     */
+    public static void saveSongToSongList(Song song){
+        Log.d("FH:saveSong", "Saving song with file name " + song.getFileName());
+        DatabaseReference ref = database.getReference();
+
+        DatabaseReference newRef = ref.child("new_song_list").push();
+        newRef.setValue(song);
+        // Checks if the current song got added twice
+        Query songQuery = ref.child("new_song_list").orderByChild("title").equalTo(song.getTitle());
+        songQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() > 1)
+                    dataSnapshot.getChildren().iterator().next().getRef().setValue(null);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
     }
 
     /**

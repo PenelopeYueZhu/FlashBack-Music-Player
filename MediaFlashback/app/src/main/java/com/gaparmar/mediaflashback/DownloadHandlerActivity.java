@@ -27,7 +27,6 @@ public class DownloadHandlerActivity extends AppCompatActivity {
         Log.d("DownloadHandlerActivity", "downloadButton clicked");
         Log.d("DownloadHandlerActivity", EditText_url.getText().toString());
         // Check if the url field is empty
-
         if (EditText_url.getText() == null || EditText_url.getText().toString().equals("Enter URL here")){
             Toast.makeText(this, "Please enter URL", Toast.LENGTH_SHORT).show();
         } else{
@@ -35,5 +34,14 @@ public class DownloadHandlerActivity extends AppCompatActivity {
             Toast.makeText(this, "Downloading from " + url, Toast.LENGTH_SHORT).show();
             musicDownloader.downloadData(url, "Song name", "mp3");
         }
+
+        //TODO remove this
+        Song s1 = new Song();
+        s1.setSongTitle("dank Gaurav");
+
+
+//        DatabaseReference temp = ref.child("new_song_list").push();
+//        temp.setValue(s1);
+          FirebaseHandler.saveSongToSongList(s1);
      }
 }

@@ -1,28 +1,11 @@
 package tests;
 
-import android.content.Context;
-import android.support.test.rule.ActivityTestRule;
-import android.util.Log;
-
-import com.gaparmar.mediaflashback.Album;
-import com.gaparmar.mediaflashback.MainActivity;
-import com.gaparmar.mediaflashback.MusicQueuer;
-import com.gaparmar.mediaflashback.Song;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-
-import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
-
 /**
  * Created by lxyzh on 2/14/2018.
  */
 
 public class JUnitMusicQueuer {
-
+/*
     MusicQueuer mq;
     final static int numOfSongs = 18;
     final static int numOfAlbums = 5;
@@ -78,5 +61,5 @@ public class JUnitMusicQueuer {
 
             assertEquals( true, album.hasSong(song));
         }
-    }
+    }*/
 }

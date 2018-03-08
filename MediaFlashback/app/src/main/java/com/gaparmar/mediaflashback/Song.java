@@ -1,12 +1,5 @@
 package com.gaparmar.mediaflashback;
 
-import android.content.Context;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-
-import static java.lang.Math.toRadians;
-
 /**
  * Created by gauravparmar on 2/2/18.
  */
@@ -14,14 +7,7 @@ import static java.lang.Math.toRadians;
 // -1, NA, represents uninitialized value
 public class Song {
 
-    public enum state {
-        LIKED, DISLIKED, NEITHER
-    }
-    // Declaring the member variables of the com.gaparmar.mediaflashback.Song object
-
-    //TODO:
-    // mp3 file
-    // cover art
+    // Declaring the member variables of the Song object
 
     private String songURL;
     private String fileName;
@@ -197,6 +183,14 @@ public class Song {
      */
     protected void setSongURL( String URL ){
         this.songURL = URL;
+    }
+
+    /**
+     * Set the title for the song
+     * @param title the title of this song object
+     */
+    protected void setSongTitle( String title ){
+        this.title = title;
     }
 
 

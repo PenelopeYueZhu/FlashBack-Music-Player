@@ -1,23 +1,11 @@
 package tests;
 
-import android.content.Context;
-import android.support.test.rule.ActivityTestRule;
-
-import com.gaparmar.mediaflashback.MainActivity;
-import com.gaparmar.mediaflashback.Song;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-
 /**
  * Created by gauravparmar on 2/15/18.
  */
 
 public class SongUnitTest {
-    Context context;
+    /*Context context;
     @Rule
     public ActivityTestRule<MainActivity> mainActivity =
             new ActivityTestRule<MainActivity>(MainActivity.class);
@@ -66,5 +54,5 @@ public class SongUnitTest {
         assertEquals(A.getCurrentState(), 1);
     }
 
-
+*/
 }
