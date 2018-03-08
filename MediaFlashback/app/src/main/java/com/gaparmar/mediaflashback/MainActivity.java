@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         return musicDownloader;
     }
 
-    private UserLocation userLocation;
     public static UINormal getUITracker() {
         return tracker;
     }

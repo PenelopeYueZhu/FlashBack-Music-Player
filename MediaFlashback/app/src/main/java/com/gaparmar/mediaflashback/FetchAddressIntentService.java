@@ -31,7 +31,7 @@ public class FetchAddressIntentService extends IntentService{
      * Name is only to name that thread.
      */
     public FetchAddressIntentService(){
-        super("UserLocation");
+        super("UserLocationIntentService");
     }
 
     /**

@@ -16,7 +16,6 @@ import java.util.Comparator;
 public class VibeQueuer extends MusicQueuer{
 
     ArrayList<Song>sortedList = new ArrayList<Song>();
-    MusicPlayer musicPlayer = MainActivity.getMusicPlayer();
 
     public VibeQueuer (Context context){
         super(context);
@@ -63,7 +62,6 @@ public class VibeQueuer extends MusicQueuer{
             Song song = getSong(filename);
             updateProbablity( filename );
             Log.d("VQ:makeVibeList", "Adding songs to the list");
-            //if(StorageHandler.getSongDay())
             sortedList.add(song);
         }
         Collections.sort(sortedList, new SongCompare());
@@ -72,7 +70,6 @@ public class VibeQueuer extends MusicQueuer{
         {
             Song song = getSong(filename);
             Log.d("FBP:makeFlashbackPlaylist","songName "+ song.getTitle());
-
         }
 
         for (Song x : sortedList) {
@@ -119,6 +116,14 @@ public class VibeQueuer extends MusicQueuer{
         return day;
     }
 
+    /**
+     * Get the string that represents the time zone of the day
+     * @param time the hour 0-23 to represent the time
+     * @return Morning - if the time is in the morning
+     *         Afternoon - if the time is in the afternoon
+     *         Evening - if the time is at night
+     *         Unknown - if this value is never stored
+     */
     private String getTimeOfDay (int time ){
         String timeZone;
         if (time >= Constant.MORNING_DIVIDER && time < Constant.NOON_DIVIVER) {

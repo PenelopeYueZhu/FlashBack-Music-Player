@@ -58,7 +58,6 @@ public class MusicPlayer extends AppCompatActivity {
         if( mediaPlayer == null ) {
             mediaPlayer = new MediaPlayer();
         }
-        final UserLocation userLocation = new UserLocation(current);
 
         mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
@@ -75,10 +74,7 @@ public class MusicPlayer extends AppCompatActivity {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 // Update the date, time, and location
-
-                //musicQueuer.storeSongInfo(getCurrentSongFileName());
                 musicQueuer.updateTrackInfo(getCurrentSongFileName());
-                //musicQueuer.updateTrackInfo(getCurrSong().getFirebaseID());
 
                 Log.d("MP:OnCompleteListener","Song finished playing");
                 firstTime = false;
@@ -237,26 +233,6 @@ public class MusicPlayer extends AppCompatActivity {
         loadMedia(songsToPlay.get(0));
         MainActivity.isPlaying = true;
     }
-
-    /**
-     * Add songs in a list to songsToPlay List
-     * @param songs the list of songs' ids
-     */
-    /*public void loadList(ArrayList<Integer> songs ) {
-        resetSong();
-        songsToPlay.clear();
-        for (int i = 0; i < songs.size(); i++) {
-            Log.d("MP:loadAlbum", "adding all the songs from album");
-
-            songsToPlay.add(songs.get(i));
-        }
-        if( firstTime ) firstTime = false;
-        currInd = 0;
-        Log.d("MP:loadAlbum", "Loading the first song of the album");
-
-        loadMedia(songsToPlay.get(0));
-        MainActivity.isPlaying = true;
-    }*/
 
     /**
      * @return The current Song to be Played

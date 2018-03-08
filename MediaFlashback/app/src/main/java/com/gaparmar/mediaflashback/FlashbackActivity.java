@@ -67,7 +67,6 @@ public class FlashbackActivity extends AppCompatActivity {
     LocationListener locationListener;
     MusicQueuer mq;
     VibeQueuer vq;
-    UserLocation userLocation;
 
     /**
      * Initializes all the View components of this activity
