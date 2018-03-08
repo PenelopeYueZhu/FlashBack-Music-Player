@@ -13,7 +13,7 @@
         android:id="@+id/linearLayout"
         android:layout_marginTop="30dp">
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/url_entered"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -26,7 +26,8 @@
             android:id="@+id/imageButton"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            app:srcCompat="@android:drawable/stat_sys_download" />
+            app:srcCompat="@android:drawable/stat_sys_download"
+            android:onClick="downloadSong"/>
     </LinearLayout>
 
     <ProgressBar
