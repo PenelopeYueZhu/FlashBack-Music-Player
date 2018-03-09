@@ -2,13 +2,15 @@ package com.gaparmar.mediaflashback;
 
 import android.os.Environment;
 
-import java.util.ArrayList;
-
 /**
  * Created by lxyzh on 2/24/2018.
  */
 
 public final class Constant {
+
+    public enum State{
+      LIKED, DISLIKED, NEUTRAL
+    };
 
     public static final int SUCCESS_RESULT = 0;
     public static final int FAILURE_RESULT = 1;

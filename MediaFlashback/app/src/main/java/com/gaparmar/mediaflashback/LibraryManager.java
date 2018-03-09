@@ -51,20 +51,15 @@ public class LibraryManager {
         File dir = new File(Constant.MEDIA_PATH);
         File[] fileList = dir.listFiles();
         Log.i("MQ", "Reading all files");
-        if (fileList != null) {
-            for (File f : fileList) {
-                Log.i("MQ: Reading file ", f.getName());
-                if (f.isDirectory()) {
-                    scanDirectory(f);
-                } else {
-                    addSong(f.getPath(),f.getName() );
-                }
+        // Iterate over list of files in the downloads folder
+        for (int i = 0; i<fileList.length; i++){
+            File currentFile = fileList[i];
+            if(currentFile.isFile()){
+                //TODO add song to the hashmap
             }
-        } else {
-            // if directory does not exist, create a new one
-            File newDir = new File(Environment.getExternalStorageDirectory() + File.separator + "myDownloads");
-            newDir.mkdirs();
         }
+        if (fileList == null)
+            new File(Environment.getExternalStorageDirectory() + File.separator + "myDownloads").mkdirs();
     }
 
     /**
@@ -82,21 +77,40 @@ public class LibraryManager {
         }
     }
 
+    private Song getSongFromPath(String songPath, String fileName, Context context){
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        // Initialize the fields to the default values
+        String title = "unknown";
+        String year = "-1";
+        String album = "unknown";
+        String artist = "unknown";
+        try {
+            retriever.setDataSource(context, Uri.parse(songPath));
+            title = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
+            year = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR);
+            album = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
+            artist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        Song newSong = new Song();
+        newSong.setSongTitle(title);
+        newSong.setSongAlbum(album);
+        newSong.setYear(year);
+    }
+
     public void addSong(String songPath, String fileName) {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
 
         String title, year, album, artist;
 
         try {
-
             retriever.setDataSource(context, Uri.parse(songPath));
             Log.d("MQ:readSong", "Retrieving the song's metadata");
             title = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
             year = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR);
             album = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
             artist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
-
-
         } catch (Exception e) {
             //e.printStackTrace();
             title = UNKNOWN_STRING;
