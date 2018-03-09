@@ -72,9 +72,22 @@ public class FirebaseHandler {
      * @param toLog The Data that needs to be logged to the Firebase
      */
     public static void saveLoggedSong(Song song, SongLogInstance toLog){
-        DatabaseReference reference = database.getReference();
+        final SongLogInstance cpy = toLog;
         Query query = ref.child("song_logs").orderByChild("song_title").equalTo(song.getTitle());
-        query.getRef().child("logs").push().setValue(toLog);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                    data.getRef().child("logs").push().setValue(cpy);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+//        String key = query.getRef().getKey();
+//        System.out.println(key);
+//        query.getRef().child("logs").push().setValue(toLog);
     }
 
 
