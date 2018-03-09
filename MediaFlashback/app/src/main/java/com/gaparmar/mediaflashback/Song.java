@@ -9,6 +9,7 @@ public class Song {
     private String title;
     private String parentAlbum;
     private String artistName;
+    private String fileName;
     private int yearOfRelease;
     private Constant.State state;
 
@@ -93,6 +94,34 @@ public class Song {
      */
     public String getParentAlbum(){
         return this.parentAlbum;
+    }
+
+    /**
+     * @param fileName The name of the file stored locally
+     */
+    public void setFileName(String fileName){
+        this.fileName = fileName;
+    }
+    /**
+     * @return the file name of the local file
+     */
+    public String getFileName(){
+        return this.fileName;
+    }
+
+
+    /**
+     * @param year The release year of the song
+     */
+    public void setYearOfRelease(int year){
+        this.yearOfRelease = year;
+    }
+    /**
+     * Retrieves the name of the parent Album
+     * @return parent Album's name
+     */
+    public int getYearOfRelease(){
+        return this.yearOfRelease;
     }
 
 }
