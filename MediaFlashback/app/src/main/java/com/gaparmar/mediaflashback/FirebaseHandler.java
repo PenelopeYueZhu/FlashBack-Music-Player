@@ -47,7 +47,7 @@ public class FirebaseHandler {
     public static void saveSongToSongList(Song song){
         Log.d("FH:saveSong", "Saving song with file name " + song.getFileName());
         DatabaseReference ref = database.getReference();
-
+        final Song song_ref = song;
         DatabaseReference newRef = ref.child("new_song_list").push();
         newRef.setValue(song);
         // Checks if the current song got added twice
@@ -62,6 +62,25 @@ public class FirebaseHandler {
             public void onCancelled(DatabaseError databaseError) {}
         });
 
+        // Create the song in the songs_logs subdirectory
+        ref = database.getReference();
+        songQuery = ref.child("song_logs").orderByChild("song_title").equalTo(song.getTitle());
+        songQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() < 1){
+                    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference ref = database.getReference();
+                    HashMap<String, String> t = new HashMap<>();
+                    t.put("song_title", song_ref.getTitle());
+                    ref.child("song_logs").push().setValue(t);
+                    System.out.println(t.toString());
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
     }
 
     /**

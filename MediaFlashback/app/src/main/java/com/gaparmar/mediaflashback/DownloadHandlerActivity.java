@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.Calendar;
-
 public class DownloadHandlerActivity extends AppCompatActivity {
     EditText EditText_url;
     EditText time;
@@ -41,7 +39,7 @@ public class DownloadHandlerActivity extends AppCompatActivity {
 
         //TODO remove this
         Song s1 = new Song();
-        s1.setSongTitle("dank Gaurav");
+        s1.setSongTitle("dank Gaurav 2.0");
 
 
 //        DatabaseReference temp = ref.child("new_song_list").push();
