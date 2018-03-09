@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -21,7 +20,7 @@ public class VibeQueuer extends LibraryManager {
         super(context);
     }
     protected int updateProbablity( String filename ){
-        Song track = getSong(filename);
+        /*Song track = getSong(filename);
         Log.d("VQ:updateProbability", "Updating song " + track.getTitle());
         int prob = 1;
 
@@ -51,7 +50,8 @@ public class VibeQueuer extends LibraryManager {
 
         track.setProbability( prob );
         //FirebaseHandler.storeProb(filename, prob); TODO:: needs refactoring
-        return prob;
+        return prob;*/
+        return 0;
     }
 
     /**
@@ -85,37 +85,6 @@ public class VibeQueuer extends LibraryManager {
     }
 
 
-    private int getIntOfDay(String dayString){
-        int day;
-        switch( dayString ){
-            case "Monday":
-                day = 1;
-                break;
-            case "Tuesday":
-                day = 2;
-                break;
-            case "Wednesday":
-                day = 3;
-                break;
-            case "Thursday":
-                day = 4;
-                break;
-            case "Friday":
-                day = 5;
-                break;
-            case "Saturday":
-                day = 6;
-                break;
-            case "Sunday":
-                day = 7;
-                break;
-            default:
-                day = 0;
-                break;
-        }
-        return day;
-    }
-
     /**
      * Get the string that represents the time zone of the day
      * @param time the hour 0-23 to represent the time
@@ -144,7 +113,8 @@ public class VibeQueuer extends LibraryManager {
 
     private static class SongCompare implements Comparator<Song> {
         public int compare(Song s1, Song s2) {
-            return s2.getProbability() - s1.getProbability();
+            //return s2.getProbability() - s1.getProbability();
+            return -1;
         }
     }
 }

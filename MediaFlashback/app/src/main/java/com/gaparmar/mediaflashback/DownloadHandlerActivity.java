@@ -39,7 +39,7 @@ public class DownloadHandlerActivity extends AppCompatActivity {
 
         //TODO remove this
         Song s1 = new Song();
-        s1.setSongTitle("dank Gaurav 2.0");
+        s1.setTitle("dank Gaurav 2.0");
 
 
 //        DatabaseReference temp = ref.child("new_song_list").push();

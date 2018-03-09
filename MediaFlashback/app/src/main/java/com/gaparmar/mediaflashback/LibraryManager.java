@@ -183,7 +183,7 @@ public class LibraryManager {
         return allAlbums.get(albumName);
     }
 
-    
+
     /**
      * Gets the Song object based on the Song name
      * @param songName title of the song

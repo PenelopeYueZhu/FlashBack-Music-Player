@@ -260,13 +260,13 @@ public class FlashbackActivity extends AppCompatActivity {
          */
     public void updateTrackInfo(Song currentSong) {
         Log.d("UINormal", "Reset displayed information of the song to the current song");
-        ArrayList<String> songInfo = mq.getSongInfo(currentSong.getFileName());
-        songTitleDisplay.setText( songInfo.get(TITLE_POS));
-        songDateDisplay.setText( songInfo.get(DATE_POS));
-        songLocationDisplay.setText( songInfo.get(LOC_POS));
-        songTimeDisplay.setText( songInfo.get(DURATION_POS));
-        songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
-        songArtistDisplay.setText(songInfo.get(ARTIST_POS));
+//        ArrayList<String> songInfo = mq.getSongInfo(currentSong.getFileName());
+//        songTitleDisplay.setText( songInfo.get(TITLE_POS));
+//        songDateDisplay.setText( songInfo.get(DATE_POS));
+//        songLocationDisplay.setText( songInfo.get(LOC_POS));
+//        songTimeDisplay.setText( songInfo.get(DURATION_POS));
+//        songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
+//        songArtistDisplay.setText(songInfo.get(ARTIST_POS));
     }
 
 }

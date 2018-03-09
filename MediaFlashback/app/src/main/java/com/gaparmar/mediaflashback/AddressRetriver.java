@@ -3,8 +3,6 @@ package com.gaparmar.mediaflashback;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -14,7 +12,6 @@ import android.util.Log;
 /**
  * Created by lxyzh on 2/24/2018.
  */
-
 public class AddressRetriver {
 
     /* Class AddressResultRecevier

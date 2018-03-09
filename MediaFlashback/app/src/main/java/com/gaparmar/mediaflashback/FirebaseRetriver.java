@@ -1,16 +1,12 @@
 package com.gaparmar.mediaflashback;
 
-import android.location.LocationListener;
-
-import java.util.ArrayList;
-
 /**
  * Created by lxyzh on 3/4/2018.
  */
 
-public class FirebaseRetriver implements FirebaseObserver {
+public class FirebaseRetriver  {
 
-    public void updateLocation( String filename, String locationString ){
+    /*public void updateLocation( String filename, String locationString ){
 
     }
 
@@ -39,5 +35,5 @@ public class FirebaseRetriver implements FirebaseObserver {
 
     public void updateProb( String filename, int prob ){
         MainActivity.getMusicQueuer().getSong(filename).setProbability(prob);
-    }
+    }*/
 }

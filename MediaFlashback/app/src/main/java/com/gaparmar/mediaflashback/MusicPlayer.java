@@ -19,7 +19,7 @@ public class MusicPlayer extends AppCompatActivity {
     private final String MEDIA_PATH =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
                     +"/myDownloads/";
-    protected LibraryManager musicQueuer;
+    protected LibraryManager libraryManager;
     protected MediaPlayer mediaPlayer;
     protected UINormal tracker;
     protected List<String> songsToPlay;
@@ -32,16 +32,12 @@ public class MusicPlayer extends AppCompatActivity {
     protected Context context;
 
     /**
-     * default contructor. Doesn't do anything
-     */
-    public MusicPlayer(){}
-    /**
      * Default MusicPlayer constructor
      * @param current The reference activity context
      * @param libraryManager the LibraryManager object that stores all the songs
      */
     public MusicPlayer(final Context current, final LibraryManager libraryManager) {
-        this.musicQueuer = libraryManager;
+        this.libraryManager = libraryManager;
         this.tracker = MainActivity.getUITracker();
         this.context = current;
         if( mediaPlayer == null ) {
@@ -62,8 +58,8 @@ public class MusicPlayer extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onCompletion(MediaPlayer mp) {
-                // Update the date, time, and location
-                libraryManager.updateTrackInfo(getCurrentSongFileName());
+                // Update the date, time, and location TODO: dafuq's going on here
+                //libraryManager.updateTrackInfo(getCurrentSongFileName());
 
                 Log.d("MP:OnCompleteListener","Song finished playing");
                 firstTime = false;
@@ -155,9 +151,9 @@ public class MusicPlayer extends AppCompatActivity {
         firstTime = false;
         if (currInd != songsToPlay.size()-1 && songsToPlay.size() > 0) {
             resetSong();
-            musicQueuer.getSong((songsToPlay.get(currInd))).getFileName();
+            libraryManager.getSong((songsToPlay.get(currInd))).getFileName();
             currInd++;
-            song = musicQueuer.getSong(songsToPlay.get(currInd));
+            song = libraryManager.getSong(songsToPlay.get(currInd));
 
             Log.d("MP:nextSong", "Loading the next song");
 
@@ -230,7 +226,7 @@ public class MusicPlayer extends AppCompatActivity {
     public Song getCurrSong() {
         if (songsToPlay.size()==0)
             return null;
-        return musicQueuer.getSong(songsToPlay.get(currInd));
+        return libraryManager.getSong(songsToPlay.get(currInd));
     }
 
     public String getCurrentSongFileName(){

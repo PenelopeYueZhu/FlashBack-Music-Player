@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
     private static UINormal tracker;
 
     // Objects for info updates
-    private static FirebaseHandler firebaseHandler;
+    /*private static FirebaseHandler firebaseHandler;
     private static FirebaseObject firebaseInfoBus;
-    private static FirebaseObserver retriver;
+    private static FirebaseObserver retriver;*/
 
     private static ArrayList<String> stoppedInfo = new ArrayList<>();
     public static boolean isPlaying;
@@ -58,11 +58,13 @@ public class MainActivity extends AppCompatActivity {
     }
     public static LibraryManager getMusicQueuer() { return musicQueuer; }
 
-    public static FirebaseObject getFirebaseInfoBus() { return firebaseInfoBus; }
     public static AddressRetriver getAddressRetriver() {
         return addressRetriver;
     }
-    public static FirebaseHandler getFirebaseHandler() { return firebaseHandler;}
+
+    /*public static FirebaseObject getFirebaseInfoBus() { return firebaseInfoBus; }
+
+    public static FirebaseHandler getFirebaseHandler() { return firebaseHandler;}*/
 
     public static MusicDownloader getMusicDownloader() {
         return musicDownloader;
@@ -179,10 +181,10 @@ public class MainActivity extends AppCompatActivity {
             tracker.setButtonsPlaying();
         }
 
-        firebaseInfoBus = new FirebaseInfoBus();
-        retriver = new FirebaseRetriver();
+        /*firebaseInfoBus = new FirebaseInfoBus();
+        //retriver = new FirebaseRetriver();
         firebaseInfoBus.register(retriver);
-        firebaseInfoBus.register(tracker);
+        firebaseInfoBus.register(tracker);*/
 
 
         //mPlayer.loadMedia(R.raw.replay);

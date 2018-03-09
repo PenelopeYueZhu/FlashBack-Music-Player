@@ -8,7 +8,6 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -21,11 +20,6 @@ public class FlashbackPlayer extends MusicPlayer {
 
     ArrayList<Song> sortedList = new ArrayList<Song>();
     ArrayList<String> allSongs = new ArrayList<String>();
-    private static class SongCompare implements Comparator<Song>{
-        public int compare(Song s1, Song s2) {
-            return s2.getProbability() - s1.getProbability();
-        }
-    }
 
     /**
      * The constructor initializes the flashback player without a list of songs

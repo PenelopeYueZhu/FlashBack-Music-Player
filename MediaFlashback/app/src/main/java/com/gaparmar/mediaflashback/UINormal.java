@@ -9,13 +9,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 /**
  * Created by lxyzh on 2/17/2018.
  */
-
-public class UINormal extends UIHandler implements FirebaseObserver{
+public class UINormal extends UIHandler /*implements FirebaseObserver*/{
 
     // All the buttons and views on the MainActivity
     Context context;
@@ -30,7 +27,7 @@ public class UINormal extends UIHandler implements FirebaseObserver{
 
     MusicDownloader musicDownloader;
     private String songURL = "http://soundbible.com/grab.php?id=2190&type=mp3";
-    LibraryManager musicQueuer;
+    LibraryManager libraryManager;
     MusicPlayer musicPlayer;
     FirebaseHandler firebaseHandler;
 
@@ -46,9 +43,8 @@ public class UINormal extends UIHandler implements FirebaseObserver{
     // Initilize everything so we can actually use it
     public UINormal( Context context ){
         super(context);
-        musicQueuer = MainActivity.getMusicQueuer();
+        libraryManager = MainActivity.getMusicQueuer();
         musicPlayer = MainActivity.getMusicPlayer();
-        firebaseHandler = MainActivity.getFirebaseHandler();
         musicDownloader = MainActivity.getMusicDownloader();
         this.context = context;
 
@@ -57,8 +53,6 @@ public class UINormal extends UIHandler implements FirebaseObserver{
         nextButton = ((Activity)context).findViewById(R.id.next_button);
         prevButton = ((Activity)context).findViewById(R.id.previous_button);
         toggleBtn = ((Activity)context).findViewById(R.id.toggleBtn);
-//        inputURL = ((Activity)context).findViewById(R.id.inputURL);
-//        downloadBtn = ((Activity)context).findViewById(R.id.downloadBtn);
 
         toggleBtn.setImageResource(R.drawable.neutral);
         toggleBtn.setTag(NEUTRAL);
@@ -90,8 +84,6 @@ public class UINormal extends UIHandler implements FirebaseObserver{
      * Link all the buttons with listeners
      */
     public void setButtonFunctions() {
-        // Set the button's functions
-
         // Plays the song and updates the UI when the play button is pressed
         playButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -186,44 +178,29 @@ public class UINormal extends UIHandler implements FirebaseObserver{
                     case NEUTRAL:
                         toggleBtn.setImageResource(R.drawable.like);
                         toggleBtn.setTag(LIKE);
-
                         if (musicPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(1);
-                            //FirebaseHandler.storeRate(musicPlayer.getCurrentSongFileName(), Constant.LIKED); TODO:: needs refactoring
                         }
-
-                        Toast likeToast = Toast.makeText(context, LIKE, Toast.LENGTH_SHORT);
-                        likeToast.show();
-                        //FirebaseHandler.storeRate(musicPlayer.getCurrentSongFileName(), Constant.LIKED); TODO:: needs refactoring
+                        Toast.makeText(context, LIKE, Toast.LENGTH_SHORT).show();
                         break;
 
                     // switch from like to dislike
                     case LIKE:
                         toggleBtn.setImageResource(R.drawable.unlike);
                         toggleBtn.setTag(DISLIKE);
-
                         if (musicPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(-1);
-                            //FirebaseHandler.storeRate(musicPlayer.getCurrentSongFileName(), Constant.DISPLIKED); TODO:: needs refactoring
-                        }
-
-                        Toast dislikeToast = Toast.makeText(context, DISLIKE, Toast.LENGTH_SHORT);
-                        dislikeToast.show();
+                        }Toast.makeText(context, DISLIKE, Toast.LENGTH_SHORT).show();
                         break;
 
                     // switch from dislike to neutral
                     case DISLIKE:
                         toggleBtn.setImageResource(R.drawable.neutral);
                         toggleBtn.setTag(NEUTRAL);
-
                         if (musicPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(0);
-                            //FirebaseHandler.storeRate(musicPlayer.getCurrentSongFileName(), Constant.NEUTRAL); TODO:: needs refactoring
-                            StorageHandler.storeSongState(context, musicPlayer.getCurrentSongFileName(), 0);
                         }
-
-                        Toast neutralToast = Toast.makeText(context, NEUTRAL, Toast.LENGTH_SHORT);
-                        neutralToast.show();
+                        Toast.makeText(context, NEUTRAL, Toast.LENGTH_SHORT).show();
                         break;
                     case ERROR_STATE:
                         break;
@@ -239,13 +216,15 @@ public class UINormal extends UIHandler implements FirebaseObserver{
      */
     public void updateTrackInfo() {
         Log.d("UINormal", "Reset displayed information of the song to the current song");
-        ArrayList<String> songInfo = musicQueuer.getSongInfo(musicPlayer.getCurrentSongFileName());
+        /*Song song = libraryManager.getSong(musicPlayer)
+        ArrayList<String> songInfo = libraryManager.getSongInfo(musicPlayer.getCurrentSongFileName());
         songTitleDisplay.setText( songInfo.get(TITLE_POS));
         songArtistDisplay.setText(songInfo.get(ARTIST_POS));
         songDateDisplay.setText( songInfo.get(DATE_POS));
         songLocationDisplay.setText( songInfo.get(LOC_POS));
         songTimeDisplay.setText( songInfo.get(DURATION_POS));
-        songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
+        songAlbumDisplay.setText(songInfo.get(ALBUM_POS));*/
+        //TODO
     }
 
     /**
@@ -253,21 +232,19 @@ public class UINormal extends UIHandler implements FirebaseObserver{
      */
     public void updateUI() {
         Log.d("UINormal", "Reset displayed information of the song to the current song");
-        ArrayList<String> songInfo = musicQueuer.getSongInfo(musicPlayer.getCurrentSongFileName());
+        /*ArrayList<String> songInfo = libraryManager.getSongInfo(musicPlayer.getCurrentSongFileName());
         songTitleDisplay.setText( songInfo.get(TITLE_POS));
         songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
-        songArtistDisplay.setText(songInfo.get(ARTIST_POS));
-        firebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.TIME_FIELD);
-        firebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.ADDRESS_FIELD);
-        firebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.WEEKDAY_FIELD);
-        firebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.USER_FIELD);
+        songArtistDisplay.setText(songInfo.get(ARTIST_POS));*/
+        //TODO
     }
 
     /**
      * Update toggle button
      */
     public void updateToggle(){
-        firebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.RATE_FIELD);
+        //firebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.RATE_FIELD);
+        //TODO
     }
 
     /************* Observer that listens in for the changes ********************/

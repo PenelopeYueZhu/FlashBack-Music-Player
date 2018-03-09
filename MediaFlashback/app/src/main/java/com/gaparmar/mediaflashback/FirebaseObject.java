@@ -1,15 +1,12 @@
 package com.gaparmar.mediaflashback;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 /**
  * Created by lxyzh on 3/4/2018.
  */
 
 public interface FirebaseObject {
 
-    ArrayList<FirebaseObserver> observers = new ArrayList<>();
+    /*ArrayList<FirebaseObserver> observers = new ArrayList<>();
     public void register( FirebaseObserver observer);
     public void remove( FirebaseObserver observer);
 
@@ -20,5 +17,5 @@ public interface FirebaseObject {
     public void notifyTimeStamp( String filename, long timeStamp);
     public void notifyTime( String filename, long time);
     public void notifyRate( String filename, long rate );
-    public void notifyProb( String filename, int prob);
+    public void notifyProb( String filename, int prob);*/
 }
