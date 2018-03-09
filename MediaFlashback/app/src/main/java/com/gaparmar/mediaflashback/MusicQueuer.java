@@ -3,25 +3,17 @@ package com.gaparmar.mediaflashback;
 import android.content.Context;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by veronica.lin1218 on 2/12/2018.
@@ -130,7 +122,7 @@ public class MusicQueuer {
         song.setMetadata(title, album, artist,year);
         // Put the song object inside the track hashmap
         allTracks.put(fileName, song);
-        FirebaseHandler.saveSong(song);
+        /*FirebaseHandler.saveSong(song);*/ //TODO needs refactoring
         Log.d("MQ:readSong()", "Just loaded song " + song.getTitle() + " into map");
     }
 
@@ -252,27 +244,27 @@ public class MusicQueuer {
         currDate = Calendar.getInstance();
 
         // Store address string
-        FirebaseHandler.storeAddress(ID, ar.getAddress());
+        //FirebaseHandler.storeAddress(ID, ar.getAddress()); TODO:: needs refactoring
         Log.d("MQ:updateSongInfo", "Storing song address: " + ar.getAddress());
         getSong(ID).setLocation(ar.getLatLon());
 
         // Store the coordinates
-        FirebaseHandler.storeLocation(ID, ar.getLatLon());
+        //FirebaseHandler.storeLocation(ID, ar.getLatLon()); TODO:: needs refactoring
 
         // Store the weekday
         String weekdayStr = dayFormat.format(currDate.getTime());
         getSong(ID).setDayOfWeek(weekdayStr);
-        FirebaseHandler.storeDayOfWeek(ID, weekdayStr);
+        //FirebaseHandler.storeDayOfWeek(ID, weekdayStr); TODO:: needs refactoring
 
         // Store the time of the day when the song is played
         int timeOfDay = Integer.parseInt(hourFormat.format(currDate.getTime()));
         getSong(ID).setTime(timeOfDay);
-        FirebaseHandler.storeTime(ID, timeOfDay);
+        //FirebaseHandler.storeTime(ID, timeOfDay); TODO:: needs refactoring
 
         // Store the time string
         Long timeStamp = System.currentTimeMillis()/1000;
         getSong(ID).setTimeStamp(timeStamp);
-        FirebaseHandler.storeTimeStamp(ID, timeStamp);
+        //FirebaseHandler.storeTimeStamp(ID, timeStamp); TODO:: needs refactoring
 
         StorageHandler.storeSongState(context, ID, getSong(ID).getRate());
         getSong(ID).setTime(timeOfDay);

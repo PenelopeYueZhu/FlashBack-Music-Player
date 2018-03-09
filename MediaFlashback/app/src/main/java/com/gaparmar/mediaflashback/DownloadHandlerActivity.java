@@ -44,8 +44,10 @@ public class DownloadHandlerActivity extends AppCompatActivity {
 
 //        DatabaseReference temp = ref.child("new_song_list").push();
 //        temp.setValue(s1);
-          FirebaseHandler.saveSongToSongList(s1);
-     }
+        FirebaseHandler.saveSongToSongList(s1);
+        SongLogInstance lo = new SongLogInstance("CSE Building","Gav", 1234567, 10.10, 20.20);
+        FirebaseHandler.saveLoggedSong(s1, lo);
+    }
 
      public void mockTime(View view){
         MockCalendar mockCal = new MockCalendar();

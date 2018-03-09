@@ -23,7 +23,8 @@ public class FirebaseHandler {
     static DatabaseReference songs = ref.child(Constant.SONG_SUBTREE);
 
     /**
-     * Saves the Song object to the new_song_list subdirectory
+     * Saves the Song object to the new_song_list subdirectory and the song_log directory
+     * Ensures there are no 2 songs with the same song_title field
      * @param song The song to be added
      */
     public static void saveSongToSongList(Song song){
@@ -65,8 +66,15 @@ public class FirebaseHandler {
     }
 
 
-    public static void saveLoggedSong(){
-
+    /**
+     * Ensure that the song is added to the database before logging an instance of the song
+     * @param song The song who's log field is to be populated
+     * @param toLog The Data that needs to be logged to the Firebase
+     */
+    public static void saveLoggedSong(Song song, SongLogInstance toLog){
+        DatabaseReference reference = database.getReference();
+        Query query = ref.child("song_logs").orderByChild("song_title").equalTo(song.getTitle());
+        query.getRef().child("logs").push().setValue(toLog);
     }
 
 

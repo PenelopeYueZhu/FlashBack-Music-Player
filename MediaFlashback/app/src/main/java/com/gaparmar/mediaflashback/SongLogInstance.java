@@ -9,8 +9,8 @@ public class SongLogInstance {
     private String locationPlayed;
     private String userName;
     private int timestamp;
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
 
     /**
      * @return the place this log was generated
@@ -57,32 +57,32 @@ public class SongLogInstance {
     /**
      * @return The latitude of location where this log was generated
      */
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
     /**
      * @param latitude The latitude of the location where this log was generated
      */
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
     /**
      * @return the longitude of where this log was generated
      */
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
     /**
      * @param longitude the longitude of where this log was generated
      */
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public SongLogInstance(String locationPlayed, String userName, int timestamp, float latitude, float longitude) {
+    public SongLogInstance(String locationPlayed, String userName, int timestamp, double latitude, double longitude) {
         this.locationPlayed = locationPlayed;
         this.userName = userName;
         this.timestamp = timestamp;

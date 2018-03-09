@@ -50,7 +50,7 @@ public class VibeQueuer extends MusicQueuer{
         else if (track.getRate() == Constant.DISPLIKED ) prob = 0;
 
         track.setProbability( prob );
-        FirebaseHandler.storeProb(filename, prob);
+        //FirebaseHandler.storeProb(filename, prob); TODO:: needs refactoring
         return prob;
     }
 

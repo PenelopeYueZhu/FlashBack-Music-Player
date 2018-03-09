@@ -3,7 +3,6 @@ package com.gaparmar.mediaflashback;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
-import android.support.constraint.solver.widgets.ConstraintAnchor;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -190,12 +189,12 @@ public class UINormal extends UIHandler implements FirebaseObserver{
 
                         if (musicPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(1);
-                            FirebaseHandler.storeRate(musicPlayer.getCurrentSongFileName(), Constant.LIKED);
+                            //FirebaseHandler.storeRate(musicPlayer.getCurrentSongFileName(), Constant.LIKED); TODO:: needs refactoring
                         }
 
                         Toast likeToast = Toast.makeText(context, LIKE, Toast.LENGTH_SHORT);
                         likeToast.show();
-                        FirebaseHandler.storeRate(musicPlayer.getCurrentSongFileName(), Constant.LIKED);
+                        //FirebaseHandler.storeRate(musicPlayer.getCurrentSongFileName(), Constant.LIKED); TODO:: needs refactoring
                         break;
 
                     // switch from like to dislike
@@ -205,7 +204,7 @@ public class UINormal extends UIHandler implements FirebaseObserver{
 
                         if (musicPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(-1);
-                            FirebaseHandler.storeRate(musicPlayer.getCurrentSongFileName(), Constant.DISPLIKED);
+                            //FirebaseHandler.storeRate(musicPlayer.getCurrentSongFileName(), Constant.DISPLIKED); TODO:: needs refactoring
                         }
 
                         Toast dislikeToast = Toast.makeText(context, DISLIKE, Toast.LENGTH_SHORT);
@@ -219,7 +218,7 @@ public class UINormal extends UIHandler implements FirebaseObserver{
 
                         if (musicPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(0);
-                            FirebaseHandler.storeRate(musicPlayer.getCurrentSongFileName(), Constant.NEUTRAL);
+                            //FirebaseHandler.storeRate(musicPlayer.getCurrentSongFileName(), Constant.NEUTRAL); TODO:: needs refactoring
                             StorageHandler.storeSongState(context, musicPlayer.getCurrentSongFileName(), 0);
                         }
 
