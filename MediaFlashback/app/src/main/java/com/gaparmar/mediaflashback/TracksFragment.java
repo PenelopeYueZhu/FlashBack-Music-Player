@@ -1,7 +1,5 @@
 package com.gaparmar.mediaflashback;
 
-import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,7 +26,7 @@ public class TracksFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private ListView mListView;
-    private MusicQueuer mq;
+    private LibraryManager mq;
     private MusicPlayer mp;
 
     public TracksFragment() {

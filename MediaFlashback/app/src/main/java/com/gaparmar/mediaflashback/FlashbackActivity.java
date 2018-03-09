@@ -52,7 +52,7 @@ public class FlashbackActivity extends AppCompatActivity {
     FlashbackPlayer flashbackPlayer;
     LocationManager locationManager;
     LocationListener locationListener;
-    MusicQueuer mq;
+    LibraryManager mq;
     VibeQueuer vq;
 
     /**
@@ -87,7 +87,7 @@ public class FlashbackActivity extends AppCompatActivity {
 
 // Initializie the song functions
         if( mq == null ) {
-            mq = new MusicQueuer(this);
+            mq = new LibraryManager(this);
             mq.readSongs();
             mq.readAlbums();
 

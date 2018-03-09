@@ -6,7 +6,7 @@ package tests;
 
 public class JUnitMusicQueuer {
 /*
-    MusicQueuer mq;
+    LibraryManager mq;
     final static int numOfSongs = 18;
     final static int numOfAlbums = 5;
     Context context;
@@ -18,7 +18,7 @@ public class JUnitMusicQueuer {
     @Before
     public void setUp(){
         context = mainActivity.getActivity().getBaseContext();
-        mq = new MusicQueuer(context);
+        mq = new LibraryManager(context);
         mq.readSongs();
         mq.readAlbums();
     }

@@ -21,7 +21,7 @@ public class Album {
     private String albumTitle;
 
     // The music queuer for this album
-    MusicQueuer mq = MainActivity.getMusicQueuer();
+    LibraryManager mq = MainActivity.getMusicQueuer();
 
 
     /**
@@ -112,10 +112,10 @@ public class Album {
     }
 
     /**
-     * Sets the MusicQueuer to the given one
-     * @param mq The new MusicQueuer
+     * Sets the LibraryManager to the given one
+     * @param mq The new LibraryManager
      */
-    public void setMusicQueuer(MusicQueuer mq) {
+    public void setMusicQueuer(LibraryManager mq) {
         this.mq= mq;
     }
 

@@ -13,7 +13,7 @@ import java.util.Comparator;
  * Created by lxyzh on 3/5/2018.
  */
 
-public class VibeQueuer extends MusicQueuer{
+public class VibeQueuer extends LibraryManager {
 
     ArrayList<Song>sortedList = new ArrayList<Song>();
 

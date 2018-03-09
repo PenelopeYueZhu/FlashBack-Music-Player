@@ -16,10 +16,9 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Created by veronica.lin1218 on 2/12/2018.
+ * Manages a list of all downloaded songs and albums
  */
-
-public class MusicQueuer {
+public class LibraryManager {
 
     // Member variables of the class
     protected HashMap<String, Song> allTracks = new HashMap<>();
@@ -28,24 +27,22 @@ public class MusicQueuer {
     private final static String UNKNOWN_STRING = "Unknown";
     private final static String UNKNOWN_INT = "0";
     private Context context;
+
     // final private String PACKAGE = "com.gaparmar.mediaflashback";
-    final private String RES_FOLDER = "raw";
-    //final private String URI_PREFIX = "android.resource://com.gaparmar.mediaflashback/raw/";
+
     protected Calendar currDate;
     protected SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
     protected SimpleDateFormat hourFormat = new SimpleDateFormat("HH", Locale.US);
     protected SimpleDateFormat fullTimeFormat = new SimpleDateFormat("HH:mm 'at' MM/dd/YY");
 
-    // Default constructor
-    public MusicQueuer () {}
     /**
-     * The constructor of the MusicQueuer Object
-     *
+     * The constructor of the LibraryManager Object
      * @param context the activity context reference
      */
-    public MusicQueuer(Context context) {
+    public LibraryManager(Context context) {
         this.context = context;
     }
+
 
     /**
      * Read all files and directories

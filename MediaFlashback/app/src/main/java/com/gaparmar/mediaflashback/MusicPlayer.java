@@ -1,26 +1,15 @@
 package com.gaparmar.mediaflashback;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by veronica.lin1218 on 2/4/2018.
@@ -30,7 +19,7 @@ public class MusicPlayer extends AppCompatActivity {
     private final String MEDIA_PATH =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
                     +"/myDownloads/";
-    protected MusicQueuer musicQueuer;
+    protected LibraryManager musicQueuer;
     protected MediaPlayer mediaPlayer;
     protected UINormal tracker;
     protected List<String> songsToPlay;
@@ -49,10 +38,10 @@ public class MusicPlayer extends AppCompatActivity {
     /**
      * Default MusicPlayer constructor
      * @param current The reference activity context
-     * @param musicQueuer the MusicQueuer object that stores all the songs
+     * @param libraryManager the LibraryManager object that stores all the songs
      */
-    public MusicPlayer(final Context current, final MusicQueuer musicQueuer ) {
-        this.musicQueuer = musicQueuer;
+    public MusicPlayer(final Context current, final LibraryManager libraryManager) {
+        this.musicQueuer = libraryManager;
         this.tracker = MainActivity.getUITracker();
         this.context = current;
         if( mediaPlayer == null ) {
@@ -74,7 +63,7 @@ public class MusicPlayer extends AppCompatActivity {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 // Update the date, time, and location
-                musicQueuer.updateTrackInfo(getCurrentSongFileName());
+                libraryManager.updateTrackInfo(getCurrentSongFileName());
 
                 Log.d("MP:OnCompleteListener","Song finished playing");
                 firstTime = false;

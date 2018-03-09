@@ -4,7 +4,6 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
-import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -12,7 +11,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -24,7 +22,7 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 
 public class MusicDownloader {
     private Context myContext;
-    private MusicQueuer mq;
+    private LibraryManager mq;
     private final String MEDIA_PATH = Environment.DIRECTORY_DOWNLOADS
                 + File.separator + "myDownloads";
 

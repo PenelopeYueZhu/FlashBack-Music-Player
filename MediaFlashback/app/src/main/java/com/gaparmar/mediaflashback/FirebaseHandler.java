@@ -85,9 +85,6 @@ public class FirebaseHandler {
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
-//        String key = query.getRef().getKey();
-//        System.out.println(key);
-//        query.getRef().child("logs").push().setValue(toLog);
     }
 
 

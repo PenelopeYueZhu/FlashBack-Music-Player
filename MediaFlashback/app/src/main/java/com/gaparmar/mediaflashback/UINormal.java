@@ -30,7 +30,7 @@ public class UINormal extends UIHandler implements FirebaseObserver{
 
     MusicDownloader musicDownloader;
     private String songURL = "http://soundbible.com/grab.php?id=2190&type=mp3";
-    MusicQueuer musicQueuer;
+    LibraryManager musicQueuer;
     MusicPlayer musicPlayer;
     FirebaseHandler firebaseHandler;
 

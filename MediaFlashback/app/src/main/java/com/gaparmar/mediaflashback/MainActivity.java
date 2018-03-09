@@ -32,7 +32,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private static MusicPlayer musicPlayer;
-    private static MusicQueuer musicQueuer;
+    private static LibraryManager musicQueuer;
 
     // Objects for location
     private static MusicDownloader musicDownloader;
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     public static MusicPlayer getMusicPlayer(){
         return musicPlayer;
     }
-    public static MusicQueuer getMusicQueuer() { return musicQueuer; }
+    public static LibraryManager getMusicQueuer() { return musicQueuer; }
 
     public static FirebaseObject getFirebaseInfoBus() { return firebaseInfoBus; }
     public static AddressRetriver getAddressRetriver() {
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Initializie the song functions
         if (musicQueuer == null) {
-            musicQueuer = new MusicQueuer(this);
+            musicQueuer = new LibraryManager(this);
             musicQueuer.readSongs();
             musicQueuer.readAlbums();
         }

@@ -8,7 +8,6 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -33,8 +32,8 @@ public class FlashbackPlayer extends MusicPlayer {
      * @param current The context of the calling activity
      */
 
-    public FlashbackPlayer( final Context current, MusicQueuer musicQueuer) {
-        super(current, musicQueuer);
+    public FlashbackPlayer( final Context current, LibraryManager libraryManager) {
+        super(current, libraryManager);
         this.context = current;
         vibeQueuer = new VibeQueuer(context);
 
@@ -45,8 +44,8 @@ public class FlashbackPlayer extends MusicPlayer {
      * @param list The list of songs to play
      * @param current the context of the calling Activity
      */
-    public FlashbackPlayer(ArrayList<String> list, final Context current, MusicQueuer musicQueuer) {
-        this(current, musicQueuer);
+    public FlashbackPlayer(ArrayList<String> list, final Context current, LibraryManager libraryManager) {
+        this(current, libraryManager);
         allSongs = list;
        // makeFlashbackPlaylist();
     }
