@@ -230,7 +230,7 @@ public class MusicPlayer extends AppCompatActivity {
         currInd = 0;
         Log.d("MP:loadArtist", "Loading the first song of the artist");
 
-        loadMedia(songsToPlay.get(0));g
+        loadMedia(songsToPlay.get(0));
         MainActivity.isPlaying = true;
     }
 

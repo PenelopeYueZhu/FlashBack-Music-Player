@@ -53,7 +53,6 @@ public class FlashbackActivity extends AppCompatActivity {
     LocationManager locationManager;
     LocationListener locationListener;
     MusicQueuer mq;
-    VibeQueuer vq;
 
     /**
      * Initializes all the View components of this activity
@@ -94,13 +93,6 @@ public class FlashbackActivity extends AppCompatActivity {
             arr = mq.getEntireSongList();
         }
 
-        if( vq == null ) {
-            vq = new VibeQueuer(this);
-            vq.readSongs();
-            vq.readAlbums();
-
-            arr = vq.getEntireSongList();
-        }
 
         flashbackPlayer = new FlashbackPlayer(arr,this, mq);
 
@@ -128,8 +120,8 @@ public class FlashbackActivity extends AppCompatActivity {
                 // Called when a new location is found by the network location provider.
                 MainActivity.getAddressRetriver().setLocation(location);
                 Log.d("FBLgetting location", "Setting the location to address retriver");
-                vq.makeVibeList();
-                vq.loadPlaylist(flashbackPlayer);
+                mq.makeVibeList();
+                mq.loadPlaylist(flashbackPlayer);
                 flashbackPlayer.loadList();
             }
 

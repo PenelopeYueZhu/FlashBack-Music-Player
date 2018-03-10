@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -16,10 +17,22 @@ import java.util.ArrayList;
  * Created by lxyzh on 2/17/2018.
  */
 
-public class UINormal extends UIHandler implements FirebaseObserver{
+public class UINormal implements FirebaseObserver{
+
+    final String NEUTRAL = "Neutral";
+    final String LIKE = "Liked";
+    final String DISLIKE = "Disliked";
+    final String ERROR_STATE = "Error";
+    final String INIT_INFO = "NONE";
 
     // All the buttons and views on the MainActivity
     Context context;
+    TextView songTitleDisplay;
+    TextView songLocationDisplay;
+    TextView songDateDisplay;
+    TextView songTimeDisplay;
+    TextView songArtistDisplay;
+    TextView songAlbumDisplay;
     private Handler handler;
     private ImageButton playButton;
     private ImageButton pauseButton;
@@ -46,7 +59,13 @@ public class UINormal extends UIHandler implements FirebaseObserver{
 
     // Initilize everything so we can actually use it
     public UINormal( Context context ){
-        super(context);
+        this.context = context;
+        songTitleDisplay = (TextView) ((Activity)context).findViewById(R.id.song_title);
+        songLocationDisplay = (TextView) ((Activity)context).findViewById(R.id.song_location);
+        songDateDisplay = (TextView) ((Activity)context).findViewById(R.id.song_date);
+        songTimeDisplay = (TextView) ((Activity)context).findViewById(R.id.song_time);
+        songArtistDisplay = (TextView) ((Activity)context).findViewById(R.id.artist_title);
+        songAlbumDisplay = (TextView) ((Activity)context).findViewById(R.id.album_title);
         musicQueuer = MainActivity.getMusicQueuer();
         musicPlayer = MainActivity.getMusicPlayer();
         firebaseHandler = MainActivity.getFirebaseHandler();

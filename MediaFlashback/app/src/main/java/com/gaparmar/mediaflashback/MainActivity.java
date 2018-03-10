@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     // Objects for info updates
     private static FirebaseHandler firebaseHandler;
     private static FirebaseObject firebaseInfoBus;
-    private static FirebaseObserver retriver;
 
     private static ArrayList<String> stoppedInfo = new ArrayList<>();
     public static boolean isPlaying;
@@ -181,8 +180,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         firebaseInfoBus = new FirebaseInfoBus();
-        retriver = new FirebaseRetriver();
-        firebaseInfoBus.register(retriver);
         firebaseInfoBus.register(tracker);
 
 
