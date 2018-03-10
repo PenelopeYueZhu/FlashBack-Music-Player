@@ -7,9 +7,19 @@
         android:title="@string/title_songs" />
 
     <item
+        android:id="@+id/navigation_artists"
+        android:icon="@android:drawable/ic_media_play"
+        android:title="@string/title_artists" />
+
+    <item
         android:id="@+id/navigation_albums"
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="@string/title_albums" />
+
+    <item
+        android:id="@+id/navigation_favorites"
+        android:icon="@android:drawable/ic_media_play"
+        android:title="@string/title_favorites" />
 
     <item
         android:id="@+id/navigation_mplayer"
