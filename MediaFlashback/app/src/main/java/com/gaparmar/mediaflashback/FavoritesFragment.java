@@ -19,6 +19,8 @@ import android.view.ViewGroup;
  */
 public class FavoritesFragment extends Fragment {
 
+    private MusicPlayer mp;
+    private MusicQueuer mq;
     private OnFragmentInteractionListener mListener;
 
     public FavoritesFragment() {
@@ -33,16 +35,14 @@ public class FavoritesFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static FavoritesFragment newInstance() {
         FavoritesFragment fragment = new FavoritesFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
+        mq = MainActivity.getMusicQueuer();
+        mp = MainActivity.getMusicPlayer();
     }
 
     @Override
