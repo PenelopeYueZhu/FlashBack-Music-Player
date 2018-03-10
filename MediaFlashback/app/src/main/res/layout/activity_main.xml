@@ -251,7 +251,7 @@
                 android:layout_height="55dp"
                 android:layout_marginRight="25dp"
                 android:layout_weight="1"
-                android:background="#7698b3"
+                android:background="@android:color/transparent"
                 app:layout_constraintBottom_toBottomOf="@+id/pause_button"
                 app:layout_constraintEnd_toStartOf="@+id/play_button"
                 app:layout_constraintStart_toStartOf="parent"
@@ -268,7 +268,7 @@
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:layout_weight="1"
-                    android:background="#7698b3"
+                    android:background="@android:color/transparent"
                     app:layout_constraintBottom_toBottomOf="@+id/play_button"
                     app:layout_constraintEnd_toEndOf="@+id/play_button"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -284,7 +284,7 @@
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:layout_weight="1"
-                    android:background="#7698b3"
+                    android:background="@android:color/transparent"
                     app:srcCompat="@android:drawable/ic_media_play" />
 
             </RelativeLayout>
@@ -295,7 +295,7 @@
                 android:layout_height="55dp"
                 android:layout_marginLeft="25dp"
                 android:layout_weight="1"
-                android:background="#7698b3"
+                android:background="@android:color/transparent"
                 app:layout_constraintBottom_toBottomOf="@+id/toggleBtn"
                 app:layout_constraintEnd_toStartOf="@+id/toggleBtn"
                 app:layout_constraintStart_toEndOf="@+id/play_button"
@@ -307,7 +307,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
@@ -317,12 +317,6 @@
                 app:layout_constraintStart_toEndOf="@+id/next_button"
                 app:srcCompat="@drawable/like" />
 
-            <Button
-                android:id="@+id/test"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:text="test" />
         </LinearLayout>
 
         <Button

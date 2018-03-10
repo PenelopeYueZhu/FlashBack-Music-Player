@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
             musicQueuer = new MusicQueuer(this);
             musicQueuer.readSongs();
             musicQueuer.readAlbums();
+            musicQueuer.readArtists();
         }
 
         // Initialized the player

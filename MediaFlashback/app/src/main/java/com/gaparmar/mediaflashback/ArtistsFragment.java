@@ -44,7 +44,6 @@ public class ArtistsFragment extends Fragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment ArtistsFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static ArtistsFragment newInstance() {
         ArtistsFragment fragment = new ArtistsFragment();
         Bundle args = new Bundle();
@@ -65,22 +64,37 @@ public class ArtistsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_artists, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
+    /**
+     * Creates the buttons that are displayed and causes them to play
+     * the selected album
+     * @param view
+     * @param savedInstanceState
+     */
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+
+        final ArrayList<String> artists = mq.getEntireArtistList();
+        mListView = (ListView)getView().findViewById(R.id.artist_list);
+        String[] titles = new String[artists.size()];
+
+        // Loads in the album titles
+        for(int i = 0; i < titles.length; ++i){
+            titles[i] = artists.get(i);
         }
+
+        ArrayAdapter adapter = new ArrayAdapter(this.getContext(),
+                android.R.layout.simple_list_item_1, titles);
+        mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Artist a = mq.getArtist(artists.get(position));
+
+                mp.loadArtist(a);
+                MainActivity.isPlaying = true;
+                onDetach();
+            }
+        });
     }
 
     @Override

@@ -48,7 +48,6 @@ public class LibraryActivity extends AppCompatActivity {
                     break;
                 // Checks if the user selected the back button
                 case R.id.navigation_mplayer:
-                    mTextMessage.setText(R.string.title_mplayer);
                     startPlayer();
                     return true;
             }

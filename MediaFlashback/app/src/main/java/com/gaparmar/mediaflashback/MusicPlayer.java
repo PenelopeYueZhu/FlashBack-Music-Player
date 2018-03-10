@@ -215,6 +215,26 @@ public class MusicPlayer extends AppCompatActivity {
     }
 
     /**
+     * Add songs in Artist to songsToPlay List
+     * @param a artist
+     */
+    public void loadArtist(Artist a) {
+        resetSong();
+        songsToPlay.clear();
+        ArrayList<String> songs = a.getAllSongs();
+        for (int i = 0; i < songs.size(); i++) {
+            Log.d("MP:loadArtist", "adding all the songs from artist");
+            songsToPlay.add(songs.get(i));
+        }
+        if( firstTime ) firstTime = false;
+        currInd = 0;
+        Log.d("MP:loadArtist", "Loading the first song of the artist");
+
+        loadMedia(songsToPlay.get(0));g
+        MainActivity.isPlaying = true;
+    }
+
+    /**
      * Add songs in album to songsToPlay List
      * @param a
      */

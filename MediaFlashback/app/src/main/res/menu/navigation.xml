@@ -3,27 +3,27 @@
 
     <item
         android:id="@+id/navigation_songs"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/track"
         android:title="@string/title_songs" />
 
     <item
         android:id="@+id/navigation_artists"
-        android:icon="@android:drawable/ic_media_play"
+        android:icon="@drawable/artist"
         android:title="@string/title_artists" />
 
     <item
         android:id="@+id/navigation_albums"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/album"
         android:title="@string/title_albums" />
 
     <item
         android:id="@+id/navigation_favorites"
-        android:icon="@android:drawable/ic_media_play"
+        android:icon="@drawable/favorite"
         android:title="@string/title_favorites" />
 
     <item
         android:id="@+id/navigation_mplayer"
-        android:icon="@android:drawable/ic_media_play"
+        android:icon="@drawable/music_player"
         android:title="@string/title_mplayer" />
 
 </menu>
