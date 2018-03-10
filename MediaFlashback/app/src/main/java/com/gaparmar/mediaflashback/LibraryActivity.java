@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -27,20 +28,28 @@ public class LibraryActivity extends AppCompatActivity {
             // Checks if the user selected the tracks screen
             switch (item.getItemId()) {
                 case R.id.navigation_songs:
-                    mTextMessage.setText(R.string.title_songs);
+                    Log.d("LibraryActivity", "Opening up Tracks tab");
                     selectedFragment = TracksFragment.newInstance();
                     break;
                 // Checks if the user selected the albums screen
                 case R.id.navigation_albums:
-                    mTextMessage.setText(R.string.title_albums);
+                    Log.d("LibraryActivity", "Opening up Albums tab");
                     selectedFragment = AlbumsFragment.newInstance();
+                    break;
+                // Checks if user selected the Artists tab
+                case R.id.navigation_artists:
+                    Log.d("LibraryActivity", "Opening up Artists tab");
+                    selectedFragment = ArtistsFragment.newInstance();
+                    break;
+                // Checks if user selected Favorites tab
+                case R.id.navigation_favorites:
+                    Log.d("LibraryActivity", "Opening up Favorites tab");
+                    selectedFragment = FavoritesFragment.newInstance();
                     break;
                 // Checks if the user selected the back button
                 case R.id.navigation_mplayer:
-                    mTextMessage.setText(R.string.title_mplayer);
                     startPlayer();
                     return true;
-
             }
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

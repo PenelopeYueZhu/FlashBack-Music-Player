@@ -6,8 +6,12 @@
     <string name="title_songs">Tracks</string>
     <string name="title_albums">Albums</string>
     <string name="title_mplayer">Music Player</string>
+    <string name="title_artists">Artists</string>
+    <string name="title_favorites">Favorites</string>
     <string name="address_found">Address found</string>
     <string name="no_address_found">No address found</string>
-    <string name="service_not_available">Serive is not available right now</string>
+    <string name="service_not_available">Service is not available right now</string>
+
+
 
 </resources>

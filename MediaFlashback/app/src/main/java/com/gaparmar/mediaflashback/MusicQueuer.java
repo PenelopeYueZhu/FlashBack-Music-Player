@@ -32,12 +32,12 @@ public class MusicQueuer {
     // Member variables of the class
     protected HashMap<String, Song> allTracks = new HashMap<>();
     protected HashMap<String, Album> allAlbums = new HashMap<>();
+    protected HashMap<String, Artist> allArtists = new HashMap<>();
 
     private final static String UNKNOWN_STRING = "Unknown";
     private final static String UNKNOWN_INT = "0";
     private Context context;
     // final private String PACKAGE = "com.gaparmar.mediaflashback";
-    final private String RES_FOLDER = "raw";
     //final private String URI_PREFIX = "android.resource://com.gaparmar.mediaflashback/raw/";
     protected Calendar currDate;
     protected SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
@@ -119,7 +119,7 @@ public class MusicQueuer {
         if (title == null)
             title = Constant.UNKNOWN;
         if (year == null)
-            year = Constant.UNKNOWN;
+            year = "0";
         if (album == null)
             album = Constant.UNKNOWN;
         if (artist == null)
@@ -162,6 +162,35 @@ public class MusicQueuer {
     }
 
     /**
+     * Read in albums from song lists
+     * Populates the allAlbums hashmap
+     */
+    public void readArtists() {
+        // Iterate through the song map to get all the albums
+        Iterator<Map.Entry<String, Album>> it = allAlbums.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, Album> currEntry = it.next();
+            Album currAlbum = currEntry.getValue();
+
+            Log.d("MQ:readArtists", "Getting the Artist " + currAlbum.getArtistName());
+            Log.d("MQ: readArtists", "Reading album size of " + currAlbum.getNumSongs());
+            String artistName = currAlbum.getArtistName();
+            if (artistName == null) artistName = UNKNOWN_STRING;
+            Artist currArtist = allArtists.get(artistName);
+
+            // If the album does not exists in the list, we create the new album
+            if (currArtist == null) {
+                currArtist = new Artist(artistName);
+                allArtists.put(artistName, currArtist);
+            }
+            Log.d("readArtist", "Putting the Album " + currAlbum.getAlbumTitle() +
+                    " into Artist "
+                    + currArtist.getArtistName());
+            currArtist.addAlbum(currAlbum);
+        }
+    }
+
+    /**
      * ArrayList of all the Song IDs
      *
      * @return Convers the allTracks hashmap into an ArrayList
@@ -199,6 +228,25 @@ public class MusicQueuer {
         return albums;
     }
 
+    /**
+     * ArrayList of all the Artist names
+     *
+     * @return Convers the allAlbums hashmap into an ArrayList
+     */
+    public ArrayList<String> getEntireArtistList() {
+        ArrayList<String> artists = new ArrayList<>();
+        Iterator it = allArtists.entrySet().iterator();
+        while (it.hasNext()) {
+            HashMap.Entry currEntry = (HashMap.Entry) it.next();
+            Artist currArtist = (Artist) currEntry.getValue();
+
+            Log.d("MQ:getEntireAlbumList", "putting the album " + currArtist.getArtistName()
+                    + " into the list");
+            artists.add(currArtist.getArtistName());
+        }
+        return artists;
+    }
+
     // TODO:: Add null checks first to see if the album exists
 
     /**
@@ -210,6 +258,8 @@ public class MusicQueuer {
     public Album getAlbum(String albumName) {
         return allAlbums.get(albumName);
     }
+
+    public Artist getArtist(String artistName) { return allArtists.get(artistName); }
 
     // TODO:: make a helper function that gets song based on song name
 
