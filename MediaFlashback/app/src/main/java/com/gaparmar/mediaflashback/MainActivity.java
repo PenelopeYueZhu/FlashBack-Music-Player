@@ -62,7 +62,7 @@ import java.util.Map;
 /**
  * Creates and handles events relating to the regular mode UI screen
  */
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
     private static MusicPlayer musicPlayer;
     private static MusicQueuer musicQueuer;
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private static int[] stoppedInfo = new int[2];
     public static boolean isPlaying;
     private static boolean browsing = false;
+    private static ArrayList<Friend> friendList;
 
     GoogleApiClient mGoogleApiClient;
 
@@ -102,8 +103,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        signInButton = (SignInButton)findViewById(R.id.main_googlesigninbtn);
-        signInButton.setOnClickListener(this);
+        //signInButton = (SignInButton)findViewById(R.id.main_googlesigninbtn);
+        ///signInButton.setOnClickListener(this);
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 // The serverClientId is an OAuth 2.0 web client ID
@@ -123,6 +124,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
                 .build();
 
+        getIdToken();
+
         userLocation = new UserLocation(this);
 
         // Stores the days of the week
@@ -134,6 +137,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         weekDays.put("Friday", 5);
         weekDays.put("Saturday", 6);
         weekDays.put("Sunday", 7);
+
+        friendList = new ArrayList<>();
 
 
         // Initialize UI
@@ -210,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onActivityResult(requestCode, resultCode, data);
 
         Log.d("MainActivity", "sign in result");
+
         GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 
         if (result.isSuccess()) {
@@ -289,8 +295,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             if (names != null)
                                 System.out.println("Names");
                                 for (Name name : names) {
-                                    nameList.add(name.getDisplayName());
-                                    System.out.println(name.getDisplayName());
+                                    if(!nameList.contains(name.getDisplayName()))
+                                    {
+                                        nameList.add(name.getDisplayName());
+                                        System.out.println(name.getDisplayName());
+                                    }
                                 }
                         }
                     }
@@ -300,6 +309,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 e.printStackTrace();
             }
 
+            for(String s : nameList)
+            {
+                friendList.add(new Friend(s));
+            }
             return nameList;
         }
     }
@@ -406,18 +419,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         browsing = false;
     }
 
-    @Override
+    /*@Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.main_googlesigninbtn:
                 Log.d("MainActivity", "btn click");
-                System.out.println("a");
                 getIdToken();
                 break;
 
         }
 
-    }
+    }*/
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {

@@ -17,12 +17,6 @@
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp">
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/main_googlesigninbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:buttonSize="wide" />
 
         <TextView
             android:id="@+id/regular_mode_title"
