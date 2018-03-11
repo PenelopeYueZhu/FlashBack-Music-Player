@@ -17,7 +17,7 @@ public class Album {
     private String artistName;
     private int releaseYear;
     private int lengthInSeconds;
-    private ArrayList<Integer> songs;
+    private ArrayList<String> songs;
     private String albumTitle;
 
     // The music queuer for this album
@@ -56,7 +56,7 @@ public class Album {
      * @param songLists List of ID of songs
      * @param name The title of the Album
      */
-    public Album(ArrayList<Integer> songLists, String name ){
+    public Album(ArrayList<String> songLists, String name ){
         this();
         this.songs = songLists;
         this.numSongs = songs.size();
@@ -64,13 +64,13 @@ public class Album {
         // If input array is not empty
         if (numSongs> 0){
             this.artistName = mq.getSong(songs.get(0)).getArtistName();
-            this.releaseYear = mq.getSong(songs.get(0)).getYearOfRelease();
+            //this.releaseYear = mq.getSong(songs.get(0)).getYear();
         }
 
         // Calculate the sum of the length of each song
         int totalLength = 0;
-        for (int i = 0; i< numSongs; i++)
-            totalLength += mq.getSong( songs.get( i )).getLengthInSeconds();
+        //for (int i = 0; i< numSongs; i++)
+          //  totalLength += mq.getSong( songs.get( i )).getLengthInSeconds();
         this.lengthInSeconds = totalLength;
     }
 
@@ -87,27 +87,27 @@ public class Album {
         boolean invalidInput = false;
         // If there is no song in the album yet
         if( numSongs == 0 ) {
-            this.songs.add( s.getResID() );
+            this.songs.add( s.getFileName() );
             this.numSongs++;
-            this.releaseYear = s.getYearOfRelease();
+            this.releaseYear = 0;//s.getYearOfRelease();
             this.artistName = s.getArtistName();
-            this.lengthInSeconds = s.getLengthInSeconds();
+            this.lengthInSeconds = 0;//s.getLengthInSeconds();
         }
         if (hasSong(s)){
             System.out.println("The song already exists in album");
             invalidInput = true;
         }
 
-        if (s.getYearOfRelease() != this.releaseYear){
-            System.out.println("The song was released in a different year");
+       // if (s.getYearOfRelease() != this.releaseYear){
+         //   System.out.println("The song was released in a different year");
             invalidInput = true;
-        }
+        //}
 
         // Only add if the input song is valid
         if (!invalidInput){
-            this.songs.add(s.getResID());
+            this.songs.add(s.getFileName());
             this.numSongs++;
-            lengthInSeconds += s.getLengthInSeconds();
+            //lengthInSeconds += s.getLengthInSeconds();
         }
     }
 
@@ -124,7 +124,7 @@ public class Album {
      * @param s the song we want to check
      */
     public boolean hasSong(Song s){
-        return this.songs.contains(s.getResID());
+        return this.songs.contains(s.getFileName());
     }
 
     /**
@@ -145,7 +145,7 @@ public class Album {
         if(!invalidInput){
             this.songs.indexOf(s);
             this.numSongs--;
-            this.lengthInSeconds -= s.getLengthInSeconds();
+            //this.lengthInSeconds -= s.getLengthInSeconds();
         }
     }
 

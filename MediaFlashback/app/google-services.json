@@ -1,1 +1,79 @@
-{"web":{"client_id":"292202723687-bfhvb9ntufbr7dti0bnt0a1holr76vu0.apps.googleusercontent.com","project_id":"mediaflashback-fa386","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://accounts.google.com/o/oauth2/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"Bjh3-HxFCdujrYkVbnIYfcck"}}
+{
+  "project_info": {
+    "project_number": "292202723687",
+    "firebase_url": "https://mediaflashback-fa386.firebaseio.com",
+    "project_id": "mediaflashback-fa386",
+    "storage_bucket": "mediaflashback-fa386.appspot.com"
+  },
+  "web":{
+    "client_id":"292202723687-bfhvb9ntufbr7dti0bnt0a1holr76vu0.apps.googleusercontent.com",
+    "project_id":"mediaflashback-fa386",
+    "auth_uri":"https://accounts.google.com/o/oauth2/auth",
+    "token_uri":"https://accounts.google.com/o/oauth2/token",
+    "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret":"Bjh3-HxFCdujrYkVbnIYfcck"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292202723687:android:624ec7bf11167a85",
+        "android_client_info": {
+          "package_name": "com.gaparmar.mediaflashback"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "292202723687-lhnsf225558do495926rh54p2ubfk2ur.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gaparmar.mediaflashback",
+            "certificate_hash": "29522ca5acf06c58152004be62f43738f728c132"
+          }
+        },
+        {
+          "client_id": "292202723687-sf6hvnsd6greg40cg5c68lcc9jei3vp4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gaparmar.mediaflashback",
+            "certificate_hash": "e3e7a9776d73231a5257cb44bee8c51ff0f51fad"
+          }
+        },
+        {
+          "client_id": "292202723687-ht3mcu6o6iipmfiepf17mu0umcva8n04.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gaparmar.mediaflashback",
+            "certificate_hash": "65e12fadc982026749964e3152aef2b149826110"
+          }
+        },
+        {
+          "client_id": "292202723687-3e1sd82h0mnnf7dnak791imudspvfpj0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSJwz6cTefPHlY0FR1D1e9goWQBk_ZkB0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "292202723687-3e1sd82h0mnnf7dnak791imudspvfpj0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

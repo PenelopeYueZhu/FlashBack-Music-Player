@@ -7,9 +7,50 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="077e08f5-2fe2-4436-a88a-ccd217f045a4" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/song2.mp3" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/song3.mp3" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/song4.mp3" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/song5.mp3" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/raw/song6.mp3" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/FirebaseHandlerJUnit.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/MusicDownloaderTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/DownloadHandlerActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/FirebaseHandler.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/FirebaseInfoBus.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/FirebaseObject.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/FirebaseObserver.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/FirebaseRetriver.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MockCalendar.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MusicDownloader.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/VibeQueuer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/drawable/ic_home_black_36dp.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_download_handler.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/menu/root_navigation.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/UserLocation.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/build.gradle" afterPath="$PROJECT_DIR$/MediaFlashback/app/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/google-services.json" afterPath="$PROJECT_DIR$/MediaFlashback/app/google-services.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/AddressRetriver.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/AddressRetriver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/Album.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/Album.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/Constant.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/Constant.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/FetchAddressIntentService.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/FetchAddressIntentService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/FlashbackActivity.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/FlashbackActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/FlashbackPlayer.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/FlashbackPlayer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MainActivity.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MusicPlayer.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MusicPlayer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MusicQueuer.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MusicQueuer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/Song.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/Song.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/StorageHandler.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/StorageHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/TracksFragment.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/TracksFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/UIHandler.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/UIHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/UINormal.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/UINormal.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_library2.xml" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_library2.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_main.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/values/colors.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/values/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/build.gradle" afterPath="$PROJECT_DIR$/MediaFlashback/build.gradle" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -389,7 +430,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1520724187907" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1520726837000" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -437,7 +478,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1520724187907" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1520726837000" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
