@@ -4,7 +4,6 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
-import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -12,9 +11,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import com.gaparmar.mediaflashback.UI.MainActivity;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 

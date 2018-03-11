@@ -1,4 +1,4 @@
-package com.gaparmar.mediaflashback;
+package com.gaparmar.mediaflashback.WhereAndWhen;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -11,6 +11,8 @@ import android.os.Parcelable;
 import android.os.ResultReceiver;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.gaparmar.mediaflashback.Constant;
 
 import java.io.IOError;
 import java.io.IOException;

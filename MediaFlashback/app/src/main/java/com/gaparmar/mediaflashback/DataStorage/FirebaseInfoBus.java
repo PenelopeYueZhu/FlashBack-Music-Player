@@ -1,4 +1,4 @@
-package com.gaparmar.mediaflashback;
+package com.gaparmar.mediaflashback.DataStorage;
 
 /**
  * Created by lxyzh on 3/4/2018.

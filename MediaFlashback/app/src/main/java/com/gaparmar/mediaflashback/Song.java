@@ -201,12 +201,12 @@ public class Song {
 
 
 
-    /************************************** Getters for UI display *******************************/
+    /************************************** Getters for com.gaparmar.mediaflashback.UI display *******************************/
     public String getFileName() {
         return fileName;
     }
 
-    // Getters for UI display
+    // Getters for com.gaparmar.mediaflashback.UI display
 
     /**
      * @return Retrieves the Title of the Song object

@@ -1,26 +1,18 @@
 package com.gaparmar.mediaflashback;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+
+import com.gaparmar.mediaflashback.UI.MainActivity;
+import com.gaparmar.mediaflashback.UI.UINormal;
 
 /**
  * Created by veronica.lin1218 on 2/4/2018.
@@ -212,6 +204,26 @@ public class MusicPlayer extends AppCompatActivity {
         Log.d("MP:loadNewSong", "Loading the new song");
 
         loadMedia(fileName);
+    }
+
+    /**
+     * Add songs in Artist to songsToPlay List
+     * @param a artist
+     */
+    public void loadArtist(Artist a) {
+        resetSong();
+        songsToPlay.clear();
+        ArrayList<String> songs = a.getAllSongs();
+        for (int i = 0; i < songs.size(); i++) {
+            Log.d("MP:loadArtist", "adding all the songs from artist");
+            songsToPlay.add(songs.get(i));
+        }
+        if( firstTime ) firstTime = false;
+        currInd = 0;
+        Log.d("MP:loadArtist", "Loading the first song of the artist");
+
+        loadMedia(songsToPlay.get(0));
+        MainActivity.isPlaying = true;
     }
 
     /**

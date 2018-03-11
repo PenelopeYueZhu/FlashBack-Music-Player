@@ -1,15 +1,16 @@
-package com.gaparmar.mediaflashback;
+package com.gaparmar.mediaflashback.WhereAndWhen;
 
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.os.ResultReceiver;
 import android.util.Log;
+
+import com.gaparmar.mediaflashback.Constant;
+import com.gaparmar.mediaflashback.R;
 
 /**
  * Created by lxyzh on 2/24/2018.

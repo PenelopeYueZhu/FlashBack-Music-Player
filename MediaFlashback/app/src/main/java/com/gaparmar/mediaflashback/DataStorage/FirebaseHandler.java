@@ -1,9 +1,9 @@
-package com.gaparmar.mediaflashback;
+package com.gaparmar.mediaflashback.DataStorage;
 
-import android.app.usage.ConfigurationStats;
-import android.provider.ContactsContract;
 import android.util.Log;
 
+import com.gaparmar.mediaflashback.Constant;
+import com.gaparmar.mediaflashback.Song;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -13,6 +13,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import com.gaparmar.mediaflashback.UI.MainActivity;
 
 /**
  * Created by lxyzh on 3/4/2018.

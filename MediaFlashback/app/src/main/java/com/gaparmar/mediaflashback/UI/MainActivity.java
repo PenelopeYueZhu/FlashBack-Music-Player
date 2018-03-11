@@ -1,4 +1,4 @@
-package com.gaparmar.mediaflashback;
+package com.gaparmar.mediaflashback.UI;
 
 import android.Manifest;
 import android.app.Activity;
@@ -24,6 +24,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+import com.gaparmar.mediaflashback.Friend;
+import com.gaparmar.mediaflashback.WhereAndWhen.AddressRetriver;
+import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
+import com.gaparmar.mediaflashback.DataStorage.FirebaseInfoBus;
+import com.gaparmar.mediaflashback.DataStorage.FirebaseObject;
+import com.gaparmar.mediaflashback.MusicDownloader;
+import com.gaparmar.mediaflashback.MusicPlayer;
+import com.gaparmar.mediaflashback.MusicQueuer;
+import com.gaparmar.mediaflashback.R;
+import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -61,7 +71,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Creates and handles events relating to the regular mode UI screen
+ * Creates and handles events relating to the regular mode com.gaparmar.mediaflashback.UI screen
  */
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
@@ -78,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     // Objects for info updates
     private static FirebaseHandler firebaseHandler;
     private static FirebaseObject firebaseInfoBus;
-    private static FirebaseObserver retriver;
 
     private static ArrayList<String> stoppedInfo = new ArrayList<>();
     public static boolean isPlaying;
@@ -158,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         friendList = new ArrayList<>();
 
 
-        // Initialize UI
+        // Initialize com.gaparmar.mediaflashback.UI
         tracker = new UINormal(this);
         tracker.setButtonFunctions();
 
@@ -167,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             musicQueuer = new MusicQueuer(this);
             musicQueuer.readSongs();
             musicQueuer.readAlbums();
+            musicQueuer.readArtists();
         }
 
         // Initialized the player
@@ -249,8 +259,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
 
         firebaseInfoBus = new FirebaseInfoBus();
-        retriver = new FirebaseRetriver();
-        firebaseInfoBus.register(retriver);
         firebaseInfoBus.register(tracker);
 
 
