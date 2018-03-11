@@ -18,6 +18,7 @@
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp">
 
+
         <TextView
             android:id="@+id/regular_mode_title"
             android:layout_width="match_parent"
