@@ -4,20 +4,9 @@ package tests;
  * Created by Aaron on 2/17/2018.
  */
 
-import android.content.Context;
-import android.support.test.rule.ActivityTestRule;
-import android.util.Log;
-import android.view.View;
-
-import com.gaparmar.mediaflashback.Album;
-import com.gaparmar.mediaflashback.FlashbackPlayer;
-import com.gaparmar.mediaflashback.MainActivity;
-import com.gaparmar.mediaflashback.MusicQueuer;
 import com.gaparmar.mediaflashback.R;
 import com.gaparmar.mediaflashback.Song;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.ArrayList;

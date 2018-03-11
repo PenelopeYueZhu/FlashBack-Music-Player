@@ -4,17 +4,12 @@ import android.content.Context;
 import android.support.test.rule.ActivityTestRule;
 import android.util.Log;
 
-import com.gaparmar.mediaflashback.Album;
-import com.gaparmar.mediaflashback.MainActivity;
+import com.gaparmar.mediaflashback.UI.MainActivity;
 import com.gaparmar.mediaflashback.MusicDownloader;
-import com.gaparmar.mediaflashback.MusicQueuer;
-import com.gaparmar.mediaflashback.Song;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 

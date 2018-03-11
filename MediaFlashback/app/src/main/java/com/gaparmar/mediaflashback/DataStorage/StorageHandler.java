@@ -1,4 +1,4 @@
-package com.gaparmar.mediaflashback;
+package com.gaparmar.mediaflashback.DataStorage;
 
 import android.content.Context;
 import android.content.SharedPreferences;

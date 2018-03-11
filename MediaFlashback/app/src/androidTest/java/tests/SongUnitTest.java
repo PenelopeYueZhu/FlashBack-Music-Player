@@ -3,7 +3,7 @@ package tests;
 import android.content.Context;
 import android.support.test.rule.ActivityTestRule;
 
-import com.gaparmar.mediaflashback.MainActivity;
+import com.gaparmar.mediaflashback.UI.MainActivity;
 import com.gaparmar.mediaflashback.Song;
 
 import org.junit.Before;

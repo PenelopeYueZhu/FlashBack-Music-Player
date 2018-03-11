@@ -1,7 +1,5 @@
-package com.gaparmar.mediaflashback;
+package com.gaparmar.mediaflashback.UI;
 
-import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,58 +11,84 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.gaparmar.mediaflashback.Album;
+import com.gaparmar.mediaflashback.MusicPlayer;
+import com.gaparmar.mediaflashback.MusicQueuer;
+import com.gaparmar.mediaflashback.R;
+
 import java.util.ArrayList;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TracksFragment.OnFragmentInteractionListener} interface
+ * {@link AlbumsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TracksFragment#newInstance} factory method to
+ * Use the {@link AlbumsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TracksFragment extends Fragment {
+public class AlbumsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private ListView mListView;
-    private MusicQueuer mq;
+
     private MusicPlayer mp;
+    private MusicQueuer mq;
 
-    public TracksFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * The required empty constructor
+     */
+    public AlbumsFragment() {}
 
-    public static TracksFragment newInstance() {
-        TracksFragment fragment = new TracksFragment();
+    public static AlbumsFragment newInstance() {
+        AlbumsFragment fragment = new AlbumsFragment();
         Bundle args = new Bundle();
         return fragment;
     }
 
+    /**
+     * Runs when the activity is created
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        mq =MainActivity.getMusicQueuer();
+
+        mq = MainActivity.getMusicQueuer();
         mp = MainActivity.getMusicPlayer();
     }
 
+    /**
+     * Runs when the view is created
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return The view created by the activity
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tracks, container, false);
+
+        return inflater.inflate(R.layout.fragment_albums, container, false);
     }
 
+    /**
+     * Creates the buttons that are displayed and causes them to play
+     * the selected album
+     * @param view
+     * @param savedInstanceState
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
 
-        final ArrayList<String> songs = mq.getEntireSongList();
+        final ArrayList<String> albums = mq.getEntireAlbumList();
         mListView = (ListView)getView().findViewById(R.id.album_list);
-        String[] titles = new String[songs.size()];
+        String[] titles = new String[albums.size()];
 
+        // Loads in the album titles
         for(int i = 0; i < titles.length; ++i){
-            titles[i] = mq.getSong(songs.get(i)).getTitle();
+            titles[i] = albums.get(i);
         }
 
         ArrayAdapter adapter = new ArrayAdapter(this.getContext(),
@@ -73,15 +97,21 @@ public class TracksFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                String fileName = mq.getSong( songs.get(position)).getFileName();
-                System.out.println( "Song is clicked " + mq.getSong(fileName).getTitle());
-                mp.loadNewSong(fileName);
+                Album a = mq.getAlbum(albums.get(position));
+
+                mp.loadAlbum(a);
                 MainActivity.isPlaying = true;
                 onDetach();
             }
         });
     }
 
+    // TODO: Rename method, update argument and hook method into com.gaparmar.mediaflashback.UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
 
     @Override
     public void onDetach() {

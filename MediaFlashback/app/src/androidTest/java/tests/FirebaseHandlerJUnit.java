@@ -3,21 +3,14 @@ package tests;
 /**
  * Created by lxyzh on 3/4/2018.
  */
-import android.provider.ContactsContract;
-import android.support.test.espresso.core.deps.guava.io.FileBackedOutputStream;
 
-import com.gaparmar.mediaflashback.FirebaseHandler;
-import com.gaparmar.mediaflashback.Song;
+import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
 import com.gaparmar.mediaflashback.SongString;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 

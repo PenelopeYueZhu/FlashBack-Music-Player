@@ -1,4 +1,4 @@
-package com.gaparmar.mediaflashback;
+package com.gaparmar.mediaflashback.UI;
 
 
 import android.content.Context;
@@ -14,6 +14,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.gaparmar.mediaflashback.FlashbackPlayer;
+import com.gaparmar.mediaflashback.MusicQueuer;
+import com.gaparmar.mediaflashback.R;
+import com.gaparmar.mediaflashback.Song;
+import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
 import com.google.android.gms.location.FusedLocationProviderClient;
 
 import java.util.ArrayList;
@@ -72,7 +77,7 @@ public class FlashbackActivity extends AppCompatActivity {
 
     /**
      * Runs when the activity is created. Initializes the buttons,
-     * UI, and music functinos
+     * com.gaparmar.mediaflashback.UI, and music functinos
      * @param savedInstanceState The saved Bundle passed in
      */
     @Override
@@ -155,7 +160,7 @@ public class FlashbackActivity extends AppCompatActivity {
 
 
 
-        // Thread behind the scenes to update UI
+        // Thread behind the scenes to update com.gaparmar.mediaflashback.UI
         handler = new Handler();
         handler.post(new Runnable() {
             @Override
@@ -247,7 +252,7 @@ public class FlashbackActivity extends AppCompatActivity {
     }
 
         /**
-         * Updates the displayed track information on the UI
+         * Updates the displayed track information on the com.gaparmar.mediaflashback.UI
          * @param currentSong The song that is currently playing
          */
     public void updateTrackInfo(Song currentSong) {

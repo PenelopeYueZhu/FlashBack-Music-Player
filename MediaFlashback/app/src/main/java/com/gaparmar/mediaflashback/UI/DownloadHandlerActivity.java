@@ -1,4 +1,4 @@
-package com.gaparmar.mediaflashback;
+package com.gaparmar.mediaflashback.UI;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.Calendar;
+import com.gaparmar.mediaflashback.MusicDownloader;
+import com.gaparmar.mediaflashback.R;
 
 public class DownloadHandlerActivity extends AppCompatActivity {
     EditText EditText_url;

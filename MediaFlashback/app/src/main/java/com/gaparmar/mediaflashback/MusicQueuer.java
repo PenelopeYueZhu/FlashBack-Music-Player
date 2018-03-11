@@ -3,27 +3,25 @@ package com.gaparmar.mediaflashback;
 import android.content.Context;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
 
+import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
+import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
+import com.gaparmar.mediaflashback.WhereAndWhen.AddressRetriver;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.CopyOnWriteArrayList;
+
+import com.gaparmar.mediaflashback.UI.MainActivity;
 
 /**
  * Created by veronica.lin1218 on 2/12/2018.
@@ -358,7 +356,7 @@ public class MusicQueuer {
 
     ArrayList<Song>sortedList = new ArrayList<Song>();
 
-    protected int updateProbablity( String filename ){
+    public int updateProbablity( String filename ){
         Song track = getSong(filename);
         Log.d("VQ:updateProbability", "Updating song " + track.getTitle());
         int prob = 1;
@@ -396,7 +394,7 @@ public class MusicQueuer {
     /**
      * Compile a list of songs to play for vibe mode
      */
-    protected void makeVibeList(){
+    public void makeVibeList(){
         for(String filename : getEntireSongList()){
             Song song = getSong(filename);
             updateProbablity( filename );

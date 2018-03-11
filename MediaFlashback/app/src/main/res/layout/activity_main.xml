@@ -7,7 +7,7 @@
     android:background="#232625"
     android:gravity="center_vertical|fill"
     android:orientation="vertical"
-    tools:context="com.gaparmar.mediaflashback.MainActivity"
+    tools:context="com.gaparmar.mediaflashback.UI.MainActivity"
     tools:layout_editor_absoluteY="81dp">
 
     <LinearLayout

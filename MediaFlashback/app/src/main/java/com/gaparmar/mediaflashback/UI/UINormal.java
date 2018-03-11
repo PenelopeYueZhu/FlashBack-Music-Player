@@ -1,9 +1,8 @@
-package com.gaparmar.mediaflashback;
+package com.gaparmar.mediaflashback.UI;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
-import android.support.constraint.solver.widgets.ConstraintAnchor;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -11,13 +10,22 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gaparmar.mediaflashback.Constant;
+import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
+import com.gaparmar.mediaflashback.DataStorage.FirebaseObserver;
+import com.gaparmar.mediaflashback.MusicDownloader;
+import com.gaparmar.mediaflashback.MusicPlayer;
+import com.gaparmar.mediaflashback.MusicQueuer;
+import com.gaparmar.mediaflashback.R;
+import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
+
 import java.util.ArrayList;
 
 /**
  * Created by lxyzh on 2/17/2018.
  */
 
-public class UINormal implements FirebaseObserver{
+public class UINormal implements FirebaseObserver {
 
     final String NEUTRAL = "Neutral";
     final String LIKE = "Liked";
@@ -112,7 +120,7 @@ public class UINormal implements FirebaseObserver{
     public void setButtonFunctions() {
         // Set the button's functions
 
-        // Plays the song and updates the UI when the play button is pressed
+        // Plays the song and updates the com.gaparmar.mediaflashback.UI when the play button is pressed
         playButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,7 +141,7 @@ public class UINormal implements FirebaseObserver{
 
         });
 
-        // Pauses the song and updates the UI when the pause button is pressed
+        // Pauses the song and updates the com.gaparmar.mediaflashback.UI when the pause button is pressed
         pauseButton.setOnClickListener( new View.OnClickListener(){
             @Override
             public void onClick( View view ) {
@@ -143,7 +151,7 @@ public class UINormal implements FirebaseObserver{
             }
         });
 
-        // Skips to the next song and updates the UI when the next button is pressed
+        // Skips to the next song and updates the com.gaparmar.mediaflashback.UI when the next button is pressed
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,7 +173,7 @@ public class UINormal implements FirebaseObserver{
             }
         });
 
-        // Goes to previous song and updates UI when previous button is pressed
+        // Goes to previous song and updates com.gaparmar.mediaflashback.UI when previous button is pressed
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -255,7 +263,7 @@ public class UINormal implements FirebaseObserver{
     }
 
     /**
-     * Grab information about the song that's playing right now and display on UI
+     * Grab information about the song that's playing right now and display on com.gaparmar.mediaflashback.UI
      */
     public void updateTrackInfo() {
         Log.d("UINormal", "Reset displayed information of the song to the current song");
@@ -362,7 +370,7 @@ public class UINormal implements FirebaseObserver{
     }
 
     /**
-     * Changes all elements of the UI to their default value
+     * Changes all elements of the com.gaparmar.mediaflashback.UI to their default value
      */
     public void resetInfo(){
         Log.d("UINomral", "Reset displayed information of songs to NONE");
