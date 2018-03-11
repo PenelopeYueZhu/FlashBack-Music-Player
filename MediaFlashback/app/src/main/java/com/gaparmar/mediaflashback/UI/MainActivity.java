@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private static ArrayList<String> stoppedInfo = new ArrayList<>();
     public static boolean isPlaying;
     private static boolean browsing = false;
+    private static boolean firstTime = true;
     private static ArrayList<Friend> friendList;
 
     GoogleApiClient mGoogleApiClient;
@@ -134,25 +135,26 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         //signInButton = (SignInButton)findViewById(R.id.main_googlesigninbtn);
         ///signInButton.setOnClickListener(this);
 
-        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                // The serverClientId is an OAuth 2.0 web client ID
-                .requestServerAuthCode("292202723687-bfhvb9ntufbr7dti0bnt0a1holr76vu0.apps.googleusercontent.com")
-                .requestEmail()
-                .requestScopes(new Scope(Scopes.PLUS_LOGIN),
-                        new Scope(PeopleScopes.CONTACTS_READONLY),
-                        new Scope(PeopleScopes.USER_EMAILS_READ),
-                        new Scope(PeopleScopes.USERINFO_EMAIL),
-                        new Scope(PeopleScopes.USER_PHONENUMBERS_READ))
-                .build();
+        if(firstTime) {
+            firstTime = false;
+            GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    // The serverClientId is an OAuth 2.0 web client ID
+                    .requestServerAuthCode("292202723687-bfhvb9ntufbr7dti0bnt0a1holr76vu0.apps.googleusercontent.com")
+                    .requestEmail()
+                    .requestScopes(new Scope(Scopes.PLUS_LOGIN),
+                            new Scope(PeopleScopes.CONTACTS_READONLY))
+                    .build();
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
-                .addOnConnectionFailedListener(this)
-                .addConnectionCallbacks(this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
-                .build();
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .enableAutoManage(this, this)
+                    .addOnConnectionFailedListener(this)
+                    .addConnectionCallbacks(this)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
+                    .build();
 
-        getIdToken();
+            getIdToken();
+            mGoogleApiClient.connect();
+        }
 
         // Stores the days of the week
         weekDays = new HashMap<String, Integer>();
@@ -405,7 +407,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public void onStart(){
         super.onStart();
-        mGoogleApiClient.connect();
         if(StorageHandler.getLastMode(this) == 1){
             //launchFlashbackActivity();
         }
