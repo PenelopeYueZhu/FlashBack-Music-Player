@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.gaparmar.mediaflashback.Constant;
 import com.gaparmar.mediaflashback.Song;
+import com.gaparmar.mediaflashback.UI.MainActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -11,10 +12,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.gaparmar.mediaflashback.UI.MainActivity;
 
 /**
  * Created by lxyzh on 3/4/2018.
@@ -290,4 +290,109 @@ public class FirebaseHandler {
             }
         });
     }
+
+
+    /**
+     * NEW FIREBASE FUNCTIONS THAT SHOULD BE ACTUALLY CALLED
+     */
+
+    /**
+     * Saves the Song object to the new_song_list subdirectory and the song_log directory
+     * Ensures there are no 2 songs with the same song_title field
+     * @param song The song to be added
+     */
+    public static void saveSongToSongList(Song song){
+        Log.d("FH:saveSong", "Saving song with file name " + song.getFileName());
+        DatabaseReference ref = database.getReference();
+        final Song song_ref = song;
+        DatabaseReference newRef = ref.child("new_song_list").push();
+        newRef.setValue(song);
+        // Checks if the current song got added twice
+        Query songQuery = ref.child("new_song_list").orderByChild("title").equalTo(song.getTitle());
+        songQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() > 1)
+                    dataSnapshot.getChildren().iterator().next().getRef().setValue(null);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+        // Create the song in the songs_logs subdirectory
+        ref = database.getReference();
+        songQuery = ref.child("song_logs").orderByChild("song_title").equalTo(song.getTitle());
+        songQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() < 1){
+                    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference ref = database.getReference();
+                    HashMap<String, String> t = new HashMap<>();
+                    t.put("song_title", song_ref.getTitle());
+                    ref.child("song_logs").push().setValue(t);
+                    System.out.println(t.toString());
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+
+    /**
+     * @param songName Name of the Song that got played
+     * @param locationPlayed The location the song was played at
+     * @param userName Name of the user that played the song
+     * @param timestamp The timestamp of when the song got played
+     * @param latitude Where the song got played
+     * @param longitude Where the song got played
+     */
+    public static void logToFirebase(String songName, String locationPlayed, String userName,
+                                     int timestamp, double latitude, double longitude){
+        final LogInstance temp = new LogInstance(locationPlayed, userName, timestamp, latitude, longitude);
+        Query query = ref.child("song_logs").orderByChild("song_title").equalTo(songName);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                    data.getRef().child("logs").push().setValue(temp);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+    /**
+     * IMPORTANT:: note that this function takes a while to update the list
+     * @param songName The name of the song
+     * @param  list The list to be populated
+     */
+    public static void getLogList(String songName, final ArrayList<LogInstance> list){
+
+        Query query = ref.child("song_logs").orderByChild("song_title").equalTo(songName);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                    for (DataSnapshot d : data.child("logs").getChildren()){
+                        double lati = Double.parseDouble(d.child("latitude").getValue().toString());
+                        double longi = Double.parseDouble(d.child("longitude").getValue().toString());
+                        String locationPlayed = d.child("locationPlayed").getValue().toString();
+                        int time = Integer.parseInt(d.child("timestamp").getValue().toString());
+                        String user = d.child("userName").getValue().toString();
+                        list.add(new LogInstance(locationPlayed, user, time, lati, longi));
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }
+
+
