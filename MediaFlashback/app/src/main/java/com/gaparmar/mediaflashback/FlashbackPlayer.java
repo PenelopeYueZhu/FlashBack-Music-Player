@@ -18,8 +18,6 @@ import java.util.List;
 public class FlashbackPlayer extends MusicPlayer {
     private Context context;
 
-    VibeQueuer vibeQueuer;
-
     ArrayList<Song> sortedList = new ArrayList<Song>();
     ArrayList<String> allSongs = new ArrayList<String>();
     private static class SongCompare implements Comparator<Song>{
@@ -36,8 +34,6 @@ public class FlashbackPlayer extends MusicPlayer {
     public FlashbackPlayer( final Context current, MusicQueuer musicQueuer) {
         super(current, musicQueuer);
         this.context = current;
-        vibeQueuer = new VibeQueuer(context);
-
     }
 
     /**

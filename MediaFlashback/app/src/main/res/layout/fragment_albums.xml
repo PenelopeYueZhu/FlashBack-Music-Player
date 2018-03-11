@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    tools:context="com.gaparmar.mediaflashback.AlbumsFragment">
+    tools:context="com.gaparmar.mediaflashback.UI.AlbumsFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <ListView

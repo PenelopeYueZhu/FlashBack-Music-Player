@@ -3,11 +3,10 @@ package tests;
 import android.content.Context;
 import android.support.test.rule.ActivityTestRule;
 
-import com.gaparmar.mediaflashback.MainActivity;
-import com.gaparmar.mediaflashback.MusicPlayer;
-import com.gaparmar.mediaflashback.MusicQueuer;
+import com.gaparmar.mediaflashback.UI.MainActivity;
+
 import com.gaparmar.mediaflashback.Song;
-import com.gaparmar.mediaflashback.StorageHandler;
+import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
 
 import org.junit.Before;
 import org.junit.Rule;

@@ -2,10 +2,9 @@ package tests;
 
 import android.content.Context;
 import android.support.test.rule.ActivityTestRule;
-import android.util.Log;
 
 import com.gaparmar.mediaflashback.Album;
-import com.gaparmar.mediaflashback.MainActivity;
+import com.gaparmar.mediaflashback.UI.MainActivity;
 import com.gaparmar.mediaflashback.MusicQueuer;
 import com.gaparmar.mediaflashback.Song;
 

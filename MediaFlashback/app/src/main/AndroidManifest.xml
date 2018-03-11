@@ -24,21 +24,21 @@
         android:theme="@style/AppTheme">
 
 
-        <service android:name=".FetchAddressIntentService"
+        <service android:name=".WhereAndWhen.FetchAddressIntentService"
             android:exported="false"/>
 
-        <activity android:name=".MainActivity">
+        <activity android:name="com.gaparmar.mediaflashback.UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FlashbackActivity" />
+        <activity android:name="com.gaparmar.mediaflashback.UI.FlashbackActivity" />
         <activity
-            android:name=".LibraryActivity"
+            android:name="com.gaparmar.mediaflashback.UI.LibraryActivity"
             android:label="@string/title_activity_library" />
-        <activity android:name=".DownloadHandlerActivity"></activity>
+        <activity android:name="com.gaparmar.mediaflashback.UI.DownloadHandlerActivity"></activity>
     </application>
 
 </manifest>

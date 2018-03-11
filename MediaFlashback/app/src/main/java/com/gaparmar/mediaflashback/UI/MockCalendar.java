@@ -1,4 +1,4 @@
-package com.gaparmar.mediaflashback;
+package com.gaparmar.mediaflashback.UI;
 
 import java.util.Calendar;
 
