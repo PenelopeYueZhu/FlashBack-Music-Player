@@ -4,6 +4,8 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -37,27 +39,31 @@ public class MusicDownloader {
     /**
      * Download song given a URL and it's song name to myDownloads folder (raw folder is RO)
      * @param url string link
-     * @param songTitle title of song
+     * @param filename Name of file to be downloaded
      *  @param type mp3 (for song) or zip (for album)
      */
-    public void downloadData(String url, String songTitle, String type) {
+    public void downloadData(String url, String filename, String type) {
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
 
         request.setDescription(url);
-        request.setTitle(songTitle);
+        request.setTitle(filename);
 
-        request.setDestinationInExternalPublicDir(MEDIA_PATH, songTitle+"." + type);
+        request.setDestinationInExternalPublicDir(MEDIA_PATH, filename+"." + type);
         DownloadManager dm = (DownloadManager) myContext.getSystemService(DOWNLOAD_SERVICE);
 
         // add song to download list
         dm.enqueue(request);
+        if (type.equals("zip")) {
+            unZip(MEDIA_PATH+File.pathSeparator, MEDIA_PATH+File.pathSeparator, filename +".zip");
+        }
     }
 
     /**
      * Unzip a file (album) for its songs
      * Source: https://stackoverflow.com/questions/3382996/how-to-unzip-files-programmatically-in-android
-     * @param path
-     * @param zipName
+     * @param path Directory to save album in
+     * @param targetDir Album Name
+     * @param zipName filename
      */
     public boolean unZip(String path, String targetDir, String zipName) {
         InputStream is;
@@ -76,7 +82,7 @@ public class MusicDownloader {
                 songFileName = ze.getName();
 
                 if (ze.isDirectory()) {
-                    File song = new File(targetDir + songFileName);
+                    File song = new File(path + songFileName);
                     song.mkdirs();
                     continue;
                 }

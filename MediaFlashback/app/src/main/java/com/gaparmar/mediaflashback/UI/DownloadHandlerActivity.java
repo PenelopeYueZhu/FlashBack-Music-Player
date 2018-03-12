@@ -48,7 +48,11 @@ public class DownloadHandlerActivity extends AppCompatActivity {
         } else{
             String url = EditText_url.getText().toString();
             Toast.makeText(this, "Downloading from " + url, Toast.LENGTH_SHORT).show();
-            musicDownloader.downloadData(url, "Song name", "mp3");
+            if (url.contains("zip")) {
+                musicDownloader.downloadData(url, "Song name", "zip");
+            } else {
+                musicDownloader.downloadData(url, "Song name", "mp3");
+            }
         }
      }
 
