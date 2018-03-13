@@ -308,7 +308,11 @@ public class UINormal implements FirebaseObserver {
     }
 
     public void updateDayOfWeek( String filename, String dayOfWeek ){
-        songTimeDisplay.setText( timeOfDay + " on " + dayOfWeek );
+        Log.d("UINormal:updateTime", "updating time to " + dayOfWeek);
+        //songTimeDisplay.setText( timeOfDay + " on " + dayOfWeek );
+        songTimeDisplay.setText( "tuesday" );
+        Log.d("UINormal:updateTime", "updating timek");
+
     }
 
     public void updateUserName( String filename, String userName ) {

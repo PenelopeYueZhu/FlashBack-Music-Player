@@ -1,5 +1,7 @@
 package com.gaparmar.mediaflashback.DataStorage;
 
+import android.util.Log;
+
 import com.gaparmar.mediaflashback.Song;
 
 import java.util.ArrayList;
@@ -92,6 +94,7 @@ public class FirebaseInfoBus implements FirebaseObject {
      * @param time the time lastly played the song last time
      */
     public void notifyTime( String filename, long time ) {
+        Log.d("FBInfoBus", "NofifyTime gets called");
         for (FirebaseObserver observer : observers) {
             observer.updateTime(filename, time);
         }

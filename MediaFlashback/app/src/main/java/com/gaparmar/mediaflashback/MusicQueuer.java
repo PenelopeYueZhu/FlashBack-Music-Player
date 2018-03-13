@@ -128,7 +128,6 @@ public class MusicQueuer implements FirebaseObserver{
             artist = Constant.UNKNOWN;
 
         Song song = new Song(fileName);
-        System.err.println("In added song, we got the old filename as " + fileName + " and new filename as " + Song.reformatFileName(fileName));
         song.setMetadata(title, album, artist,year);
         // Put the song object inside the track hashmap
         allTracks.put(fileName, song);
@@ -331,8 +330,9 @@ public class MusicQueuer implements FirebaseObserver{
         getSong(ID).setTime(timeOfDay);
         StorageHandler.storeSongTime(context, ID, timeOfDay);
 
+        FirebaseHandler.storeUsername(ID, MainActivity.me.getName());
         FirebaseHandler.saveSongToSongList(getSong(ID));
-        FirebaseHandler.logToFirebase(ID, ar.getAddress(), "Username",
+        FirebaseHandler.logToFirebase(ID, ar.getAddress(), MainActivity.me.getName(),
                 weekdayStr, timeStamp, timeOfDay, ar.getLatLon()[0], ar.getLatLon()[1]);
     }
 

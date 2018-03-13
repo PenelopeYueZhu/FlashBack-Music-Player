@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private static boolean inDownloadScreen = false;
     private static boolean viewingTracklist = false;
     private static ArrayList<Friend> friendList;
-    private static Friend me;
+    public static Friend me;
 
     GoogleApiClient mGoogleApiClient;
 
@@ -138,7 +138,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        // Initialize com.gaparmar.mediaflashback.UI
+        tracker = new UINormal(this);
+        tracker.setButtonFunctions();
 
         //signInButton = (SignInButton)findViewById(R.id.main_googlesigninbtn);
         ///signInButton.setOnClickListener(this);
@@ -176,22 +178,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         friendList = new ArrayList<>();
 
-
-        // Initialize com.gaparmar.mediaflashback.UI
-        tracker = new UINormal(this);
-        tracker.setButtonFunctions();
-
         Intent intent = new Intent(this, BackgroundService.class);
         getApplicationContext().startService(intent);
         intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
 
-        musicPlayer = BackgroundService.getMusicPlayer();
-        musicQueuer = BackgroundService.getMusicQueuer();
-        if (musicPlayer == null) {
-            Log.d("NULL MP", "MP NULL");
+       // musicPlayer = BackgroundService.getMusicPlayer();
+       // musicQueuer = BackgroundService.getMusicQueuer();
+       // if (musicPlayer == null) {
+        //    Log.d("NULL MP", "MP NULL");
 //            Log.d("NULL MP", "is instance created? " + BackgroundService.isInstanceCreated());
 
-        }
+       // }
 
         // Initializie the song functions
      /*   if (musicQueuer == null) {
@@ -250,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if (musicDownloader == null) {
             musicDownloader = new MusicDownloader(this);
         }
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+      /*  mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         try {
             mFusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -265,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     });
         } catch (SecurityException e) {
             System.out.println("Security Alert");
-        }
+        }*/
 
         // Initialize the addresss retriver
         if (addressRetriver == null) {
@@ -280,10 +277,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             tracker.setButtonsPlaying();
         }
 */
-        firebaseInfoBus = new FirebaseInfoBus();
-        firebaseInfoBus.register(tracker);
-        firebaseInfoBus.register(musicQueuer);
-
 
         //mPlayer.loadMedia(R.raw.replay);
         Button launchFlashbackActivity = findViewById(R.id.flashback_button);
@@ -311,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         launchFlashbackActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isPlaying = musicPlayer.isPlaying();
+                isPlaying = BackgroundService.getMusicPlayer().isPlaying();
                 StorageHandler.storeLastMode(MainActivity.this, 1);
                 launchFlashbackActivity();
             }
@@ -524,8 +517,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if(!browsing && !viewingTracklist && !inDownloadScreen) {
             if (isPlaying) {
                 // If they are, the song pauses
-                stoppedInfo = musicPlayer.stopPlaying();
-                musicPlayer.pauseSong();
+                stoppedInfo = BackgroundService.getMusicPlayer().stopPlaying();
+                BackgroundService.getMusicPlayer().pauseSong();
                 isPlaying = true;
             } else {
                 isPlaying = false;

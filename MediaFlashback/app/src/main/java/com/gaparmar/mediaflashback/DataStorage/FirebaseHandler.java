@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.gaparmar.mediaflashback.Constant;
 import com.gaparmar.mediaflashback.Song;
+import com.gaparmar.mediaflashback.UI.BackgroundService;
 import com.gaparmar.mediaflashback.UI.MainActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -209,7 +210,7 @@ public class FirebaseHandler {
                                 address = Constant.UNKNOWN;
                             }
                             else address = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString);
-                            MainActivity.getFirebaseInfoBus().notifyAddress(filename, address);
+                            BackgroundService.getFirebaseInfoBus().notifyAddress(filename, address);
                             break;
 
                         case Constant.TIME_FIELD:
@@ -219,7 +220,7 @@ public class FirebaseHandler {
                                 time = Constant.UNKNOWN_INT;
                             }
                             else time = (Long) ((HashMap) ((HashMap) dataSnapshot.getValue()).get(fileID)).get(fieldString);
-                            MainActivity.getFirebaseInfoBus().notifyTime(filename, time);
+                            BackgroundService.getFirebaseInfoBus().notifyTime(filename, time);
                             break;
 
                         case Constant.STAMP_FIELD:
@@ -229,7 +230,7 @@ public class FirebaseHandler {
                                 timeStamp = Constant.UNKNOWN_INT;
                             }
                             timeStamp = (Integer)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString);
-                            MainActivity.getFirebaseInfoBus().notifyTimeStamp(filename, timeStamp);
+                            BackgroundService.getFirebaseInfoBus().notifyTimeStamp(filename, timeStamp);
                             break;
 
                         case Constant.WEEKDAY_FIELD:
@@ -239,7 +240,7 @@ public class FirebaseHandler {
                                 dayOfWeek = Constant.UNKNOWN;
                             }
                             else dayOfWeek = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString);
-                            MainActivity.getFirebaseInfoBus().notifyDayOfWeek(filename, dayOfWeek);
+                            BackgroundService.getFirebaseInfoBus().notifyDayOfWeek(filename, dayOfWeek);
                             break;
 
                         case Constant.USER_FIELD:
@@ -249,17 +250,17 @@ public class FirebaseHandler {
                                 userName = Constant.UNKNOWN;
                             }
                             else userName = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString);
-                            MainActivity.getFirebaseInfoBus().notifyUserName(filename, userName);
+                            BackgroundService.getFirebaseInfoBus().notifyUserName(filename, userName);
                             break;
 
                         case Constant.COORD_FIELD:
                             double lat = (Double)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get("lat");
                             Log.d("FH:getLocation", "Retrieved latitude: " + lat);
                             double lon = (Double)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get("lon");
-                            MainActivity.getFirebaseInfoBus().notifyLocation(filename,lat, lon);
+                            BackgroundService.getFirebaseInfoBus().notifyLocation(filename,lat, lon);
                             break;
 
-                        case Constant.RATE_FIELD:
+                        /*case Constant.RATE_FIELD:
                             long rate;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString) == null ){
                                 rate = Constant.UNKNOWN_INT;
@@ -267,7 +268,7 @@ public class FirebaseHandler {
                             }
                             else rate = (Long) ((HashMap) ((HashMap) dataSnapshot.getValue()).get(fileID)).get(fieldString);
                             MainActivity.getFirebaseInfoBus().notifyRate(filename, rate);
-                            break;
+                            break;*/
 
                         case Constant.PROB_FIELD:
                             int prob;
@@ -276,7 +277,7 @@ public class FirebaseHandler {
                                 Log.d("FH:getAddress", fieldString + " does not exist");
                             }
                             else prob = (int) ((HashMap) ((HashMap) dataSnapshot.getValue()).get(fileID)).get(fieldString);
-                            MainActivity.getFirebaseInfoBus().notifyProb(filename, prob);
+                            BackgroundService.getFirebaseInfoBus().notifyProb(filename, prob);
                             break;
 
                         default:
@@ -313,7 +314,7 @@ public class FirebaseHandler {
         DatabaseReference newRef = ref.child("song_list").push();
         newRef.setValue(song);
         // Checks if the current song got added twice
-        Query songQuery = ref.child("new_song_list").orderByChild("title").equalTo(fireId);
+        Query songQuery = ref.child("song_list").orderByChild("firebaseID").equalTo(fireId);
         songQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -357,7 +358,7 @@ public class FirebaseHandler {
                     Log.d("FH:getSongList", "getting the remote song list " + filename);
                     songList.add(filename);
                 }
-                MainActivity.getFirebaseInfoBus().notifySongList(songList);
+                BackgroundService.getFirebaseInfoBus().notifySongList(songList);
             }
 
             @Override
@@ -424,7 +425,7 @@ public class FirebaseHandler {
                     }
                 }
                 System.err.println("size of the list is " + list.size() );
-                MainActivity.getFirebaseInfoBus().notifyLogList(fileName, list);
+                BackgroundService.getFirebaseInfoBus().notifyLogList(fileName, list);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
