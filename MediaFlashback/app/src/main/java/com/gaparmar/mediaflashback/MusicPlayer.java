@@ -25,7 +25,7 @@ public class MusicPlayer extends AppCompatActivity {
     protected MusicQueuer musicQueuer;
     protected MediaPlayer mediaPlayer;
     protected UINormal tracker;
-    protected List<String> songsToPlay;
+    protected ArrayList<String> songsToPlay;
     protected int currInd = 0;
     protected boolean isFinished = false;
     protected boolean firstTime = true; /* flag representing if this is first song played */
@@ -192,6 +192,14 @@ public class MusicPlayer extends AppCompatActivity {
             tracker.updateToggle();
 
         }
+    }
+
+    /**
+     * Return current tracklist
+     * @return
+     */
+    public ArrayList<String> getTrackList() {
+        return songsToPlay;
     }
 
     public void loadNewSong(String fileName) {

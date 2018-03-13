@@ -44,8 +44,8 @@ public class FavoritesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mq = MainActivity.getMusicQueuer();
-        mp = MainActivity.getMusicPlayer();
+        mq = BackgroundService.getMusicQueuer();
+        mp = BackgroundService.getMusicPlayer();
     }
 
     @Override

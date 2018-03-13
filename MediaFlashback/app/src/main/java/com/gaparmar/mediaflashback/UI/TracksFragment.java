@@ -47,8 +47,8 @@ public class TracksFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        mq = MainActivity.getMusicQueuer();
-        mp = MainActivity.getMusicPlayer();
+        mq = BackgroundService.getMusicQueuer();
+        mp = BackgroundService.getMusicPlayer();
     }
 
     @Override

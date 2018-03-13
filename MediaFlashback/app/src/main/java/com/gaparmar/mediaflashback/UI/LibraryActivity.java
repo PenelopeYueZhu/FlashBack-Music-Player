@@ -30,21 +30,25 @@ public class LibraryActivity extends AppCompatActivity {
             // Checks if the user selected the tracks screen
             switch (item.getItemId()) {
                 case R.id.navigation_songs:
+                    mTextMessage.setText("Tracks");
                     Log.d("LibraryActivity", "Opening up Tracks tab");
                     selectedFragment = TracksFragment.newInstance();
                     break;
                 // Checks if the user selected the albums screen
                 case R.id.navigation_albums:
+                    mTextMessage.setText("Albums");
                     Log.d("LibraryActivity", "Opening up Albums tab");
                     selectedFragment = AlbumsFragment.newInstance();
                     break;
                 // Checks if user selected the Artists tab
                 case R.id.navigation_artists:
+                    mTextMessage.setText("Artists");
                     Log.d("LibraryActivity", "Opening up Artists tab");
                     selectedFragment = ArtistsFragment.newInstance();
                     break;
                 // Checks if user selected Favorites tab
                 case R.id.navigation_favorites:
+                    mTextMessage.setText("Favorites");
                     Log.d("LibraryActivity", "Opening up Favorites tab");
                     selectedFragment = FavoritesFragment.newInstance();
                     break;

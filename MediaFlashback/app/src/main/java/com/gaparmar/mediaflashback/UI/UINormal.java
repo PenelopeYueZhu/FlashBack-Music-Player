@@ -76,8 +76,8 @@ public class UINormal implements FirebaseObserver {
         songTimeDisplay = (TextView) ((Activity)context).findViewById(R.id.song_time);
         songArtistDisplay = (TextView) ((Activity)context).findViewById(R.id.artist_title);
         songAlbumDisplay = (TextView) ((Activity)context).findViewById(R.id.album_title);
-        musicQueuer = MainActivity.getMusicQueuer();
-        musicPlayer = MainActivity.getMusicPlayer();
+        musicQueuer = BackgroundService.getMusicQueuer();
+        musicPlayer = BackgroundService.getMusicPlayer();
         firebaseHandler = MainActivity.getFirebaseHandler();
         musicDownloader = MainActivity.getMusicDownloader();
         this.context = context;
@@ -196,6 +196,8 @@ public class UINormal implements FirebaseObserver {
                 setButtonsPlaying();
             }
         });
+
+
 
         // Switches the liked button and changes the state of the song
         // when clicked.
