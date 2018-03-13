@@ -54,8 +54,8 @@ public class AlbumsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mq = MainActivity.getMusicQueuer();
-        mp = MainActivity.getMusicPlayer();
+        mq = BackgroundService.getMusicQueuer();
+        mp = BackgroundService.getMusicPlayer();
     }
 
     /**

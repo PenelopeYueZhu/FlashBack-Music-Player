@@ -3,6 +3,7 @@ package com.gaparmar.mediaflashback;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
+import com.gaparmar.mediaflashback.UI.BackgroundService;
 import com.gaparmar.mediaflashback.UI.MainActivity;
 
 /**
@@ -23,7 +24,7 @@ public class Album {
     private String albumTitle;
 
     // The music queuer for this album
-    MusicQueuer mq = MainActivity.getMusicQueuer();
+    MusicQueuer mq = BackgroundService.getMusicQueuer();
 
 
     /**

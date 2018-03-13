@@ -12,15 +12,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/linearLayout"
         android:layout_marginTop="30dp">
+
         <EditText
             android:id="@+id/url_entered"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Enter URL here"
             android:layout_marginLeft="15dp"
-            android:textColor="#c4d7f2"/>
+            android:ems="10"
+            android:hint="Enter URL"
+            android:inputType="textPersonName"
+            android:text="https://www.dropbox.com/s/3cv011jyxjnxk56/Taylor%20Swift%20-%20Reputation%20%282017%29.zip?dl=1"
+            android:textColor="#c4d7f2" />
 
         <ImageButton
             android:id="@+id/imageButton"

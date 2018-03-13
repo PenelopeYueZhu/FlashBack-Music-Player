@@ -243,8 +243,21 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="10dp"
             android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/tracklist"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@color/common_google_signin_btn_text_light_disabled"
+                android:onClick="goToTracklist"
+                android:scaleType="fitXY"
+                android:tint="@color/colorAccent"
+                app:srcCompat="@drawable/music_library" />
 
             <ImageButton
                 android:id="@+id/previous_button"
