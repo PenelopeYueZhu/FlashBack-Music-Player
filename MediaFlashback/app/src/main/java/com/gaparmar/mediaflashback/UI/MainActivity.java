@@ -186,24 +186,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         musicPlayer = BackgroundService.getMusicPlayer();
         musicQueuer = BackgroundService.getMusicQueuer();
-        if (musicPlayer == null) {
-            Log.d("NULL MP", "MP NULL");
-//            Log.d("NULL MP", "is instance created? " + BackgroundService.isInstanceCreated());
 
-        }
-
-        // Initializie the song functions
-     /*   if (musicQueuer == null) {
-            musicQueuer = new MusicQueuer(this);
-            musicQueuer.readSongs();
-            musicQueuer.readAlbums();
-            musicQueuer.readArtists();
-        }
-
-        // Initialized the player
-        if (musicPlayer == null) {
-            musicPlayer = new MusicPlayer(this, musicQueuer);
-        }*/
 
         /*if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED &&
@@ -476,9 +459,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Log.d("MainActivity", "Launching library");
         Intent intent = new Intent(this, LibraryActivity.class);
         setResult(Activity.RESULT_OK, intent);
-        musicQueuer.readSongs();
-        musicQueuer.readAlbums();
-        musicQueuer.readArtists();
         browsing = true;
         startActivity(intent);
     }

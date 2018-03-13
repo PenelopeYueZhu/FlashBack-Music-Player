@@ -1,5 +1,6 @@
 package com.gaparmar.mediaflashback.UI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,11 +11,15 @@ import android.widget.Toast;
 import com.gaparmar.mediaflashback.DataStorage.LogInstance;
 import com.gaparmar.mediaflashback.MusicDownloader;
 import com.gaparmar.mediaflashback.R;
+import com.gaparmar.mediaflashback.WhereAndWhen.DownloadService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DownloadHandlerActivity extends AppCompatActivity {
     EditText EditText_url;
+    EditText inputTitle;
     EditText time;
     private MusicDownloader musicDownloader;
     ArrayList<LogInstance> t;
@@ -24,8 +29,14 @@ public class DownloadHandlerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download_handler);
         EditText_url = findViewById(R.id.url_entered);
-        musicDownloader = new MusicDownloader(this);
+        inputTitle = findViewById(R.id.inputTrack);
         time = findViewById(R.id.timeMock);
+
+        Intent intent = new Intent(this, DownloadService.class);
+        getApplicationContext().startService(intent);
+        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+
+        musicDownloader = DownloadService.getMusicDownloader();
 //        t = new ArrayList<>();
 //        FirebaseHandler.getLogList("dank Gaurav 2.0", t);
     }
@@ -44,14 +55,23 @@ public class DownloadHandlerActivity extends AppCompatActivity {
             Toast.makeText(this, t.toString(), Toast.LENGTH_SHORT).show();
 
 
-
         } else{
             String url = EditText_url.getText().toString();
+            String filename = inputTitle.getText().toString();
+            if (filename.equals("")) {
+                Toast.makeText(this, "Please input filename", Toast.LENGTH_SHORT).show();
+            }
             Toast.makeText(this, "Downloading from " + url, Toast.LENGTH_SHORT).show();
-            if (url.contains("zip")) {
-                musicDownloader.downloadData(url, "Song name", "zip");
+
+            // if service is lagging behind and has not initialized musicDownloader
+            if (musicDownloader == null) {
+                musicDownloader = DownloadService.getMusicDownloader();
+            }
+
+            if (url.contains("zip") && !filename.equals("")) {
+                musicDownloader.downloadData(url, filename, "zip");
             } else {
-                musicDownloader.downloadData(url, "Song name", "mp3");
+                musicDownloader.downloadData(url, filename, "mp3");
             }
         }
      }
@@ -60,6 +80,11 @@ public class DownloadHandlerActivity extends AppCompatActivity {
         MockCalendar mockCal = new MockCalendar();
         mockCal.setHour(Integer.parseInt(time.getText().toString()));
      }
+
+    /**
+     * Check if song or album is done downloading
+     * @return
+     */
 
 
 

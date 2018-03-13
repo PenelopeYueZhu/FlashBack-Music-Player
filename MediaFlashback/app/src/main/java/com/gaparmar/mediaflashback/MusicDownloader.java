@@ -5,7 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
@@ -32,6 +34,7 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 public class MusicDownloader {
     private Context myContext;
     private MusicQueuer mq;
+    private DownloadManager dm;
     HashMap<String, String> allUrls = new HashMap<>();
     private final String MEDIA_PATH = Environment.DIRECTORY_DOWNLOADS
                 + File.separator + "myDownloads";
@@ -42,6 +45,7 @@ public class MusicDownloader {
     public MusicDownloader(Context context) {
         myContext = context;
         mq = BackgroundService.getMusicQueuer();
+        dm = (DownloadManager) myContext.getSystemService(DOWNLOAD_SERVICE);
 
     }
 
@@ -54,6 +58,7 @@ public class MusicDownloader {
     public void downloadData(String url, String filename, String type) {
         final String t = type;
         final String filenameReceiver = filename;
+        final String inputURL = url;
         /**
          * Unzip file after download completion
          */
@@ -63,7 +68,10 @@ public class MusicDownloader {
                     File temp = new File(COMPLETE_PATH + File.separator + filenameReceiver + ".zip");
                     Log.d("md:unzip", "Start unzipping " + temp.getParent());
                     unZip(COMPLETE_PATH + File.separator + filenameReceiver + ".zip",
-                            temp.getParent() + File.separator, filenameReceiver +".zip");
+                            temp.getParent() + File.separator, filenameReceiver +".zip", inputURL);
+                } else {
+                    Log.d("MD:Adding URL", "URL for: " + filenameReceiver);
+                    addUrl(filenameReceiver, inputURL);
                 }
             }
         };
@@ -75,12 +83,21 @@ public class MusicDownloader {
         request.setTitle(filename);
 
         request.setDestinationInExternalPublicDir(MEDIA_PATH, filename+"." + type);
-        DownloadManager dm = (DownloadManager) myContext.getSystemService(DOWNLOAD_SERVICE);
+
 
         // add song to download list
         dm.enqueue(request);
 
 
+    }
+
+    /**
+     * Add url along with filename
+     * @param url
+     * @param filename
+     */
+    public void addUrl(String url, String filename) {
+        allUrls.put(filename, url);
     }
 
     /**
@@ -90,7 +107,7 @@ public class MusicDownloader {
      * @param targetDir Album Name
      * @param zipName filename
      */
-    public boolean unZip(String path, String targetDir, String zipName) {
+    public boolean unZip(String path, String targetDir, String zipName, String url) {
         InputStream is;
         ZipInputStream zis;
         Log.d("unzip", "in unzip method " + path);
@@ -119,6 +136,8 @@ public class MusicDownloader {
                 }
                 fout.close();
                 zis.closeEntry();
+                Log.d("MD:Adding URL", "URL for: " + songFileName);
+                addUrl(songFileName, url);
             }
             zis.close();
         } catch (IOException e) {
@@ -128,5 +147,14 @@ public class MusicDownloader {
         return true;
 
 
+    }
+
+    /**
+     * If URL is added, should be done downloading
+     * @param filename
+     * @return
+     */
+    public boolean isDoneDownloading(String filename) {
+        return allUrls.get(filename) != null;
     }
 }

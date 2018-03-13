@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.gaparmar.mediaflashback.MusicQueuer;
 import com.gaparmar.mediaflashback.R;
 
 /**
@@ -20,6 +21,7 @@ public class LibraryActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
 
+    private MusicQueuer mq;
     // Represents the nagivation bar at the bottom to see tracks / albums / ret
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -90,8 +92,13 @@ public class LibraryActivity extends AppCompatActivity {
         transaction.commit();
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        mq = BackgroundService.getMusicQueuer();
 
-
+        if (mq != null) {
+            mq.readSongs();
+            mq.readAlbums();
+            mq.readArtists();
+        }
     }
 
 }

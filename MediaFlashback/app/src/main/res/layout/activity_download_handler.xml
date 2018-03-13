@@ -54,5 +54,17 @@
         android:hint="Enter a Time"
         android:inputType="time" />
 
+    <EditText
+        android:id="@+id/inputTrack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/timeMock"
+        android:layout_below="@+id/timeMock"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="Enter Track TItle"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/white" />
+
 
 </RelativeLayout>
