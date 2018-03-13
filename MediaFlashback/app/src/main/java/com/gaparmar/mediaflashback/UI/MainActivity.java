@@ -2,8 +2,10 @@ package com.gaparmar.mediaflashback.UI;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -11,6 +13,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -21,7 +24,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toolbar;
 
 import com.gaparmar.mediaflashback.Friend;
@@ -51,18 +53,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
-import com.google.api.services.people.v1.People;
 import com.google.api.services.people.v1.PeopleScopes;
-import com.google.api.services.people.v1.model.EmailAddress;
 import com.google.api.services.people.v1.model.ListConnectionsResponse;
 import com.google.api.services.people.v1.model.Name;
 import com.google.api.services.people.v1.model.Person;
-import com.google.api.services.people.v1.model.PhoneNumber;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -75,8 +73,10 @@ import java.util.Map;
  */
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
-    private static MusicPlayer musicPlayer;
-    private static MusicQueuer musicQueuer;
+  //  private static MusicPlayer musicPlayer;
+   // private static MusicQueuer musicQueuer;
+    private MusicPlayer musicPlayer;
+    private MusicQueuer musicQueuer;
 
     // Objects for location
     private static MusicDownloader musicDownloader;
@@ -93,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public static boolean isPlaying;
     private static boolean browsing = false;
     private static boolean firstTime = true;
+    private static boolean inDownloadScreen = false;
+    private static boolean viewingTracklist = false;
     private static ArrayList<Friend> friendList;
 
     GoogleApiClient mGoogleApiClient;
@@ -107,10 +109,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public static Map<String, Integer> weekDays;
 
     // Getters for static variables
-    public static MusicPlayer getMusicPlayer(){
-        return musicPlayer;
-    }
-    public static MusicQueuer getMusicQueuer() { return musicQueuer; }
+    //public static MusicPlayer getMusicPlayer(){
+      //  return musicPlayer;
+    //}
+    //public static MusicQueuer getMusicQueuer() { return musicQueuer; }
 
     public static FirebaseObject getFirebaseInfoBus() { return firebaseInfoBus; }
     public static AddressRetriver getAddressRetriver() {
@@ -126,11 +128,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         return tracker;
     }
 
+    private BackgroundService backgroundService;
+    private boolean isBound;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, 666);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         //signInButton = (SignInButton)findViewById(R.id.main_googlesigninbtn);
         ///signInButton.setOnClickListener(this);
@@ -173,8 +180,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         tracker = new UINormal(this);
         tracker.setButtonFunctions();
 
+        Intent intent = new Intent(this, BackgroundService.class);
+        getApplicationContext().startService(intent);
+        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+
+        musicPlayer = BackgroundService.getMusicPlayer();
+        musicQueuer = BackgroundService.getMusicQueuer();
+        if (musicPlayer == null) {
+            Log.d("NULL MP", "MP NULL");
+//            Log.d("NULL MP", "is instance created? " + BackgroundService.isInstanceCreated());
+
+        }
+
         // Initializie the song functions
-        if (musicQueuer == null) {
+     /*   if (musicQueuer == null) {
             musicQueuer = new MusicQueuer(this);
             musicQueuer.readSongs();
             musicQueuer.readAlbums();
@@ -184,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         // Initialized the player
         if (musicPlayer == null) {
             musicPlayer = new MusicPlayer(this, musicQueuer);
-        }
+        }*/
 
         /*if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED &&
@@ -254,12 +273,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
 
         // Unless there is a song playing when we get back to normal mode, hide the button
-        if (!musicPlayer.wasPlayingSong()) {
+/*        if (!musicPlayer.wasPlayingSong()) {
             tracker.setButtonsPausing();
         } else {
             tracker.setButtonsPlaying();
         }
-
+*/
         firebaseInfoBus = new FirebaseInfoBus();
         firebaseInfoBus.register(tracker);
 
@@ -268,6 +287,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Button launchFlashbackActivity = findViewById(R.id.flashback_button);
         ImageButton playButton =  findViewById(R.id.play_button);
         Button browseBtn = findViewById(R.id.browse_button);
+        ImageButton tracklistBtn = findViewById(R.id.tracklist);
+
+        tracklistBtn.setOnClickListener( new View.OnClickListener(){
+            @Override
+            public void onClick( View view ) {
+                launchTrackListActivtiy();
+            }
+        });
+
 
 
         browseBtn.setOnClickListener(new View.OnClickListener() {
@@ -287,6 +315,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -452,10 +481,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     /**
+     * Launches tracklist
+     */
+    public void launchTrackListActivtiy() {
+        Log.d("MainActivity", "Launching tracklist");
+        viewingTracklist = true;
+        Intent intent = new Intent(this, TracklistActivity.class);
+        setResult(Activity.RESULT_OK, intent);
+        startActivity(intent);
+    }
+
+    /**
      * Launches the download activity screen
      */
     public void launchDownloadActivity(){
         Log.d("MainActivity", "Launching downloads");
+        inDownloadScreen = true;
         Intent intent = new Intent(this, DownloadHandlerActivity.class);
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
@@ -469,7 +510,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onPause();
 
         // Checks if the user is not browsing songs, but is playing one
-        if(!browsing) {
+        if(!browsing && !viewingTracklist && !inDownloadScreen) {
             if (isPlaying) {
                 // If they are, the song pauses
                 stoppedInfo = musicPlayer.stopPlaying();
@@ -478,7 +519,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             } else {
                 isPlaying = false;
             }
-        }else if (browsing && isPlaying){
+        }else if ((browsing || viewingTracklist || inDownloadScreen) && isPlaying ){
             tracker.setButtonsPlaying();
         }
     }
@@ -491,7 +532,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onResume();
         // Checks if the user is playing a song, but now browsing
         if (isPlaying) {
-            if(!browsing) {
+            if(!browsing && !inDownloadScreen && !viewingTracklist) {
                 // Updates buttons accordingly.
                 Log.i("Main:onResume","song playing, you are not browsing");
                 tracker.setButtonsPausing();
@@ -506,6 +547,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         }
         browsing = false;
+        inDownloadScreen = false;
+        viewingTracklist = false;
     }
 
     /*@Override

@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import com.gaparmar.mediaflashback.UI.BackgroundService;
 import com.gaparmar.mediaflashback.UI.MainActivity;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
@@ -38,7 +39,7 @@ public class MusicDownloader {
 
     public MusicDownloader(Context context) {
         myContext = context;
-        mq = MainActivity.getMusicQueuer();
+        mq = BackgroundService.getMusicQueuer();
 
     }
 
@@ -59,7 +60,8 @@ public class MusicDownloader {
                 if (t.equals("zip")) {
                     File temp = new File(COMPLETE_PATH + File.separator + filenameReceiver + ".zip");
                     Log.d("md:unzip", "Start unzipping " + temp.getParent());
-                    unZip(COMPLETE_PATH + File.separator + filenameReceiver + ".zip", temp.getParent() + File.separator, filenameReceiver +".zip");
+                    unZip(COMPLETE_PATH + File.separator + filenameReceiver + ".zip",
+                            temp.getParent() + File.separator, filenameReceiver +".zip");
                 }
             }
         };
