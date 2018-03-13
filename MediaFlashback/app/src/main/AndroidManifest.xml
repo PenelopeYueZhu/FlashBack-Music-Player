@@ -2,13 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gaparmar.mediaflashback">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COURSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COURSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-feature android:name="android.hardware.location.gps"/>
+
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <application
         android:allowBackup="true"
@@ -19,23 +20,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".WhereAndWhen.FetchAddressIntentService"
+            android:exported="false" />
 
-
-        <service android:name=".WhereAndWhen.FetchAddressIntentService"
-            android:exported="false"/>
-
-        <activity android:name="com.gaparmar.mediaflashback.UI.MainActivity">
+        <activity android:name=".UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.gaparmar.mediaflashback.UI.FlashbackActivity" />
+        <activity android:name=".UI.FlashbackActivity" />
         <activity
-            android:name="com.gaparmar.mediaflashback.UI.LibraryActivity"
+            android:name=".UI.LibraryActivity"
             android:label="@string/title_activity_library" />
-        <activity android:name="com.gaparmar.mediaflashback.UI.DownloadHandlerActivity"></activity>
+        <activity android:name=".UI.DownloadHandlerActivity" />
+        <activity android:name=".UI.VibemodeActivity"></activity>
     </application>
 
 </manifest>
