@@ -231,6 +231,13 @@ public class Song {
         return this.parentAlbum;
     }
 
+    /**
+     * Return the address set for the song
+     * @return address
+     */
+    public String getAddress() {return address;}
+
+    public String getUserName() {return userName;}
 
     /************************************** Getters for Probability Checking *******************************/
 
@@ -273,23 +280,26 @@ public class Song {
      */
     public int getProbability() {return probability;}
 
-
     /************************ checkers *****************************************/
     /**
      * Check if the song's location is within the range of given location
+     * @param lastLocation the location where the song is lastly played
      * @param location the given location / center
      * @return true if song's location is within that location
      *          false otherwise
      */
-    public boolean isInRange( double[] location) {
+    public boolean isInRange( double[] lastLocation, double[] location) {
         double userLat = location[0];
         double userLon = location[1];
 
-        double userLatR = this.toRadians(userLat);
-        double storedLatR = this.toRadians(this.lat);
+        double lastLat = lastLocation[0];
+        double lastLon = lastLocation[1];
 
-        double deltaLat = this.toRadians(userLat - this.lat);
-        double deltaLon = this.toRadians(userLon - this.lon);
+        double userLatR = this.toRadians(userLat);
+        double storedLatR = this.toRadians(lastLat);
+
+        double deltaLat = this.toRadians(userLat - lastLat);
+        double deltaLon = this.toRadians(userLon - lastLon);
 
         // Raidus of earth in feet
         double radius = 3959 * 5280;

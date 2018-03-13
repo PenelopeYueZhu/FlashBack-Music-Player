@@ -13,11 +13,13 @@ import android.widget.Toast;
 import com.gaparmar.mediaflashback.Constant;
 import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
 import com.gaparmar.mediaflashback.DataStorage.FirebaseObserver;
+import com.gaparmar.mediaflashback.DataStorage.LogInstance;
 import com.gaparmar.mediaflashback.MusicDownloader;
 import com.gaparmar.mediaflashback.MusicPlayer;
 import com.gaparmar.mediaflashback.MusicQueuer;
 import com.gaparmar.mediaflashback.R;
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
+import com.gaparmar.mediaflashback.Song;
 
 import java.util.ArrayList;
 
@@ -340,6 +342,9 @@ public class UINormal implements FirebaseObserver {
     }
 
     public void updateProb(String filename, int prob){}
+    public void updateLogList(String filename, ArrayList<LogInstance> list){}
+    public void updateSongList( ArrayList<String> songList ){}
+
 
     /******************************** end of observer listners ****************************/
 

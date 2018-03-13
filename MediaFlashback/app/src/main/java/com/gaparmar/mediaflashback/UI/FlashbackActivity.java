@@ -34,11 +34,12 @@ public class FlashbackActivity extends AppCompatActivity {
     private Handler handler;
 
     public final static int TITLE_POS = 0;
-    public final static int DATE_POS = 1;
-    public final static int DURATION_POS = 2;
+    public final static int ALBUM_POS = 1;
+    public final static int ARTIST_POS = 2;
     public final static int LOC_POS = 3;
-    public final static int ALBUM_POS = 5;
-    public final static int ARTIST_POS = 4;
+    public final static int TIME_POS = 4;
+    public final static int DAY_POS = 5;
+    public final static int USER_POS = 6;
 
     public static boolean flashBackIsPlaying = false;
     // This is all the fields on the main screen
@@ -54,7 +55,7 @@ public class FlashbackActivity extends AppCompatActivity {
     ImageButton prevButton;
     Button launchRegularMode;
 
-    FlashbackPlayer flashbackPlayer;
+    public static FlashbackPlayer flashbackPlayer;
     LocationManager locationManager;
     LocationListener locationListener;
     MusicQueuer mq;
@@ -126,8 +127,7 @@ public class FlashbackActivity extends AppCompatActivity {
                 MainActivity.getAddressRetriver().setLocation(location);
                 Log.d("FBLgetting location", "Setting the location to address retriver");
                 mq.makeVibeList();
-                mq.loadPlaylist(flashbackPlayer);
-                flashbackPlayer.loadList();
+                //flashbackPlayer.loadList();
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {}
@@ -259,9 +259,8 @@ public class FlashbackActivity extends AppCompatActivity {
         Log.d("UINormal", "Reset displayed information of the song to the current song");
         ArrayList<String> songInfo = mq.getSongInfo(currentSong.getFileName());
         songTitleDisplay.setText( songInfo.get(TITLE_POS));
-        songDateDisplay.setText( songInfo.get(DATE_POS));
+        songDateDisplay.setText( songInfo.get(TIME_POS) + " at " + songInfo.get(DAY_POS));
         songLocationDisplay.setText( songInfo.get(LOC_POS));
-        songTimeDisplay.setText( songInfo.get(DURATION_POS));
         songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
         songArtistDisplay.setText(songInfo.get(ARTIST_POS));
     }

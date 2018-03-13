@@ -8,15 +8,20 @@ package com.gaparmar.mediaflashback.DataStorage;
  * A subclass to encapsulate the data to be logged
  */
 public class LogInstance{
-    String locationPlayed;
-    String userName;
-    int timestamp;
-    double latitude;
-    double longitude;
-    LogInstance(String locationPlayed, String userName, int timestamp, double latitude, double longitude){
+    public String locationPlayed;
+    public String userName;
+    public String dayOfWeek;
+    public long timestamp;
+    public int timeOfDay;
+    public double latitude;
+    public double longitude;
+    LogInstance(String locationPlayed, String userName, String dayOfWeek, long timestamp,
+                int timeOfDay, double latitude, double longitude){
         this.locationPlayed = locationPlayed;
         this.userName = userName;
+        this.dayOfWeek = dayOfWeek;
         this.timestamp = timestamp;
+        this.timeOfDay = timeOfDay;
         this.latitude = latitude;
         this.longitude = longitude;
     }

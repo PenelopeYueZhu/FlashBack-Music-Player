@@ -262,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         firebaseInfoBus = new FirebaseInfoBus();
         firebaseInfoBus.register(tracker);
+        firebaseInfoBus.register(musicQueuer);
 
 
         //mPlayer.loadMedia(R.raw.replay);
