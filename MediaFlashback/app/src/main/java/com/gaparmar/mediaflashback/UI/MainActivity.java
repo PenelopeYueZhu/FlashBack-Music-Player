@@ -476,6 +476,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Log.d("MainActivity", "Launching library");
         Intent intent = new Intent(this, LibraryActivity.class);
         setResult(Activity.RESULT_OK, intent);
+        musicQueuer.readSongs();
+        musicQueuer.readAlbums();
+        musicQueuer.readArtists();
         browsing = true;
         startActivity(intent);
     }
