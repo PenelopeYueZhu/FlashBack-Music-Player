@@ -4,30 +4,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.gaparmar.mediaflashback.UI.VibemodeActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#232625">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Vibe Mode"
+        android:textColor="#c4d7f2"
         android:textSize="50dp"
         android:textAlignment="center"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#c4d7f2"
         android:text="Now Playing"
-        android:textSize="35dp" />
+        android:fontFamily="@font/DancingScriptRegular"
+        android:textSize="50dp"
+        android:layout_marginLeft="20dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=" - this song was last played by: "
+        android:textColor="#c4d7f2"
+        android:text=" - last played by: "
+        android:textSize="20dp"
         android:layout_marginLeft="30dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=" - this song was last played at: "
+        android:textColor="#c4d7f2"
+        android:text=" - last played at: "
+        android:textSize="20dp"
         android:layout_marginLeft="30dp"/>
 
     <LinearLayout
@@ -74,7 +83,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Upcoming: "
-        android:textSize="35dp" />
+        android:textColor="#c4d7f2"
+        android:textSize="50dp"
+        android:fontFamily="@font/DancingScriptRegular"
+        android:layout_marginLeft="20dp"/>
 
     <LinearLayout
         android:id="@+id/upcoming_songs"
