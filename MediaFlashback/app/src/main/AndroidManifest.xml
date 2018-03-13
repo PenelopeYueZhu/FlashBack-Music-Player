@@ -24,6 +24,12 @@
             android:name=".WhereAndWhen.FetchAddressIntentService"
             android:exported="false" />
 
+        <service
+            android:name=".UI.BackgroundService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+
         <activity android:name=".UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,7 +42,13 @@
             android:name=".UI.LibraryActivity"
             android:label="@string/title_activity_library" />
         <activity android:name=".UI.DownloadHandlerActivity" />
+
         <activity android:name=".UI.VibemodeActivity"></activity>
+        <activity
+            android:name=".UI.TracklistActivity"
+            android:label="@string/title_activity_tracklist"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

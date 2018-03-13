@@ -11,5 +11,6 @@
     <string name="address_found">Address found</string>
     <string name="no_address_found">No address found</string>
     <string name="service_not_available">Service is not available right now</string>
+    <string name="title_activity_tracklist">TracklistActivity</string>
 
 </resources>
