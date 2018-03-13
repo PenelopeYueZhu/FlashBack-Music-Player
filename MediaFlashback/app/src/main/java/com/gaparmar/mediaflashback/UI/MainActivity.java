@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private static boolean browsing = false;
     private static boolean firstTime = true;
     private static ArrayList<Friend> friendList;
+    private static Friend me;
 
     GoogleApiClient mGoogleApiClient;
 
@@ -358,9 +359,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         protected List<String> doInBackground(String... params) {
 
             List<String> nameList = new ArrayList<>();
+            List<String> idList = new ArrayList<String>();
 
             try {
                 People peopleService = setUp(MainActivity.this, params[0]);
+
+
+
+                Person profile = peopleService.people().get("people/me").setRequestMaskIncludeField("person.names").execute();
+
+                me = new Friend(profile.getNames().get(0).getDisplayName(), profile.getNames().get(0).getMetadata().getSource().getId());
 
                 ListConnectionsResponse response = peopleService.people().connections()
                         .list("people/me").setRequestMaskIncludeField("person.names")
@@ -374,10 +382,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             if (names != null)
                                 System.out.println("Names");
                                 for (Name name : names) {
-                                    if(!nameList.contains(name.getDisplayName()))
+                                    if(!idList.contains(name.getMetadata().getSource().getId()))
                                     {
                                         nameList.add(name.getDisplayName());
+                                        idList.add(name.getMetadata().getSource().getId());
                                         System.out.println(name.getDisplayName());
+                                        System.out.println(name.getMetadata().getSource().getId());
                                     }
                                 }
                         }
@@ -388,9 +398,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 e.printStackTrace();
             }
 
-            for(String s : nameList)
+            for(int i = 0; i < nameList.size(); i++)
             {
-                friendList.add(new Friend(s));
+                friendList.add(new Friend(nameList.get(i), idList.get(i)));
             }
             return nameList;
         }
