@@ -107,7 +107,7 @@ public class Album {
 
        // if (s.getYearOfRelease() != this.releaseYear){
          //   System.out.println("The song was released in a different year");
-            invalidInput = true;
+         //   invalidInput = true;
         //}
 
         // Only add if the input song is valid
