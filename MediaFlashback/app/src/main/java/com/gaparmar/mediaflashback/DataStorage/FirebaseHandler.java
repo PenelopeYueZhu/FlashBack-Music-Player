@@ -1,6 +1,7 @@
 package com.gaparmar.mediaflashback.DataStorage;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.gaparmar.mediaflashback.Constant;
 import com.gaparmar.mediaflashback.Song;
@@ -362,6 +363,37 @@ public class FirebaseHandler {
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
+    }
+
+    public static void setProxy(String name)
+    {
+
+    }
+
+    public static String getFreeProxy()
+    {
+        Query query = ref.child("proxies");
+        final String returnVal;
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot d : dataSnapshot.getChildren())
+                {
+                    if(d.child("id").getValue() == 0)
+                    {
+                        returnVal = d.toString();
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return returnVal;
     }
 
     /**

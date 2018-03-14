@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:textColor="#c4d7f2"
         android:text="Now Playing"
-        android:fontFamily="@font/DancingScriptRegular"
+        android:fontFamily="@font/dancing_script_regular"
         android:textSize="50dp"
         android:layout_marginLeft="20dp"/>
 
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#c4d7f2"
-        android:text="<song-name-here>"
+        android:text="song-name-here"
         android:textSize="20dp"
         android:layout_marginLeft="30dp"/>
 
@@ -95,7 +95,7 @@
         android:text="Upcoming: "
         android:textColor="#c4d7f2"
         android:textSize="50dp"
-        android:fontFamily="@font/DancingScriptRegular"
+        android:fontFamily="@font/dancing_script_regular"
         android:layout_marginLeft="20dp"/>
 
     <LinearLayout
@@ -106,28 +106,28 @@
         <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="<upcoming song 1>"
+        android:text="upcoming song 1"
         android:layout_marginLeft="40dp"
         android:textColor="#c4d7f2"
         android:textSize="20dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="<upcoming song 2>"
+            android:text="upcoming song 2"
             android:layout_marginLeft="40dp"
             android:textColor="#c4d7f2"
             android:textSize="20dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="<upcoming song 3>"
+            android:text="upcoming song 3"
             android:layout_marginLeft="40dp"
             android:textColor="#c4d7f2"
             android:textSize="20dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="<upcoming song 4>"
+            android:text="upcoming song 4"
             android:layout_marginLeft="40dp"
             android:textColor="#c4d7f2"
             android:textSize="20dp"/>

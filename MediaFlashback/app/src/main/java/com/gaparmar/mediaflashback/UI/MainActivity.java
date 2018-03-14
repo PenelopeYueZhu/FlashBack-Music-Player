@@ -395,7 +395,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                 Person profile = peopleService.people().get("people/me").setRequestMaskIncludeField("person.names").execute();
 
-                me = new Friend(profile.getNames().get(0).getDisplayName(), profile.getNames().get(0).getMetadata().getSource().getId());
+                me = new Friend(profile.getNames().get(0).getDisplayName(), profile.getNames().get(0).getMetadata().getSource().getId(), "");
 
                 ListConnectionsResponse response = peopleService.people().connections()
                         .list("people/me").setRequestMaskIncludeField("person.names")
@@ -421,13 +421,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     }
                 }
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             for(int i = 0; i < nameList.size(); i++)
             {
-                friendList.add(new Friend(nameList.get(i), idList.get(i)));
+                friendList.add(new Friend(nameList.get(i), idList.get(i), ""));
             }
             return nameList;
         }
