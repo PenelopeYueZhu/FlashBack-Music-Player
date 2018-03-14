@@ -66,12 +66,12 @@ public class MusicDownloader {
             public void onReceive(Context ctxt, Intent intent) {
                 if (t.equals("zip")) {
                     File temp = new File(COMPLETE_PATH + File.separator + filenameReceiver + ".zip");
-                    Log.d("md:unzip", "Start unzipping " + temp.getParent());
+                    Log.d("MD:unzip", "Start unzipping " + temp.getParent());
                     unZip(COMPLETE_PATH + File.separator + filenameReceiver + ".zip",
                             temp.getParent() + File.separator, filenameReceiver +".zip", inputURL);
                 } else {
-                    Log.d("MD:Adding URL", "URL for: " + filenameReceiver);
                     addUrl(filenameReceiver, inputURL);
+                    Log.d("MD:onComplete", "Finished Downloading " + filenameReceiver);
                     BackgroundService.getMusicQueuer().readAll();
                 }
             }
@@ -97,16 +97,27 @@ public class MusicDownloader {
      * @param url
      * @param filename
      */
-    public void addUrl(String url, String filename) {
-        allUrls.put(filename, url);
+    public void addUrl(String filename, String url) {
+        if (allUrls.get(filename) == null) {
+            allUrls.put(filename, url);
+            Log.d("MD:add url", "url: " + url + " filename: " + filename);
+        }
     }
 
     public void removeUrl(String filename) {
-        allUrls.remove(filename);
+        if (allUrls.get(filename) != null) {
+            allUrls.remove(filename);
+            Log.d("MD: removeUrl", "File url" + filename + " is removed");
+        }
     }
 
     public void deleteFile(String filename) {
-        allUrls.remove(filename);
+        File file = new File(MEDIA_PATH+File.separator + filename);
+        boolean deleted = file.delete();
+        if (deleted) {
+            Log.d("MD: deleteFile", "File " + filename + " is deleted");
+            allUrls.remove(filename);
+        }
     }
 
     /**
@@ -145,7 +156,7 @@ public class MusicDownloader {
                 }
                 fout.close();
                 zis.closeEntry();
-                Log.d("MD:Adding URL", "URL for: " + songFileName);
+                Log.d("MD:Adding URL", "Finished download/ URL for: " + songFileName);
                 addUrl(songFileName, url);
             }
             zis.close();
@@ -153,6 +164,7 @@ public class MusicDownloader {
             e.printStackTrace();
             return false;
         }
+        Log.d("MD:unzip", "Finished downloading zip album " + zipName);
         return true;
     }
 

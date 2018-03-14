@@ -59,6 +59,7 @@ public class DownloadHandlerActivity extends AppCompatActivity {
             String url = EditText_url.getText().toString();
             String filename = inputTitle.getText().toString();
             Toast.makeText(this, "Downloading from " + url, Toast.LENGTH_SHORT).show();
+
             // if service is lagging behind and has not initialized musicDownloader
             if (musicDownloader == null) {
                 musicDownloader = DownloadService.getMusicDownloader();
@@ -66,8 +67,10 @@ public class DownloadHandlerActivity extends AppCompatActivity {
 
             if (url.contains("zip") && !filename.equals("")) {
                 musicDownloader.downloadData(url, filename, "zip");
-            } else {
+            } else if (url.contains("mp3") && !filename.equals("")){
                 musicDownloader.downloadData(url, filename, "mp3");
+            } else {
+                Toast.makeText(this, "Input filename", Toast.LENGTH_LONG).show();
             }
         }
      }
