@@ -434,7 +434,7 @@ public class FirebaseHandler {
                     }
                 }
                 System.err.println("size of the list is " + list.size() );
-                BackgroundService.getFirebaseInfoBus().notifyLogList(fileName, list);
+                //BackgroundService.getFirebaseInfoBus().notifyLogList(fileName, list);
                 BackgroundService.getMusicQueuer().updateLogList(fileName, list);
             }
             @Override

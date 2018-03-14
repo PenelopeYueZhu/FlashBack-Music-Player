@@ -44,7 +44,6 @@ public class MusicQueuer implements FirebaseObserver{
     protected Calendar currDate;
     protected SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US);
     protected SimpleDateFormat hourFormat = new SimpleDateFormat("HH", Locale.US);
-    protected SimpleDateFormat fullTimeFormat = new SimpleDateFormat("HH:mm 'at' MM/dd/YY");
 
     // Default constructor
     public MusicQueuer () {}
@@ -459,6 +458,7 @@ public class MusicQueuer implements FirebaseObserver{
      * Compile a list of songs to play for vibe mode
      */
     public void makeVibeList(){
+        sortedList.clear();
         FirebaseHandler.getSongList();
     }
 
@@ -530,14 +530,12 @@ public class MusicQueuer implements FirebaseObserver{
         }
     }
 
-    public void updateLocation( String filename, String locationString ){};
-    public void updateDayOfWeek( String filename, String dayOfWeek ){
-       // getSong(filename).setDayOfWeek("Friday");
-    }
-    public void updateUserName( String filename, String userName ){};
-    public void updateCoord( String filename, double lat, double lon ){};
-    public void updateTimeStamp( String filename, long timeStamp ){};
-    public void updateTime( String filename, long time){};
-    public void updateRate(String filename, long rate){};
-    public void updateProb( String filename, int prob){};
+    public void updateLocation( String filename, String locationString ){}
+    public void updateDayOfWeek( String filename, String dayOfWeek ){}
+    public void updateUserName( String filename, String userName ){}
+    public void updateCoord( String filename, double lat, double lon ){}
+    public void updateTimeStamp( String filename, long timeStamp ){}
+    public void updateTime( String filename, long time){}
+    public void updateRate(String filename, long rate){}
+    public void updateProb( String filename, int prob){}
 }
