@@ -72,10 +72,8 @@ import java.util.Map;
  */
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
-  //  private static MusicPlayer musicPlayer;
-   // private static MusicQueuer musicQueuer;
-    private MusicPlayer musicPlayer;
     private MusicQueuer musicQueuer;
+    private MusicPlayer musicPlayer;
 
     // Objects for location
     private static MusicDownloader musicDownloader;
@@ -84,10 +82,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private static AddressRetriver addressRetriver;
     private static UINormal tracker;
 
-    // Objects for info updates
-    private static FirebaseHandler firebaseHandler;
-    private static FirebaseObject firebaseInfoBus;
-
     private static ArrayList<String> stoppedInfo = new ArrayList<>();
     public static boolean isPlaying;
     private static boolean browsing = false;
@@ -95,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private static boolean inDownloadScreen = false;
     private static boolean viewingTracklist = false;
     private static ArrayList<Friend> friendList;
-    private static Friend me;
+    public static Friend me;
 
     GoogleApiClient mGoogleApiClient;
 
@@ -108,17 +102,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     public static Map<String, Integer> weekDays;
 
-    // Getters for static variables
-    //public static MusicPlayer getMusicPlayer(){
-      //  return musicPlayer;
-    //}
-    //public static MusicQueuer getMusicQueuer() { return musicQueuer; }
-
-    public static FirebaseObject getFirebaseInfoBus() { return firebaseInfoBus; }
     public static AddressRetriver getAddressRetriver() {
         return addressRetriver;
     }
-    public static FirebaseHandler getFirebaseHandler() { return firebaseHandler;}
 
     public static MusicDownloader getMusicDownloader() {
         return musicDownloader;
@@ -138,9 +124,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         setContentView(R.layout.activity_main);
 
 
-
-        //signInButton = (SignInButton)findViewById(R.id.main_googlesigninbtn);
-        ///signInButton.setOnClickListener(this);
+        tracker = new UINormal(this);
+        tracker.setButtonFunctions();
 
         if(firstTime) {
             firstTime = false;
@@ -175,49 +160,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         friendList = new ArrayList<>();
 
-
-        // Initialize com.gaparmar.mediaflashback.UI
-        tracker = new UINormal(this);
-        tracker.setButtonFunctions();
-
         Intent intent = new Intent(this, BackgroundService.class);
         getApplicationContext().startService(intent);
         intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-
-        musicPlayer = BackgroundService.getMusicPlayer();
-        musicQueuer = BackgroundService.getMusicQueuer();
-        if (musicPlayer == null) {
-            Log.d("NULL MP", "MP NULL");
-//            Log.d("NULL MP", "is instance created? " + BackgroundService.isInstanceCreated());
-
-        }
-
-        // Initializie the song functions
-     /*   if (musicQueuer == null) {
-            musicQueuer = new MusicQueuer(this);
-            musicQueuer.readSongs();
-            musicQueuer.readAlbums();
-            musicQueuer.readArtists();
-        }
-
-        // Initialized the player
-        if (musicPlayer == null) {
-            musicPlayer = new MusicPlayer(this, musicQueuer);
-        }*/
-
-        /*if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    100);
-            Log.d("test1","ins");
-            return;
-        }else {
-            Log.d("test2", "outs");
-        }*/
 
         // Acquire a reference to the system Location Manager
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -249,22 +194,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if (musicDownloader == null) {
             musicDownloader = new MusicDownloader(this);
         }
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        try {
-            mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                Log.d("MA:mFusedLocationClient", "Got the location");
-                                addressRetriver.setLocation(location);
-                            }
-                        }
-                    });
-        } catch (SecurityException e) {
-            System.out.println("Security Alert");
-        }
 
         // Initialize the addresss retriver
         if (addressRetriver == null) {
@@ -273,19 +202,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
 
         // Unless there is a song playing when we get back to normal mode, hide the button
-/*        if (!musicPlayer.wasPlayingSong()) {
+     /*   if (!musicPlayer.wasPlayingSong()) {
             tracker.setButtonsPausing();
         } else {
             tracker.setButtonsPlaying();
-        }
-*/
-        firebaseInfoBus = new FirebaseInfoBus();
-        firebaseInfoBus.register(tracker);
+        }*/
 
 
         //mPlayer.loadMedia(R.raw.replay);
         Button launchFlashbackActivity = findViewById(R.id.flashback_button);
-        ImageButton playButton =  findViewById(R.id.play_button);
+      //  ImageButton playButton =  findViewById(R.id.play_button);
         Button browseBtn = findViewById(R.id.browse_button);
         ImageButton tracklistBtn = findViewById(R.id.tracklist);
 
@@ -309,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         launchFlashbackActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isPlaying = musicPlayer.isPlaying();
+                isPlaying = BackgroundService.getMusicPlayer().isPlaying();
                 StorageHandler.storeLastMode(MainActivity.this, 1);
                 launchFlashbackActivity();
             }
@@ -532,7 +458,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if(!browsing && !viewingTracklist && !inDownloadScreen) {
             if (isPlaying) {
                 // If they are, the song pauses
-                stoppedInfo = musicPlayer.stopPlaying();
+                stoppedInfo = BackgroundService.getMusicPlayer().stopPlaying();
                 musicPlayer.pauseSong();
                 isPlaying = true;
             } else {
@@ -555,14 +481,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 // Updates buttons accordingly.
                 Log.i("Main:onResume","song playing, you are not browsing");
                 tracker.setButtonsPausing();
-                tracker.updateTrackInfo();
+                tracker.updateUI();
+                //tracker.updateTrackInfo();
                 isPlaying = true;
             }else{
                 // Updates the buttons differently if the user is browsing
                 Log.i("Main:onResume", "updating the buttons");
                 tracker.updateToggle();
                 tracker.setButtonsPlaying();
-                tracker.updateTrackInfo();
+                tracker.updateUI();
+                //tracker.updateTrackInfo();
             }
         }
         browsing = false;

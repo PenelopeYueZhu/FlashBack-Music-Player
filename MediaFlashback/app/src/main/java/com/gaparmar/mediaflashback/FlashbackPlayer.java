@@ -75,4 +75,9 @@ public class FlashbackPlayer extends MusicPlayer {
         currInd = 0;
         loadMedia(songsToPlay.get(0));
     }
+
+    public void addToList( String filename ){
+        songsToPlay.add(filename);
+        if( firstTime )firstTime = false;
+    }
 }

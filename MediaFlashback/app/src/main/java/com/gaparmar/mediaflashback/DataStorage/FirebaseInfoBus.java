@@ -1,5 +1,11 @@
 package com.gaparmar.mediaflashback.DataStorage;
 
+import android.util.Log;
+
+import com.gaparmar.mediaflashback.Song;
+
+import java.util.ArrayList;
+
 /**
  * Created by lxyzh on 3/4/2018.
  */
@@ -88,6 +94,7 @@ public class FirebaseInfoBus implements FirebaseObject {
      * @param time the time lastly played the song last time
      */
     public void notifyTime( String filename, long time ) {
+        Log.d("FBInfoBus", "NofifyTime gets called");
         for (FirebaseObserver observer : observers) {
             observer.updateTime(filename, time);
         }
@@ -115,5 +122,15 @@ public class FirebaseInfoBus implements FirebaseObject {
         }
     }
 
+    public void notifyLogList( String filename, ArrayList<LogInstance> list ){
+        for (FirebaseObserver observer : observers) {
+            observer.updateLogList(filename, list);
+        }
+    }
 
+    public void notifySongList( ArrayList<String> list ){
+        for (FirebaseObserver observer : observers) {
+            observer.updateSongList(list);
+        }
+    }
 }

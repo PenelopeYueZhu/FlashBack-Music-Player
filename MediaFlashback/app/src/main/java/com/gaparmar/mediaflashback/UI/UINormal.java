@@ -13,11 +13,13 @@ import android.widget.Toast;
 import com.gaparmar.mediaflashback.Constant;
 import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
 import com.gaparmar.mediaflashback.DataStorage.FirebaseObserver;
+import com.gaparmar.mediaflashback.DataStorage.LogInstance;
 import com.gaparmar.mediaflashback.MusicDownloader;
 import com.gaparmar.mediaflashback.MusicPlayer;
 import com.gaparmar.mediaflashback.MusicQueuer;
 import com.gaparmar.mediaflashback.R;
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
+import com.gaparmar.mediaflashback.Song;
 
 import java.util.ArrayList;
 
@@ -32,6 +34,7 @@ public class UINormal implements FirebaseObserver {
     final String DISLIKE = "Disliked";
     final String ERROR_STATE = "Error";
     final String INIT_INFO = "NONE";
+    String day = "Unknown";
 
     // All the buttons and views on the MainActivity
     Context context;
@@ -54,12 +57,13 @@ public class UINormal implements FirebaseObserver {
     private String songURL = "http://soundbible.com/grab.php?id=2190&type=mp3";
     MusicQueuer musicQueuer;
     MusicPlayer musicPlayer;
-    FirebaseHandler firebaseHandler;
 
     public final static int TITLE_POS = 0;
-    public final static int DATE_POS = 3;
-    public final static int DURATION_POS = 4;
-    public final static int LOC_POS = 5;
+    public final static int LOC_POS = 3;
+    public final static int TIME_POS = 4;
+    public final static int DAY_POS = 5;
+    public final static int USER_POS = 6;
+
     public final static int ALBUM_POS = 2;
     public final static int ARTIST_POS = 1;
 
@@ -74,10 +78,11 @@ public class UINormal implements FirebaseObserver {
         songTimeDisplay = (TextView) ((Activity)context).findViewById(R.id.song_time);
         songArtistDisplay = (TextView) ((Activity)context).findViewById(R.id.artist_title);
         songAlbumDisplay = (TextView) ((Activity)context).findViewById(R.id.album_title);
+       // musicQueuer = MainActivity.getMusicQueuer();
+       // musicPlayer = MainActivity.getMusicPlayer();
+        musicDownloader = MainActivity.getMusicDownloader();
         musicQueuer = BackgroundService.getMusicQueuer();
         musicPlayer = BackgroundService.getMusicPlayer();
-        firebaseHandler = MainActivity.getFirebaseHandler();
-        musicDownloader = MainActivity.getMusicDownloader();
         this.context = context;
 
         playButton =  ((Activity)context).findViewById(R.id.play_button);
@@ -265,20 +270,6 @@ public class UINormal implements FirebaseObserver {
     }
 
     /**
-     * Grab information about the song that's playing right now and display on com.gaparmar.mediaflashback.UI
-     */
-    public void updateTrackInfo() {
-        Log.d("UINormal", "Reset displayed information of the song to the current song");
-        ArrayList<String> songInfo = musicQueuer.getSongInfo(musicPlayer.getCurrentSongFileName());
-        songTitleDisplay.setText( songInfo.get(TITLE_POS));
-        songArtistDisplay.setText(songInfo.get(ARTIST_POS));
-        songDateDisplay.setText( songInfo.get(DATE_POS));
-        songLocationDisplay.setText( songInfo.get(LOC_POS));
-        songTimeDisplay.setText( songInfo.get(DURATION_POS));
-        songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
-    }
-
-    /**
      * Update all the information about the song when it is playing
      */
     public void updateUI() {
@@ -287,17 +278,18 @@ public class UINormal implements FirebaseObserver {
         songTitleDisplay.setText( songInfo.get(TITLE_POS));
         songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
         songArtistDisplay.setText(songInfo.get(ARTIST_POS));
-        firebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.TIME_FIELD);
-        firebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.ADDRESS_FIELD);
-        firebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.WEEKDAY_FIELD);
-        firebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.USER_FIELD);
+        FirebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.TIME_FIELD);
+        FirebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.ADDRESS_FIELD);
+        FirebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.WEEKDAY_FIELD);
+        FirebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.USER_FIELD);
     }
 
     /**
      * Update toggle button
      */
     public void updateToggle(){
-        firebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.RATE_FIELD);
+        //firebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.RATE_FIELD);
+       // updateToggle();
     }
 
     /************* Observer that listens in for the changes ********************/
@@ -342,6 +334,9 @@ public class UINormal implements FirebaseObserver {
     }
 
     public void updateProb(String filename, int prob){}
+    public void updateLogList(String filename, ArrayList<LogInstance> list){}
+    public void updateSongList( ArrayList<String> songList ){}
+
 
     /******************************** end of observer listners ****************************/
 
@@ -372,20 +367,6 @@ public class UINormal implements FirebaseObserver {
     }
 
     /**
-     * Changes all elements of the com.gaparmar.mediaflashback.UI to their default value
-     */
-    public void resetInfo(){
-        Log.d("UINomral", "Reset displayed information of songs to NONE");
-        songTitleDisplay.setText(INIT_INFO);
-        songDateDisplay.setText(INIT_INFO);
-        songLocationDisplay.setText(INIT_INFO);
-        songTitleDisplay.setText(INIT_INFO);
-        songArtistDisplay.setText(INIT_INFO);
-        songAlbumDisplay.setText(INIT_INFO);
-
-    }
-
-    /**
      * Hide play button and show pause button
      */
     public void setButtonsPlaying() {
@@ -401,5 +382,11 @@ public class UINormal implements FirebaseObserver {
         Log.d("UINormal", "set Button Pauseing");
         playButton.setVisibility(View.VISIBLE);
         pauseButton.setVisibility(View.GONE);
+    }
+
+    public void setQueuerPlayer( MusicPlayer mp, MusicQueuer mq) {
+        Log.d("UINormal", "set player and queuer");
+        musicPlayer = mp;
+        musicQueuer = mq;
     }
 }

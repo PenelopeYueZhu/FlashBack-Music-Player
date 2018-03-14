@@ -11,6 +11,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
 import com.gaparmar.mediaflashback.UI.MainActivity;
 import com.gaparmar.mediaflashback.UI.UINormal;
 
@@ -66,6 +67,7 @@ public class MusicPlayer extends AppCompatActivity {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 // Update the date, time, and location
+                FirebaseHandler.saveSong(getCurrSong());
                 musicQueuer.updateTrackInfo(getCurrentSongFileName());
 
                 Log.d("MP:OnCompleteListener","Song finished playing");
