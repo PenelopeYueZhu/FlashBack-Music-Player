@@ -56,6 +56,11 @@ public class MusicQueuer implements FirebaseObserver{
         this.context = context;
     }
 
+    public void readAll() {
+        readSongs();
+        readAlbums();
+        readArtists();
+    }
     /**
      * Read all files and directories
      */

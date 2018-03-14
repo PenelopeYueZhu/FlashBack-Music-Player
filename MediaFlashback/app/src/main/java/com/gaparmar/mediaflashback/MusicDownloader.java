@@ -72,6 +72,7 @@ public class MusicDownloader {
                 } else {
                     Log.d("MD:Adding URL", "URL for: " + filenameReceiver);
                     addUrl(filenameReceiver, inputURL);
+                    BackgroundService.getMusicQueuer().readAll();
                 }
             }
         };
@@ -105,7 +106,7 @@ public class MusicDownloader {
     }
 
     public void deleteFile(String filename) {
-
+        allUrls.remove(filename);
     }
 
     /**
