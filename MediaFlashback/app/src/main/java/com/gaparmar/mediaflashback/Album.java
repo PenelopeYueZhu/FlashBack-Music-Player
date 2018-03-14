@@ -1,5 +1,7 @@
 package com.gaparmar.mediaflashback;
 
+import android.util.Log;
+
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
@@ -99,6 +101,7 @@ public class Album {
         }
         if (hasSong(s)){
             System.out.println("The song already exists in album");
+            Log.d("Album: addSong","Song: " + s.getTitle() + "exists" + " file: " + s.getFileName());
             invalidInput = true;
         }
 
