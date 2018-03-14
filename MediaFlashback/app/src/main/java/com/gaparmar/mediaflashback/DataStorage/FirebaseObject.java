@@ -1,5 +1,7 @@
 package com.gaparmar.mediaflashback.DataStorage;
 
+import com.gaparmar.mediaflashback.Song;
+
 import java.util.ArrayList;
 
 /**
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 
 public interface FirebaseObject {
 
-    ArrayList<FirebaseObserver> observers = new ArrayList<>();
+    public ArrayList<FirebaseObserver> observers = new ArrayList<>();
     public void register( FirebaseObserver observer);
     public void remove( FirebaseObserver observer);
 
@@ -20,4 +22,6 @@ public interface FirebaseObject {
     public void notifyTime( String filename, long time);
     public void notifyRate( String filename, long rate );
     public void notifyProb( String filename, int prob);
+    public void notifyLogList(String filename, ArrayList<LogInstance> list);
+    public void notifySongList( ArrayList<String> songList );
 }

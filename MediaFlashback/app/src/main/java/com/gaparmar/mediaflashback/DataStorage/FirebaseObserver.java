@@ -1,5 +1,9 @@
 package com.gaparmar.mediaflashback.DataStorage;
 
+import com.gaparmar.mediaflashback.Song;
+
+import java.util.ArrayList;
+
 /**
  * Created by lxyzh on 3/4/2018.
  */
@@ -16,4 +20,6 @@ public interface FirebaseObserver {
     public void updateTime( String filename, long time);
     public void updateRate(String filename, long rate);
     public void updateProb( String filename, int prob);
+    public void updateLogList(String filename, ArrayList<LogInstance> list);
+    public void updateSongList( ArrayList<String> songList );
 }

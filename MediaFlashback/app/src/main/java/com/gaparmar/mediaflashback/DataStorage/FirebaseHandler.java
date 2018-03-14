@@ -1,10 +1,12 @@
 package com.gaparmar.mediaflashback.DataStorage;
 
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.gaparmar.mediaflashback.Constant;
 import com.gaparmar.mediaflashback.Song;
+import com.gaparmar.mediaflashback.UI.BackgroundService;
 import com.gaparmar.mediaflashback.UI.MainActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -13,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -208,7 +211,8 @@ public class FirebaseHandler {
                                 address = Constant.UNKNOWN;
                             }
                             else address = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString);
-                            MainActivity.getFirebaseInfoBus().notifyAddress(filename, address);
+                            BackgroundService.getFirebaseInfoBus().notifyAddress(filename, address);
+                            MainActivity.getUITracker().updateLocation(filename, address);
                             break;
 
                         case Constant.TIME_FIELD:
@@ -218,7 +222,9 @@ public class FirebaseHandler {
                                 time = Constant.UNKNOWN_INT;
                             }
                             else time = (Long) ((HashMap) ((HashMap) dataSnapshot.getValue()).get(fileID)).get(fieldString);
-                            MainActivity.getFirebaseInfoBus().notifyTime(filename, time);
+                            BackgroundService.getFirebaseInfoBus().notifyTime(filename, time);
+                            MainActivity.getUITracker().updateTime(filename, time);
+
                             break;
 
                         case Constant.STAMP_FIELD:
@@ -228,17 +234,20 @@ public class FirebaseHandler {
                                 timeStamp = Constant.UNKNOWN_INT;
                             }
                             timeStamp = (Integer)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString);
-                            MainActivity.getFirebaseInfoBus().notifyTimeStamp(filename, timeStamp);
+                            BackgroundService.getFirebaseInfoBus().notifyTimeStamp(filename, timeStamp);
+                            MainActivity.getUITracker().updateTimeStamp(filename, timeStamp);
+
                             break;
 
                         case Constant.WEEKDAY_FIELD:
                             String dayOfWeek;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString) == null ){
-                                Log.d("FH:getAddress", fieldString + " does not exist");
+                                Log.d("FH:getField", fieldString + " does not exist");
                                 dayOfWeek = Constant.UNKNOWN;
                             }
                             else dayOfWeek = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString);
-                            MainActivity.getFirebaseInfoBus().notifyDayOfWeek(filename, dayOfWeek);
+                            BackgroundService.getFirebaseInfoBus().notifyDayOfWeek(filename, dayOfWeek);
+                            MainActivity.getUITracker().updateDayOfWeek(filename, dayOfWeek);
                             break;
 
                         case Constant.USER_FIELD:
@@ -248,17 +257,19 @@ public class FirebaseHandler {
                                 userName = Constant.UNKNOWN;
                             }
                             else userName = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString);
-                            MainActivity.getFirebaseInfoBus().notifyUserName(filename, userName);
+                            BackgroundService.getFirebaseInfoBus().notifyUserName(filename, userName);
+                            MainActivity.getUITracker().updateUserName(filename, userName);
                             break;
 
                         case Constant.COORD_FIELD:
                             double lat = (Double)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get("lat");
                             Log.d("FH:getLocation", "Retrieved latitude: " + lat);
                             double lon = (Double)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get("lon");
-                            MainActivity.getFirebaseInfoBus().notifyLocation(filename,lat, lon);
+                            BackgroundService.getFirebaseInfoBus().notifyLocation(filename,lat, lon);
+                            MainActivity.getUITracker().updateCoord(filename, lat, lon);
                             break;
 
-                        case Constant.RATE_FIELD:
+                        /*case Constant.RATE_FIELD:
                             long rate;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString) == null ){
                                 rate = Constant.UNKNOWN_INT;
@@ -266,7 +277,7 @@ public class FirebaseHandler {
                             }
                             else rate = (Long) ((HashMap) ((HashMap) dataSnapshot.getValue()).get(fileID)).get(fieldString);
                             MainActivity.getFirebaseInfoBus().notifyRate(filename, rate);
-                            break;
+                            break;*/
 
                         case Constant.PROB_FIELD:
                             int prob;
@@ -275,7 +286,7 @@ public class FirebaseHandler {
                                 Log.d("FH:getAddress", fieldString + " does not exist");
                             }
                             else prob = (int) ((HashMap) ((HashMap) dataSnapshot.getValue()).get(fileID)).get(fieldString);
-                            MainActivity.getFirebaseInfoBus().notifyProb(filename, prob);
+                            BackgroundService.getFirebaseInfoBus().notifyProb(filename, prob);
                             break;
 
                         default:
@@ -303,13 +314,16 @@ public class FirebaseHandler {
      * @param song The song to be added
      */
     public static void saveSongToSongList(Song song){
+        final String filename = song.getFileName();
+        final String fireId = Song.reformatFileName(filename);
         Log.d("FH:saveSong", "Saving song with file name " + song.getFileName());
         DatabaseReference ref = database.getReference();
         final Song song_ref = song;
-        DatabaseReference newRef = ref.child("new_song_list").push();
+        //DatabaseReference newRef = ref.child("new_song_list").push();
+        DatabaseReference newRef = ref.child("song_list").push();
         newRef.setValue(song);
         // Checks if the current song got added twice
-        Query songQuery = ref.child("new_song_list").orderByChild("title").equalTo(song.getTitle());
+        Query songQuery = ref.child("song_list").orderByChild("firebaseID").equalTo(fireId);
         songQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -322,7 +336,7 @@ public class FirebaseHandler {
 
         // Create the song in the songs_logs subdirectory
         ref = database.getReference();
-        songQuery = ref.child("song_logs").orderByChild("song_title").equalTo(song.getTitle());
+        songQuery = ref.child("song_logs").orderByChild("song_title").equalTo(fireId);
         songQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -330,7 +344,7 @@ public class FirebaseHandler {
                     final FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference ref = database.getReference();
                     HashMap<String, String> t = new HashMap<>();
-                    t.put("song_title", song_ref.getTitle());
+                    t.put("song_title", fireId);
                     ref.child("song_logs").push().setValue(t);
                     System.out.println(t.toString());
                 }
@@ -340,23 +354,49 @@ public class FirebaseHandler {
         });
     }
 
+    /**
+     * Get the enough song list that has been played by everyone
+     */
+    public static void getSongList(){
+        ref.child("song_list").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> songList = new ArrayList<>();
+                for( DataSnapshot d : dataSnapshot.getChildren()){
+                    String filename = (String)d.child("fileName").getValue();//.toString();
+                    Log.d("FH:getSongList", "getting the remote song list " + filename);
+                    songList.add(filename);
+                }
+                //BackgroundService.getFirebaseInfoBus().notifySongList(songList);
+                BackgroundService.getMusicQueuer().updateSongList(songList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     /**
-     * @param songName Name of the Song that got played
+     * @param filename Name of the Song that got played
      * @param locationPlayed The location the song was played at
      * @param userName Name of the user that played the song
      * @param timestamp The timestamp of when the song got played
      * @param latitude Where the song got played
      * @param longitude Where the song got played
      */
-    public static void logToFirebase(String songName, String locationPlayed, String userName,
-                                     int timestamp, double latitude, double longitude){
-        final LogInstance temp = new LogInstance(locationPlayed, userName, timestamp, latitude, longitude);
-        Query query = ref.child("song_logs").orderByChild("song_title").equalTo(songName);
+    public static void logToFirebase(String filename, String locationPlayed, String userName, String dayOfWeek,
+                                     long timestamp, int timeOfDay, double latitude, double longitude){
+        final String fireID = Song.reformatFileName(filename);
+        final LogInstance temp = new LogInstance(locationPlayed, userName, dayOfWeek, timestamp, timeOfDay, latitude, longitude);
+        Query query = ref.child("song_logs").orderByChild("song_title").equalTo(fireID);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()){
+                    Log.d("FH:logToFirebase", "pushing a new log for song " + fireID);
                     data.getRef().child("logs").push().setValue(temp);
                 }
             }
@@ -367,25 +407,36 @@ public class FirebaseHandler {
 
     /**
      * IMPORTANT:: note that this function takes a while to update the list
-     * @param songName The name of the song
-     * @param  list The list to be populated
+     * @param filename The name of the song
+     * //@param  list The list to be populated
      */
-    public static void getLogList(String songName, final ArrayList<LogInstance> list){
+    public static void getLogList(String filename) {
+        final String fileName = filename;
+        final String fireID = Song.reformatFileName(filename);
+        Log.d("FH:getLogList", "passed in songName is " + fireID );
 
-        Query query = ref.child("song_logs").orderByChild("song_title").equalTo(songName);
+        Query query = ref.child("song_logs").orderByChild("song_title").equalTo(fireID);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<LogInstance> list = new ArrayList<>();
                 for (DataSnapshot data : dataSnapshot.getChildren()){
                     for (DataSnapshot d : data.child("logs").getChildren()){
+                        System.err.println( dataSnapshot );
                         double lati = Double.parseDouble(d.child("latitude").getValue().toString());
                         double longi = Double.parseDouble(d.child("longitude").getValue().toString());
-                        String locationPlayed = d.child("locationPlayed").getValue().toString();
+                        String locationPlayed = (String)d.child("locationPlayed").getValue();//.toString();
+                        String dayOfWeek = (String)d.child("dayOfWeek").getValue();//.toString();
                         int time = Integer.parseInt(d.child("timestamp").getValue().toString());
-                        String user = d.child("userName").getValue().toString();
-                        list.add(new LogInstance(locationPlayed, user, time, lati, longi));
+                        int timeOfDay = Integer.parseInt(d.child("timeOfDay").getValue().toString());
+                        String user = (String)d.child("userName").getValue();//.toString();
+
+                        list.add(new LogInstance(locationPlayed, user, dayOfWeek, time, timeOfDay, lati, longi));
                     }
                 }
+                System.err.println("size of the list is " + list.size() );
+                //BackgroundService.getFirebaseInfoBus().notifyLogList(fileName, list);
+                BackgroundService.getMusicQueuer().updateLogList(fileName, list);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
