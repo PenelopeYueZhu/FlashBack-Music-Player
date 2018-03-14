@@ -531,7 +531,9 @@ public class MusicQueuer implements FirebaseObserver{
     }
 
     public void updateLocation( String filename, String locationString ){};
-    public void updateDayOfWeek( String filename, String dayOfWeek ){};
+    public void updateDayOfWeek( String filename, String dayOfWeek ){
+       // getSong(filename).setDayOfWeek("Friday");
+    }
     public void updateUserName( String filename, String userName ){};
     public void updateCoord( String filename, double lat, double lon ){};
     public void updateTimeStamp( String filename, long timeStamp ){};

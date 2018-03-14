@@ -211,6 +211,7 @@ public class FirebaseHandler {
                             }
                             else address = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString);
                             BackgroundService.getFirebaseInfoBus().notifyAddress(filename, address);
+                            MainActivity.getUITracker().updateLocation(filename, address);
                             break;
 
                         case Constant.TIME_FIELD:
@@ -221,6 +222,8 @@ public class FirebaseHandler {
                             }
                             else time = (Long) ((HashMap) ((HashMap) dataSnapshot.getValue()).get(fileID)).get(fieldString);
                             BackgroundService.getFirebaseInfoBus().notifyTime(filename, time);
+                            MainActivity.getUITracker().updateTime(filename, time);
+
                             break;
 
                         case Constant.STAMP_FIELD:
@@ -231,16 +234,19 @@ public class FirebaseHandler {
                             }
                             timeStamp = (Integer)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString);
                             BackgroundService.getFirebaseInfoBus().notifyTimeStamp(filename, timeStamp);
+                            MainActivity.getUITracker().updateTimeStamp(filename, timeStamp);
+
                             break;
 
                         case Constant.WEEKDAY_FIELD:
                             String dayOfWeek;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString) == null ){
-                                Log.d("FH:getAddress", fieldString + " does not exist");
+                                Log.d("FH:getField", fieldString + " does not exist");
                                 dayOfWeek = Constant.UNKNOWN;
                             }
                             else dayOfWeek = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString);
                             BackgroundService.getFirebaseInfoBus().notifyDayOfWeek(filename, dayOfWeek);
+                            MainActivity.getUITracker().updateDayOfWeek(filename, dayOfWeek);
                             break;
 
                         case Constant.USER_FIELD:
@@ -251,6 +257,7 @@ public class FirebaseHandler {
                             }
                             else userName = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString);
                             BackgroundService.getFirebaseInfoBus().notifyUserName(filename, userName);
+                            MainActivity.getUITracker().updateUserName(filename, userName);
                             break;
 
                         case Constant.COORD_FIELD:
@@ -258,6 +265,7 @@ public class FirebaseHandler {
                             Log.d("FH:getLocation", "Retrieved latitude: " + lat);
                             double lon = (Double)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get("lon");
                             BackgroundService.getFirebaseInfoBus().notifyLocation(filename,lat, lon);
+                            MainActivity.getUITracker().updateCoord(filename, lat, lon);
                             break;
 
                         /*case Constant.RATE_FIELD:
@@ -358,7 +366,8 @@ public class FirebaseHandler {
                     Log.d("FH:getSongList", "getting the remote song list " + filename);
                     songList.add(filename);
                 }
-                BackgroundService.getFirebaseInfoBus().notifySongList(songList);
+                //BackgroundService.getFirebaseInfoBus().notifySongList(songList);
+                BackgroundService.getMusicQueuer().updateSongList(songList);
             }
 
             @Override
@@ -426,6 +435,7 @@ public class FirebaseHandler {
                 }
                 System.err.println("size of the list is " + list.size() );
                 BackgroundService.getFirebaseInfoBus().notifyLogList(fileName, list);
+                BackgroundService.getMusicQueuer().updateLogList(fileName, list);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

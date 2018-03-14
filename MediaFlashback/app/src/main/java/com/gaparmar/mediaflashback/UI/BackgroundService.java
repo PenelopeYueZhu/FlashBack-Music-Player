@@ -51,6 +51,7 @@ public class BackgroundService extends Service {
         if( firebaseInfoBus == null ){
             firebaseInfoBus = new FirebaseInfoBus();
             firebaseInfoBus.register(MainActivity.getUITracker());
+            MainActivity.getUITracker().setQueuerPlayer(musicPlayer, musicQueuer);
             Log.d("Main:debugging", "trakcer called");
             firebaseInfoBus.register(musicQueuer);
         }

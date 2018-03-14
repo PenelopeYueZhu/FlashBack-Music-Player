@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public interface FirebaseObject {
 
-    ArrayList<FirebaseObserver> observers = new ArrayList<>();
+    public ArrayList<FirebaseObserver> observers = new ArrayList<>();
     public void register( FirebaseObserver observer);
     public void remove( FirebaseObserver observer);
 

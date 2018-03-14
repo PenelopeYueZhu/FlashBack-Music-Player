@@ -157,7 +157,7 @@ public class Song {
      * Set the day of the week this song is lastly played
      * @param dayOfWeek the day of the week represented in string, "Monday", "Tuesday" etc
      */
-    protected void setDayOfWeek( String dayOfWeek ){
+    public void setDayOfWeek( String dayOfWeek ){
         this.dayOfWeek = dayOfWeek;
     }
 
@@ -181,7 +181,7 @@ public class Song {
      * Set the time of the day when a song was played
      * @param time the time of the day when the song is played
      */
-    protected void setTime( int time ){
+    public void setTime( int time ){
         this.time = time;
     }
 
