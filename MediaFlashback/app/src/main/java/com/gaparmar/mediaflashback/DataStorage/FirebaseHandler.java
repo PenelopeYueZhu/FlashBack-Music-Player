@@ -365,37 +365,6 @@ public class FirebaseHandler {
         });
     }
 
-    public static void setProxy(String name)
-    {
-
-    }
-
-    public static String getFreeProxy()
-    {
-        Query query = ref.child("proxies");
-        final String returnVal;
-
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot d : dataSnapshot.getChildren())
-                {
-                    if(d.child("id").getValue() == 0)
-                    {
-                        returnVal = d.toString();
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        return returnVal;
-    }
-
     /**
      * IMPORTANT:: note that this function takes a while to update the list
      * @param songName The name of the song

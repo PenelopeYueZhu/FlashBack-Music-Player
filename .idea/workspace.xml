@@ -6,16 +6,7 @@
     </shared>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="077e08f5-2fe2-4436-a88a-ccd217f045a4" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/font/DancingScriptRegular.otf" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/.idea/misc.xml" afterPath="$PROJECT_DIR$/MediaFlashback/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/DataStorage/FirebaseHandler.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/DataStorage/FirebaseHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/Friend.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/Friend.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/UI/MainActivity.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/UI/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/font/dancing.xml" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/font/dancing.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_vibemode.xml" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_vibemode.xml" />
-    </list>
+    <list default="true" id="077e08f5-2fe2-4436-a88a-ccd217f045a4" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -394,7 +385,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1521059277993" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1521059352770" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -442,7 +433,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1521059277993" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1521059352770" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
