@@ -155,7 +155,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="26dp"
                     android:gravity="center"
-                    android:text="Date:"
+                    android:text="User:"
                     android:textColor="#7698b3"
                     android:textSize="16dp"
                     android:textStyle="bold"
