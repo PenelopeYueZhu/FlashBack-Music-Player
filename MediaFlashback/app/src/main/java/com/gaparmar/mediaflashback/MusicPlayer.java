@@ -160,7 +160,7 @@ public class MusicPlayer extends AppCompatActivity {
         firstTime = false;
         if (currInd != songsToPlay.size()-1 && songsToPlay.size() > 0) {
             resetSong();
-            musicQueuer.getSong((songsToPlay.get(currInd))).getFileName();
+            //musicQueuer.getSong((songsToPlay.get(currInd))).getFileName();
             currInd++;
             song = musicQueuer.getSong(songsToPlay.get(currInd));
 

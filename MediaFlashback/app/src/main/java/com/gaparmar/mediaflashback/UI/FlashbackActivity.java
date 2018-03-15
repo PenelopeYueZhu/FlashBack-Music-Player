@@ -222,6 +222,7 @@ System.err.println("Line 87");
      * @param view
      */
     public void onNextButtonClick(View view){
+        System.err.println("FA 225 next button clicked");
         flashbackPlayer.nextSong();
         Song currentSong = flashbackPlayer.getCurrSong();
 
@@ -247,6 +248,7 @@ System.err.println("Line 87");
          */
     public void updateTrackInfo(Song currentSong) {
         Log.d("UINormal", "Reset displayed information of the song to the current song");
+        if( !flashBackIsPlaying ) return;
         ArrayList<String> songInfo = mq.getSongInfo(currentSong.getFileName());
         songTitleDisplay.setText( songInfo.get(TITLE_POS));
         songDateDisplay.setText( songInfo.get(TIME_POS) + " at " + songInfo.get(DAY_POS));

@@ -461,7 +461,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             if (isPlaying) {
                 // If they are, the song pauses
                 stoppedInfo = BackgroundService.getMusicPlayer().stopPlaying();
-                musicPlayer.pauseSong();
+                BackgroundService.getMusicPlayer().pauseSong();
                 isPlaying = true;
             } else {
                 isPlaying = false;

@@ -529,10 +529,12 @@ public class MusicQueuer implements FirebaseObserver{
             boolean firstTime = true;
             for( int i = 0 ; i < sortedList.size(); i++ ){
                 // If the URL exists, which means the song is downloaded
-                if( MainActivity.getMusicDownloader().getUrl(sortedList.get(i).getFileName())!= null ){
+                //if( MainActivity.getMusicDownloader().getUrl(sortedList.get(i).getFileName())!= null ){
+                if( new File(MusicDownloader.COMPLETE_PATH+File.separator + filename).exists()) {
                     Log.d("UPPPPP", "loading the song " + sortedList.get(i).getFileName());
                     // If this is the first song that's downloaded
                     if( firstTime ){
+                        System.err.println("First timme playing MQ 536");
                         if( FlashbackActivity.flashbackPlayer == null ) {
                             System.err.println("flashback is null in MQ");
                             //FlashbackActivity.flashbackPlayer = new FlashbackPlayer(getEntireSongList(), context, this);
@@ -542,13 +544,15 @@ public class MusicQueuer implements FirebaseObserver{
                     }
                     // Else just add it to the to-play list
                     else {
+                        System.err.println("Adding songs" + sortedList.get(i).getFileName() + " to the list. MQ line 546");
                         FlashbackActivity.flashbackPlayer.addToList(sortedList.get(i).getFileName());
                     }
                 }
                 // Get back to the beginning if we didn't download the whole list
                 if( (i == sortedList.size()-1) &&
                         (FlashbackActivity.flashbackPlayer.getSongsToPlay().size() != sortedList.size()) ) {
-                    i = 0;
+                    firstTime = true;
+                     i = 0;
                 }
             }
         }

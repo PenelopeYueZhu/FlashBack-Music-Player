@@ -41,7 +41,7 @@ public class MusicDownloader {
     HashMap<String, String> allUrls = new HashMap<>();
     private final String MEDIA_PATH = Environment.DIRECTORY_DOWNLOADS
             + File.separator + "myDownloads";
-    private final String COMPLETE_PATH =
+    public static final String COMPLETE_PATH =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()
                     + File.separator + "myDownloads";
 
