@@ -314,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 Person profile = peopleService.people().get("people/me").setRequestMaskIncludeField("person.names").execute();
 
                 String name = profile.getNames().get(0).getDisplayName();
-                String proxy = name.substring(0,1) + name.substring(2,3) + name.substring(4,5);
+                String proxy = proxification(name);
                 me = new Friend(name, profile.getNames().get(0).getMetadata().getSource().getId(), proxy);
 
                 ListConnectionsResponse response = peopleService.people().connections()
@@ -328,15 +328,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             List<Name> names = person.getNames();
                             if (names != null && !names.isEmpty())
                                 System.out.println("Names");
-                                if(!idList.contains(names.get(0).getMetadata().getSource().getId()))
-                                {
-                                    nameList.add(names.get(0).getDisplayName());
-                                    idList.add(names.get(0).getMetadata().getSource().getId());
-                                    System.out.println(names.get(0).getDisplayName());
-                                    System.out.println(names.get(0).getMetadata().getSource().getId());
-                                    System.out.println(names.get(0).getDisplayName().substring(0,1) +names.get(0).getDisplayName().substring(2,3)
-                                    +names.get(0).getDisplayName().substring(4,5));
-                                }
+                            if(!idList.contains(names.get(0).getMetadata().getSource().getId()))
+                            {
+                                nameList.add(names.get(0).getDisplayName());
+                                idList.add(names.get(0).getMetadata().getSource().getId());
+                                System.out.println(names.get(0).getDisplayName());
+                                System.out.println(names.get(0).getMetadata().getSource().getId());
+                            }
                         }
                     }
                 }
@@ -347,8 +345,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
             for(int i = 0; i < nameList.size(); i++)
             {
-                String proxy = nameList.get(i).substring(0,1) + nameList.get(i).substring(2,3) + nameList.get(i).substring(4,5);
-                friendList.add(new Friend(nameList.get(i), idList.get(i), proxy));
+                friendList.add(new Friend(nameList.get(i), idList.get(i), proxification(nameList.get(i))));
             }
             return nameList;
         }
