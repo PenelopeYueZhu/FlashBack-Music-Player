@@ -54,6 +54,7 @@ import com.google.api.services.people.v1.model.Person;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -313,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 Person profile = peopleService.people().get("people/me").setRequestMaskIncludeField("person.names").execute();
 
                 String name = profile.getNames().get(0).getDisplayName();
-                String proxy = name.substring(0,1) + name.substring(2,3) + name.substring(4,5);
+                String proxy = proxification(name);
                 me = new Friend(name, profile.getNames().get(0).getMetadata().getSource().getId(), proxy);
 
                 ListConnectionsResponse response = peopleService.people().connections()
@@ -334,7 +335,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                                 System.out.println(names.get(0).getDisplayName());
                                 System.out.println(names.get(0).getMetadata().getSource().getId());
                             }
-
                         }
                     }
                 }
@@ -345,8 +345,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
             for(int i = 0; i < nameList.size(); i++)
             {
-                String proxy = nameList.get(i).substring(0,1) + nameList.get(i).substring(2,3) + nameList.get(i).substring(4,5);
-                friendList.add(new Friend(nameList.get(i), idList.get(i), proxy));
+                friendList.add(new Friend(nameList.get(i), idList.get(i), proxification(nameList.get(i))));
             }
             return nameList;
         }
@@ -401,6 +400,28 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
             }
         }
+    }
+
+    public String proxification(String name)
+    {
+        StringBuilder proxyBuilder = new StringBuilder();
+        for(int i = 0; i < name.length(); i++)
+        {
+            char c = name.charAt(i);
+            if(c != 'a' && c != 'e' && c != 'i'
+            && c != 'o' && c != 'u' && c != ' ')
+            {
+                proxyBuilder.append(c);
+            }
+        }
+        long currTime = Calendar.getInstance().getTimeInMillis();
+        long numberAppend = currTime % 10 * 100;
+        currTime /= 10;
+        numberAppend += currTime % 10 * 10;
+        currTime /= 10;
+        numberAppend += currTime % 10;
+        proxyBuilder.append(numberAppend);
+        return proxyBuilder.toString();
     }
 
     /**
