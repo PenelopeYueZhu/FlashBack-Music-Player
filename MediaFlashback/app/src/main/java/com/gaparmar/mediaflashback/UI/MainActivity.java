@@ -363,16 +363,21 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         startActivityForResult(signInIntent, RC_INTENT);
     }
 
-    public boolean isFriend(Friend friend)
+    /**
+     * Pass in a Friend object (with the correct name, id, and proxy)
+     * @param friend
+     * @return the name if it is a friend, otherwise return the proxy name
+     */
+    public String isFriend(Friend friend)
     {
         for(Friend f : friendList)
         {
             if(f.equals(friend))
             {
-                return true;
+                return friend.getName();
             }
         }
-        return false;
+        return friend.getProxy();
     }
 
 
