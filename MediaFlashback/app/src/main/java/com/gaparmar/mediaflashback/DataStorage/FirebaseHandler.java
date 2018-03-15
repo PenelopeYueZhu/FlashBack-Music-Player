@@ -215,6 +215,7 @@ public class FirebaseHandler {
                             MainActivity.getUITracker().updateLocation(filename, address);
                             break;
 
+                        // Gets the time of the song
                         case Constant.TIME_FIELD:
                             long time;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString) == null ){
@@ -227,6 +228,7 @@ public class FirebaseHandler {
 
                             break;
 
+                        // Gets the stamp field of the song
                         case Constant.STAMP_FIELD:
                             long timeStamp;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString) == null ){
@@ -239,6 +241,7 @@ public class FirebaseHandler {
 
                             break;
 
+                        // Gets the day of the song
                         case Constant.WEEKDAY_FIELD:
                             String dayOfWeek;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString) == null ){
@@ -250,6 +253,7 @@ public class FirebaseHandler {
                             MainActivity.getUITracker().updateDayOfWeek(filename, dayOfWeek);
                             break;
 
+                        // Gets the users of the song
                         case Constant.USER_FIELD:
                             String userName;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString) == null ){
@@ -261,6 +265,7 @@ public class FirebaseHandler {
                             MainActivity.getUITracker().updateUserName(filename, userName);
                             break;
 
+                        // Gets the coordinates of the song
                         case Constant.COORD_FIELD:
                             double lat = (Double)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get("lat");
                             Log.d("FH:getLocation", "Retrieved latitude: " + lat);
@@ -279,6 +284,7 @@ public class FirebaseHandler {
                             MainActivity.getFirebaseInfoBus().notifyRate(filename, rate);
                             break;*/
 
+                        // Gets the probability of the song
                         case Constant.PROB_FIELD:
                             int prob;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString) == null ){

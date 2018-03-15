@@ -53,8 +53,6 @@ public class DownloadHandlerActivity extends AppCompatActivity {
 //            System.out.println(t.size());
             Toast.makeText(this, t.toString(), Toast.LENGTH_SHORT).show();
 
-
-
         } else{
             String url = EditText_url.getText().toString();
             String filename = inputTitle.getText().toString();
