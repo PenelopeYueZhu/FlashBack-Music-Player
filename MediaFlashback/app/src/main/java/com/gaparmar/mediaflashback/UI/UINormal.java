@@ -74,7 +74,7 @@ public class UINormal implements FirebaseObserver {
         this.context = context;
         songTitleDisplay = (TextView) ((Activity)context).findViewById(R.id.song_title);
         songLocationDisplay = (TextView) ((Activity)context).findViewById(R.id.song_location);
-        songDateDisplay = (TextView) ((Activity)context).findViewById(R.id.song_date);
+        songDateDisplay = (TextView) ((Activity)context).findViewById(R.id.z);
         songTimeDisplay = (TextView) ((Activity)context).findViewById(R.id.song_time);
         songArtistDisplay = (TextView) ((Activity)context).findViewById(R.id.artist_title);
         songAlbumDisplay = (TextView) ((Activity)context).findViewById(R.id.album_title);
