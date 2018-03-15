@@ -526,8 +526,8 @@ public class MusicQueuer implements FirebaseObserver{
             boolean firstTime = true;
             for( int i = 0 ; i < sortedList.size(); i++ ){
                 // If the URL exists, which means the song is downloaded
-                if( MainActivity.getMusicDownloader().getUrl(sortedList.get(i).getFileName())!= null &&
-                        getSong(sortedList.get(i).getFileName())!= null){
+                if( MainActivity.getMusicDownloader().getUrl(sortedList.get(i).getFileName())!= null ){
+                    Log.d("UPPPPP", "loading the song " + sortedList.get(i).getFileName());
                     // If this is the first song that's downloaded
                     if( firstTime ){
                         FlashbackActivity.flashbackPlayer.loadNewSong(sortedList.get(i).getFileName());

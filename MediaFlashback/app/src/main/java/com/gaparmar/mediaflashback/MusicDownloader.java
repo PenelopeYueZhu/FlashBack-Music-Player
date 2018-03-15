@@ -79,6 +79,9 @@ public class MusicDownloader {
                 }
             }
         };
+        if (fileExists(filename)) {
+            return;
+        }
         myContext.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
@@ -130,6 +133,10 @@ public class MusicDownloader {
         }
     }
 
+    public boolean fileExists(String filename) {
+        File file  = new File(MEDIA_PATH+File.separator + filename);
+        return file.exists();
+    }
     public void deleteFile(String filename) {
         File file = new File(MEDIA_PATH+File.separator + filename);
         boolean deleted = file.delete();

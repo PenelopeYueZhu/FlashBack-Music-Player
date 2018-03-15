@@ -337,7 +337,10 @@ public class Song {
      * Helper function that strips away the filename's special chars
      */
     public static String reformatFileName( String filename ) {
-        return filename.replaceAll("\\.", " " );
+        String name =  filename.replaceAll("\\.mp3", "" );
+        name = name.replaceAll("\\.", "");
+        return name;
+
     }
 
     public String getFirebaseID(){
