@@ -462,7 +462,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     /**
      * Launches the vibemode activity
      */
-    public void launchVibemodeActivity(){
+    public void launchVibeActivity(){
         Log.d("MainActivity", "Launching vibe mode");
         Intent intent = new Intent(this, VibeActivity.class);
         setResult(Activity.RESULT_OK, intent);
@@ -549,7 +549,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
      */
     public void onLaunchVibemodeClick(View view)
     {
-        launchVibemodeActivity();
+        launchVibeActivity();
     }
 
     /**

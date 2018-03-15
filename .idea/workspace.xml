@@ -7,18 +7,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="077e08f5-2fe2-4436-a88a-ccd217f045a4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/FriendTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/StateTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/UI/VibemodeActivity.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/UI/VibemodeUpcomingActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/com/gaparmar/mediaflashback/NormalUILayoutTest.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/com/gaparmar/mediaflashback/NormalUILayoutTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/AlbumUnitTest.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/AlbumUnitTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/FirebaseHandlerJUnit.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/FirebaseHandlerJUnit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/FlashbackUnitTest.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/FlashbackUnitTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/JUnitMusicQueuer.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/JUnitMusicQueuer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/MusicDownloaderTest.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/MusicDownloaderTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/SongUnitTest.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/SongUnitTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/StorageHanderUnitTest.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/androidTest/java/tests/StorageHanderUnitTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MusicQueuer.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/MusicQueuer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/UI/MainActivity.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/UI/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/UI/VibeActivity.java" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/java/com/gaparmar/mediaflashback/UI/VibeActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_flashback.xml" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_flashback.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_vibemode.xml" afterPath="$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_vibemode.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -36,8 +32,8 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="121">
-              <caret line="139" column="0" lean-forward="false" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
+            <state relative-caret-position="-1239">
+              <caret line="59" column="0" lean-forward="false" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -398,7 +394,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1521105694407" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1521106441964" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -446,7 +442,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1521105694407" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1521106441964" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -596,7 +592,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1187,8 +1182,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MediaFlashback/app/src/main/res/layout/activity_flashback.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="139" column="0" lean-forward="false" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
+        <state relative-caret-position="-1239">
+          <caret line="59" column="0" lean-forward="false" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
           <folding />
         </state>
       </provider>
