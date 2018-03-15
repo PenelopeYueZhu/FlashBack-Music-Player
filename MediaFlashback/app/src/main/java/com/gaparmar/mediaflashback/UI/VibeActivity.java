@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * This class represents the Flashback Mode screen
  */
-public class FlashbackActivity extends AppCompatActivity {
+public class VibeActivity extends AppCompatActivity {
     ArrayList<String> arr = new ArrayList<>();
 
     private FusedLocationProviderClient mFusedLocationClient;
@@ -189,7 +189,7 @@ public class FlashbackActivity extends AppCompatActivity {
         flashbackPlayer.resetSong();
         flashBackIsPlaying = false;
         locationManager.removeUpdates(locationListener);
-        StorageHandler.storeLastMode(FlashbackActivity.this, 0);
+        StorageHandler.storeLastMode(VibeActivity.this, 0);
         finish();
     }
 

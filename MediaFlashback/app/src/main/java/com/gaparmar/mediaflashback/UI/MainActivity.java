@@ -18,8 +18,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toolbar;
 
@@ -403,7 +401,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void launchFlashbackActivity(){
         Log.d("MainActivity", "Launching Flashback mode");
         //input = (EditText)findViewById(R.id.in_time) ;
-        Intent intent = new Intent(this, FlashbackActivity.class);
+        Intent intent = new Intent(this, VibeActivity.class);
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }
@@ -446,7 +444,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
      */
     public void launchVibemodeActivity(){
         Log.d("MainActivity", "Launching vibe mode");
-        Intent intent = new Intent(this, VibemodeActivity.class);
+        Intent intent = new Intent(this, VibeActivity.class);
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }

@@ -38,6 +38,8 @@ public class Song {
     private String dayOfWeek;
     private String address;
     private String userName;
+    private String userID;
+    private String userNickname;
     private int probability;
     private int time;
     private long timeStamp;
@@ -167,6 +169,22 @@ public class Song {
      */
     protected void setTimeStamp( long timeStamp ){
         this.timeStamp = timeStamp;
+    }
+
+    /**
+     * Set the username who most recently played the song
+     * @param userNickname the username
+     */
+    protected  void setUserNickname( String userNickname ) {
+        this.userNickname = userNickname;
+    }
+
+    /**
+     * Set the username who most recently played the song
+     * @param userID the username
+     */
+    protected  void setUserID( String userID ) {
+        this.userID = userID;
     }
 
     /**
