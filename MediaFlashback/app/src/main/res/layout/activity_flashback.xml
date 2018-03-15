@@ -31,6 +31,7 @@
             android:text="Vibe Mode"
             android:textColor="#7adf9e"
             android:textSize="75dp"
+            android:fontFamily="cursive"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="57dp"/>
 
@@ -230,14 +231,15 @@
             android:layout_height="wrap_content"
             android:text="Upcoming Songs: "
             android:textSize="40dp"
-            android:fontFamily="@font/dancing_script_regular"
+            android:fontFamily="cursive"
             android:textColor="#7adf9e"
             android:layout_marginLeft="20dp"/>
         <LinearLayout
             android:id="@+id/upcoming_songs"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginLeft="20dp">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

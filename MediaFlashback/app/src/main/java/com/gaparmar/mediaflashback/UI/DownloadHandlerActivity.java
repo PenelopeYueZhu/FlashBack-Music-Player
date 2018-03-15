@@ -34,10 +34,6 @@ public class DownloadHandlerActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
 
         musicDownloader = DownloadService.getMusicDownloader();
-
-        time = findViewById(R.id.timeMock);
-//        t = new ArrayList<>();
-//        FirebaseHandler.getLogList("dank Gaurav 2.0", t);
     }
 
     /**
@@ -73,10 +69,10 @@ public class DownloadHandlerActivity extends AppCompatActivity {
         }
      }
 
-     public void mockTime(View view){
-        MockCalendar mockCal = new MockCalendar();
-        mockCal.setHour(Integer.parseInt(time.getText().toString()));
-     }
+//     public void mockTime(View view){
+//        MockCalendar mockCal = new MockCalendar();
+//        mockCal.setHour(Integer.parseInt(time.getText().toString()));
+//     }
 
 
 
