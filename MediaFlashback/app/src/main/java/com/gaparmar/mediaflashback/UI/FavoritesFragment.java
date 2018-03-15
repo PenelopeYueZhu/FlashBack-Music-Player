@@ -2,14 +2,22 @@ package com.gaparmar.mediaflashback.UI;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
+import com.gaparmar.mediaflashback.Album;
 import com.gaparmar.mediaflashback.MusicPlayer;
 import com.gaparmar.mediaflashback.MusicQueuer;
 import com.gaparmar.mediaflashback.R;
+
+import java.util.ArrayList;
 
 
 /**
@@ -24,6 +32,7 @@ public class FavoritesFragment extends Fragment {
 
     private MusicPlayer mp;
     private MusicQueuer mq;
+    private ListView mListView;
     private OnFragmentInteractionListener mListener;
 
     public FavoritesFragment() {
@@ -46,6 +55,39 @@ public class FavoritesFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mq = BackgroundService.getMusicQueuer();
         mp = BackgroundService.getMusicPlayer();
+    }
+
+    /**
+     * Creates the buttons that are displayed and causes them to play
+     * the selected album
+     * @param view
+     * @param savedInstanceState
+     */
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+
+        final ArrayList<String> favorites = mq.createFavoritesList();
+        mListView = (ListView)getView().findViewById(R.id.favorite_list);
+        String[] titles = new String[favorites.size()];
+
+        // Loads in the album titles
+        for(int i = 0; i < titles.length; ++i){
+            titles[i] = mq.getSong(favorites.get(i)).getTitle();
+        }
+
+        ArrayAdapter adapter = new ArrayAdapter(this.getContext(),
+                android.R.layout.simple_list_item_1, titles);
+        mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String fileName = mq.getSong( favorites.get(position)).getFileName();
+                System.out.println( "Song is clicked " + mq.getSong(fileName).getTitle());
+                mp.loadNewSong(fileName);
+                MainActivity.isPlaying = true;
+                onDetach();
+            }
+        });
     }
 
     @Override

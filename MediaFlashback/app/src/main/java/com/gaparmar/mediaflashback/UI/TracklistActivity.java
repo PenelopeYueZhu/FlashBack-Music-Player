@@ -62,6 +62,10 @@ public class TracklistActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Closes the current activity
+     * @param v The current view
+     */
     public void back(View v) {
         finish();
     }
