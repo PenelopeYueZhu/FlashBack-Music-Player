@@ -54,6 +54,7 @@ import com.google.api.services.people.v1.model.Person;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -325,18 +326,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     for (Person person : connections) {
                         if (!person.isEmpty()) {
                             List<Name> names = person.getNames();
-                            if (names != null)
+                            if (names != null && !names.isEmpty())
                                 System.out.println("Names");
-                                for (Name n : names) {
-                                    if(!idList.contains(n.getMetadata().getSource().getId()))
-                                    {
-                                        nameList.add(n.getDisplayName());
-                                        idList.add(n.getMetadata().getSource().getId());
-                                        System.out.println(n.getDisplayName());
-                                        System.out.println(n.getMetadata().getSource().getId());
-                                        System.out.println(n.getDisplayName().substring(0,1) +n.getDisplayName().substring(2,3)
-                                        +n.getDisplayName().substring(4,5));
-                                    }
+                                if(!idList.contains(names.get(0).getMetadata().getSource().getId()))
+                                {
+                                    nameList.add(names.get(0).getDisplayName());
+                                    idList.add(names.get(0).getMetadata().getSource().getId());
+                                    System.out.println(names.get(0).getDisplayName());
+                                    System.out.println(names.get(0).getMetadata().getSource().getId());
+                                    System.out.println(names.get(0).getDisplayName().substring(0,1) +names.get(0).getDisplayName().substring(2,3)
+                                    +names.get(0).getDisplayName().substring(4,5));
                                 }
                         }
                     }
@@ -404,6 +403,28 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
             }
         }
+    }
+
+    public String proxification(String name)
+    {
+        StringBuilder proxyBuilder = new StringBuilder();
+        for(int i = 0; i < name.length(); i++)
+        {
+            char c = name.charAt(i);
+            if(c != 'a' && c != 'e' && c != 'i'
+            && c != 'o' && c != 'u' && c != ' ')
+            {
+                proxyBuilder.append(c);
+            }
+        }
+        long currTime = Calendar.getInstance().getTimeInMillis();
+        long numberAppend = currTime % 10 * 100;
+        currTime /= 10;
+        numberAppend += currTime % 10 * 10;
+        currTime /= 10;
+        numberAppend += currTime % 10;
+        proxyBuilder.append(numberAppend);
+        return proxyBuilder.toString();
     }
 
     /**
