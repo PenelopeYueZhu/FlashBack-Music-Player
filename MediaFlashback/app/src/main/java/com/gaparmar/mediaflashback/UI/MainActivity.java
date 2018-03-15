@@ -202,36 +202,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
         //mPlayer.loadMedia(R.raw.replay);
-        Button launchFlashbackActivity = findViewById(R.id.flashback_button);
+     //   Button launchFlashbackActivity = findViewById(R.id.);
       //  ImageButton playButton =  findViewById(R.id.play_button);
-        Button browseBtn = findViewById(R.id.browse_button);
-        ImageButton tracklistBtn = findViewById(R.id.tracklist);
 
-        tracklistBtn.setOnClickListener( new View.OnClickListener(){
-            @Override
-            public void onClick( View view ) {
-                launchTrackListActivtiy();
-            }
-        });
-
-
-
-        browseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchLibraryActivity();
-                finish();
-            }
-        });
-
-        launchFlashbackActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isPlaying = BackgroundService.getMusicPlayer().isPlaying();
-                StorageHandler.storeLastMode(MainActivity.this, 1);
-                launchFlashbackActivity();
-            }
-        });
     }
 
 
@@ -560,6 +533,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     {
         launchVibemodeActivity();
     }
+
+    /**
+     * Starts the library activity
+     * @param view
+     */
+    public void onLaunchLibrary(View view) { launchLibraryActivity(); }
 
     /**
      * Starts the tracklist activity
