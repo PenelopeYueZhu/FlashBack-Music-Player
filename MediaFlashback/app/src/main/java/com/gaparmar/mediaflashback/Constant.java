@@ -29,6 +29,7 @@ public final class Constant {
     public static final String[] SPECIAL_CHAR = new String[]{".", "#", "\\[", "\\]"};
 
     // Song's Object Fields
+    public static final String URL_FIELD = "songURL";
     public static final String FILENAME_FIELD = "fileName";
     public static final String FILEID_FIELD = "firebaseID";
     public static final String ADDRESS_FIELD = "address";

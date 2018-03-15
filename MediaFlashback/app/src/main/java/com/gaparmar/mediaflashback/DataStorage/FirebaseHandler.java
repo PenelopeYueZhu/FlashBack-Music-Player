@@ -179,6 +179,21 @@ public class FirebaseHandler {
         updateRef.updateChildren(updateMap);
     }
 
+    /**
+     * Store the URL from which the user downloaded the song
+     * @param fileName the filename of the song we are storing
+     * @param url string that contains the url
+     */
+    public static void storeURL( String fileName, String url){
+        String fileID = Song.reformatFileName(fileName);
+
+        DatabaseReference updateRef = songs.child(fileID);
+        Map<String, Object> updateMap = new HashMap<>();
+
+        updateMap.put(Constant.URL_FIELD, url);
+        updateRef.updateChildren(updateMap);
+    }
+
 
     /**
      * Get the field specified by the argument that a song stored in the database

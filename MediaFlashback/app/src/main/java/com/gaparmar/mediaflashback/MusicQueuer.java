@@ -325,9 +325,13 @@ public class MusicQueuer implements FirebaseObserver{
         getSong(ID).setTimeStamp(timeStamp);
         FirebaseHandler.storeTimeStamp(ID, timeStamp);
 
+        // Storing the song's rating
         StorageHandler.storeSongState(context, ID, getSong(ID).getRate());
         getSong(ID).setTime(timeOfDay);
         StorageHandler.storeSongTime(context, ID, timeOfDay);
+
+        // Storing the song's URL
+
 
         FirebaseHandler.storeUsername(ID, MainActivity.me.getName());
         FirebaseHandler.saveSongToSongList(getSong(ID));
