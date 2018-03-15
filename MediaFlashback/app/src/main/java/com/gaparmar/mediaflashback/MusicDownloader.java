@@ -104,6 +104,18 @@ public class MusicDownloader {
         }
     }
 
+    /**
+     * get url used to download the song with filename
+     * @param filename
+     * @return the url used to download the song
+     */
+    public String getUrl(String filename) {
+        if (allUrls.get(filename) != null) {
+            return allUrls.get(filename);
+        }
+        return null;
+    }
+
     public void removeUrl(String filename) {
         if (allUrls.get(filename) != null) {
             allUrls.remove(filename);

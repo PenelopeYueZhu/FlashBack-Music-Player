@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.gaparmar.mediaflashback.Constant;
+import com.gaparmar.mediaflashback.Friend;
 import com.gaparmar.mediaflashback.Song;
 import com.gaparmar.mediaflashback.UI.BackgroundService;
 import com.gaparmar.mediaflashback.UI.MainActivity;
@@ -23,6 +24,7 @@ import java.util.Map;
 /**
  * Created by lxyzh on 3/4/2018.
  */
+
 
 public class FirebaseHandler {
     // Connection to the database
@@ -106,16 +108,23 @@ public class FirebaseHandler {
     /**
      * Store the the address string where a song latly played into the database
      * @param fileName the filename of the song we are storing
-     * @param username the user who played the song
+     * @param user the user who played the song
      */
-    public static void storeUsername(String fileName, String username) {
+    public static void storeUsername(String fileName, Friend user) {
         String fileID = Song.reformatFileName(fileName);
 
         DatabaseReference updateRef = songs.child(fileID);
-        Map<String, Object> updateMap = new HashMap<>();
+        Map<String, Object> nameMap = new HashMap<>();
+        Map<String, Object> IdMap = new HashMap<>();
+        Map<String, Object> proxyMap = new HashMap<>();
 
-        updateMap.put(Constant.USER_FIELD, username);
-        updateRef.updateChildren(updateMap);
+        nameMap.put(Constant.USER_FIELD, user.getName());
+        IdMap.put(Constant.PROXY_FIELD, user.getId());
+        proxyMap.put(Constant.ID_FIELD, user.getProxy());
+
+        updateRef.updateChildren(nameMap);
+        updateRef.updateChildren(IdMap);
+        updateRef.updateChildren(nameMap);
     }
 
     /**
@@ -177,6 +186,21 @@ public class FirebaseHandler {
         Map<String, Object> updateMap = new HashMap<>();
 
         updateMap.put(Constant.PROB_FIELD, prob);
+        updateRef.updateChildren(updateMap);
+    }
+
+    /**
+     * Store the URL from which the user downloaded the song
+     * @param fileName the filename of the song we are storing
+     * @param url string that contains the url
+     */
+    public static void storeURL( String fileName, String url){
+        String fileID = Song.reformatFileName(fileName);
+
+        DatabaseReference updateRef = songs.child(fileID);
+        Map<String, Object> updateMap = new HashMap<>();
+
+        updateMap.put(Constant.URL_FIELD, url);
         updateRef.updateChildren(updateMap);
     }
 
@@ -386,17 +410,23 @@ public class FirebaseHandler {
 
 
     /**
+     * @param title title of the song
      * @param filename Name of the Song that got played
      * @param locationPlayed The location the song was played at
      * @param userName Name of the user that played the song
      * @param timestamp The timestamp of when the song got played
      * @param latitude Where the song got played
      * @param longitude Where the song got played
+     * @param url url used to download the song
      */
-    public static void logToFirebase(String filename, String locationPlayed, String userName, String dayOfWeek,
-                                     long timestamp, int timeOfDay, double latitude, double longitude){
+    public static void logToFirebase(String title, String album, String artist, String filename, String locationPlayed,
+                                     String userName, String proxy, String Id,
+                                     String dayOfWeek, long timestamp, int timeOfDay,
+                                     double latitude, double longitude, String url){
         final String fireID = Song.reformatFileName(filename);
-        final LogInstance temp = new LogInstance(locationPlayed, userName, dayOfWeek, timestamp, timeOfDay, latitude, longitude);
+        final LogInstance temp = new LogInstance(title, album, artist,
+                                                 locationPlayed, userName, proxy, Id, dayOfWeek, timestamp,
+                                                    timeOfDay, latitude, longitude, url);
         Query query = ref.child("song_logs").orderByChild("song_title").equalTo(fireID);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -429,6 +459,9 @@ public class FirebaseHandler {
                 for (DataSnapshot data : dataSnapshot.getChildren()){
                     for (DataSnapshot d : data.child("logs").getChildren()){
                         System.err.println( dataSnapshot );
+                        String title = (String)d.child("title").getValue();
+                        String album = (String)d.child("album").getValue();
+                        String artist = (String)d.child("artist").getValue();
                         double lati = Double.parseDouble(d.child("latitude").getValue().toString());
                         double longi = Double.parseDouble(d.child("longitude").getValue().toString());
                         String locationPlayed = (String)d.child("locationPlayed").getValue();//.toString();
@@ -436,13 +469,21 @@ public class FirebaseHandler {
                         int time = Integer.parseInt(d.child("timestamp").getValue().toString());
                         int timeOfDay = Integer.parseInt(d.child("timeOfDay").getValue().toString());
                         String user = (String)d.child("userName").getValue();//.toString();
+                        String proxy = (String)d.child("proxy").getValue();
+                        String Id = (String)d.child("Id").getValue();
+                        String url = (String)d.child("url").getValue();
 
-                        list.add(new LogInstance(locationPlayed, user, dayOfWeek, time, timeOfDay, lati, longi));
+                        list.add(new LogInstance(title, album, artist, locationPlayed,
+                                user, proxy, Id, dayOfWeek, time, timeOfDay, lati, longi, url));
                     }
                 }
                 System.err.println("size of the list is " + list.size() );
                 //BackgroundService.getFirebaseInfoBus().notifyLogList(fileName, list);
-                BackgroundService.getMusicQueuer().updateLogList(fileName, list);
+                try {
+                    BackgroundService.getMusicQueuer().updateLogList(fileName, list);
+                }catch(NullPointerException e){
+
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
