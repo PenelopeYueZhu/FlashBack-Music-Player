@@ -37,4 +37,8 @@ public class Friend
     {
         this.proxy = proxy;
     }
+    public boolean equals(Friend f)
+    {
+        return id.equals(f.getId());
+    }
 }

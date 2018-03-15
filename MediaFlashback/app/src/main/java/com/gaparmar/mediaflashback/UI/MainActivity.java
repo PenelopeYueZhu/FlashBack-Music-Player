@@ -344,8 +344,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
             } catch (Exception e) {
                 e.printStackTrace();
-            } catch (Exception e){
-                e.printStackTrace();
             }
 
             for(int i = 0; i < nameList.size(); i++)
@@ -363,6 +361,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         // consent screen will be shown here.
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_INTENT);
+    }
+
+    public boolean isFriend(Friend friend)
+    {
+        for(Friend f : friendList)
+        {
+            if(f.equals(friend))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 
