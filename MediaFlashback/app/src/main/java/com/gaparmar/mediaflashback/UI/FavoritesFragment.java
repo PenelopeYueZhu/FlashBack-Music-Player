@@ -66,13 +66,13 @@ public class FavoritesFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
 
-        final ArrayList<String> albums = mq.getEntireAlbumList();
+        final ArrayList<String> favorites = mq.createFavoritesList();
         mListView = (ListView)getView().findViewById(R.id.favorite_list);
-        String[] titles = new String[albums.size()];
+        String[] titles = new String[favorites.size()];
 
         // Loads in the album titles
         for(int i = 0; i < titles.length; ++i){
-            titles[i] = albums.get(i);
+            titles[i] = mq.getSong(favorites.get(i)).getTitle();
         }
 
         ArrayAdapter adapter = new ArrayAdapter(this.getContext(),
@@ -81,10 +81,9 @@ public class FavoritesFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Album a = BackgroundService.getMusicQueuer().getAlbum(albums.get(position));
-                Log.d("loading album", "Album: " + a.getAlbumTitle() + "has " + a.getNumSongs());
-                // BackgroundService.getMusicQueuer().readThroughAllAlbums();
-                mp.loadAlbum(a);
+                String fileName = mq.getSong( favorites.get(position)).getFileName();
+                System.out.println( "Song is clicked " + mq.getSong(fileName).getTitle());
+                mp.loadNewSong(fileName);
                 MainActivity.isPlaying = true;
                 onDetach();
             }

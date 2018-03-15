@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -74,7 +75,9 @@ public class MusicQueuer implements FirebaseObserver{
                 if (f.isDirectory()) {
                     scanDirectory(f);
                 } else {
-                    addSong(f.getPath(),f.getName() );
+                    if (f.getName().endsWith(".mp3")) {
+                        addSong(f.getPath(), f.getName());
+                    }
                 }
             }
         } else {
@@ -455,8 +458,14 @@ public class MusicQueuer implements FirebaseObserver{
         }
     }
 
-    public void makeFavoritesList( FlashbackPlayer mq ) {
-        mq.setPlayList(allTracks);
+    public ArrayList<String> createFavoritesList () {
+        List<Song> songs = new ArrayList<Song>(allTracks.values());
+        Collections.sort(songs, new SongCompare());
+        ArrayList<String> favorites = new ArrayList<String>();
+        for (Song s: songs) {
+            favorites.add(s.getFileName());
+        }
+        return favorites;
     }
 
     /**
