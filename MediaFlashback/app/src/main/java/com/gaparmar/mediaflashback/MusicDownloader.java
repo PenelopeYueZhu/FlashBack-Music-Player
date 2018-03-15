@@ -73,7 +73,7 @@ public class MusicDownloader {
                     unZip(COMPLETE_PATH + File.separator + filenameReceiver + ".zip",
                             temp.getParent() + File.separator, filenameReceiver +".zip", inputURL);
                 } else {
-                    addUrl(filenameReceiver, inputURL);
+                    addUrl(filenameReceiver + ".mp3", inputURL);
                     Log.d("MD:onComplete", "Finished Downloading " + filenameReceiver);
                     BackgroundService.getMusicQueuer().readAll();
                 }
@@ -103,6 +103,10 @@ public class MusicDownloader {
     public void addUrl(String filename, String url) {
         if(StorageHandler.getSongUrl(myContext, filename) == null) {
             StorageHandler.storeSongUrl(myContext, filename, url);
+            Log.d("MD:addUrl", "adding the url " + url);
+        }
+        else {
+            Log.d("MD:addUrl", "already have url " + url + " for " + filename);
         }
     }
 
@@ -113,6 +117,7 @@ public class MusicDownloader {
      */
     public String getUrl(String filename) {
         if (StorageHandler.getSongUrl(myContext, filename) != null) {
+            Log.d("MD:getUrl", "getting the url " + StorageHandler.getSongUrl(myContext, filename) + " with filename " + filename);
             return StorageHandler.getSongUrl(myContext, filename);
         }
         return null;

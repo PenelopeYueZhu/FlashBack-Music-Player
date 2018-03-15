@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -361,6 +362,7 @@ public class MusicQueuer implements FirebaseObserver{
         StorageHandler.storeSongTime(context, ID, timeOfDay);
 
         // Storing the song's URL if it is downloaded locally by this user
+        System.err.println("Id is " + ID);
         if( MainActivity.getMusicDownloader().getUrl(ID)!= null) {
             FirebaseHandler.storeURL(ID, MainActivity.getMusicDownloader().getUrl(ID));
         }
@@ -394,6 +396,17 @@ public class MusicQueuer implements FirebaseObserver{
     public void copyRawToSD() {
 
     }
+
+    public ArrayList<String> createFavoritesList () {
+        List<Song> songs = new ArrayList<Song>(allTracks.values());
+        Collections.sort(songs, new SongCompare());
+        ArrayList<String> favorites = new ArrayList<String>();
+        for (Song s: songs) {
+            favorites.add(s.getFileName());
+        }
+        return favorites;
+    }
+
 
     /********************************************** For vibe mode ********************************/
 
