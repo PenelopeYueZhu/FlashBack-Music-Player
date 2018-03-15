@@ -405,13 +405,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 proxyBuilder.append(c);
             }
         }
-        long currTime = Calendar.getInstance().getTimeInMillis();
-        long numberAppend = currTime % 10 * 100;
-        currTime /= 10;
-        numberAppend += currTime % 10 * 10;
-        currTime /= 10;
-        numberAppend += currTime % 10;
-        proxyBuilder.append(numberAppend);
         return proxyBuilder.toString();
     }
 
