@@ -444,7 +444,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
      */
     public void launchVibemodeActivity(){
         Log.d("MainActivity", "Launching vibe mode");
-        Intent intent = new Intent(this, VibeActivity.class);
+        Intent intent = new Intent(this, FlashbackActivity.class);
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }

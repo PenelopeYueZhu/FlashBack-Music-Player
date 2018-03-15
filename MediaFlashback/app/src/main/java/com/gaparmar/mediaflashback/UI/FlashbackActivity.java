@@ -60,21 +60,6 @@ public class FlashbackActivity extends AppCompatActivity {
     LocationListener locationListener;
     MusicQueuer mq;
 
-    /**
-     * Initializes all the View components of this activity
-     */
-    private void initializeViewComponents(){
-        launchRegularMode = findViewById(R.id.regular_button);
-        songTitleDisplay = findViewById(R.id.song_title);
-        songDateDisplay = findViewById(R.id.song_date);
-        songLocationDisplay = findViewById(R.id.song_location);
-        songTimeDisplay = findViewById(R.id.song_time);
-        playButton = findViewById(R.id.play_button);
-        pauseButton = findViewById(R.id.pause_button);
-        nextButton = findViewById(R.id.next_button);
-        prevButton = findViewById(R.id.previous_button);
-        flashbackPlayer = new FlashbackPlayer(this, mq);
-    }
 
     /**
      * Runs when the activity is created. Initializes the buttons,
@@ -99,8 +84,9 @@ public class FlashbackActivity extends AppCompatActivity {
             arr = mq.getEntireSongList();
         }
 
-
+System.err.println("Line 87");
         flashbackPlayer = new FlashbackPlayer(arr,this, mq);
+        System.err.println("line 89");
 
      /*   if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED &&
@@ -126,6 +112,10 @@ public class FlashbackActivity extends AppCompatActivity {
                 // Called when a new location is found by the network location provider.
                 MainActivity.getAddressRetriver().setLocation(location);
                 Log.d("FBLgetting location", "Setting the location to address retriver");
+                Log.d( " line 114", flashbackPlayer.toString());
+                if( FlashbackActivity.flashbackPlayer != null ) System.err.println("flahsbakc is null XXX");
+                if( FlashbackActivity.flashbackPlayer == null ) System.err.println("flahsbakc is null XXXY");
+
                 mq.makeVibeList();
                 //flashbackPlayer.loadList();
             }

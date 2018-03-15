@@ -472,6 +472,9 @@ public class MusicQueuer implements FirebaseObserver{
             int tempProb = 1;
             // Get the current instance
             LogInstance currInstance = list.get(i);
+            if( i==0 )
+            addDummySong(filename, currInstance.title, currInstance.album, currInstance.artist);
+
             boolean isInRange = false, isSameDay = false, isSameTime = false;
             // Calculate probability
             isInRange = track.isInRange(new double[]{currInstance.latitude, currInstance.longitude},
@@ -492,7 +495,6 @@ public class MusicQueuer implements FirebaseObserver{
                         BackgroundService.getMusicQueuer().readSongs();
                         BackgroundService.getMusicQueuer().readAlbums();
                     }*/
-                    addDummySong(filename, chosenInstance.title, chosenInstance.album, chosenInstance.artist);
                     Log.d("MQ:updateProbability", "Setting the log info into the song object");
                     StorageHandler.storeSongDay(context, filename, chosenInstance.dayOfWeek);
                     StorageHandler.storeSongLocationString(context, filename, chosenInstance.locationPlayed);
@@ -503,6 +505,7 @@ public class MusicQueuer implements FirebaseObserver{
             }
         }
 
+        System.err.println(filename + "line 508");
         if( getSong(filename).getRate() == Constant.LIKED ) prob ++;
 
         getSong(filename).setProbability( prob );
@@ -521,7 +524,7 @@ public class MusicQueuer implements FirebaseObserver{
            // FlashbackActivity.flashbackPlayer.loadList();
             // TODO: call the function that updates the track
             for( Song song : sortedList) {
-                MainActivity.getMusicDownloader().downloadData(song.getSongURL(), song.getFileName(), "mp3");
+                MainActivity.getMusicDownloader().downloadData(song.getSongURL(), Song.stripMP3(song.getFileName()), "mp3");
             }
             boolean firstTime = true;
             for( int i = 0 ; i < sortedList.size(); i++ ){
@@ -530,6 +533,10 @@ public class MusicQueuer implements FirebaseObserver{
                     Log.d("UPPPPP", "loading the song " + sortedList.get(i).getFileName());
                     // If this is the first song that's downloaded
                     if( firstTime ){
+                        if( FlashbackActivity.flashbackPlayer == null ) {
+                            System.err.println("flashback is null in MQ");
+                            //FlashbackActivity.flashbackPlayer = new FlashbackPlayer(getEntireSongList(), context, this);
+                        }
                         FlashbackActivity.flashbackPlayer.loadNewSong(sortedList.get(i).getFileName());
                         firstTime = false;
                     }
