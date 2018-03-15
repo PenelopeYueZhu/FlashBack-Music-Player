@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,8 +23,10 @@ import java.util.HashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
 import com.gaparmar.mediaflashback.UI.BackgroundService;
 import com.gaparmar.mediaflashback.UI.MainActivity;
+import com.google.api.client.googleapis.notifications.StoredChannel;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 
@@ -98,9 +101,8 @@ public class MusicDownloader {
      * @param filename
      */
     public void addUrl(String filename, String url) {
-        if (allUrls.get(filename) == null) {
-            allUrls.put(filename, url);
-            Log.d("MD:add url", "url: " + url + " filename: " + filename);
+        if(StorageHandler.getSongUrl(myContext, filename) == null) {
+            StorageHandler.storeSongUrl(myContext, filename, url);
         }
     }
 
@@ -110,8 +112,8 @@ public class MusicDownloader {
      * @return the url used to download the song
      */
     public String getUrl(String filename) {
-        if (allUrls.get(filename) != null) {
-            return allUrls.get(filename);
+        if (StorageHandler.getSongUrl(myContext, filename) != null) {
+            return StorageHandler.getSongUrl(myContext, filename);
         }
         return null;
     }
