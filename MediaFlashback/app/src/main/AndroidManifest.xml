@@ -39,7 +39,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.FlashbackActivity" />
+        <activity android:name=".UI.VibeActivity" />
         <activity
             android:name=".UI.LibraryActivity"
             android:label="@string/title_activity_library" />

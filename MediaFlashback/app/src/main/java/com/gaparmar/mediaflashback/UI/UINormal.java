@@ -74,7 +74,7 @@ public class UINormal implements FirebaseObserver {
         this.context = context;
         songTitleDisplay = (TextView) ((Activity)context).findViewById(R.id.song_title);
         songLocationDisplay = (TextView) ((Activity)context).findViewById(R.id.song_location);
-        songDateDisplay = (TextView) ((Activity)context).findViewById(R.id.z);
+        songDateDisplay = (TextView) ((Activity)context).findViewById(R.id.song_date);
         songTimeDisplay = (TextView) ((Activity)context).findViewById(R.id.song_time);
         songArtistDisplay = (TextView) ((Activity)context).findViewById(R.id.artist_title);
         songAlbumDisplay = (TextView) ((Activity)context).findViewById(R.id.album_title);
@@ -224,12 +224,11 @@ public class UINormal implements FirebaseObserver {
 
                         if (musicPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(1);
-                            FirebaseHandler.storeRate(musicPlayer.getCurrentSongFileName(), Constant.LIKED);
+                            StorageHandler.storeSongState(context, musicPlayer.getCurrentSongFileName(), 1);
                         }
 
                         Toast likeToast = Toast.makeText(context, LIKE, Toast.LENGTH_SHORT);
                         likeToast.show();
-                        FirebaseHandler.storeRate(musicPlayer.getCurrentSongFileName(), Constant.LIKED);
                         break;
 
                     // switch from like to dislike
@@ -239,7 +238,7 @@ public class UINormal implements FirebaseObserver {
 
                         if (musicPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(-1);
-                            FirebaseHandler.storeRate(musicPlayer.getCurrentSongFileName(), Constant.DISPLIKED);
+                            StorageHandler.storeSongState(context, musicPlayer.getCurrentSongFileName(), -1);
                         }
 
                         Toast dislikeToast = Toast.makeText(context, DISLIKE, Toast.LENGTH_SHORT);
@@ -253,7 +252,6 @@ public class UINormal implements FirebaseObserver {
 
                         if (musicPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(0);
-                            FirebaseHandler.storeRate(musicPlayer.getCurrentSongFileName(), Constant.NEUTRAL);
                             StorageHandler.storeSongState(context, musicPlayer.getCurrentSongFileName(), 0);
                         }
 
@@ -282,6 +280,7 @@ public class UINormal implements FirebaseObserver {
         FirebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.ADDRESS_FIELD);
         FirebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.WEEKDAY_FIELD);
         FirebaseHandler.getField(musicPlayer.getCurrentSongFileName(), Constant.USER_FIELD);
+        setButtonToggle(context, StorageHandler.getSongState(context, musicPlayer.getCurrentSongFileName()));
     }
 
     /**
