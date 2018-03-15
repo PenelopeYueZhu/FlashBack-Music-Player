@@ -455,6 +455,9 @@ public class MusicQueuer implements FirebaseObserver{
         }
     }
 
+    public void makeFavoritesList( FlashbackPlayer mq ) {
+        mq.setPlayList(allTracks);
+    }
 
     /**
      * Compile a list of songs to play for vibe mode
