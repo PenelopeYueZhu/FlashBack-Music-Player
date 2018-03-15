@@ -2,6 +2,7 @@ package com.gaparmar.mediaflashback.UI;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -10,7 +11,9 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
@@ -83,6 +86,9 @@ public class VibeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
         flashBackIsPlaying = true;
+
+        //TODO: remove this test
+        appendUpcomingSong("string from on create");
 
         //initializeViewComponents();
 
@@ -246,6 +252,25 @@ public class VibeActivity extends AppCompatActivity {
         songLocationDisplay.setText( songInfo.get(LOC_POS));
         songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
         songArtistDisplay.setText(songInfo.get(ARTIST_POS));
+    }
+
+
+    /**
+     * Adds the given song to the Upcoming Songs in the vibe mode
+     * @param song the song name to be added
+     */
+    public void appendUpcomingSong(String song){
+        LinearLayout upcoming = findViewById(R.id.upcoming_songs);
+
+        LinearLayout.LayoutParams temp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        temp.setMargins(100,0,0,0);
+        TextView t = new TextView(this);
+        t.setText(song);
+        t.setLayoutParams(temp);
+        t.setTextColor(Color.parseColor("#c4d7f2"));
+        t.setTextSize(20);
+        upcoming.addView(t);
     }
 
 }
