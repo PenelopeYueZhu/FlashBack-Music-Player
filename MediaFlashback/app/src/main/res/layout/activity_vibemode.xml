@@ -104,12 +104,12 @@
         android:layout_width="match_parent"
         android:orientation="vertical">
         <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="upcoming song 1"
-        android:layout_marginLeft="40dp"
-        android:textColor="#c4d7f2"
-        android:textSize="20dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="upcoming song 1"
+            android:layout_marginLeft="40dp"
+            android:textColor="#c4d7f2"
+            android:textSize="20dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
