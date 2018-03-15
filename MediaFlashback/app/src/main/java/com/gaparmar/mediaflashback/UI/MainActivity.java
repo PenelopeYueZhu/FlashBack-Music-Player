@@ -560,4 +560,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     {
         launchVibemodeActivity();
     }
+
+    /**
+     * Starts the tracklist activity
+     * @param view
+     */
+    public void onLaunchTracklistClick(View view)
+    {
+        launchTrackListActivtiy();;
+    }
 }

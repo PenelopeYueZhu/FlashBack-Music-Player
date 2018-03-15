@@ -246,23 +246,11 @@
             android:layout_marginLeft="10dp"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/tracklist"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:background="@color/common_google_signin_btn_text_light_disabled"
-                android:onClick="goToTracklist"
-                android:scaleType="fitXY"
-                android:tint="@color/colorAccent"
-                app:srcCompat="@drawable/music_library" />
 
             <ImageButton
                 android:id="@+id/previous_button"
-                android:layout_width="30dp"
-                android:layout_height="55dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_marginRight="25dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
@@ -295,8 +283,8 @@
 
                 <ImageButton
                     android:id="@+id/play_button"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     app:srcCompat="@android:drawable/ic_media_play" />
@@ -305,8 +293,8 @@
 
             <ImageButton
                 android:id="@+id/next_button"
-                android:layout_width="30dp"
-                android:layout_height="55dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="25dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
@@ -318,8 +306,8 @@
 
             <ImageButton
                 android:id="@+id/toggleBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
@@ -333,30 +321,30 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/flashback_button"
-            android:layout_width="316dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:background="#c4d7f2"
-            android:text="Flashback Mode"
-            android:textAllCaps="false"
-            android:textColor="#232625"
-            android:textSize="23dp"
-            tools:layout_editor_absoluteX="22dp"
-            tools:layout_editor_absoluteY="403dp" />
+        <!--<Button-->
+            <!--android:id="@+id/flashback_button"-->
+            <!--android:layout_width="316dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:background="#c4d7f2"-->
+            <!--android:text="Flashback Mode"-->
+            <!--android:textAllCaps="false"-->
+            <!--android:textColor="#232625"-->
+            <!--android:textSize="23dp"-->
+            <!--tools:layout_editor_absoluteX="22dp"-->
+            <!--tools:layout_editor_absoluteY="403dp" />-->
 
-        <Button
-            android:id="@+id/browse_button"
-            android:layout_width="316dp"
-            android:layout_height="40dp"
-            android:background="#36668e"
-            android:text="Browse Music"
-            android:textAllCaps="false"
-            android:textColor="#c4d7f2"
-            android:textSize="23dp"
-            tools:layout_editor_absoluteX="22dp"
-            tools:layout_editor_absoluteY="450dp" />
+        <!--<Button-->
+            <!--android:id="@+id/browse_button"-->
+            <!--android:layout_width="316dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:background="#36668e"-->
+            <!--android:text="Browse Music"-->
+            <!--android:textAllCaps="false"-->
+            <!--android:textColor="#c4d7f2"-->
+            <!--android:textSize="23dp"-->
+            <!--tools:layout_editor_absoluteX="22dp"-->
+            <!--tools:layout_editor_absoluteY="450dp" />-->
 
 
         <!--<LinearLayout-->
@@ -406,6 +394,7 @@
             android:layout_width="75dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
+            android:onClick="onLaunchTracklistClick"
             android:src="@drawable/ic_dashboard_black_24dp" />
 
         <ImageButton
