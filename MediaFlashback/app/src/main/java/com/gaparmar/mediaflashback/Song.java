@@ -199,7 +199,9 @@ public class Song {
         this.songURL = URL;
     }
 
-
+    protected void setTitle( String title ){
+        this.title = title;
+    }
 
     /************************************** Getters for com.gaparmar.mediaflashback.UI display *******************************/
     public String getFileName() {
@@ -238,6 +240,8 @@ public class Song {
     public String getAddress() {return address;}
 
     public String getUserName() {return userName;}
+
+    public String getSongURL() {return songURL;}
 
     /************************************** Getters for Probability Checking *******************************/
 

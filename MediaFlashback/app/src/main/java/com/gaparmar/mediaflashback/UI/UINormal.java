@@ -337,7 +337,6 @@ public class UINormal implements FirebaseObserver {
     public void updateLogList(String filename, ArrayList<LogInstance> list){}
     public void updateSongList( ArrayList<String> songList ){}
 
-
     /******************************** end of observer listners ****************************/
 
     /**

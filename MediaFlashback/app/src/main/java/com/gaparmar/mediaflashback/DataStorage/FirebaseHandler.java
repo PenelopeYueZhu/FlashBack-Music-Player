@@ -395,17 +395,22 @@ public class FirebaseHandler {
 
 
     /**
+     * @param title title of the song
      * @param filename Name of the Song that got played
      * @param locationPlayed The location the song was played at
      * @param userName Name of the user that played the song
      * @param timestamp The timestamp of when the song got played
      * @param latitude Where the song got played
      * @param longitude Where the song got played
+     * @param url url used to download the song
      */
-    public static void logToFirebase(String filename, String locationPlayed, String userName, String dayOfWeek,
-                                     long timestamp, int timeOfDay, double latitude, double longitude){
+    public static void logToFirebase(String title, String album, String artist, String filename, String locationPlayed,
+                                     String userName, String dayOfWeek, long timestamp, int timeOfDay,
+                                     double latitude, double longitude, String url){
         final String fireID = Song.reformatFileName(filename);
-        final LogInstance temp = new LogInstance(locationPlayed, userName, dayOfWeek, timestamp, timeOfDay, latitude, longitude);
+        final LogInstance temp = new LogInstance(title, album, artist,
+                                                 locationPlayed, userName, dayOfWeek, timestamp,
+                                                    timeOfDay, latitude, longitude, url);
         Query query = ref.child("song_logs").orderByChild("song_title").equalTo(fireID);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -438,6 +443,9 @@ public class FirebaseHandler {
                 for (DataSnapshot data : dataSnapshot.getChildren()){
                     for (DataSnapshot d : data.child("logs").getChildren()){
                         System.err.println( dataSnapshot );
+                        String title = (String)d.child("title").getValue();
+                        String album = (String)d.child("album").getValue();
+                        String artist = (String)d.child("artist").getValue();
                         double lati = Double.parseDouble(d.child("latitude").getValue().toString());
                         double longi = Double.parseDouble(d.child("longitude").getValue().toString());
                         String locationPlayed = (String)d.child("locationPlayed").getValue();//.toString();
@@ -445,8 +453,10 @@ public class FirebaseHandler {
                         int time = Integer.parseInt(d.child("timestamp").getValue().toString());
                         int timeOfDay = Integer.parseInt(d.child("timeOfDay").getValue().toString());
                         String user = (String)d.child("userName").getValue();//.toString();
+                        String url = (String)d.child("url").getValue();
 
-                        list.add(new LogInstance(locationPlayed, user, dayOfWeek, time, timeOfDay, lati, longi));
+                        list.add(new LogInstance(title, album, artist, locationPlayed,
+                                user, dayOfWeek, time, timeOfDay, lati, longi, url));
                     }
                 }
                 System.err.println("size of the list is " + list.size() );
