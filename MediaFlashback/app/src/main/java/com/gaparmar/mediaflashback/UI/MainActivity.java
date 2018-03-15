@@ -62,33 +62,26 @@ import java.util.Map;
  */
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
-    private MusicQueuer musicQueuer;
-    private MusicPlayer musicPlayer;
-
     // Objects for location
     private static MusicDownloader musicDownloader;
-    private FusedLocationProviderClient mFusedLocationClient;
     private Handler addressHandler;
     private static AddressRetriver addressRetriver;
     private static UINormal tracker;
 
-    private static ArrayList<String> stoppedInfo = new ArrayList<>();
+    //Various booleans to represent music player state
     public static boolean isPlaying;
     private static boolean browsing = false;
     private static boolean firstTime = true;
     private static boolean inDownloadScreen = false;
     private static boolean viewingTracklist = false;
+
+
     private static ArrayList<Friend> friendList;
     public static Friend me;
 
     GoogleApiClient mGoogleApiClient;
 
     final int RC_INTENT = 200;
-    final int RC_API_CHECK = 100;
-
-    SignInButton signInButton;
-    Toolbar toolbar;
-    ProgressBar progressBar;
 
     public static Map<String, Integer> weekDays;
 
