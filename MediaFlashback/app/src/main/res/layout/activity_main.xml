@@ -389,29 +389,38 @@
             android:layout_width="75dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
+            android:background="@android:color/transparent"
             android:onClick="onLaunchLibrary"
-            android:src="@drawable/ic_home_black_24dp" />
+            android:src="@drawable/music_library"
+            android:tint="@android:color/darker_gray" />
 
         <ImageButton
             android:layout_width="75dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
+            android:background="@android:color/transparent"
             android:onClick="onLaunchTracklistClick"
-            android:src="@drawable/ic_dashboard_black_24dp" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/tracklist"
+            android:tint="@color/colorPrimary" />
 
         <ImageButton
             android:layout_width="75dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
+            android:background="@android:color/transparent"
             android:onClick="onLaunchVibemodeClick"
-            android:src="@android:drawable/star_big_on" />
+            android:src="@drawable/vibe"
+            android:tint="@android:color/holo_green_dark" />
 
         <ImageButton
             android:layout_width="75dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
+            android:background="@android:color/transparent"
             android:onClick="onLaunchDownloadClick"
-            android:src="@android:drawable/ic_menu_manage" />
+            android:src="@android:drawable/stat_sys_download"
+            android:tint="@android:color/darker_gray" />
     </LinearLayout>
 
 </LinearLayout>
