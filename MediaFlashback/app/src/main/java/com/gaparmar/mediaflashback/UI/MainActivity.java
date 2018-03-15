@@ -335,12 +335,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
      * @param friend
      * @return the name if it is a friend, otherwise return the proxy name
      */
-    public String isFriend(Friend friend)
-    {
-        for(Friend f : friendList)
-        {
-            if(f.equals(friend))
-            {
+    public static String isFriend(Friend friend) {
+        for(Friend f : friendList) {
+            if(f.equals(friend)) {
                 return friend.getName();
             }
         }

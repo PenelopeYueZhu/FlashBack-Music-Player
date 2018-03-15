@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
@@ -11,6 +12,8 @@ import com.gaparmar.mediaflashback.DataStorage.FirebaseObserver;
 import com.gaparmar.mediaflashback.DataStorage.LogInstance;
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
 import com.gaparmar.mediaflashback.UI.VibeActivity;
+import com.gaparmar.mediaflashback.UI.BackgroundService;
+import com.gaparmar.mediaflashback.UI.VibemodeActivity;
 import com.gaparmar.mediaflashback.WhereAndWhen.AddressRetriver;
 
 import java.io.File;
@@ -141,6 +144,20 @@ public class MusicQueuer implements FirebaseObserver{
 
         Song song = new Song(fileName);
         song.setMetadata(title, album, artist,year);
+        // Put the song object inside the track hashmap
+        allTracks.put(fileName, song);
+        FirebaseHandler.saveSong(song);
+        Log.d("MQ:readSong()", "Just loaded song " + song.getTitle() + " into map");
+    }
+
+    /**
+     *
+     * @param fileName
+     */
+    public void addDummySong(String fileName, String title, String album, String artist) {
+
+        Song song = new Song(fileName);
+        song.setMetadata(title, album, artist,"0");
         // Put the song object inside the track hashmap
         allTracks.put(fileName, song);
         FirebaseHandler.saveSong(song);
@@ -280,7 +297,19 @@ public class MusicQueuer implements FirebaseObserver{
      * @return The corresponding
      */
     public Song getSong(String filePath) {
-        return allTracks.get(filePath);
+        if( allTracks.containsKey( filePath )) return allTracks.get(filePath);
+        else return null;
+    }
+
+    /**
+     * Add song to the list
+     * @param song the song object we are storing
+     */
+    public void setSong( Song song ){
+        if( allTracks.containsKey(song.getFileName())){
+            return;
+        }
+        allTracks.put(song.getFileName(), song);
     }
 
     /**
@@ -300,7 +329,9 @@ public class MusicQueuer implements FirebaseObserver{
         infoBus.add(StorageHandler.getSongLocationString(context, fileName));
         infoBus.add(getTimeOfDay(StorageHandler.getSongTime(context, fileName)));
         infoBus.add(StorageHandler.getSongDay(context, fileName));
-        infoBus.add(song.getUserName());
+        // TODO make it proxy if not friend
+        infoBus.add(MainActivity.isFriend(new Friend(song.getUserName(),
+                song.getUserID(), song.getUserNickname())));
         return infoBus;
     }
 
@@ -335,14 +366,21 @@ public class MusicQueuer implements FirebaseObserver{
         getSong(ID).setTimeStamp(timeStamp);
         FirebaseHandler.storeTimeStamp(ID, timeStamp);
 
+        // Storing the song's rating
         StorageHandler.storeSongState(context, ID, getSong(ID).getRate());
         getSong(ID).setTime(timeOfDay);
         StorageHandler.storeSongTime(context, ID, timeOfDay);
 
-        FirebaseHandler.storeUsername(ID, MainActivity.me.getName());
+        // Storing the song's URL if it is downloaded locally by this user
+        if( MainActivity.getMusicDownloader().getUrl(ID)!= null) {
+            FirebaseHandler.storeURL(ID, MainActivity.getMusicDownloader().getUrl(ID));
+        }
+
+        FirebaseHandler.storeUsername(ID, MainActivity.me);
         FirebaseHandler.saveSongToSongList(getSong(ID));
-        FirebaseHandler.logToFirebase(ID, ar.getAddress(), MainActivity.me.getName(),
-                weekdayStr, timeStamp, timeOfDay, ar.getLatLon()[0], ar.getLatLon()[1]);
+        FirebaseHandler.logToFirebase(getSong(ID).getTitle(),getSong(ID).getParentAlbum(), getSong(ID).getArtistName(),
+                ID, ar.getAddress(), MainActivity.me.getName(), MainActivity.me.getProxy(), MainActivity.me.getProxy(),
+                weekdayStr, timeStamp, timeOfDay, ar.getLatLon()[0], ar.getLatLon()[1], getSong(ID).getSongURL());
     }
 
 
@@ -372,6 +410,7 @@ public class MusicQueuer implements FirebaseObserver{
 
     ArrayList<Song>sortedList = new ArrayList<Song>();
     ArrayList<String> songFromDatabase = new ArrayList<>();
+
     Song track;
     int totalSongs = getNumSongs();
 
@@ -406,6 +445,10 @@ public class MusicQueuer implements FirebaseObserver{
      */
     public void updateProbablity( String filename ) {
         track = getSong(filename);
+        if( track == null ){
+            // When the song is not actually in the list, add it
+            track = new Song(filename);
+        }
         if( StorageHandler.getSongState(context, filename ) == -1 ){
             // This is when a song is disliked, skip it
             totalSongs--;
@@ -455,25 +498,65 @@ public class MusicQueuer implements FirebaseObserver{
                 chosenInstance = currInstance;
                 prob = tempProb;
                 if( chosenInstance != null ){
+                    /*if( getSong(filename) == null ) {
+                        MainActivity.getMusicDownloader().downloadData(chosenInstance.url, filename, "mp3");
+                        BackgroundService.getMusicQueuer().readSongs();
+                        BackgroundService.getMusicQueuer().readAlbums();
+                    }*/
+                    addDummySong(filename, chosenInstance.title, chosenInstance.album, chosenInstance.artist);
                     Log.d("MQ:updateProbability", "Setting the log info into the song object");
                     StorageHandler.storeSongDay(context, filename, chosenInstance.dayOfWeek);
                     StorageHandler.storeSongLocationString(context, filename, chosenInstance.locationPlayed);
                     StorageHandler.storeSongTime(context, filename, chosenInstance.timeOfDay);
-                    track.setUserName(chosenInstance.userName);
+                    getSong(filename).setSongURL(chosenInstance.url);
+                    getSong(filename).setUserName(chosenInstance.userName);
+                    getSong(filename).setUserNickname(chosenInstance.proxy);
+                    getSong(filename).setUserID(chosenInstance.Id);
                 }
             }
         }
 
-        if( track.getRate() == Constant.LIKED ) prob ++;
+        if( getSong(filename).getRate() == Constant.LIKED ) prob ++;
 
-        track.setProbability( prob );
-        FirebaseHandler.storeProb(track.getFileName(), prob);
-        sortedList.add(track);
+        getSong(filename).setProbability( prob );
+        FirebaseHandler.storeProb(filename, prob);
+        sortedList.add(getSong(filename));
         Collections.sort(sortedList, new SongCompare());
         Log.d("MQ:updatePrbability", "sortedList has now " + sortedList.size() + " and we have in total " + totalSongs);
+        /*if( sortedList.size() == 1 ){
+
+        }
+        else {
+            FlashbackActivity.flashbackPlayer.addToList();
+        }*/
         if( sortedList.size() == totalSongs ){
-            loadPlaylist(VibeActivity.flashbackPlayer);
-            VibeActivity.flashbackPlayer.loadList();
+
+           // loadPlaylist(FlashbackActivity.flashbackPlayer);
+           // FlashbackActivity.flashbackPlayer.loadList();
+            // TODO: call the function that updates the track
+            for( Song song : sortedList) {
+                MainActivity.getMusicDownloader().downloadData(song.getSongURL(), song.getFileName(), "mp3");
+            }
+            boolean firstTime = true;
+            for( int i = 0 ; i < sortedList.size(); i++ ){
+                // If the URL exists, which means the song is downloaded
+                if( MainActivity.getMusicDownloader().getUrl(sortedList.get(i).getFileName())!= null ){
+                    // If this is the first song that's downloaded
+                    if( firstTime ){
+                        VibeActivity.flashbackPlayer.loadNewSong(sortedList.get(i).getFileName());
+                        firstTime = false;
+                    }
+                    // Else just add it to the to-play list
+                    else {
+                        VibeActivity.flashbackPlayer.addToList(sortedList.get(i).getFileName());
+                    }
+                }
+                // Get back to the beginning if we didn't download the whole list
+                if( (i == sortedList.size()-1) &&
+                        (VibeActivity.flashbackPlayer.getSongsToPlay().size() != sortedList.size()) ) {
+                    i = 0;
+                }
+            }
         }
     }
 

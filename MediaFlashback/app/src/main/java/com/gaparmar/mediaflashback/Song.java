@@ -195,6 +195,7 @@ public class Song {
         this.userName = userName;
     }
 
+
     /**
      * Set the time of the day when a song was played
      * @param time the time of the day when the song is played
@@ -217,7 +218,9 @@ public class Song {
         this.songURL = URL;
     }
 
-
+    protected void setTitle( String title ){
+        this.title = title;
+    }
 
     /************************************** Getters for com.gaparmar.mediaflashback.UI display *******************************/
     public String getFileName() {
@@ -256,6 +259,12 @@ public class Song {
     public String getAddress() {return address;}
 
     public String getUserName() {return userName;}
+
+    public String getUserNickname() {return userNickname;}
+
+    public String getUserID() {return userID;}
+
+    public String getSongURL() {return songURL;}
 
     /************************************** Getters for Probability Checking *******************************/
 
