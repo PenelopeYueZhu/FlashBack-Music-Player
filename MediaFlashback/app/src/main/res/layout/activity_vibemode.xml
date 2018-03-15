@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#c4d7f2"
-        android:text="lastplayed"
+        android:text=" - last played by: "
         android:textSize="20dp"
         android:layout_marginLeft="30dp"/>
 
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#c4d7f2"
-        android:text="lastplayed"
+        android:text=" - last played at: "
         android:textSize="20dp"
         android:layout_marginLeft="30dp"/>
 
@@ -92,7 +92,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Upcoming:"
+        android:text="Upcoming: "
         android:textColor="#c4d7f2"
         android:textSize="50dp"
         android:fontFamily="@font/dancing_script_regular"
@@ -104,30 +104,30 @@
         android:layout_width="match_parent"
         android:orientation="vertical">
         <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-            android:text="upcoming song"
-        android:layout_marginLeft="40dp"
-        android:textColor="#c4d7f2"
-        android:textSize="20dp"/>
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="upcoming song"
+            android:text="upcoming song 1"
             android:layout_marginLeft="40dp"
             android:textColor="#c4d7f2"
             android:textSize="20dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="upcoming song"
+            android:text="upcoming song 2"
             android:layout_marginLeft="40dp"
             android:textColor="#c4d7f2"
             android:textSize="20dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="upcoming song"
+            android:text="upcoming song 3"
+            android:layout_marginLeft="40dp"
+            android:textColor="#c4d7f2"
+            android:textSize="20dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="upcoming song 4"
             android:layout_marginLeft="40dp"
             android:textColor="#c4d7f2"
             android:textSize="20dp"/>

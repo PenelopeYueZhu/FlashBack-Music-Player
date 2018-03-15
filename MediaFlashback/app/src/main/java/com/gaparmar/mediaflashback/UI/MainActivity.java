@@ -2,10 +2,8 @@ package com.gaparmar.mediaflashback.UI;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,7 +11,6 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -26,9 +23,6 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toolbar;
 
-import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
-import com.gaparmar.mediaflashback.DataStorage.FirebaseInfoBus;
-import com.gaparmar.mediaflashback.DataStorage.FirebaseObject;
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
 import com.gaparmar.mediaflashback.Friend;
 import com.gaparmar.mediaflashback.MusicDownloader;
@@ -46,8 +40,6 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
@@ -55,7 +47,6 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.people.v1.People;
-
 import com.google.api.services.people.v1.PeopleScopes;
 import com.google.api.services.people.v1.model.ListConnectionsResponse;
 import com.google.api.services.people.v1.model.Name;
@@ -321,7 +312,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                 Person profile = peopleService.people().get("people/me").setRequestMaskIncludeField("person.names").execute();
 
-                me = new Friend(profile.getNames().get(0).getDisplayName(), profile.getNames().get(0).getMetadata().getSource().getId());
+                String name = profile.getNames().get(0).getDisplayName();
+                String proxy = name.substring(0,1) + name.substring(2,3) + name.substring(4,5);
+                me = new Friend(name, profile.getNames().get(0).getMetadata().getSource().getId(), proxy);
 
                 ListConnectionsResponse response = peopleService.people().connections()
                         .list("people/me").setRequestMaskIncludeField("person.names")
@@ -334,26 +327,29 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             List<Name> names = person.getNames();
                             if (names != null)
                                 System.out.println("Names");
-                                for (Name name : names) {
-                                    if(!idList.contains(name.getMetadata().getSource().getId()))
+                                for (Name n : names) {
+                                    if(!idList.contains(n.getMetadata().getSource().getId()))
                                     {
-                                        nameList.add(name.getDisplayName());
-                                        idList.add(name.getMetadata().getSource().getId());
-                                        System.out.println(name.getDisplayName());
-                                        System.out.println(name.getMetadata().getSource().getId());
+                                        nameList.add(n.getDisplayName());
+                                        idList.add(n.getMetadata().getSource().getId());
+                                        System.out.println(n.getDisplayName());
+                                        System.out.println(n.getMetadata().getSource().getId());
+                                        System.out.println(n.getDisplayName().substring(0,1) +n.getDisplayName().substring(2,3)
+                                        +n.getDisplayName().substring(4,5));
                                     }
                                 }
                         }
                     }
                 }
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             for(int i = 0; i < nameList.size(); i++)
             {
-                friendList.add(new Friend(nameList.get(i), idList.get(i)));
+                String proxy = nameList.get(i).substring(0,1) + nameList.get(i).substring(2,3) + nameList.get(i).substring(4,5);
+                friendList.add(new Friend(nameList.get(i), idList.get(i), proxy));
             }
             return nameList;
         }
@@ -365,6 +361,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         // consent screen will be shown here.
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_INTENT);
+    }
+
+    public boolean isFriend(Friend friend)
+    {
+        for(Friend f : friendList)
+        {
+            if(f.equals(friend))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -516,8 +524,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
      * Starts the download activity
      * @param view
      */
-    public void OnLaunchDownloadClick(View view)
+    public void onLaunchDownloadClick(View view)
     {
         launchDownloadActivity();
+    }
+
+    /**
+     * Starts the vibemode activity
+     * @param view
+     */
+    public void onLaunchVibemodeClick(View view)
+    {
+        launchVibemodeActivity();
     }
 }
