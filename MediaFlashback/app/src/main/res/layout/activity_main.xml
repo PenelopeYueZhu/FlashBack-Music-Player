@@ -322,29 +322,29 @@
         </LinearLayout>
 
         <!--<Button-->
-            <!--android:id="@+id/flashback_button"-->
-            <!--android:layout_width="316dp"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:background="#c4d7f2"-->
-            <!--android:text="Flashback Mode"-->
-            <!--android:textAllCaps="false"-->
-            <!--android:textColor="#232625"-->
-            <!--android:textSize="23dp"-->
-            <!--tools:layout_editor_absoluteX="22dp"-->
-            <!--tools:layout_editor_absoluteY="403dp" />-->
+        <!--android:id="@+id/flashback_button"-->
+        <!--android:layout_width="316dp"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:background="#c4d7f2"-->
+        <!--android:text="Flashback Mode"-->
+        <!--android:textAllCaps="false"-->
+        <!--android:textColor="#232625"-->
+        <!--android:textSize="23dp"-->
+        <!--tools:layout_editor_absoluteX="22dp"-->
+        <!--tools:layout_editor_absoluteY="403dp" />-->
 
         <!--<Button-->
-            <!--android:id="@+id/browse_button"-->
-            <!--android:layout_width="316dp"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:background="#36668e"-->
-            <!--android:text="Browse Music"-->
-            <!--android:textAllCaps="false"-->
-            <!--android:textColor="#c4d7f2"-->
-            <!--android:textSize="23dp"-->
-            <!--tools:layout_editor_absoluteX="22dp"-->
-            <!--tools:layout_editor_absoluteY="450dp" />-->
+        <!--android:id="@+id/browse_button"-->
+        <!--android:layout_width="316dp"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:background="#36668e"-->
+        <!--android:text="Browse Music"-->
+        <!--android:textAllCaps="false"-->
+        <!--android:textColor="#c4d7f2"-->
+        <!--android:textSize="23dp"-->
+        <!--tools:layout_editor_absoluteX="22dp"-->
+        <!--tools:layout_editor_absoluteY="450dp" />-->
 
 
         <!--<LinearLayout-->
@@ -385,9 +385,11 @@
         android:paddingTop="10dp">
 
         <ImageButton
+            android:id="@+id/browse_button"
             android:layout_width="75dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
+            android:onClick="onLaunchLibrary"
             android:src="@drawable/ic_home_black_24dp" />
 
         <ImageButton
@@ -401,8 +403,8 @@
             android:layout_width="75dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:src="@android:drawable/star_big_on"
-            android:onClick="onLaunchVibemodeClick"/>
+            android:onClick="onLaunchVibemodeClick"
+            android:src="@android:drawable/star_big_on" />
 
         <ImageButton
             android:layout_width="75dp"
