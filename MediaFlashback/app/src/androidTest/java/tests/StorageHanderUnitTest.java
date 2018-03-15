@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 public class StorageHanderUnitTest {
 
-    Context context;
+    /*Context context;
     Song testSong;
     double delta = 0.00001;
 
@@ -63,5 +63,5 @@ public class StorageHanderUnitTest {
         int state = 1;
         StorageHandler.storeSongState(context, testSong.getResID(), state);
         assertEquals(state, StorageHandler.getSongState(context, testSong.getResID()));
-    }
+    }*/
 }

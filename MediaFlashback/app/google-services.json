@@ -15,6 +15,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "292202723687-am3q0j54521julpk8iko7uve8q345ju2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gaparmar.mediaflashback",
+            "certificate_hash": "157453e59a2fad009c39473ed5797065abdbd9e5"
+          }
+        },
+        {
+          "client_id": "292202723687-jjcpkvj3gvuq75q74emlucpdkq0tcei0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gaparmar.mediaflashback",
+            "certificate_hash": "193ea6bc085323dd128c91391e9c45684bdcd6d4"
+          }
+        },
+        {
+          "client_id": "292202723687-bfhvb9ntufbr7dti0bnt0a1holr76vu0.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "292202723687-2d30svqeoe5frl028q65jtddo760p77j.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
           "client_id": "292202723687-lhnsf225558do495926rh54p2ubfk2ur.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -56,7 +80,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "292202723687-3e1sd82h0mnnf7dnak791imudspvfpj0.apps.googleusercontent.com",
+              "client_id": "292202723687-bfhvb9ntufbr7dti0bnt0a1holr76vu0.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

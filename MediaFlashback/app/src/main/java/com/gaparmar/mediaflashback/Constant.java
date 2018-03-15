@@ -34,6 +34,8 @@ public final class Constant {
     public static final String FILEID_FIELD = "firebaseID";
     public static final String ADDRESS_FIELD = "address";
     public static final String USER_FIELD = "userName";
+    public static final String PROXY_FIELD = "proxy";
+    public static final String ID_FIELD = "Id";
     public static final String WEEKDAY_FIELD = "dayOfWeek";
     public static final String TIME_FIELD = "time";
     public static final String COORD_FIELD = "location";
@@ -42,7 +44,7 @@ public final class Constant {
     public static final String PROB_FIELD = "probability";
     public static final int LIKED = 1;
     public static final int NEUTRAL = 0;
-    public static final int DISPLIKED = -1;
+    public static final int DISLIKED = -1;
 
     // For Probability calculation
     public static final int MORNING_DIVIDER = 5;

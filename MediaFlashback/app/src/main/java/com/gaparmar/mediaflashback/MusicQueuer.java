@@ -13,6 +13,7 @@ import com.gaparmar.mediaflashback.DataStorage.LogInstance;
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
 import com.gaparmar.mediaflashback.UI.BackgroundService;
 import com.gaparmar.mediaflashback.UI.FlashbackActivity;
+import com.gaparmar.mediaflashback.UI.VibeActivity;
 import com.gaparmar.mediaflashback.WhereAndWhen.AddressRetriver;
 
 import java.io.File;
@@ -368,10 +369,10 @@ public class MusicQueuer implements FirebaseObserver{
             getSong(ID).setSongURL(MainActivity.getMusicDownloader().getUrl(ID));
         }
 
-        FirebaseHandler.storeUsername(ID, MainActivity.me.getName());
+        FirebaseHandler.storeUsername(ID, MainActivity.me);
         FirebaseHandler.saveSongToSongList(getSong(ID));
         FirebaseHandler.logToFirebase(getSong(ID).getTitle(),getSong(ID).getParentAlbum(), getSong(ID).getArtistName(),
-                ID, ar.getAddress(), MainActivity.me.getName(),
+                ID, ar.getAddress(), MainActivity.me.getName(), MainActivity.me.getProxy(), MainActivity.me.getId(),
                 weekdayStr, timeStamp, timeOfDay, ar.getLatLon()[0], ar.getLatLon()[1], getSong(ID).getSongURL());
     }
 
@@ -500,7 +501,8 @@ public class MusicQueuer implements FirebaseObserver{
                     StorageHandler.storeSongLocationString(context, filename, chosenInstance.locationPlayed);
                     StorageHandler.storeSongTime(context, filename, chosenInstance.timeOfDay);
                     getSong(filename).setSongURL(chosenInstance.url);
-                    getSong(filename).setUserName(chosenInstance.userName);
+                    getSong(filename).setUserName(MainActivity.isFriend(new Friend( chosenInstance.userName,
+                            chosenInstance.proxy, chosenInstance.Id)));
                 }
             }
         }
@@ -535,22 +537,22 @@ public class MusicQueuer implements FirebaseObserver{
                     // If this is the first song that's downloaded
                     if( firstTime ){
                         System.err.println("First timme playing MQ 536");
-                        if( FlashbackActivity.flashbackPlayer == null ) {
+                        if( VibeActivity.flashbackPlayer == null ) {
                             System.err.println("flashback is null in MQ");
                             //FlashbackActivity.flashbackPlayer = new FlashbackPlayer(getEntireSongList(), context, this);
                         }
-                        FlashbackActivity.flashbackPlayer.loadNewSong(sortedList.get(i).getFileName());
+                        VibeActivity.flashbackPlayer.loadNewSong(sortedList.get(i).getFileName());
                         firstTime = false;
                     }
                     // Else just add it to the to-play list
                     else {
                         System.err.println("Adding songs" + sortedList.get(i).getFileName() + " to the list. MQ line 546");
-                        FlashbackActivity.flashbackPlayer.addToList(sortedList.get(i).getFileName());
+                        VibeActivity.flashbackPlayer.addToList(sortedList.get(i).getFileName());
                     }
                 }
                 // Get back to the beginning if we didn't download the whole list
                 if( (i == sortedList.size()-1) &&
-                        (FlashbackActivity.flashbackPlayer.getSongsToPlay().size() != sortedList.size()) ) {
+                        (VibeActivity.flashbackPlayer.getSongsToPlay().size() != sortedList.size()) ) {
                     firstTime = true;
                      i = 0;
                 }

@@ -39,13 +39,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.FlashbackActivity" />
+        <activity android:name=".UI.VibeActivity" />
         <activity
             android:name=".UI.LibraryActivity"
             android:label="@string/title_activity_library" />
         <activity android:name=".UI.DownloadHandlerActivity" />
 
-        <activity android:name=".UI.VibemodeActivity"></activity>
+        <activity android:name=".UI.VibemodeUpcomingActivity"></activity>
         <activity
             android:name=".UI.TracklistActivity"
             android:label="@string/title_activity_tracklist"

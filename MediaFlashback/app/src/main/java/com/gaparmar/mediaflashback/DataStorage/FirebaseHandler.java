@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.gaparmar.mediaflashback.Constant;
+import com.gaparmar.mediaflashback.Friend;
 import com.gaparmar.mediaflashback.Song;
 import com.gaparmar.mediaflashback.UI.BackgroundService;
 import com.gaparmar.mediaflashback.UI.MainActivity;
@@ -107,16 +108,26 @@ public class FirebaseHandler {
     /**
      * Store the the address string where a song latly played into the database
      * @param fileName the filename of the song we are storing
-     * @param username the user who played the song
+     * @param friend the user who played the song
      */
-    public static void storeUsername(String fileName, String username) {
+    public static void storeUsername(String fileName, Friend friend) {
         String fileID = Song.reformatFileName(fileName);
 
         DatabaseReference updateRef = songs.child(fileID);
         Map<String, Object> updateMap = new HashMap<>();
 
-        updateMap.put(Constant.USER_FIELD, username);
+        updateMap.put(Constant.USER_FIELD, friend.getName());
         updateRef.updateChildren(updateMap);
+
+        Map<String, Object> updateMapProxy = new HashMap<>();
+
+        updateMap.put("proxy", friend.getProxy());
+        updateRef.updateChildren(updateMapProxy);
+
+        Map<String, Object> updateMapId = new HashMap<>();
+
+        updateMap.put("Id", friend.getId());
+        updateRef.updateChildren(updateMapId);
     }
 
     /**
@@ -149,22 +160,6 @@ public class FirebaseHandler {
         updateRef.updateChildren(updateMap);
     }
 
-    /**
-     * Store the rating of a song latly played into the database
-     * @param fileName the filename of the song we are storing
-     * @param rate -1 dislike
-     *             0 neutral
-     *             1 like
-     */
-    public static void storeRate(String fileName, int rate) {
-        String fileID = Song.reformatFileName(fileName);
-
-        DatabaseReference updateRef = songs.child(fileID);
-        Map<String, Object> updateMap = new HashMap<>();
-
-        updateMap.put(Constant.RATE_FIELD, rate);
-        updateRef.updateChildren(updateMap);
-    }
 
     /**
      * Store the probability of a song being queued into the database
@@ -406,11 +401,11 @@ public class FirebaseHandler {
      * @param url url used to download the song
      */
     public static void logToFirebase(String title, String album, String artist, String filename, String locationPlayed,
-                                     String userName, String dayOfWeek, long timestamp, int timeOfDay,
+                                     String userName, String proxy, String id, String dayOfWeek, long timestamp, int timeOfDay,
                                      double latitude, double longitude, String url){
         final String fireID = Song.reformatFileName(filename);
         final LogInstance temp = new LogInstance(title, album, artist,
-                                                 locationPlayed, userName, dayOfWeek, timestamp,
+                                                 locationPlayed, userName, proxy, id, dayOfWeek, timestamp,
                                                     timeOfDay, latitude, longitude, url);
         Query query = ref.child("song_logs").orderByChild("song_title").equalTo(fireID);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -454,10 +449,13 @@ public class FirebaseHandler {
                         int time = Integer.parseInt(d.child("timestamp").getValue().toString());
                         int timeOfDay = Integer.parseInt(d.child("timeOfDay").getValue().toString());
                         String user = (String)d.child("userName").getValue();//.toString();
+                        String proxy = (String)d.child("proxy").getValue();//.toString();
+                        String id = (String)d.child("Id").getValue();//.toString();
+
                         String url = (String)d.child("url").getValue();
 
                         list.add(new LogInstance(title, album, artist, locationPlayed,
-                                user, dayOfWeek, time, timeOfDay, lati, longi, url));
+                                user, proxy, id, dayOfWeek, time, timeOfDay, lati, longi, url));
                     }
                 }
                 System.err.println("size of the list is " + list.size() );

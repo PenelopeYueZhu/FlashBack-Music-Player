@@ -335,7 +335,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
      * @param friend
      * @return the name if it is a friend, otherwise return the proxy name
      */
-    public String isFriend(Friend friend)
+    public static String isFriend(Friend friend)
     {
         for(Friend f : friendList)
         {
@@ -444,7 +444,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
      */
     public void launchVibemodeActivity(){
         Log.d("MainActivity", "Launching vibe mode");
-        Intent intent = new Intent(this, FlashbackActivity.class);
+        Intent intent = new Intent(this, VibeActivity.class);
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }

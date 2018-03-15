@@ -38,6 +38,8 @@ public class Song {
     private String dayOfWeek;
     private String address;
     private String userName;
+    private String proxy;
+    private String Id;
     private int probability;
     private int time;
     private long timeStamp;
@@ -203,6 +205,10 @@ public class Song {
         this.title = title;
     }
 
+    protected void setProxy( String proxy ) { this.proxy = proxy; }
+
+    protected void setId( String Id) { this.Id = Id;}
+
     /************************************** Getters for com.gaparmar.mediaflashback.UI display *******************************/
     public String getFileName() {
         return fileName;
@@ -283,6 +289,9 @@ public class Song {
      * @return probablity
      */
     public int getProbability() {return probability;}
+
+    public String getProxy() {return proxy;}
+    public String getId() {return Id;}
 
     /************************ checkers *****************************************/
     /**
