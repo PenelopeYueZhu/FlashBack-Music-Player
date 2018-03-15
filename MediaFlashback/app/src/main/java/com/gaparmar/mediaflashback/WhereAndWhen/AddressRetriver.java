@@ -79,6 +79,7 @@ public class AddressRetriver {
     public AddressRetriver( Context context, Handler handler ){
         mResultReceiver = new AddressResultReceiver(handler);
         this.context = context;
+        mLastLocation = new Location("");
 
     }
 
@@ -118,6 +119,7 @@ public class AddressRetriver {
         //startIntentService();
         //System.out.println(mResultReceiver.getLatLon()[0]);
         //return mResultReceiver.getLatLon();
+
         return new double[]{mLastLocation.getLatitude(), mLastLocation.getLongitude()};
     }
 
