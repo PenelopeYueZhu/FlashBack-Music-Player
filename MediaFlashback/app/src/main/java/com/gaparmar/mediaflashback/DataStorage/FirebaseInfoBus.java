@@ -122,12 +122,21 @@ public class FirebaseInfoBus implements FirebaseObject {
         }
     }
 
+    /**
+     * Notify all the observers registered to the object of the log list of the song
+     * @param filename The id of the song
+     * @param list The list of the song
+     */
     public void notifyLogList( String filename, ArrayList<LogInstance> list ){
         for (FirebaseObserver observer : observers) {
             observer.updateLogList(filename, list);
         }
     }
 
+    /**
+     * Notify all the obervers registered to the object of the song list of the song
+     * @param list The list to update
+     */
     public void notifySongList( ArrayList<String> list ){
         for (FirebaseObserver observer : observers) {
             observer.updateSongList(list);
