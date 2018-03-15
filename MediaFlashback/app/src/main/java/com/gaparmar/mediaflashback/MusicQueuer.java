@@ -365,6 +365,7 @@ public class MusicQueuer implements FirebaseObserver{
         System.err.println("Id is " + ID);
         if( MainActivity.getMusicDownloader().getUrl(ID)!= null) {
             FirebaseHandler.storeURL(ID, MainActivity.getMusicDownloader().getUrl(ID));
+            getSong(ID).setSongURL(MainActivity.getMusicDownloader().getUrl(ID));
         }
 
         FirebaseHandler.storeUsername(ID, MainActivity.me.getName());
@@ -525,7 +526,8 @@ public class MusicQueuer implements FirebaseObserver{
             boolean firstTime = true;
             for( int i = 0 ; i < sortedList.size(); i++ ){
                 // If the URL exists, which means the song is downloaded
-                if( MainActivity.getMusicDownloader().getUrl(sortedList.get(i).getFileName())!= null ){
+                if( MainActivity.getMusicDownloader().getUrl(sortedList.get(i).getFileName())!= null &&
+                        getSong(sortedList.get(i).getFileName())!= null){
                     // If this is the first song that's downloaded
                     if( firstTime ){
                         FlashbackActivity.flashbackPlayer.loadNewSong(sortedList.get(i).getFileName());

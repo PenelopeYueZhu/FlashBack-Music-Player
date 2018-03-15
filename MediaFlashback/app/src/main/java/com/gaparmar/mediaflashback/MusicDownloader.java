@@ -101,12 +101,12 @@ public class MusicDownloader {
      * @param filename
      */
     public void addUrl(String filename, String url) {
-        if(StorageHandler.getSongUrl(myContext, filename) == null) {
+        if(StorageHandler.getSongUrl(myContext, filename) == null || !StorageHandler.getSongUrl(myContext, filename).equals(url)) {
             StorageHandler.storeSongUrl(myContext, filename, url);
             Log.d("MD:addUrl", "adding the url " + url);
         }
         else {
-            Log.d("MD:addUrl", "already have url " + url + " for " + filename);
+            Log.d("MD:addUrl", "already have url " + StorageHandler.getSongUrl(myContext, filename) + " for " + filename);
         }
     }
 
