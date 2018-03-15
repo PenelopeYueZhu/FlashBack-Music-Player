@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.gaparmar.mediaflashback.DataStorage.LogInstance;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 public class DownloadHandlerActivity extends AppCompatActivity {
     EditText EditText_url;
     EditText inputTitle;
-    EditText time;
+    TimePicker time;
     private MusicDownloader musicDownloader;
     ArrayList<LogInstance> t;
 
@@ -28,6 +29,7 @@ public class DownloadHandlerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_download_handler);
         EditText_url = findViewById(R.id.url_entered);
         inputTitle = findViewById(R.id.inputTrack);
+        time = findViewById(R.id.timePicker);
 
         Intent intent = new Intent(this, DownloadService.class);
         getApplicationContext().startService(intent);
@@ -69,10 +71,10 @@ public class DownloadHandlerActivity extends AppCompatActivity {
         }
      }
 
-//     public void mockTime(View view){
-//        MockCalendar mockCal = new MockCalendar();
-//        mockCal.setHour(Integer.parseInt(time.getText().toString()));
-//     }
+     public void mockTime(View view){
+        MockCalendar mockCal = new MockCalendar();
+        mockCal.setHour(time.getHour());
+     }
 
 
 

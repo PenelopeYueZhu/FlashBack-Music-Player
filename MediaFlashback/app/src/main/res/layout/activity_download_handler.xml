@@ -78,7 +78,9 @@
         android:layout_alignStart="@+id/textView2"
         android:layout_below="@+id/textView2"
         android:layout_marginTop="20dp"
-        android:timePickerMode="spinner" />
+        android:timePickerMode="spinner"
+        android:onClick="mockTime"
+        />
 
 
 </RelativeLayout>
