@@ -325,19 +325,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     for (Person person : connections) {
                         if (!person.isEmpty()) {
                             List<Name> names = person.getNames();
-                            if (names != null)
+                            if (names != null && !names.isEmpty())
                                 System.out.println("Names");
-                                for (Name n : names) {
-                                    if(!idList.contains(n.getMetadata().getSource().getId()))
-                                    {
-                                        nameList.add(n.getDisplayName());
-                                        idList.add(n.getMetadata().getSource().getId());
-                                        System.out.println(n.getDisplayName());
-                                        System.out.println(n.getMetadata().getSource().getId());
-                                        System.out.println(n.getDisplayName().substring(0,1) +n.getDisplayName().substring(2,3)
-                                        +n.getDisplayName().substring(4,5));
-                                    }
-                                }
+                            if(!idList.contains(names.get(0).getMetadata().getSource().getId()))
+                            {
+                                nameList.add(names.get(0).getDisplayName());
+                                idList.add(names.get(0).getMetadata().getSource().getId());
+                                System.out.println(names.get(0).getDisplayName());
+                                System.out.println(names.get(0).getMetadata().getSource().getId());
+                            }
+
                         }
                     }
                 }
