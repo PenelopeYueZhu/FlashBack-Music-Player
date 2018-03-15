@@ -56,6 +56,11 @@ public class MusicQueuer implements FirebaseObserver{
         this.context = context;
     }
 
+    public void readAll() {
+        readSongs();
+        readAlbums();
+        readArtists();
+    }
     /**
      * Read all files and directories
      */
@@ -155,9 +160,8 @@ public class MusicQueuer implements FirebaseObserver{
                 currAlbum = new Album(albumName);
                 allAlbums.put(albumName, currAlbum);
             }
-            Log.d("readAlbum", "Putting the song " + currSong.getTitle() + " into Album"
-                    + currAlbum.getAlbumTitle());
             currAlbum.addSong(currSong);
+            Log.d("readAlbum", "Album " + currAlbum.getAlbumTitle()+  " size now: " + currAlbum.getNumSongs());
         }
     }
 
@@ -172,8 +176,6 @@ public class MusicQueuer implements FirebaseObserver{
             Map.Entry<String, Album> currEntry = it.next();
             Album currAlbum = currEntry.getValue();
 
-            Log.d("MQ:readArtists", "Getting the Artist " + currAlbum.getArtistName());
-            Log.d("MQ: readArtists", "Reading album size of " + currAlbum.getNumSongs());
             String artistName = currAlbum.getArtistName();
             if (artistName == null) artistName = UNKNOWN_STRING;
             Artist currArtist = allArtists.get(artistName);
