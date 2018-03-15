@@ -18,8 +18,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toolbar;
 
@@ -299,14 +297,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     for (Person person : connections) {
                         if (!person.isEmpty()) {
                             List<Name> names = person.getNames();
-                            if (names != null && !names.isEmpty())
+                            if (names != null && !names.isEmpty()) {
                                 System.out.println("Names");
-                            if(!idList.contains(names.get(0).getMetadata().getSource().getId()))
-                            {
-                                nameList.add(names.get(0).getDisplayName());
-                                idList.add(names.get(0).getMetadata().getSource().getId());
-                                System.out.println(names.get(0).getDisplayName());
-                                System.out.println(names.get(0).getMetadata().getSource().getId());
+                                if (!idList.contains((names.get(0)).getMetadata().getSource().getId())) {
+                                    nameList.add(names.get(0).getDisplayName());
+                                    idList.add(names.get(0).getMetadata().getSource().getId());
+                                    System.out.println(names.get(0).getDisplayName());
+                                    System.out.println(names.get(0).getMetadata().getSource().getId());
+                                }
                             }
                         }
                     }
@@ -403,7 +401,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void launchFlashbackActivity(){
         Log.d("MainActivity", "Launching Flashback mode");
         //input = (EditText)findViewById(R.id.in_time) ;
-        Intent intent = new Intent(this, FlashbackActivity.class);
+        Intent intent = new Intent(this, VibeActivity.class);
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }
@@ -444,9 +442,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     /**
      * Launches the vibemode activity
      */
-    public void launchVibemodeActivity(){
+    public void launchVibeActivity(){
         Log.d("MainActivity", "Launching vibe mode");
-        Intent intent = new Intent(this, VibemodeActivity.class);
+        Intent intent = new Intent(this, VibeActivity.class);
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }
@@ -531,7 +529,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
      */
     public void onLaunchVibemodeClick(View view)
     {
-        launchVibemodeActivity();
+        launchVibeActivity();
     }
 
     /**

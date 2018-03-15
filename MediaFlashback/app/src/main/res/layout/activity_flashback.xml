@@ -1,39 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#232625"
-    android:gravity="center"
-    tools:context="com.gaparmar.mediaflashback.UI.FlashbackActivity">
-
+    android:layout_width="match_parent"
+    android:background="#232625">
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#232625"
         android:gravity="center"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="8dp">
+        tools:context="com.gaparmar.mediaflashback.UI.VibeActivity">
 
         <TextView
             android:id="@+id/flashback_mode_title"
             android:layout_width="match_parent"
-            android:layout_height="47dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="Flashback Mode"
+            android:text="Vibe Mode"
             android:textColor="#7adf9e"
-            android:textSize="30dp"
+            android:textSize="75dp"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="57dp" />
+            tools:layout_editor_absoluteX="57dp"/>
 
         <TextView
             android:id="@+id/line1"
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:text="-------------------------------------------------------------------------"
             android:textColor="#FCF7F8"
             android:textStyle="bold"
@@ -43,64 +48,174 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:layout_editor_absoluteY="71dp">
+            android:layout_height="120dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/playing_title"
-                android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Playing"
+                    android:textColor="#7adf9e"
+                    android:textSize="45dp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/dancing_script_regular" />
+
+                <TextView
+                    android:id="@+id/song_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="None"
+                    android:textColor="#ffffff"
+                    android:textSize="16dp"/>
+
+                <TextView
+                    android:id="@+id/artist_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="none"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/album_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="none"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Playing"
-                android:textColor="#7adf9e"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/song_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/line2" />
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/last_played_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="Last Played"
+                    android:textAlignment="center"
+                    android:textColor="#7adf9e"
+                    android:textSize="35dp"
+                    android:fontFamily="@font/dancing_script_regular"
+                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.33"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/song_title"
-                android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:gravity="center"
-                android:text="None"
-                android:textColor="#ffffff"
-                android:textSize="16dp"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="98dp" />
+                        <TextView
+                            android:id="@+id/location_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Location:"
+                            android:textAlignment="textEnd"
+                            android:textColor="#467750"
+                            android:textSize="16dp"
+                            android:textStyle="bold"
+                            tools:layout_editor_absoluteX="36dp"
+                            tools:layout_editor_absoluteY="217dp" />
 
-            <TextView
-                android:id="@+id/artist_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="none"
-                android:textAlignment="center"
-                android:textColor="@android:color/background_light"
-                android:textSize="15dp"
-                tools:layout_editor_absoluteX="164dp"
-                tools:layout_editor_absoluteY="122dp" />
+                        <TextView
+                            android:id="@+id/date_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Date:"
+                            android:textAlignment="textEnd"
+                            android:textColor="#467750"
+                            android:textSize="16dp"
+                            android:textStyle="bold"
+                            tools:layout_editor_absoluteX="36dp"
+                            tools:layout_editor_absoluteY="242dp" />
 
-            <TextView
-                android:id="@+id/album_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="none"
-                android:textAlignment="center"
-                android:textColor="@android:color/background_light"
-                android:textSize="15dp"
-                tools:layout_editor_absoluteX="164dp"
-                tools:layout_editor_absoluteY="145dp" />
+                        <TextView
+                            android:id="@+id/time_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Time:"
+                            android:textAlignment="textEnd"
+                            android:textColor="#467750"
+                            android:textSize="16dp"
+                            android:textStyle="bold"
+                            tools:layout_editor_absoluteX="36dp"
+                            tools:layout_editor_absoluteY="271dp" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="0.33">
+
+                        <TextView
+                            android:id="@+id/song_location"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="None"
+                            android:textColor="#ffffff"
+                            android:textSize="16dp"
+                            tools:layout_editor_absoluteX="121dp"
+                            tools:layout_editor_absoluteY="243dp" />
+
+                        <TextView
+                            android:id="@+id/song_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="None"
+                            android:textColor="#ffffff"
+                            android:textSize="16dp"
+                            tools:layout_editor_absoluteX="121dp"
+                            tools:layout_editor_absoluteY="217dp" />
+
+                        <TextView
+                            android:id="@+id/song_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="None"
+                            android:textColor="#ffffff"
+                            android:textSize="16dp"
+                            tools:layout_editor_absoluteX="121dp"
+                            tools:layout_editor_absoluteY="272dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
+
 
         <TextView
             android:id="@+id/line2"
             android:layout_width="match_parent"
             android:layout_height="24dp"
+            android:layout_marginTop="30dp"
             android:gravity="center"
             android:text="-------------------------------------------------------------------------"
             android:textColor="#FCF7F8"
@@ -109,150 +224,71 @@
             tools:layout_editor_absoluteX="15dp" />
 
         <TextView
-            android:id="@+id/last_played_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Last Played"
-            android:textAlignment="center"
-            android:textColor="#7adf9e"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:layout_editor_absoluteY="181dp" />
-
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraint"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:visibility="visible">
-
-            <LinearLayout
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="244dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/location_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="26dp"
-                    android:gravity="center"
-                    android:text="Location:"
-                    android:textAlignment="textEnd"
-                    android:textColor="#467750"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    tools:layout_editor_absoluteX="36dp"
-                    tools:layout_editor_absoluteY="217dp" />
-
-                <TextView
-                    android:id="@+id/date_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="26dp"
-                    android:gravity="center"
-                    android:text="Date:"
-                    android:textAlignment="textEnd"
-                    android:textColor="#467750"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    tools:layout_editor_absoluteX="36dp"
-                    tools:layout_editor_absoluteY="242dp" />
-
-                <TextView
-                    android:id="@+id/time_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="26dp"
-                    android:gravity="center"
-                    android:text="Time:"
-                    android:textAlignment="textEnd"
-                    android:textColor="#467750"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    tools:layout_editor_absoluteX="36dp"
-                    tools:layout_editor_absoluteY="271dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="32dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/song_location"
-                    android:layout_width="match_parent"
-                    android:layout_height="26dp"
-                    android:gravity="center"
-                    android:text="None"
-                    android:textColor="#ffffff"
-                    android:textSize="16dp"
-                    tools:layout_editor_absoluteX="121dp"
-                    tools:layout_editor_absoluteY="243dp" />
-
-                <TextView
-                    android:id="@+id/song_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="26dp"
-                    android:gravity="center"
-                    android:text="None"
-                    android:textColor="#ffffff"
-                    android:textSize="16dp"
-                    tools:layout_editor_absoluteX="121dp"
-                    tools:layout_editor_absoluteY="217dp" />
-
-                <TextView
-                    android:id="@+id/song_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="26dp"
-                    android:gravity="center"
-                    android:text="None"
-                    android:textColor="#ffffff"
-                    android:textSize="16dp"
-                    tools:layout_editor_absoluteX="121dp"
-                    tools:layout_editor_absoluteY="272dp" />
-
-            </LinearLayout>
-
+            android:layout_height="wrap_content"
+            android:text="Upcoming Songs: "
+            android:textSize="40dp"
+            android:fontFamily="@font/dancing_script_regular"
+            android:textColor="#7adf9e"
+            android:layout_marginLeft="20dp"/>
+        <LinearLayout
+            android:id="@+id/upcoming_songs"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical">
             <TextView
-                android:id="@+id/line3"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="121dp"
-                android:layout_marginTop="298dp"
-                android:gravity="center"
-                android:text="-------------------------------------------------------------------------"
-                android:textColor="#FCF7F8"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/browse_button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </android.support.constraint.ConstraintLayout>
-
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="upcoming song 1"
+                android:layout_marginLeft="40dp"
+                android:textColor="#c4d7f2"
+                android:textSize="20dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="upcoming song 2"
+                android:layout_marginLeft="40dp"
+                android:textColor="#c4d7f2"
+                android:textSize="20dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="upcoming song 3"
+                android:layout_marginLeft="40dp"
+                android:textColor="#c4d7f2"
+                android:textSize="20dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="upcoming song 4"
+                android:layout_marginLeft="40dp"
+                android:textColor="#c4d7f2"
+                android:textSize="20dp"/>
+        </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center_vertical"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="10dp"
             android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/regular_button"
+                android:layout_width="50dp"
+                android:layout_height="55dp"
+                android:background="#7adf9e"
+                android:onClick="onRegularModeClick"
+                android:src="@drawable/ic_home_black_24dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="#232625"/>
 
             <ImageButton
                 android:id="@+id/previous_button"
                 android:layout_width="30dp"
                 android:layout_height="55dp"
-                android:layout_marginRight="25dp"
-                android:layout_weight="1"
+                android:layout_marginRight="50dp"
                 android:background="#467750"
                 android:onClick="onPreviousButtonClick"
                 app:layout_constraintBottom_toBottomOf="@+id/pause_button"
@@ -263,14 +299,12 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:layout_weight="1">
+                android:layout_height="55dp">
 
                 <ImageButton
                     android:id="@+id/pause_button"
                     android:layout_width="55dp"
                     android:layout_height="55dp"
-                    android:layout_weight="1"
                     android:background="#467750"
                     android:onClick="onPauseButtonClick"
                     app:layout_constraintBottom_toBottomOf="@+id/play_button"
@@ -287,7 +321,6 @@
                     android:id="@+id/play_button"
                     android:layout_width="55dp"
                     android:layout_height="55dp"
-                    android:layout_weight="1"
                     android:background="#467750"
                     android:onClick="onPlayButtonClick"
                     app:srcCompat="@android:drawable/ic_media_play" />
@@ -298,8 +331,7 @@
                 android:id="@+id/next_button"
                 android:layout_width="30dp"
                 android:layout_height="55dp"
-                android:layout_marginLeft="25dp"
-                android:layout_weight="1"
+                android:layout_marginLeft="50dp"
                 android:background="#467750"
                 android:onClick="onNextButtonClick"
                 app:layout_constraintBottom_toBottomOf="@+id/toggleBtn"
@@ -310,22 +342,9 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/regular_button"
-            android:layout_width="316dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="10dp"
-            android:background="#7adf9e"
-            android:onClick="onRegularModeClick"
-            android:text="Regular Mode"
-            android:textAllCaps="false"
-            android:textColor="#232625"
-            android:textSize="23dp"
-            tools:layout_editor_absoluteX="22dp"
-            tools:layout_editor_absoluteY="403dp" />
+
 
 
     </LinearLayout>
 
-
-</LinearLayout>
+</RelativeLayout>

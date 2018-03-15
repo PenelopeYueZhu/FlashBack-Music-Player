@@ -10,26 +10,22 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
 import com.gaparmar.mediaflashback.FlashbackPlayer;
 import com.gaparmar.mediaflashback.MusicQueuer;
 import com.gaparmar.mediaflashback.R;
 import com.gaparmar.mediaflashback.Song;
-import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
-import com.google.android.gms.location.FusedLocationProviderClient;
 
 import java.util.ArrayList;
 
 /**
  * This class represents the Flashback Mode screen
  */
-public class FlashbackActivity extends AppCompatActivity {
+public class VibeActivity extends AppCompatActivity {
     ArrayList<String> arr = new ArrayList<>();
-
-    private FusedLocationProviderClient mFusedLocationClient;
 
     private Handler handler;
 
@@ -53,7 +49,7 @@ public class FlashbackActivity extends AppCompatActivity {
     ImageButton pauseButton;
     ImageButton nextButton;
     ImageButton prevButton;
-    Button launchRegularMode;
+    ImageButton launchRegularMode;
 
     public static FlashbackPlayer flashbackPlayer;
     LocationManager locationManager;
@@ -90,7 +86,7 @@ public class FlashbackActivity extends AppCompatActivity {
 
         //initializeViewComponents();
 
-// Initializie the song functions
+        // Initializie the song functions
         if( mq == null ) {
             mq = new MusicQueuer(this);
             mq.readSongs();
@@ -102,19 +98,6 @@ public class FlashbackActivity extends AppCompatActivity {
 
         flashbackPlayer = new FlashbackPlayer(arr,this, mq);
 
-     /*   if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    100);
-            Log.d("test1","ins");
-            return;
-        }else {
-            Log.d("test2", "outs");
-        }*/
 
         // Acquire a reference to the system Location Manager
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -189,7 +172,7 @@ public class FlashbackActivity extends AppCompatActivity {
         flashbackPlayer.resetSong();
         flashBackIsPlaying = false;
         locationManager.removeUpdates(locationListener);
-        StorageHandler.storeLastMode(FlashbackActivity.this, 0);
+        StorageHandler.storeLastMode(VibeActivity.this, 0);
         finish();
     }
 

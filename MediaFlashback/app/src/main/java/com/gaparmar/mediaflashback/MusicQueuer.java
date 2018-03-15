@@ -10,7 +10,8 @@ import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
 import com.gaparmar.mediaflashback.DataStorage.FirebaseObserver;
 import com.gaparmar.mediaflashback.DataStorage.LogInstance;
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
-import com.gaparmar.mediaflashback.UI.FlashbackActivity;
+import com.gaparmar.mediaflashback.UI.MainActivity;
+import com.gaparmar.mediaflashback.UI.VibeActivity;
 import com.gaparmar.mediaflashback.WhereAndWhen.AddressRetriver;
 
 import java.io.File;
@@ -24,8 +25,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import com.gaparmar.mediaflashback.UI.MainActivity;
 
 /**
  * Created by veronica.lin1218 on 2/12/2018.
@@ -453,8 +452,8 @@ public class MusicQueuer implements FirebaseObserver{
         Collections.sort(sortedList, new SongCompare());
         Log.d("MQ:updatePrbability", "sortedList has now " + sortedList.size() + " and we have in total " + totalSongs);
         if( sortedList.size() == totalSongs ){
-            loadPlaylist(FlashbackActivity.flashbackPlayer);
-            FlashbackActivity.flashbackPlayer.loadList();
+            loadPlaylist(VibeActivity.flashbackPlayer);
+            VibeActivity.flashbackPlayer.loadList();
         }
     }
 

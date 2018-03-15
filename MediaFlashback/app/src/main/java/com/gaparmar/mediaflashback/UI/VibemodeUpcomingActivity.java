@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.gaparmar.mediaflashback.R;
 
-public class VibemodeActivity extends AppCompatActivity {
+public class VibemodeUpcomingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
