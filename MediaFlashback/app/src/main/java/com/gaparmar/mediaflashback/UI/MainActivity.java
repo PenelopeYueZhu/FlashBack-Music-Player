@@ -316,15 +316,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     for (Person person : connections) {
                         if (!person.isEmpty()) {
                             List<Name> names = person.getNames();
-                            if (names != null && !names.isEmpty())
+                            if (names != null && !names.isEmpty()) {
                                 Log.d("MainActivity", "Names:");
-                            if(!idList.contains(names.get(0).getMetadata().getSource().getId()))
-                            {
-                                nameList.add(names.get(0).getDisplayName());
-                                idList.add(names.get(0).getMetadata().getSource().getId());
-                                Log.d("MainActivity", names.get(0).getDisplayName());
-                                Log.d("MainActivity", names.get(0).getMetadata().getSource().getId());
-                                Log.d("MainActivity", proxification(names.get(0).getDisplayName()));
+                                if (!idList.contains(names.get(0).getMetadata().getSource().getId())) {
+                                    nameList.add(names.get(0).getDisplayName());
+                                    idList.add(names.get(0).getMetadata().getSource().getId());
+                                    Log.d("MainActivity", names.get(0).getDisplayName());
+                                    Log.d("MainActivity", names.get(0).getMetadata().getSource().getId());
+                                    Log.d("MainActivity", proxification(names.get(0).getDisplayName()));
+                                }
                             }
                         }
                     }
@@ -355,12 +355,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
      * @param friend
      * @return the name if it is a friend, otherwise return the proxy name
      */
-    public String isFriend(Friend friend)
-    {
-        for(Friend f : friendList)
-        {
-            if(f.equals(friend))
-            {
+    public static String isFriend(Friend friend) {
+        for(Friend f : friendList) {
+            if(f.equals(friend)) {
                 return friend.getName();
             }
         }

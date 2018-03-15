@@ -390,7 +390,6 @@ public class UINormal implements FirebaseObserver {
      */
     public void updateSongList( ArrayList<String> songList ){}
 
-
     /******************************** end of observer listners ****************************/
 
     /**
