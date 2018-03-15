@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.gaparmar.mediaflashback.Constant;
+import com.gaparmar.mediaflashback.Friend;
 import com.gaparmar.mediaflashback.Song;
 import com.gaparmar.mediaflashback.UI.BackgroundService;
 import com.gaparmar.mediaflashback.UI.MainActivity;
@@ -23,6 +24,7 @@ import java.util.Map;
 /**
  * Created by lxyzh on 3/4/2018.
  */
+
 
 public class FirebaseHandler {
     // Connection to the database
@@ -106,15 +108,18 @@ public class FirebaseHandler {
     /**
      * Store the the address string where a song latly played into the database
      * @param fileName the filename of the song we are storing
-     * @param username the user who played the song
+     * @param user the user who played the song
      */
-    public static void storeUsername(String fileName, String username) {
+    public static void storeUsername(String fileName, Friend user) {
         String fileID = Song.reformatFileName(fileName);
 
         DatabaseReference updateRef = songs.child(fileID);
         Map<String, Object> updateMap = new HashMap<>();
 
-        updateMap.put(Constant.USER_FIELD, username);
+        updateMap.put(Constant.USER_FIELD, user.getName());
+        updateMap.put(Constant.USER_FIELD, user.getId());
+        updateMap.put(Constant.USER_FIELD, user.getProxy());
+
         updateRef.updateChildren(updateMap);
     }
 
