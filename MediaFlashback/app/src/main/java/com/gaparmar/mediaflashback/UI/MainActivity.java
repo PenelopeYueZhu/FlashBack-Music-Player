@@ -18,8 +18,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toolbar;
 
@@ -64,63 +62,80 @@ import java.util.Map;
  */
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
-    private MusicQueuer musicQueuer;
-    private MusicPlayer musicPlayer;
-
     // Objects for location
     private static MusicDownloader musicDownloader;
-    private FusedLocationProviderClient mFusedLocationClient;
     private Handler addressHandler;
     private static AddressRetriver addressRetriver;
     private static UINormal tracker;
-
     private static ArrayList<String> stoppedInfo = new ArrayList<>();
+
+    //Booleans for music player state
     public static boolean isPlaying;
     private static boolean browsing = false;
     private static boolean firstTime = true;
     private static boolean inDownloadScreen = false;
     private static boolean viewingTracklist = false;
+
+    //Variables for Google+ friends
     private static ArrayList<Friend> friendList;
     public static Friend me;
-
-    GoogleApiClient mGoogleApiClient;
-
+    public GoogleApiClient mGoogleApiClient;
     final int RC_INTENT = 200;
-    final int RC_API_CHECK = 100;
 
-    SignInButton signInButton;
-    Toolbar toolbar;
-    ProgressBar progressBar;
-
+    //Map for days of the week
     public static Map<String, Integer> weekDays;
 
+    /**
+     * Gets address receiver
+     * @return AddressRetriver addressRetriver
+     */
     public static AddressRetriver getAddressRetriver() {
         return addressRetriver;
     }
 
+    /**
+     * Returns music downloader
+     * @return MusicDownloader musicDownloader
+     */
     public static MusicDownloader getMusicDownloader() {
         return musicDownloader;
     }
 
+    public static ArrayList<Friend> getFriendList()
+    {
+        return friendList;
+    }
+
+    /**
+     * Returns tracker
+     * @return UINormal tracker
+     */
     public static UINormal getUITracker() {
         return tracker;
     }
 
-    private BackgroundService backgroundService;
-    private boolean isBound;
-
     @Override
+    /**
+     * Executes logic on creation of activity
+     */
     protected void onCreate(Bundle savedInstanceState) {
-        askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, 666);
+
+        //Ask the user for permission and set layout
+        //askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, 666);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        //Create new tracker and assign it
         tracker = new UINormal(this);
         tracker.setButtonFunctions();
 
+        //Google login only on first time opening the app
         if(firstTime) {
             firstTime = false;
+
+            //Initialize the friend list
+            friendList = new ArrayList<>();
+            //Cerate sign-in options builder
             GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     // The serverClientId is an OAuth 2.0 web client ID
                     .requestServerAuthCode("292202723687-bfhvb9ntufbr7dti0bnt0a1holr76vu0.apps.googleusercontent.com")
@@ -129,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             new Scope(PeopleScopes.CONTACTS_READONLY))
                     .build();
 
+            //Create login client
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .enableAutoManage(this, this)
                     .addOnConnectionFailedListener(this)
@@ -136,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
                     .build();
 
+            //Call methods to authenticate and connect
             getIdToken();
             mGoogleApiClient.connect();
         }
@@ -150,8 +167,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         weekDays.put("Saturday", 6);
         weekDays.put("Sunday", 7);
 
-        friendList = new ArrayList<>();
 
+        //Start service for downloading
         Intent intent = new Intent(this, BackgroundService.class);
         getApplicationContext().startService(intent);
         intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
@@ -300,13 +317,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         if (!person.isEmpty()) {
                             List<Name> names = person.getNames();
                             if (names != null && !names.isEmpty())
-                                System.out.println("Names");
+                                Log.d("MainActivity", "Names:");
                             if(!idList.contains(names.get(0).getMetadata().getSource().getId()))
                             {
                                 nameList.add(names.get(0).getDisplayName());
                                 idList.add(names.get(0).getMetadata().getSource().getId());
-                                System.out.println(names.get(0).getDisplayName());
-                                System.out.println(names.get(0).getMetadata().getSource().getId());
+                                Log.d("MainActivity", names.get(0).getDisplayName());
+                                Log.d("MainActivity", names.get(0).getMetadata().getSource().getId());
+                                Log.d("MainActivity", proxification(names.get(0).getDisplayName()));
                             }
                         }
                     }
@@ -403,7 +421,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void launchFlashbackActivity(){
         Log.d("MainActivity", "Launching Flashback mode");
         //input = (EditText)findViewById(R.id.in_time) ;
-        Intent intent = new Intent(this, FlashbackActivity.class);
+        Intent intent = new Intent(this, VibeActivity.class);
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }
@@ -444,9 +462,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     /**
      * Launches the vibemode activity
      */
-    public void launchVibemodeActivity(){
+    public void launchVibeActivity(){
         Log.d("MainActivity", "Launching vibe mode");
-        Intent intent = new Intent(this, VibemodeActivity.class);
+        Intent intent = new Intent(this, VibeActivity.class);
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }
@@ -463,7 +481,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             if (isPlaying) {
                 // If they are, the song pauses
                 stoppedInfo = BackgroundService.getMusicPlayer().stopPlaying();
-                musicPlayer.pauseSong();
+                BackgroundService.getMusicPlayer().pauseSong();
                 isPlaying = true;
             } else {
                 isPlaying = false;
@@ -531,7 +549,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
      */
     public void onLaunchVibemodeClick(View view)
     {
-        launchVibemodeActivity();
+        launchVibeActivity();
     }
 
     /**

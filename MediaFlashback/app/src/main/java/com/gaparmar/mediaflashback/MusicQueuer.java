@@ -10,7 +10,9 @@ import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
 import com.gaparmar.mediaflashback.DataStorage.FirebaseObserver;
 import com.gaparmar.mediaflashback.DataStorage.LogInstance;
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
-import com.gaparmar.mediaflashback.UI.FlashbackActivity;
+import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
+import com.gaparmar.mediaflashback.UI.MainActivity;
+import com.gaparmar.mediaflashback.UI.VibeActivity;
 import com.gaparmar.mediaflashback.WhereAndWhen.AddressRetriver;
 
 import java.io.File;
@@ -24,8 +26,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import com.gaparmar.mediaflashback.UI.MainActivity;
 
 /**
  * Created by veronica.lin1218 on 2/12/2018.
@@ -102,6 +102,11 @@ public class MusicQueuer implements FirebaseObserver{
         }
     }
 
+    /**
+     * Adds the given song
+     * @param songPath The path to the song
+     * @param fileName The filename of the song
+     */
     public void addSong(String songPath, String fileName) {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
 
@@ -116,7 +121,7 @@ public class MusicQueuer implements FirebaseObserver{
             album = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
             artist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
 
-
+        // Sets unknown in case of an error
         } catch (Exception e) {
             //e.printStackTrace();
             title = UNKNOWN_STRING;
@@ -370,6 +375,10 @@ public class MusicQueuer implements FirebaseObserver{
     Song track;
     int totalSongs = getNumSongs();
 
+    /**
+     * Updates the song list
+     * @param songList The songlist to update
+     */
     public void updateSongList( ArrayList<String> songList ){
         songFromDatabase = songList;
         totalSongs = songFromDatabase.size();
@@ -380,12 +389,21 @@ public class MusicQueuer implements FirebaseObserver{
         }
     }
 
+    /**
+     * Updates the log list
+     * @param filename The filename of the song
+     * @param list The list to update
+     */
     public void updateLogList( String filename, ArrayList<LogInstance> list){
         this.list = list;
         Log.d("MQ:updateLogList", "the size of the list passed in is " + list.size());
         updateProbablity(filename);
     }
 
+    /**
+     * Updates the probability
+     * @param filename The filename of the song
+     */
     public void updateProbablity( String filename ) {
         track = getSong(filename);
         if( StorageHandler.getSongState(context, filename ) == -1 ){
@@ -416,7 +434,7 @@ public class MusicQueuer implements FirebaseObserver{
         String hour = getTimeOfDay(Integer.parseInt(hourFormat.format(currDate.getTime())));
 
         // Loop through each instance of the song from the log
-        for (int i = 0; i < list.size(); i++){
+        for (int i = 0; i < list.size(); ++i){
             Log.d("MQ:updateProbability", "looping the list at " + i);
             int tempProb = 1;
             // Get the current instance
@@ -428,6 +446,7 @@ public class MusicQueuer implements FirebaseObserver{
             isSameDay = getIntOfDay(currInstance.dayOfWeek) == day;
             isSameTime = hour.equals(currInstance.timeOfDay);
 
+            // Checks info for proximity, day, and time
             if( isInRange ) tempProb++;
             if( isSameDay ) tempProb++;
             if( isSameTime ) tempProb ++;
@@ -453,8 +472,8 @@ public class MusicQueuer implements FirebaseObserver{
         Collections.sort(sortedList, new SongCompare());
         Log.d("MQ:updatePrbability", "sortedList has now " + sortedList.size() + " and we have in total " + totalSongs);
         if( sortedList.size() == totalSongs ){
-            loadPlaylist(FlashbackActivity.flashbackPlayer);
-            FlashbackActivity.flashbackPlayer.loadList();
+            loadPlaylist(VibeActivity.flashbackPlayer);
+            VibeActivity.flashbackPlayer.loadList();
         }
     }
 
@@ -476,11 +495,20 @@ public class MusicQueuer implements FirebaseObserver{
         FirebaseHandler.getSongList();
     }
 
+    /**
+     * Loads in the sorted playlist into the given flashback player
+     * @param mq The given flashback player to set the playlist
+     */
     public void loadPlaylist( FlashbackPlayer mq ) {
         mq.setPlayList(sortedList);
     }
 
 
+    /**
+     * Gets the day of the week as an int
+     * @param dayString The day to get
+     * @return The int value of the given day
+     */
     private int getIntOfDay(String dayString){
         int day;
         switch( dayString ){
@@ -538,6 +566,9 @@ public class MusicQueuer implements FirebaseObserver{
         return timeZone;
     }
 
+    /**
+     * Compares the probability of two songs
+     */
     private static class SongCompare implements Comparator<Song> {
         public int compare(Song s1, Song s2) {
             return s2.getProbability() - s1.getProbability();

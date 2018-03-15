@@ -41,7 +41,7 @@ public final class Constant {
     public static final String PROB_FIELD = "probability";
     public static final int LIKED = 1;
     public static final int NEUTRAL = 0;
-    public static final int DISPLIKED = -1;
+    public static final int DISLIKED = -1;
 
     // For Probability calculation
     public static final int MORNING_DIVIDER = 5;
