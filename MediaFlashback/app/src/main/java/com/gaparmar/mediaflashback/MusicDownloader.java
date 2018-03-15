@@ -53,7 +53,7 @@ public class MusicDownloader {
      * Download song given a URL and it's song name to myDownloads folder (raw folder is RO)
      * @param url string link
      * @param filename Name of file to be downloaded
-     *  @param type mp3 (for song) or zip (for album)
+     * @param type "mp3" (for song) or "zip" (for album)
      */
     public void downloadData(String url, String filename, String type) {
         final String t = type;
@@ -65,11 +65,13 @@ public class MusicDownloader {
         BroadcastReceiver onComplete = new BroadcastReceiver() {
             public void onReceive(Context ctxt, Intent intent) {
                 if (t.equals("zip")) {
+                    // Unzip if the file downloaded is a zip file
                     File temp = new File(COMPLETE_PATH + File.separator + filenameReceiver + ".zip");
                     Log.d("MD:unzip", "Start unzipping " + temp.getParent());
                     unZip(COMPLETE_PATH + File.separator + filenameReceiver + ".zip",
                             temp.getParent() + File.separator, filenameReceiver +".zip", inputURL);
                 } else {
+                    // Populate URL hashmap
                     addUrl(filenameReceiver, inputURL);
                     Log.d("MD:onComplete", "Finished Downloading " + filenameReceiver);
                     BackgroundService.getMusicQueuer().readAll();
@@ -85,8 +87,7 @@ public class MusicDownloader {
 
         request.setDestinationInExternalPublicDir(MEDIA_PATH, filename+"." + type);
 
-
-        // add song to download list
+        // add song to download queue
         dm.enqueue(request);
 
 
@@ -105,7 +106,6 @@ public class MusicDownloader {
     }
 
     /**
-     * get url used to download the song with filename
      * @param filename
      * @return the url used to download the song
      */
@@ -123,6 +123,10 @@ public class MusicDownloader {
         }
     }
 
+    /**
+     * Delete file
+     * @param filename file name of song to delete
+     */
     public void deleteFile(String filename) {
         File file = new File(MEDIA_PATH+File.separator + filename);
         boolean deleted = file.delete();
@@ -142,7 +146,6 @@ public class MusicDownloader {
     public boolean unZip(String path, String targetDir, String zipName, String url) {
         InputStream is;
         ZipInputStream zis;
-        Log.d("unzip", "in unzip method " + path);
 
         try {
             String songFileName;
@@ -154,9 +157,8 @@ public class MusicDownloader {
 
             while ((ze = zis.getNextEntry()) != null) {
                 songFileName = ze.getName();
-                Log.d("unzip: fileName", songFileName);
+                Log.d("unzip: fileName", "Unzipping filename: " + songFileName);
                 if (ze.isDirectory()) {
-                    Log.d("unzip: isDirectory", targetDir+ songFileName);
                     File newFile = new File(targetDir + songFileName);
                     newFile.mkdirs();
                     continue;
@@ -168,7 +170,6 @@ public class MusicDownloader {
                 }
                 fout.close();
                 zis.closeEntry();
-                Log.d("MD:Adding URL", "Finished download/ URL for: " + songFileName);
                 addUrl(songFileName, url);
             }
             zis.close();
