@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#232625"
     android:gravity="center"
-    tools:context="com.gaparmar.mediaflashback.UI.FlashbackActivity">
+    tools:context="com.gaparmar.mediaflashback.UI.VibeActivity">
 
 
     <LinearLayout

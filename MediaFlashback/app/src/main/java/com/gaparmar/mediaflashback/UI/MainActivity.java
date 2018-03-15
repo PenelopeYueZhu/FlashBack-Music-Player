@@ -18,8 +18,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toolbar;
 
@@ -54,6 +52,7 @@ import com.google.api.services.people.v1.model.Person;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -201,36 +200,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
         //mPlayer.loadMedia(R.raw.replay);
-        Button launchFlashbackActivity = findViewById(R.id.flashback_button);
+     //   Button launchFlashbackActivity = findViewById(R.id.);
       //  ImageButton playButton =  findViewById(R.id.play_button);
-        Button browseBtn = findViewById(R.id.browse_button);
-        ImageButton tracklistBtn = findViewById(R.id.tracklist);
 
-        tracklistBtn.setOnClickListener( new View.OnClickListener(){
-            @Override
-            public void onClick( View view ) {
-                launchTrackListActivtiy();
-            }
-        });
-
-
-
-        browseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchLibraryActivity();
-                finish();
-            }
-        });
-
-        launchFlashbackActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isPlaying = BackgroundService.getMusicPlayer().isPlaying();
-                StorageHandler.storeLastMode(MainActivity.this, 1);
-                launchFlashbackActivity();
-            }
-        });
     }
 
 
@@ -312,7 +284,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                 Person profile = peopleService.people().get("people/me").setRequestMaskIncludeField("person.names").execute();
 
-                me = new Friend(profile.getNames().get(0).getDisplayName(), profile.getNames().get(0).getMetadata().getSource().getId());
+                String name = profile.getNames().get(0).getDisplayName();
+                String proxy = proxification(name);
+                me = new Friend(name, profile.getNames().get(0).getMetadata().getSource().getId(), proxy);
 
                 ListConnectionsResponse response = peopleService.people().connections()
                         .list("people/me").setRequestMaskIncludeField("person.names")
@@ -323,30 +297,26 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     for (Person person : connections) {
                         if (!person.isEmpty()) {
                             List<Name> names = person.getNames();
-                            if (names != null)
+                            if (names != null && !names.isEmpty())
                                 System.out.println("Names");
-                                for (Name name : names) {
-                                    if(!idList.contains(name.getMetadata().getSource().getId()))
-                                    {
-                                        nameList.add(name.getDisplayName());
-                                        idList.add(name.getMetadata().getSource().getId());
-                                        System.out.println(name.getDisplayName());
-                                        System.out.println(name.getMetadata().getSource().getId());
-                                    }
-                                }
+                            if(!idList.contains(names.get(0).getMetadata().getSource().getId()))
+                            {
+                                nameList.add(names.get(0).getDisplayName());
+                                idList.add(names.get(0).getMetadata().getSource().getId());
+                                System.out.println(names.get(0).getDisplayName());
+                                System.out.println(names.get(0).getMetadata().getSource().getId());
+                            }
                         }
                     }
                 }
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             for(int i = 0; i < nameList.size(); i++)
             {
-                friendList.add(new Friend(nameList.get(i), idList.get(i)));
+                friendList.add(new Friend(nameList.get(i), idList.get(i), proxification(nameList.get(i))));
             }
             return nameList;
         }
@@ -358,6 +328,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         // consent screen will be shown here.
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_INTENT);
+    }
+
+    /**
+     * Pass in a Friend object (with the correct name, id, and proxy)
+     * @param friend
+     * @return the name if it is a friend, otherwise return the proxy name
+     */
+    public String isFriend(Friend friend)
+    {
+        for(Friend f : friendList)
+        {
+            if(f.equals(friend))
+            {
+                return friend.getName();
+            }
+        }
+        return friend.getProxy();
     }
 
 
@@ -386,13 +373,35 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
     }
 
+    public String proxification(String name)
+    {
+        StringBuilder proxyBuilder = new StringBuilder();
+        for(int i = 0; i < name.length(); i++)
+        {
+            char c = name.charAt(i);
+            if(c != 'a' && c != 'e' && c != 'i'
+            && c != 'o' && c != 'u' && c != ' ')
+            {
+                proxyBuilder.append(c);
+            }
+        }
+        long currTime = Calendar.getInstance().getTimeInMillis();
+        long numberAppend = currTime % 10 * 100;
+        currTime /= 10;
+        numberAppend += currTime % 10 * 10;
+        currTime /= 10;
+        numberAppend += currTime % 10;
+        proxyBuilder.append(numberAppend);
+        return proxyBuilder.toString();
+    }
+
     /**
      * Launches flashback mode activity
      */
     public void launchFlashbackActivity(){
         Log.d("MainActivity", "Launching Flashback mode");
         //input = (EditText)findViewById(R.id.in_time) ;
-        Intent intent = new Intent(this, FlashbackActivity.class);
+        Intent intent = new Intent(this, VibeActivity.class);
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }
@@ -435,7 +444,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
      */
     public void launchVibemodeActivity(){
         Log.d("MainActivity", "Launching vibe mode");
-        Intent intent = new Intent(this, VibemodeActivity.class);
+        Intent intent = new Intent(this, VibeActivity.class);
         setResult(Activity.RESULT_OK, intent);
         startActivity(intent);
     }
@@ -521,5 +530,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void onLaunchVibemodeClick(View view)
     {
         launchVibemodeActivity();
+    }
+
+    /**
+     * Starts the library activity
+     * @param view
+     */
+    public void onLaunchLibrary(View view) { launchLibraryActivity(); }
+
+    /**
+     * Starts the tracklist activity
+     * @param view
+     */
+    public void onLaunchTracklistClick(View view)
+    {
+        launchTrackListActivtiy();;
     }
 }

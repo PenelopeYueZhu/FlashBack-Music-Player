@@ -10,7 +10,7 @@ import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
 import com.gaparmar.mediaflashback.DataStorage.FirebaseObserver;
 import com.gaparmar.mediaflashback.DataStorage.LogInstance;
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
-import com.gaparmar.mediaflashback.UI.FlashbackActivity;
+import com.gaparmar.mediaflashback.UI.VibeActivity;
 import com.gaparmar.mediaflashback.WhereAndWhen.AddressRetriver;
 
 import java.io.File;
@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -56,6 +57,11 @@ public class MusicQueuer implements FirebaseObserver{
         this.context = context;
     }
 
+    public void readAll() {
+        readSongs();
+        readAlbums();
+        readArtists();
+    }
     /**
      * Read all files and directories
      */
@@ -69,7 +75,9 @@ public class MusicQueuer implements FirebaseObserver{
                 if (f.isDirectory()) {
                     scanDirectory(f);
                 } else {
-                    addSong(f.getPath(),f.getName() );
+                    if (f.getName().endsWith(".mp3")) {
+                        addSong(f.getPath(), f.getName());
+                    }
                 }
             }
         } else {
@@ -160,9 +168,8 @@ public class MusicQueuer implements FirebaseObserver{
                 currAlbum = new Album(albumName);
                 allAlbums.put(albumName, currAlbum);
             }
-            Log.d("readAlbum", "Putting the song " + currSong.getTitle() + " into Album"
-                    + currAlbum.getAlbumTitle());
             currAlbum.addSong(currSong);
+            Log.d("readAlbum", "Album " + currAlbum.getAlbumTitle()+  " size now: " + currAlbum.getNumSongs());
         }
     }
 
@@ -177,8 +184,6 @@ public class MusicQueuer implements FirebaseObserver{
             Map.Entry<String, Album> currEntry = it.next();
             Album currAlbum = currEntry.getValue();
 
-            Log.d("MQ:readArtists", "Getting the Artist " + currAlbum.getArtistName());
-            Log.d("MQ: readArtists", "Reading album size of " + currAlbum.getNumSongs());
             String artistName = currAlbum.getArtistName();
             if (artistName == null) artistName = UNKNOWN_STRING;
             Artist currArtist = allArtists.get(artistName);
@@ -467,11 +472,20 @@ public class MusicQueuer implements FirebaseObserver{
         Collections.sort(sortedList, new SongCompare());
         Log.d("MQ:updatePrbability", "sortedList has now " + sortedList.size() + " and we have in total " + totalSongs);
         if( sortedList.size() == totalSongs ){
-            loadPlaylist(FlashbackActivity.flashbackPlayer);
-            FlashbackActivity.flashbackPlayer.loadList();
+            loadPlaylist(VibeActivity.flashbackPlayer);
+            VibeActivity.flashbackPlayer.loadList();
         }
     }
 
+    public ArrayList<String> createFavoritesList () {
+        List<Song> songs = new ArrayList<Song>(allTracks.values());
+        Collections.sort(songs, new SongCompare());
+        ArrayList<String> favorites = new ArrayList<String>();
+        for (Song s: songs) {
+            favorites.add(s.getFileName());
+        }
+        return favorites;
+    }
 
     /**
      * Compile a list of songs to play for vibe mode

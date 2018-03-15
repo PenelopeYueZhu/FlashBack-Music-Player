@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gaparmar.mediaflashback">
 
+    <uses-sdk android:minSdkVersion="3" />
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COURSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -27,7 +29,7 @@
         <service
             android:name=".UI.BackgroundService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
 
         <activity android:name=".UI.MainActivity">
@@ -37,7 +39,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.FlashbackActivity" />
+        <activity android:name=".UI.VibeActivity" />
         <activity
             android:name=".UI.LibraryActivity"
             android:label="@string/title_activity_library" />
@@ -49,6 +51,10 @@
             android:label="@string/title_activity_tracklist"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <service
+            android:name=".WhereAndWhen.DownloadService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
