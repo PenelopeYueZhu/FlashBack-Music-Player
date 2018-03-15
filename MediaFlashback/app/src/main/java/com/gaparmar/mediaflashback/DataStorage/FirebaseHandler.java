@@ -357,7 +357,7 @@ public class FirebaseHandler {
                     DatabaseReference ref = database.getReference();
                     HashMap<String, String> t = new HashMap<>();
                     t.put("song_title", fireId);
-                    ref.child("song_logs").push().setValue(t);
+                    //ref.child("song_logs").push().setValue(t);
                     System.out.println(t.toString());
                 }
             }
@@ -405,15 +405,46 @@ public class FirebaseHandler {
                                      String userName, String proxy, String Id,
                                      String dayOfWeek, long timestamp, int timeOfDay,
                                      double latitude, double longitude, String url){
+        System.err.println("Start of log");
         final String fireID = Song.reformatFileName(filename);
         final LogInstance temp = new LogInstance(title, album, artist,
-                                                 locationPlayed, userName, proxy, Id, dayOfWeek, timestamp,
-                                                    timeOfDay, latitude, longitude, url);
+                locationPlayed, userName, proxy, Id, dayOfWeek, timestamp,
+                timeOfDay, latitude, longitude, url);
         Query query = ref.child("song_logs").orderByChild("song_title").equalTo(fireID);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot data : dataSnapshot.getChildren()){
+                if(!dataSnapshot.exists())
+                {
+                    FirebaseDatabase f = FirebaseDatabase.getInstance();
+                    DatabaseReference ref = f.getReference();
+
+                    HashMap<String, String> t = new HashMap<>();
+                    t.put("song_title", fireID);
+                    System.out.println("DataSnapshot doesn't exist");
+                    ref.child("song_logs").push().setValue(t);
+
+                    Query query2 = ref.child("song_logs").orderByChild("song_title").equalTo(fireID);
+
+                    query2.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot data : dataSnapshot.getChildren()) {
+                                System.out.println(data.getValue().toString());
+                                Log.d("FH:logToFirebase", "pushing a new log for song " + fireID);
+                                data.getRef().child("logs").push().setValue(temp);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    System.out.println(data.getValue().toString());
                     Log.d("FH:logToFirebase", "pushing a new log for song " + fireID);
                     data.getRef().child("logs").push().setValue(temp);
                 }

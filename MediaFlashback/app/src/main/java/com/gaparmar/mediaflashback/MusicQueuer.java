@@ -367,7 +367,7 @@ public class MusicQueuer implements FirebaseObserver{
         FirebaseHandler.storeTimeStamp(ID, timeStamp);
 
         // Storing the song's rating
-        StorageHandler.storeSongState(context, ID, getSong(ID).getRate());
+        //StorageHandler.storeSongState(context, ID, getSong(ID).getRate());
         getSong(ID).setTime(timeOfDay);
         StorageHandler.storeSongTime(context, ID, timeOfDay);
 
