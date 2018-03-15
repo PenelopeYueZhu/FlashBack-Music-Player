@@ -40,9 +40,7 @@ public class FirebaseHandler {
      */
     public static void saveSong(Song song){
         final String songFileName = Song.reformatFileName(song.getFileName());
-        Log.d("FH:saveSong", "Saving song with file name " + song.getFileName());
         Query songQuery = songs.orderByChild(Constant.FILEID_FIELD).equalTo(songFileName);
-        System.err.println("Debugging: filename special char" + songFileName);
         storeFirebaseID(song.getFileName(), songFileName);
         if( songQuery == null ) {
             songs.child(songFileName).setValue(song);

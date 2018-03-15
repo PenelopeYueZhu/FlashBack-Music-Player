@@ -26,6 +26,7 @@ import java.util.zip.ZipInputStream;
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
 import com.gaparmar.mediaflashback.UI.BackgroundService;
 import com.gaparmar.mediaflashback.UI.MainActivity;
+import com.gaparmar.mediaflashback.UI.VibeActivity;
 import com.google.api.client.googleapis.notifications.StoredChannel;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
@@ -77,6 +78,57 @@ public class MusicDownloader {
                     addUrl(filenameReceiver + ".mp3", inputURL);
                     Log.d("MD:onComplete", "Finished Downloading " + filenameReceiver);
                     BackgroundService.getMusicQueuer().readAll();
+                }
+            }
+        };
+        if (fileExists(filename +".mp3")) {
+            System.err.println("filename exists " + filename);
+        } else {
+            System.err.println("Making new file " + filename);
+            myContext.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+
+            request.setDescription(url);
+            request.setTitle(filename);
+
+            request.setDestinationInExternalPublicDir(MEDIA_PATH, filename + "." + type);
+            // add song to download list
+            dm.enqueue(request);
+        }
+
+
+
+    }
+
+    public void downloadVibeData(String url, final String filename, String type) {
+        final String t = type;
+        final String filenameReceiver = filename;
+        final String inputURL = url;
+        /**
+         * Unzip file after download completion
+         */
+        BroadcastReceiver onComplete = new BroadcastReceiver() {
+            public void onReceive(Context ctxt, Intent intent) {
+                if (t.equals("zip")) {
+                    // Unzip if the file downloaded is a zip file
+                    File temp = new File(COMPLETE_PATH + File.separator + filenameReceiver + ".zip");
+                    Log.d("MD:unzip", "Start unzipping " + temp.getParent());
+                    unZip(COMPLETE_PATH + File.separator + filenameReceiver + ".zip",
+                            temp.getParent() + File.separator, filenameReceiver +".zip", inputURL);
+                } else {
+                    addUrl(filenameReceiver + ".mp3", inputURL);
+                    Log.d("MD:onComplete", "Finished Downloading " + filenameReceiver);
+                    VibeActivity.getMq().readAll();
+
+                    if(VibeActivity.firstTimeQueueing) {
+                        Log.d("MP:getCUrrSong", "downloading current song");
+                        VibeActivity.firstTimeQueueing = false;
+                        VibeActivity.flashbackPlayer.loadNewSong(filenameReceiver + ".mp3");
+                    }
+                    else {
+                        VibeActivity.flashbackPlayer.addToList(filenameReceiver + ".mp3");
+                    }
                 }
             }
         };

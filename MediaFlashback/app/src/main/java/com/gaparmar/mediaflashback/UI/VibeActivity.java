@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
 import com.gaparmar.mediaflashback.FlashbackPlayer;
+import com.gaparmar.mediaflashback.MusicDownloader;
 import com.gaparmar.mediaflashback.MusicQueuer;
 import com.gaparmar.mediaflashback.R;
 import com.gaparmar.mediaflashback.Song;
@@ -54,9 +55,11 @@ public class VibeActivity extends AppCompatActivity {
     public static FlashbackPlayer flashbackPlayer;
     LocationManager locationManager;
     LocationListener locationListener;
-    MusicQueuer mq;
+    static MusicQueuer mq;
 
+    public static boolean firstTimeQueueing;
 
+    public static MusicQueuer getMq () {return mq;}
     /**
      * Runs when the activity is created. Initializes the buttons,
      * com.gaparmar.mediaflashback.UI, and music functinos
@@ -68,6 +71,7 @@ public class VibeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
         flashBackIsPlaying = true;
+        firstTimeQueueing = true;
 
         //initializeViewComponents();
 
@@ -80,9 +84,7 @@ public class VibeActivity extends AppCompatActivity {
             arr = mq.getEntireSongList();
         }
 
-System.err.println("Line 87");
         flashbackPlayer = new FlashbackPlayer(arr,this, mq);
-        System.err.println("line 89");
 
 
         // Acquire a reference to the system Location Manager
@@ -96,8 +98,6 @@ System.err.println("Line 87");
                 MainActivity.getAddressRetriver().setLocation(location);
                 Log.d("FBLgetting location", "Setting the location to address retriver");
                 Log.d( " line 114", flashbackPlayer.toString());
-                if( VibeActivity.flashbackPlayer != null ) System.err.println("flahsbakc is null XXX");
-                if( VibeActivity.flashbackPlayer == null ) System.err.println("flahsbakc is null XXXY");
 
                 mq.makeVibeList();
                 //flashbackPlayer.loadList();
@@ -232,7 +232,7 @@ System.err.println("Line 87");
     public void updateTrackInfo(Song currentSong) {
         Log.d("UINormal", "Reset displayed information of the song to the current song");
         if( !flashBackIsPlaying ) return;
-        ArrayList<String> songInfo = mq.getSongInfo(currentSong.getFileName());
+        ArrayList<String> songInfo = mq.getSongInfo(flashbackPlayer.getCurrentSongFileName());
         songTitleDisplay.setText( songInfo.get(TITLE_POS));
         songDateDisplay.setText( songInfo.get(TIME_POS) + " at " + songInfo.get(DAY_POS));
         songLocationDisplay.setText( songInfo.get(LOC_POS));
