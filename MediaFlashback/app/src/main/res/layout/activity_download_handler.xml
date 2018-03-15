@@ -54,5 +54,18 @@
         android:hint="Enter a Time"
         android:inputType="time" />
 
+    <EditText
+        android:id="@+id/inputTrack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/timeMock"
+        android:layout_alignStart="@+id/timeMock"
+        android:layout_marginBottom="44dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="Enter Filename"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/background_light" />
+
 
 </RelativeLayout>
