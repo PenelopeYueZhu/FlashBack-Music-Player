@@ -38,8 +38,9 @@ public class Song {
     private String dayOfWeek;
     private String address;
     private String userName;
-    private String proxy;
-    private String Id;
+
+    private String userID;
+    private String userNickname;
     private int probability;
     private int time;
     private long timeStamp;
@@ -173,11 +174,28 @@ public class Song {
 
     /**
      * Set the username who most recently played the song
+     * @param userNickname the username
+     */
+    protected  void setUserNickname( String userNickname ) {
+        this.userNickname = userNickname;
+    }
+
+    /**
+     * Set the username who most recently played the song
+     * @param userID the username
+     */
+    protected  void setUserID( String userID ) {
+        this.userID = userID;
+    }
+
+    /**
+     * Set the username who most recently played the song
      * @param userName the username
      */
     protected  void setUserName( String userName ) {
         this.userName = userName;
     }
+
 
     /**
      * Set the time of the day when a song was played
@@ -204,10 +222,6 @@ public class Song {
     protected void setTitle( String title ){
         this.title = title;
     }
-
-    protected void setProxy( String proxy ) { this.proxy = proxy; }
-
-    protected void setId( String Id) { this.Id = Id;}
 
     /************************************** Getters for com.gaparmar.mediaflashback.UI display *******************************/
     public String getFileName() {
@@ -246,6 +260,10 @@ public class Song {
     public String getAddress() {return address;}
 
     public String getUserName() {return userName;}
+
+    public String getUserNickname() {return userNickname;}
+
+    public String getUserID() {return userID;}
 
     public String getSongURL() {return songURL;}
 
@@ -289,9 +307,6 @@ public class Song {
      * @return probablity
      */
     public int getProbability() {return probability;}
-
-    public String getProxy() {return proxy;}
-    public String getId() {return Id;}
 
     /************************ checkers *****************************************/
     /**

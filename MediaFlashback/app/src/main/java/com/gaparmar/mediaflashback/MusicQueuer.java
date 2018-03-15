@@ -11,8 +11,10 @@ import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
 import com.gaparmar.mediaflashback.DataStorage.FirebaseObserver;
 import com.gaparmar.mediaflashback.DataStorage.LogInstance;
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
+import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
+import com.gaparmar.mediaflashback.UI.MainActivity;
+import com.gaparmar.mediaflashback.UI.VibeActivity;
 import com.gaparmar.mediaflashback.UI.BackgroundService;
-import com.gaparmar.mediaflashback.UI.FlashbackActivity;
 import com.gaparmar.mediaflashback.UI.VibeActivity;
 import com.gaparmar.mediaflashback.WhereAndWhen.AddressRetriver;
 
@@ -27,8 +29,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import com.gaparmar.mediaflashback.UI.MainActivity;
 
 /**
  * Created by veronica.lin1218 on 2/12/2018.
@@ -78,7 +78,9 @@ public class MusicQueuer implements FirebaseObserver{
                 if (f.isDirectory()) {
                     scanDirectory(f);
                 } else {
-                    addSong(f.getPath(),f.getName() );
+                    if (f.getName().endsWith(".mp3")) {
+                        addSong(f.getPath(), f.getName());
+                    }
                 }
             }
         } else {
@@ -103,6 +105,11 @@ public class MusicQueuer implements FirebaseObserver{
         }
     }
 
+    /**
+     * Adds the given song
+     * @param songPath The path to the song
+     * @param fileName The filename of the song
+     */
     public void addSong(String songPath, String fileName) {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
 
@@ -117,7 +124,7 @@ public class MusicQueuer implements FirebaseObserver{
             album = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
             artist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
 
-
+        // Sets unknown in case of an error
         } catch (Exception e) {
             //e.printStackTrace();
             title = UNKNOWN_STRING;
@@ -322,7 +329,9 @@ public class MusicQueuer implements FirebaseObserver{
         infoBus.add(StorageHandler.getSongLocationString(context, fileName));
         infoBus.add(getTimeOfDay(StorageHandler.getSongTime(context, fileName)));
         infoBus.add(StorageHandler.getSongDay(context, fileName));
-        infoBus.add(song.getUserName());
+        // TODO make it proxy if not friend
+        infoBus.add(MainActivity.isFriend(new Friend(song.getUserName(),
+                song.getUserID(), song.getUserNickname())));
         return infoBus;
     }
 
@@ -399,16 +408,6 @@ public class MusicQueuer implements FirebaseObserver{
 
     }
 
-    public ArrayList<String> createFavoritesList () {
-        List<Song> songs = new ArrayList<Song>(allTracks.values());
-        Collections.sort(songs, new SongCompare());
-        ArrayList<String> favorites = new ArrayList<String>();
-        for (Song s: songs) {
-            favorites.add(s.getFileName());
-        }
-        return favorites;
-    }
-
 
     /********************************************** For vibe mode ********************************/
 
@@ -418,6 +417,10 @@ public class MusicQueuer implements FirebaseObserver{
     Song track;
     int totalSongs = getNumSongs();
 
+    /**
+     * Updates the song list
+     * @param songList The songlist to update
+     */
     public void updateSongList( ArrayList<String> songList ){
         songFromDatabase = songList;
         totalSongs = songFromDatabase.size();
@@ -428,12 +431,21 @@ public class MusicQueuer implements FirebaseObserver{
         }
     }
 
+    /**
+     * Updates the log list
+     * @param filename The filename of the song
+     * @param list The list to update
+     */
     public void updateLogList( String filename, ArrayList<LogInstance> list){
         this.list = list;
         Log.d("MQ:updateLogList", "the size of the list passed in is " + list.size());
         updateProbablity(filename);
     }
 
+    /**
+     * Updates the probability
+     * @param filename The filename of the song
+     */
     public void updateProbablity( String filename ) {
         track = getSong(filename);
         if( track == null ){
@@ -468,7 +480,7 @@ public class MusicQueuer implements FirebaseObserver{
         String hour = getTimeOfDay(Integer.parseInt(hourFormat.format(currDate.getTime())));
 
         // Loop through each instance of the song from the log
-        for (int i = 0; i < list.size(); i++){
+        for (int i = 0; i < list.size(); ++i){
             Log.d("MQ:updateProbability", "looping the list at " + i);
             int tempProb = 1;
             // Get the current instance
@@ -483,6 +495,7 @@ public class MusicQueuer implements FirebaseObserver{
             isSameDay = getIntOfDay(currInstance.dayOfWeek) == day;
             isSameTime = hour.equals(currInstance.timeOfDay);
 
+            // Checks info for proximity, day, and time
             if( isInRange ) tempProb++;
             if( isSameDay ) tempProb++;
             if( isSameTime ) tempProb ++;
@@ -501,8 +514,9 @@ public class MusicQueuer implements FirebaseObserver{
                     StorageHandler.storeSongLocationString(context, filename, chosenInstance.locationPlayed);
                     StorageHandler.storeSongTime(context, filename, chosenInstance.timeOfDay);
                     getSong(filename).setSongURL(chosenInstance.url);
-                    getSong(filename).setUserName(MainActivity.isFriend(new Friend( chosenInstance.userName,
-                            chosenInstance.proxy, chosenInstance.Id)));
+                    getSong(filename).setUserName(chosenInstance.userName);
+                    getSong(filename).setUserNickname(chosenInstance.proxy);
+                    getSong(filename).setUserID(chosenInstance.Id);
                 }
             }
         }
@@ -522,6 +536,7 @@ public class MusicQueuer implements FirebaseObserver{
             FlashbackActivity.flashbackPlayer.addToList();
         }*/
         if( sortedList.size() == totalSongs ){
+
            // loadPlaylist(FlashbackActivity.flashbackPlayer);
            // FlashbackActivity.flashbackPlayer.loadList();
             // TODO: call the function that updates the track
@@ -560,6 +575,15 @@ public class MusicQueuer implements FirebaseObserver{
         }
     }
 
+    public ArrayList<String> createFavoritesList () {
+        List<Song> songs = new ArrayList<Song>(allTracks.values());
+        Collections.sort(songs, new SongCompare());
+        ArrayList<String> favorites = new ArrayList<String>();
+        for (Song s: songs) {
+            favorites.add(s.getFileName());
+        }
+        return favorites;
+    }
 
     /**
      * Compile a list of songs to play for vibe mode
@@ -569,11 +593,20 @@ public class MusicQueuer implements FirebaseObserver{
         FirebaseHandler.getSongList();
     }
 
+    /**
+     * Loads in the sorted playlist into the given flashback player
+     * @param mq The given flashback player to set the playlist
+     */
     public void loadPlaylist( FlashbackPlayer mq ) {
         mq.setPlayList(sortedList);
     }
 
 
+    /**
+     * Gets the day of the week as an int
+     * @param dayString The day to get
+     * @return The int value of the given day
+     */
     private int getIntOfDay(String dayString){
         int day;
         switch( dayString ){
@@ -631,6 +664,9 @@ public class MusicQueuer implements FirebaseObserver{
         return timeZone;
     }
 
+    /**
+     * Compares the probability of two songs
+     */
     private static class SongCompare implements Comparator<Song> {
         public int compare(Song s1, Song s2) {
             return s2.getProbability() - s1.getProbability();

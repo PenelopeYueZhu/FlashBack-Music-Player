@@ -25,6 +25,7 @@ import java.util.Map;
  * Created by lxyzh on 3/4/2018.
  */
 
+
 public class FirebaseHandler {
     // Connection to the database
     final static FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -108,26 +109,22 @@ public class FirebaseHandler {
     /**
      * Store the the address string where a song latly played into the database
      * @param fileName the filename of the song we are storing
-     * @param friend the user who played the song
+     * @param user the user who played the song
      */
-    public static void storeUsername(String fileName, Friend friend) {
+    public static void storeUsername(String fileName, Friend user) {
         String fileID = Song.reformatFileName(fileName);
 
         DatabaseReference updateRef = songs.child(fileID);
-        Map<String, Object> updateMap = new HashMap<>();
+        Map<String, Object> nameMap = new HashMap<>();
+        Map<String, Object> IdMap = new HashMap<>();
+        Map<String, Object> proxyMap = new HashMap<>();
+        nameMap.put(Constant.USER_FIELD, user.getName());
+        IdMap.put(Constant.PROXY_FIELD, user.getId());
+        proxyMap.put(Constant.ID_FIELD, user.getProxy());
 
-        updateMap.put(Constant.USER_FIELD, friend.getName());
-        updateRef.updateChildren(updateMap);
-
-        Map<String, Object> updateMapProxy = new HashMap<>();
-
-        updateMap.put("proxy", friend.getProxy());
-        updateRef.updateChildren(updateMapProxy);
-
-        Map<String, Object> updateMapId = new HashMap<>();
-
-        updateMap.put("Id", friend.getId());
-        updateRef.updateChildren(updateMapId);
+        updateRef.updateChildren(nameMap);
+        updateRef.updateChildren(IdMap);
+        updateRef.updateChildren(nameMap);
     }
 
     /**
@@ -226,6 +223,7 @@ public class FirebaseHandler {
                             MainActivity.getUITracker().updateLocation(filename, address);
                             break;
 
+                        // Gets the time of the song
                         case Constant.TIME_FIELD:
                             long time;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString) == null ){
@@ -238,6 +236,7 @@ public class FirebaseHandler {
 
                             break;
 
+                        // Gets the stamp field of the song
                         case Constant.STAMP_FIELD:
                             long timeStamp;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString) == null ){
@@ -250,6 +249,7 @@ public class FirebaseHandler {
 
                             break;
 
+                        // Gets the day of the song
                         case Constant.WEEKDAY_FIELD:
                             String dayOfWeek;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString) == null ){
@@ -261,6 +261,7 @@ public class FirebaseHandler {
                             MainActivity.getUITracker().updateDayOfWeek(filename, dayOfWeek);
                             break;
 
+                        // Gets the users of the song
                         case Constant.USER_FIELD:
                             String userName;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString) == null ){
@@ -272,6 +273,7 @@ public class FirebaseHandler {
                             MainActivity.getUITracker().updateUserName(filename, userName);
                             break;
 
+                        // Gets the coordinates of the song
                         case Constant.COORD_FIELD:
                             double lat = (Double)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get("lat");
                             Log.d("FH:getLocation", "Retrieved latitude: " + lat);
@@ -290,6 +292,7 @@ public class FirebaseHandler {
                             MainActivity.getFirebaseInfoBus().notifyRate(filename, rate);
                             break;*/
 
+                        // Gets the probability of the song
                         case Constant.PROB_FIELD:
                             int prob;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString) == null ){
@@ -401,11 +404,12 @@ public class FirebaseHandler {
      * @param url url used to download the song
      */
     public static void logToFirebase(String title, String album, String artist, String filename, String locationPlayed,
-                                     String userName, String proxy, String id, String dayOfWeek, long timestamp, int timeOfDay,
+                                     String userName, String proxy, String Id,
+                                     String dayOfWeek, long timestamp, int timeOfDay,
                                      double latitude, double longitude, String url){
         final String fireID = Song.reformatFileName(filename);
         final LogInstance temp = new LogInstance(title, album, artist,
-                                                 locationPlayed, userName, proxy, id, dayOfWeek, timestamp,
+                                                 locationPlayed, userName, proxy, Id, dayOfWeek, timestamp,
                                                     timeOfDay, latitude, longitude, url);
         Query query = ref.child("song_logs").orderByChild("song_title").equalTo(fireID);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -449,18 +453,21 @@ public class FirebaseHandler {
                         int time = Integer.parseInt(d.child("timestamp").getValue().toString());
                         int timeOfDay = Integer.parseInt(d.child("timeOfDay").getValue().toString());
                         String user = (String)d.child("userName").getValue();//.toString();
-                        String proxy = (String)d.child("proxy").getValue();//.toString();
-                        String id = (String)d.child("Id").getValue();//.toString();
-
+                        String proxy = (String)d.child("proxy").getValue();
+                        String Id = (String)d.child("Id").getValue();
                         String url = (String)d.child("url").getValue();
 
                         list.add(new LogInstance(title, album, artist, locationPlayed,
-                                user, proxy, id, dayOfWeek, time, timeOfDay, lati, longi, url));
+                                user, proxy, Id, dayOfWeek, time, timeOfDay, lati, longi, url));
                     }
                 }
                 System.err.println("size of the list is " + list.size() );
                 //BackgroundService.getFirebaseInfoBus().notifyLogList(fileName, list);
-                BackgroundService.getMusicQueuer().updateLogList(fileName, list);
+                try {
+                    BackgroundService.getMusicQueuer().updateLogList(fileName, list);
+                }catch(NullPointerException e){
+
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
