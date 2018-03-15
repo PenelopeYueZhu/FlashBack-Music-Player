@@ -281,7 +281,7 @@
                 android:id="@+id/regular_button"
                 android:layout_width="50dp"
                 android:layout_height="55dp"
-                android:background="#7adf9e"
+                android:background="@drawable/home_circle_button"
                 android:onClick="onRegularModeClick"
                 android:src="@drawable/ic_home_black_24dp"
                 android:layout_marginRight="50dp"
@@ -290,10 +290,10 @@
 
             <ImageButton
                 android:id="@+id/previous_button"
-                android:layout_width="30dp"
+                android:layout_width="50dp"
                 android:layout_height="55dp"
                 android:layout_marginRight="50dp"
-                android:background="#467750"
+                android:background="@drawable/button_round_corner"
                 android:onClick="onPreviousButtonClick"
                 app:layout_constraintBottom_toBottomOf="@+id/pause_button"
                 app:layout_constraintEnd_toStartOf="@+id/play_button"
@@ -309,7 +309,7 @@
                     android:id="@+id/pause_button"
                     android:layout_width="55dp"
                     android:layout_height="55dp"
-                    android:background="#467750"
+                    android:background="@drawable/button_round_corner"
                     android:onClick="onPauseButtonClick"
                     app:layout_constraintBottom_toBottomOf="@+id/play_button"
                     app:layout_constraintEnd_toEndOf="@+id/play_button"
@@ -325,7 +325,7 @@
                     android:id="@+id/play_button"
                     android:layout_width="55dp"
                     android:layout_height="55dp"
-                    android:background="#467750"
+                    android:background="@drawable/button_round_corner"
                     android:onClick="onPlayButtonClick"
                     app:srcCompat="@android:drawable/ic_media_play" />
 
@@ -333,10 +333,10 @@
 
             <ImageButton
                 android:id="@+id/next_button"
-                android:layout_width="30dp"
+                android:layout_width="50dp"
                 android:layout_height="55dp"
                 android:layout_marginLeft="50dp"
-                android:background="#467750"
+                android:background="@drawable/button_round_corner"
                 android:onClick="onNextButtonClick"
                 app:layout_constraintBottom_toBottomOf="@+id/toggleBtn"
                 app:layout_constraintEnd_toStartOf="@+id/toggleBtn"
