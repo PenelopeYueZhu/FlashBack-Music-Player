@@ -79,21 +79,23 @@ public class MusicDownloader {
                 }
             }
         };
-        if (fileExists(filename)) {
-            return;
+        if (fileExists(filename +".mp3")) {
+            System.err.println("filename exists " + filename);
+        } else {
+            System.err.println("Making new file " + filename);
+            myContext.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+
+            request.setDescription(url);
+            request.setTitle(filename);
+
+            request.setDestinationInExternalPublicDir(MEDIA_PATH, filename + "." + type);
+
+
+            // add song to download list
+            dm.enqueue(request);
         }
-        myContext.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-
-        request.setDescription(url);
-        request.setTitle(filename);
-
-        request.setDestinationInExternalPublicDir(MEDIA_PATH, filename+"." + type);
-
-
-        // add song to download list
-        dm.enqueue(request);
 
 
     }
@@ -134,7 +136,8 @@ public class MusicDownloader {
     }
 
     public boolean fileExists(String filename) {
-        File file  = new File(MEDIA_PATH+File.separator + filename);
+        System.err.println("fileExists: " + filename);
+        File file  = new File(COMPLETE_PATH+File.separator + filename);
         return file.exists();
     }
     public void deleteFile(String filename) {
