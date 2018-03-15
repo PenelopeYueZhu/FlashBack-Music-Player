@@ -18,7 +18,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class FlashbackUnitTest {
-    
+    /*
     int songOne = R.raw.back_east;
     int songTwo = R.raw.at_midnight;
     int songThree = R.raw.after_the_storm;
@@ -119,5 +119,5 @@ public class FlashbackUnitTest {
         assertEquals(s1.getProbability(), 3);
     }
 
-
+*/
 }

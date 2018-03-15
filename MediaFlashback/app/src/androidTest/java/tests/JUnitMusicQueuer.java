@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
  */
 
 public class JUnitMusicQueuer {
-
+/*
     MusicQueuer mq;
     final static int numOfSongs = 18;
     final static int numOfAlbums = 5;
@@ -77,5 +77,5 @@ public class JUnitMusicQueuer {
 
             assertEquals( true, album.hasSong(song));
         }
-    }
+    }*/
 }

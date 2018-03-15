@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
  */
 
 public class MusicDownloaderTest {
-    Context context;
+   /* Context context;
     @Rule
     public ActivityTestRule<MainActivity> mainActivity =
             new ActivityTestRule<MainActivity>(MainActivity.class);
@@ -38,5 +38,5 @@ public class MusicDownloaderTest {
         Log.d("testDownloadSong", "downloading song");
         md.downloadSong(songURL, "Front Desk Bell Sound");
 
-    }
+    }*/
 }
