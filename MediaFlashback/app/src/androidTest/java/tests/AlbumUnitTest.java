@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
  * Created by gauravparmar on 2/15/18.
  */
 public class AlbumUnitTest {
-    private Song A, B;
+    /*private Song A, B;
     private Album X;
     @Before
     public void initializeAlbums() throws Exception{
@@ -28,5 +28,5 @@ public class AlbumUnitTest {
         assertEquals(X.hasSong(A), false);
         X.addSong(A);
         assertEquals(X.hasSong(A), true);
-    }
+    }*/
 }
