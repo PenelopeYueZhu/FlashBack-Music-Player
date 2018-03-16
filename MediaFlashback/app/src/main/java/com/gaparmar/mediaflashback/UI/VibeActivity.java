@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
 import com.gaparmar.mediaflashback.FlashbackPlayer;
-import com.gaparmar.mediaflashback.MusicDownloader;
 import com.gaparmar.mediaflashback.MusicQueuer;
 import com.gaparmar.mediaflashback.R;
 import com.gaparmar.mediaflashback.Song;
@@ -46,7 +45,7 @@ public class VibeActivity extends AppCompatActivity {
     TextView songTitleDisplay;
     TextView songLocationDisplay;
     TextView songDateDisplay;
-    TextView songTimeDisplay;
+    TextView songUserDisplay;
     TextView songAlbumDisplay;
     TextView songArtistDisplay;
     ImageButton playButton;
@@ -129,7 +128,7 @@ public class VibeActivity extends AppCompatActivity {
         songTitleDisplay = findViewById(R.id.song_title);
         songDateDisplay = findViewById(R.id.song_date);
         songLocationDisplay = findViewById(R.id.song_location);
-        songTimeDisplay = findViewById(R.id.song_time);
+        songUserDisplay = findViewById(R.id.song_user);
         playButton = findViewById(R.id.play_button);
         pauseButton = findViewById(R.id.pause_button);
         nextButton = findViewById(R.id.next_button);
@@ -244,6 +243,8 @@ public class VibeActivity extends AppCompatActivity {
         songLocationDisplay.setText( songInfo.get(LOC_POS));
         songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
         songArtistDisplay.setText(songInfo.get(ARTIST_POS));
+        System.out.println("song user: \t"+songInfo.get(songInfo.size()-1));
+        songUserDisplay.setText(songInfo.get(songInfo.size()-1));
     }
 
 

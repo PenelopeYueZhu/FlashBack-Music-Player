@@ -327,6 +327,8 @@ public class MusicQueuer implements FirebaseObserver{
         infoBus.add(getTimeOfDay(StorageHandler.getSongTime(context, fileName)));
         infoBus.add(StorageHandler.getSongDay(context, fileName));
         // TODO make it proxy if not friend
+        System.out.println("user nickname: "+song.getUserNickname());
+        System.out.println("user name: "+song.getUserName());
         infoBus.add(MainActivity.isFriend(new Friend(song.getUserName(),
                 song.getUserID(), song.getUserNickname())));
         return infoBus;
