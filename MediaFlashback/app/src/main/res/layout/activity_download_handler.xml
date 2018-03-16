@@ -39,7 +39,6 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/linearLayout"
         android:layout_margin="10dp"
-        android:background="?attr/actionModeSplitBackground"
         />
 
 
@@ -54,7 +53,6 @@
         android:layout_weight="1"
         android:ems="10"
         android:hint="Enter Filename"
-        android:fontFamily="cursive"
         android:inputType="textPersonName"
         android:textColor="#000"
         android:textColorHint="#000" />
@@ -81,6 +79,15 @@
         android:timePickerMode="spinner"
         android:onClick="mockTime"
         />
+
+    <ToggleButton
+        android:id="@+id/toggle_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/timePicker"
+        android:layout_marginTop="80dp"
+        android:layout_toEndOf="@+id/timePicker"
+        android:onClick="toggleTimeMock"/>
 
 
 </RelativeLayout>

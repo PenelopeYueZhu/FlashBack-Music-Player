@@ -4,17 +4,14 @@ import android.content.Context;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.util.Log;
 
 import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
 import com.gaparmar.mediaflashback.DataStorage.FirebaseObserver;
 import com.gaparmar.mediaflashback.DataStorage.LogInstance;
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
-import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
+import com.gaparmar.mediaflashback.UI.DownloadHandlerActivity;
 import com.gaparmar.mediaflashback.UI.MainActivity;
-import com.gaparmar.mediaflashback.UI.VibeActivity;
-import com.gaparmar.mediaflashback.UI.BackgroundService;
 import com.gaparmar.mediaflashback.UI.VibeActivity;
 import com.gaparmar.mediaflashback.WhereAndWhen.AddressRetriver;
 
@@ -341,7 +338,8 @@ public class MusicQueuer implements FirebaseObserver{
      */
     public void updateTrackInfo( String ID ){
         final AddressRetriver ar = MainActivity.getAddressRetriver();
-        currDate = Calendar.getInstance();
+        //currDate = Calendar.getInstance();
+        currDate = DownloadHandlerActivity.getTime();
 
         // Store address string
         FirebaseHandler.storeAddress(ID, ar.getAddress());

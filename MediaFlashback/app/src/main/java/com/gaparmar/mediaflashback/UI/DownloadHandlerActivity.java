@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.gaparmar.mediaflashback.DataStorage.LogInstance;
 import com.gaparmar.mediaflashback.MusicDownloader;
@@ -15,6 +16,7 @@ import com.gaparmar.mediaflashback.R;
 import com.gaparmar.mediaflashback.WhereAndWhen.DownloadService;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class DownloadHandlerActivity extends AppCompatActivity {
     EditText EditText_url;
@@ -22,6 +24,8 @@ public class DownloadHandlerActivity extends AppCompatActivity {
     TimePicker time;
     private MusicDownloader musicDownloader;
     ArrayList<LogInstance> t;
+    public static MockCalendar mockedTime;
+    public static boolean isToggled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +76,27 @@ public class DownloadHandlerActivity extends AppCompatActivity {
      }
 
      public void mockTime(View view){
-        MockCalendar mockCal = new MockCalendar();
-        mockCal.setHour(time.getHour());
+         mockedTime = new MockCalendar();
+         mockedTime.setHour(time.getHour());
+     }
+
+     public void toggleTimeMock(View view){
+         isToggled = ((ToggleButton)findViewById(R.id.toggle_time)).isChecked();
+         System.out.println("TOGGLING MOCKED TIME, now: "+isToggled);
+     }
+
+
+    /**
+     * Gets the time to be used for calculating probability
+     * @return
+     */
+     public static Calendar getTime(){
+        if(isToggled){
+            return mockedTime;
+        }else{
+            return Calendar.getInstance();
+        }
+
      }
 
 
