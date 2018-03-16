@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,8 +23,11 @@ import java.util.HashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
 import com.gaparmar.mediaflashback.UI.BackgroundService;
 import com.gaparmar.mediaflashback.UI.MainActivity;
+import com.gaparmar.mediaflashback.UI.VibeActivity;
+import com.google.api.client.googleapis.notifications.StoredChannel;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 
@@ -38,7 +42,7 @@ public class MusicDownloader {
     HashMap<String, String> allUrls = new HashMap<>();
     private final String MEDIA_PATH = Environment.DIRECTORY_DOWNLOADS
             + File.separator + "myDownloads";
-    private final String COMPLETE_PATH =
+    public static final String COMPLETE_PATH =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()
                     + File.separator + "myDownloads";
 
@@ -71,24 +75,79 @@ public class MusicDownloader {
                     unZip(COMPLETE_PATH + File.separator + filenameReceiver + ".zip",
                             temp.getParent() + File.separator, filenameReceiver +".zip", inputURL);
                 } else {
-                    // Populate URL hashmap
-                    addUrl(filenameReceiver, inputURL);
+                    addUrl(filenameReceiver + ".mp3", inputURL);
                     Log.d("MD:onComplete", "Finished Downloading " + filenameReceiver);
                     BackgroundService.getMusicQueuer().readAll();
                 }
             }
         };
-        myContext.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        if (fileExists(filename +".mp3")) {
+            System.err.println("filename exists " + filename);
+        } else {
+            System.err.println("Making new file " + filename);
+            myContext.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
 
-        request.setDescription(url);
-        request.setTitle(filename);
+            request.setDescription(url);
+            request.setTitle(filename);
 
-        request.setDestinationInExternalPublicDir(MEDIA_PATH, filename+"." + type);
+            request.setDestinationInExternalPublicDir(MEDIA_PATH, filename + "." + type);
+            // add song to download list
+            dm.enqueue(request);
+        }
 
-        // add song to download queue
-        dm.enqueue(request);
+
+
+    }
+
+    public void downloadVibeData(String url, final String filename, String type) {
+        final String t = type;
+        final String filenameReceiver = filename;
+        final String inputURL = url;
+        /**
+         * Unzip file after download completion
+         */
+        BroadcastReceiver onComplete = new BroadcastReceiver() {
+            public void onReceive(Context ctxt, Intent intent) {
+                if (t.equals("zip")) {
+                    // Unzip if the file downloaded is a zip file
+                    File temp = new File(COMPLETE_PATH + File.separator + filenameReceiver + ".zip");
+                    Log.d("MD:unzip", "Start unzipping " + temp.getParent());
+                    unZip(COMPLETE_PATH + File.separator + filenameReceiver + ".zip",
+                            temp.getParent() + File.separator, filenameReceiver +".zip", inputURL);
+                } else {
+                    addUrl(filenameReceiver + ".mp3", inputURL);
+                    Log.d("MD:onComplete", "Finished Downloading " + filenameReceiver);
+                    VibeActivity.getMq().readAll();
+
+                    if(VibeActivity.firstTimeQueueing) {
+                        Log.d("MP:getCUrrSong", "downloading current song");
+                        VibeActivity.firstTimeQueueing = false;
+                        VibeActivity.flashbackPlayer.loadNewSong(filenameReceiver + ".mp3");
+                    }
+                    else {
+                        VibeActivity.flashbackPlayer.addToList(filenameReceiver + ".mp3");
+                    }
+                }
+            }
+        };
+        if (fileExists(filename +".mp3")) {
+            System.err.println("filename exists " + filename);
+        } else {
+            System.err.println("Making new file " + filename);
+            myContext.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+
+            request.setDescription(url);
+            request.setTitle(filename);
+
+            request.setDestinationInExternalPublicDir(MEDIA_PATH, filename + "." + type);
+            // add song to download list
+            dm.enqueue(request);
+        }
+
 
 
     }
@@ -99,9 +158,12 @@ public class MusicDownloader {
      * @param filename
      */
     public void addUrl(String filename, String url) {
-        if (allUrls.get(filename) == null) {
-            allUrls.put(filename, url);
-            Log.d("MD:add url", "url: " + url + " filename: " + filename);
+        if(StorageHandler.getSongUrl(myContext, filename) == null || !StorageHandler.getSongUrl(myContext, filename).equals(url)) {
+            StorageHandler.storeSongUrl(myContext, filename, url);
+            Log.d("MD:addUrl", "adding the url " + url);
+        }
+        else {
+            Log.d("MD:addUrl", "already have url " + StorageHandler.getSongUrl(myContext, filename) + " for " + filename);
         }
     }
 
@@ -110,8 +172,9 @@ public class MusicDownloader {
      * @return the url used to download the song
      */
     public String getUrl(String filename) {
-        if (allUrls.get(filename) != null) {
-            return allUrls.get(filename);
+        if (StorageHandler.getSongUrl(myContext, filename) != null) {
+            Log.d("MD:getUrl", "getting the url " + StorageHandler.getSongUrl(myContext, filename) + " with filename " + filename);
+            return StorageHandler.getSongUrl(myContext, filename);
         }
         return null;
     }
@@ -123,10 +186,12 @@ public class MusicDownloader {
         }
     }
 
-    /**
-     * Delete file
-     * @param filename file name of song to delete
-     */
+    public boolean fileExists(String filename) {
+        System.err.println("fileExists: " + filename);
+        File file  = new File(COMPLETE_PATH+File.separator + filename);
+        return file.exists();
+    }
+
     public void deleteFile(String filename) {
         File file = new File(MEDIA_PATH+File.separator + filename);
         boolean deleted = file.delete();

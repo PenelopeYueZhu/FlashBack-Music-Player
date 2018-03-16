@@ -393,7 +393,6 @@
             android:onClick="onLaunchLibrary"
             android:src="@drawable/music_library"
             android:tint="@android:color/darker_gray" />
-
         <ImageButton
             android:layout_width="75dp"
             android:layout_height="match_parent"

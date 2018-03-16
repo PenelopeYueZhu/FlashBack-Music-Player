@@ -38,6 +38,7 @@ public class Song {
     private String dayOfWeek;
     private String address;
     private String userName;
+
     private String userID;
     private String userNickname;
     private int probability;
@@ -360,7 +361,15 @@ public class Song {
      * Helper function that strips away the filename's special chars
      */
     public static String reformatFileName( String filename ) {
-        return filename.replaceAll("\\.", " " );
+        //String name =  filename.replaceAll("\\.mp3", "" );
+        String name =  filename.replaceAll("\\.", " " );
+        //name = name.replaceAll("\\.", "");
+        return name;
+    }
+
+    public static String stripMP3( String filename ) {
+        String name = filename.replaceAll("\\.mp3", "");
+        return name;
     }
 
     public String getFirebaseID(){
