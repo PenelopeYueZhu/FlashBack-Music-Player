@@ -34,6 +34,7 @@ public class FlashbackPlayer extends MusicPlayer {
     public FlashbackPlayer( final Context current, MusicQueuer musicQueuer) {
         super(current, musicQueuer);
         this.context = current;
+        currInd = 0;
     }
 
     /**
@@ -44,7 +45,7 @@ public class FlashbackPlayer extends MusicPlayer {
     public FlashbackPlayer(ArrayList<String> list, final Context current, MusicQueuer musicQueuer) {
         this(current, musicQueuer);
         allSongs = list;
-       // makeFlashbackPlaylist();
+        currInd = 0;
     }
 
     public List<String> getSongsToPlay()
@@ -61,22 +62,6 @@ public class FlashbackPlayer extends MusicPlayer {
         }
     }
 
-
-
-    /**
-     * Add songs in album to the list of songs this flashback player plays through
-     */
-    public void loadList() {
-        resetSong();
-        songsToPlay.clear();
-        for (int i = 0; i < sortedList.size(); i++) {
-            Log.d("FBP:loadPlaylist", "sortedList " + sortedList.get(i).getTitle());
-            songsToPlay.add(sortedList.get(i).getFileName());
-        }
-        if( firstTime ) firstTime = false;
-        currInd = 0;
-        loadMedia(songsToPlay.get(0));
-    }
 
     public void addToList( String filename ){
         songsToPlay.add(filename);

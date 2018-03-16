@@ -3,6 +3,8 @@ package com.gaparmar.mediaflashback.DataStorage;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.gaparmar.mediaflashback.Constant;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -21,6 +23,32 @@ public class StorageHandler {
 
     public static final int REGULAR = 0;
     public static final int FLASHBACK = 1;
+
+    /**
+     *
+     */
+    public static void storeSongUrl(Context context, String fileName, String URL ){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("URL",
+                MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(fileName, URL);
+        System.err.println("Storing the URL " + URL);
+        editor.apply();
+    }
+
+    /**
+     *
+     */
+    public static String getSongUrl( Context context, String fileName ){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("URL", MODE_PRIVATE);
+       // if( sharedPreferences.contains(fileName)) {
+            String address = sharedPreferences.getString(fileName, "");
+            System.err.println("getting the url " + address);
+            return address;
+       // }
+        //System.err.println("Not getting what we stored");
+        //return null;
+    }
 
     /**
      * Stores the Location of the Song as a Shared Preference

@@ -15,6 +15,7 @@ import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
 import com.gaparmar.mediaflashback.UI.MainActivity;
 import com.gaparmar.mediaflashback.UI.VibeActivity;
 import com.gaparmar.mediaflashback.UI.BackgroundService;
+import com.gaparmar.mediaflashback.UI.VibeActivity;
 import com.gaparmar.mediaflashback.WhereAndWhen.AddressRetriver;
 
 import java.io.File;
@@ -366,19 +367,21 @@ public class MusicQueuer implements FirebaseObserver{
         FirebaseHandler.storeTimeStamp(ID, timeStamp);
 
         // Storing the song's rating
-        StorageHandler.storeSongState(context, ID, getSong(ID).getRate());
+        //StorageHandler.storeSongState(context, ID, getSong(ID).getRate());
         getSong(ID).setTime(timeOfDay);
         StorageHandler.storeSongTime(context, ID, timeOfDay);
 
         // Storing the song's URL if it is downloaded locally by this user
+        System.err.println("Id is " + ID);
         if( MainActivity.getMusicDownloader().getUrl(ID)!= null) {
             FirebaseHandler.storeURL(ID, MainActivity.getMusicDownloader().getUrl(ID));
+            getSong(ID).setSongURL(MainActivity.getMusicDownloader().getUrl(ID));
         }
 
         FirebaseHandler.storeUsername(ID, MainActivity.me);
         FirebaseHandler.saveSongToSongList(getSong(ID));
         FirebaseHandler.logToFirebase(getSong(ID).getTitle(),getSong(ID).getParentAlbum(), getSong(ID).getArtistName(),
-                ID, ar.getAddress(), MainActivity.me.getName(), MainActivity.me.getProxy(), MainActivity.me.getProxy(),
+                ID, ar.getAddress(), MainActivity.me.getName(), MainActivity.me.getProxy(), MainActivity.me.getId(),
                 weekdayStr, timeStamp, timeOfDay, ar.getLatLon()[0], ar.getLatLon()[1], getSong(ID).getSongURL());
     }
 
@@ -404,6 +407,7 @@ public class MusicQueuer implements FirebaseObserver{
     public void copyRawToSD() {
 
     }
+
 
     /********************************************** For vibe mode ********************************/
 
@@ -481,6 +485,9 @@ public class MusicQueuer implements FirebaseObserver{
             int tempProb = 1;
             // Get the current instance
             LogInstance currInstance = list.get(i);
+            if( i==0 )
+            addDummySong(filename, currInstance.title, currInstance.album, currInstance.artist);
+
             boolean isInRange = false, isSameDay = false, isSameTime = false;
             // Calculate probability
             isInRange = track.isInRange(new double[]{currInstance.latitude, currInstance.longitude},
@@ -502,7 +509,6 @@ public class MusicQueuer implements FirebaseObserver{
                         BackgroundService.getMusicQueuer().readSongs();
                         BackgroundService.getMusicQueuer().readAlbums();
                     }*/
-                    addDummySong(filename, chosenInstance.title, chosenInstance.album, chosenInstance.artist);
                     Log.d("MQ:updateProbability", "Setting the log info into the song object");
                     StorageHandler.storeSongDay(context, filename, chosenInstance.dayOfWeek);
                     StorageHandler.storeSongLocationString(context, filename, chosenInstance.locationPlayed);
@@ -515,6 +521,7 @@ public class MusicQueuer implements FirebaseObserver{
             }
         }
 
+        System.err.println(filename + "line 508");
         if( getSong(filename).getRate() == Constant.LIKED ) prob ++;
 
         getSong(filename).setProbability( prob );
@@ -530,30 +537,19 @@ public class MusicQueuer implements FirebaseObserver{
         }*/
         if( sortedList.size() == totalSongs ){
 
-           // loadPlaylist(FlashbackActivity.flashbackPlayer);
-           // FlashbackActivity.flashbackPlayer.loadList();
             // TODO: call the function that updates the track
             for( Song song : sortedList) {
-                MainActivity.getMusicDownloader().downloadData(song.getSongURL(), song.getFileName(), "mp3");
-            }
-            boolean firstTime = true;
-            for( int i = 0 ; i < sortedList.size(); i++ ){
-                // If the URL exists, which means the song is downloaded
-                if( MainActivity.getMusicDownloader().getUrl(sortedList.get(i).getFileName())!= null ){
-                    // If this is the first song that's downloaded
-                    if( firstTime ){
-                        VibeActivity.flashbackPlayer.loadNewSong(sortedList.get(i).getFileName());
-                        firstTime = false;
+                if( new File(MusicDownloader.COMPLETE_PATH+File.separator + song.getFileName()).exists()) {
+                    if( VibeActivity.firstTimeQueueing){
+                        VibeActivity.firstTimeQueueing = false;
+                        VibeActivity.flashbackPlayer.loadNewSong(song.getFileName());
                     }
-                    // Else just add it to the to-play list
                     else {
-                        VibeActivity.flashbackPlayer.addToList(sortedList.get(i).getFileName());
+                        VibeActivity.flashbackPlayer.addToList(song.getFileName());
                     }
                 }
-                // Get back to the beginning if we didn't download the whole list
-                if( (i == sortedList.size()-1) &&
-                        (VibeActivity.flashbackPlayer.getSongsToPlay().size() != sortedList.size()) ) {
-                    i = 0;
+                else {
+                    MainActivity.getMusicDownloader().downloadVibeData(song.getSongURL(), Song.stripMP3(song.getFileName()), "mp3");
                 }
             }
         }

@@ -160,7 +160,7 @@ public class MusicPlayer extends AppCompatActivity {
         firstTime = false;
         if (currInd != songsToPlay.size()-1 && songsToPlay.size() > 0) {
             resetSong();
-            musicQueuer.getSong((songsToPlay.get(currInd))).getFileName();
+            //musicQueuer.getSong((songsToPlay.get(currInd))).getFileName();
             currInd++;
             song = musicQueuer.getSong(songsToPlay.get(currInd));
 
@@ -261,8 +261,12 @@ public class MusicPlayer extends AppCompatActivity {
      *          NULL if no song is currently selected
      */
     public Song getCurrSong() {
-        if (songsToPlay.size()==0)
+        Log.d("MP:getCUrrSong", "getting current song");
+        if (songsToPlay.size()==0) {
+            Log.d("MP:getCurrSong", "SongsToPlay has no song in it");
             return null;
+        }
+        Log.d("MP:getCurrSong", "getting index " + songsToPlay.get(currInd));
         return musicQueuer.getSong(songsToPlay.get(currInd));
     }
 

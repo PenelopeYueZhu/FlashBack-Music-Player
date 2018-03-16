@@ -2,6 +2,7 @@ package com.gaparmar.mediaflashback.UI;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -10,11 +11,14 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
 import com.gaparmar.mediaflashback.FlashbackPlayer;
+import com.gaparmar.mediaflashback.MusicDownloader;
 import com.gaparmar.mediaflashback.MusicQueuer;
 import com.gaparmar.mediaflashback.R;
 import com.gaparmar.mediaflashback.Song;
@@ -54,24 +58,11 @@ public class VibeActivity extends AppCompatActivity {
     public static FlashbackPlayer flashbackPlayer;
     LocationManager locationManager;
     LocationListener locationListener;
-    MusicQueuer mq;
+    static MusicQueuer mq;
 
-    /**
-     * Initializes all the View components of this activity
-     */
-    private void initializeViewComponents(){
-        launchRegularMode = findViewById(R.id.regular_button);
-        songTitleDisplay = findViewById(R.id.song_title);
-        songDateDisplay = findViewById(R.id.song_date);
-        songLocationDisplay = findViewById(R.id.song_location);
-        songTimeDisplay = findViewById(R.id.song_time);
-        playButton = findViewById(R.id.play_button);
-        pauseButton = findViewById(R.id.pause_button);
-        nextButton = findViewById(R.id.next_button);
-        prevButton = findViewById(R.id.previous_button);
-        flashbackPlayer = new FlashbackPlayer(this, mq);
-    }
+    public static boolean firstTimeQueueing;
 
+    public static MusicQueuer getMq () {return mq;}
     /**
      * Runs when the activity is created. Initializes the buttons,
      * com.gaparmar.mediaflashback.UI, and music functinos
@@ -83,6 +74,10 @@ public class VibeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashback);
         flashBackIsPlaying = true;
+        firstTimeQueueing = true;
+
+        //TODO: remove this test
+        appendUpcomingSong("string from on create");
 
         //initializeViewComponents();
 
@@ -94,7 +89,6 @@ public class VibeActivity extends AppCompatActivity {
 
             arr = mq.getEntireSongList();
         }
-
 
         flashbackPlayer = new FlashbackPlayer(arr,this, mq);
 
@@ -109,6 +103,8 @@ public class VibeActivity extends AppCompatActivity {
                 // Called when a new location is found by the network location provider.
                 MainActivity.getAddressRetriver().setLocation(location);
                 Log.d("FBLgetting location", "Setting the location to address retriver");
+                Log.d( " line 114", flashbackPlayer.toString());
+
                 mq.makeVibeList();
                 //flashbackPlayer.loadList();
             }
@@ -215,6 +211,7 @@ public class VibeActivity extends AppCompatActivity {
      * @param view
      */
     public void onNextButtonClick(View view){
+        System.err.println("FA 225 next button clicked");
         flashbackPlayer.nextSong();
         Song currentSong = flashbackPlayer.getCurrSong();
 
@@ -240,12 +237,32 @@ public class VibeActivity extends AppCompatActivity {
          */
     public void updateTrackInfo(Song currentSong) {
         Log.d("UINormal", "Reset displayed information of the song to the current song");
-        ArrayList<String> songInfo = mq.getSongInfo(currentSong.getFileName());
+        if( !flashBackIsPlaying ) return;
+        ArrayList<String> songInfo = mq.getSongInfo(flashbackPlayer.getCurrentSongFileName());
         songTitleDisplay.setText( songInfo.get(TITLE_POS));
         songDateDisplay.setText( songInfo.get(TIME_POS) + " at " + songInfo.get(DAY_POS));
         songLocationDisplay.setText( songInfo.get(LOC_POS));
         songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
         songArtistDisplay.setText(songInfo.get(ARTIST_POS));
+    }
+
+
+    /**
+     * Adds the given song to the Upcoming Songs in the vibe mode
+     * @param song the song name to be added
+     */
+    public void appendUpcomingSong(String song){
+        LinearLayout upcoming = findViewById(R.id.upcoming_songs);
+
+        LinearLayout.LayoutParams temp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        temp.setMargins(100,0,0,0);
+        TextView t = new TextView(this);
+        t.setText(song);
+        t.setLayoutParams(temp);
+        t.setTextColor(Color.parseColor("#c4d7f2"));
+        t.setTextSize(20);
+        upcoming.addView(t);
     }
 
 }
