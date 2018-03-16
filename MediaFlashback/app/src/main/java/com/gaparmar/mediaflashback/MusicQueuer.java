@@ -338,8 +338,7 @@ public class MusicQueuer implements FirebaseObserver{
      */
     public void updateTrackInfo( String ID ){
         final AddressRetriver ar = MainActivity.getAddressRetriver();
-        //currDate = Calendar.getInstance();
-        currDate = DownloadHandlerActivity.getTime();
+        currDate = Calendar.getInstance();
 
         // Store address string
         FirebaseHandler.storeAddress(ID, ar.getAddress());
@@ -475,7 +474,8 @@ public class MusicQueuer implements FirebaseObserver{
         int day = getIntOfDay(dayFormat.format(currDate.getTime()));
 
         // Get current hour
-        String hour = getTimeOfDay(Integer.parseInt(hourFormat.format(currDate.getTime())));
+        int hr = DownloadHandlerActivity.getHour();
+        String hour = getTimeOfDay(hr);
 
         // Loop through each instance of the song from the log
         for (int i = 0; i < list.size(); ++i){

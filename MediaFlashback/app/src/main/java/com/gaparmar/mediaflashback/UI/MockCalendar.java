@@ -16,12 +16,19 @@ class MockCalendar extends Calendar{
 
     int hour;
     Calendar cal;
+    long millis;
 
-    /**
-     * Creates a new mockCalendar
-     */
     public MockCalendar(){
-        setHour(0);
+        this.millis = 0;
+    }
+
+
+    public MockCalendar(long millis){
+        this.millis = millis;
+    }
+
+    public static MockCalendar getInstance(){
+        return new MockCalendar();
     }
 
     /**
@@ -52,9 +59,6 @@ class MockCalendar extends Calendar{
         }
     }
 
-    public static MockCalendar getInstance(){
-        return new MockCalendar();
-    }
 
     /********** Overridden methods for the calendar class **********/
     @Override
