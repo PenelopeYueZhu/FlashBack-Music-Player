@@ -1,5 +1,6 @@
 package com.gaparmar.mediaflashback.DataStorage;
 
+import android.content.Context;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
@@ -117,12 +118,13 @@ public class FirebaseHandler {
         Map<String, Object> IdMap = new HashMap<>();
         Map<String, Object> proxyMap = new HashMap<>();
         nameMap.put(Constant.USER_FIELD, user.getName());
-        IdMap.put(Constant.PROXY_FIELD, user.getId());
-        proxyMap.put(Constant.ID_FIELD, user.getProxy());
+        IdMap.put(Constant.ID_FIELD, user.getId());
+        System.err.println("Setting the ID" + user.getId());
+        proxyMap.put(Constant.PROXY_FIELD, user.getProxy());
 
         updateRef.updateChildren(nameMap);
-        updateRef.updateChildren(IdMap);
         updateRef.updateChildren(nameMap);
+        updateRef.updateChildren(IdMap);
     }
 
     /**
@@ -262,12 +264,22 @@ public class FirebaseHandler {
                         // Gets the users of the song
                         case Constant.USER_FIELD:
                             String userName;
+                            String userProxy;
+                            String userID;
                             if( ((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString) == null ){
                                 Log.d("FH:getAddress", fieldString + " does not exist");
                                 userName = Constant.UNKNOWN;
+                                userProxy = Constant.UNKNOWN;
+                                userID = Constant.UNKNOWN;
                             }
-                            else userName = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString);
-                            BackgroundService.getFirebaseInfoBus().notifyUserName(filename, userName);
+                            else {
+                                userName = (String)((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get(fieldString);
+                                userProxy = (String) ((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get("proxy");
+                                userID = (String) ((HashMap)((HashMap)dataSnapshot.getValue()).get(fileID)).get("Id");
+                                Friend friend = new Friend(userName, userProxy, userID);
+                                userName = MainActivity.isFriend(friend);
+                            }
+                            //BackgroundService.getFirebaseInfoBus().notifyUserName(filename, userName);
                             MainActivity.getUITracker().updateUserName(filename, userName);
                             break;
 
@@ -471,7 +483,7 @@ public class FirebaseHandler {
                 ArrayList<LogInstance> list = new ArrayList<>();
                 for (DataSnapshot data : dataSnapshot.getChildren()){
                     for (DataSnapshot d : data.child("logs").getChildren()){
-                        System.err.println( dataSnapshot );
+                        //System.err.println( dataSnapshot );
                         String title = (String)d.child("title").getValue();
                         String album = (String)d.child("album").getValue();
                         String artist = (String)d.child("artist").getValue();

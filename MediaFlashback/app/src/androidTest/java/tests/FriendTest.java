@@ -47,4 +47,5 @@ public class FriendTest {
 
         assertTrue(friend1.equals(friend2));
     }
+
 }
