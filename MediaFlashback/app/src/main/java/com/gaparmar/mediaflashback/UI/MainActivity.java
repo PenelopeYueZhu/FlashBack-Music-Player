@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         // Acquire a reference to the system Location Manager
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        String locationProvider = LocationManager.GPS_PROVIDER;
+        String locationProvider = LocationManager.NETWORK_PROVIDER;
 
         // Define a listener that responds to location updates
         LocationListener locationListener = new LocationListener() {
