@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
 import com.gaparmar.mediaflashback.FlashbackPlayer;
@@ -23,6 +24,10 @@ import com.gaparmar.mediaflashback.R;
 import com.gaparmar.mediaflashback.Song;
 
 import java.util.ArrayList;
+
+import static com.gaparmar.mediaflashback.DataStorage.StorageHandler.NEUTRAL;
+import static com.gaparmar.mediaflashback.UI.UINormal.DISLIKE;
+import static com.gaparmar.mediaflashback.UI.UINormal.LIKE;
 
 /**
  * This class represents the Flashback Mode screen
@@ -52,6 +57,7 @@ public class VibeActivity extends AppCompatActivity {
     ImageButton pauseButton;
     ImageButton nextButton;
     ImageButton prevButton;
+    ImageButton toggleBtn;
     ImageButton launchRegularMode;
 
     public static FlashbackPlayer flashbackPlayer;
@@ -133,10 +139,13 @@ public class VibeActivity extends AppCompatActivity {
         pauseButton = findViewById(R.id.pause_button);
         nextButton = findViewById(R.id.next_button);
         prevButton =  findViewById(R.id.previous_button);
+        toggleBtn = findViewById(R.id.toggleBtn);
         songArtistDisplay = findViewById(R.id.artist_title);
         songAlbumDisplay = findViewById(R.id.album_title);
 
 
+        toggleBtn.setImageResource(R.drawable.neutral);
+        toggleBtn.setTag(NEUTRAL);
 
         // Thread behind the scenes to update com.gaparmar.mediaflashback.UI
         handler = new Handler();
@@ -163,6 +172,71 @@ public class VibeActivity extends AppCompatActivity {
                 handler.postDelayed(this, 500);
             }
         });
+
+        // Switches the liked button and changes the state of the song
+        // when clicked.
+        toggleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("UINomarl", "togglebutton clicked");
+                String toggleState = toggleBtn.getTag().toString();
+                // Checks the state of the current song
+                try {
+                    if (flashbackPlayer.getCurrSong() == null)
+                        return;
+                }  catch(NullPointerException e){
+                    toggleState = UINormal.ERROR_STATE;
+                }
+
+                // Checks the liked state of the current song
+                switch (toggleState) {
+                    // switch from neutral to like
+                    case UINormal.NEUTRAL:
+                        toggleBtn.setImageResource(R.drawable.like);
+                        toggleBtn.setTag(LIKE);
+
+                        if (flashbackPlayer.getCurrSong() != null) {
+                            //musicPlayer.getCurrSong().setCurrentState(1);
+                            StorageHandler.storeSongState(VibeActivity.this, flashbackPlayer.getCurrentSongFileName(), 1);
+                        }
+
+                        Toast likeToast = Toast.makeText(VibeActivity.this, LIKE, Toast.LENGTH_SHORT);
+                        likeToast.show();
+                        break;
+
+                    // switch from like to dislike
+                    case LIKE:
+                        toggleBtn.setImageResource(R.drawable.unlike);
+                        toggleBtn.setTag(DISLIKE);
+
+                        if (flashbackPlayer.getCurrSong() != null) {
+                            //musicPlayer.getCurrSong().setCurrentState(-1);
+                            StorageHandler.storeSongState(VibeActivity.this, flashbackPlayer.getCurrentSongFileName(), -1);
+                        }
+
+                        Toast dislikeToast = Toast.makeText(VibeActivity.this, DISLIKE, Toast.LENGTH_SHORT);
+                        dislikeToast.show();
+                        break;
+
+                    // switch from dislike to neutral
+                    case DISLIKE:
+                        toggleBtn.setImageResource(R.drawable.neutral);
+                        toggleBtn.setTag(NEUTRAL);
+
+                        if (flashbackPlayer.getCurrSong() != null) {
+                            //musicPlayer.getCurrSong().setCurrentState(0);
+                            StorageHandler.storeSongState(VibeActivity.this, flashbackPlayer.getCurrentSongFileName(), 0);
+                        }
+
+                        Toast neutralToast = Toast.makeText(VibeActivity.this, NEUTRAL, Toast.LENGTH_SHORT);
+                        neutralToast.show();
+                        break;
+                    case UINormal.ERROR_STATE:
+                        break;
+                }
+            }
+        });
+
 
     }
 
