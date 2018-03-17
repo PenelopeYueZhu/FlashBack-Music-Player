@@ -4,8 +4,6 @@ import android.content.Context;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Parcelable;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
@@ -16,10 +14,8 @@ import com.gaparmar.mediaflashback.UI.DownloadHandlerActivity;
 import com.gaparmar.mediaflashback.UI.MainActivity;
 import com.gaparmar.mediaflashback.UI.VibeActivity;
 import com.gaparmar.mediaflashback.WhereAndWhen.AddressRetriver;
-import com.google.api.client.googleapis.notifications.StoredChannel;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -535,6 +531,8 @@ public class MusicQueuer implements FirebaseObserver{
 
             // TODO: call the function that updates the track
             VibeActivity.doneSortedList = true;
+            VibeActivity.updateSongList(sortedList);
+            System.out.println("MUSIC QUEUE 534" + VibeActivity.doneSortedList);
             for( Song song : sortedList) {
                 if( new File(MusicDownloader.COMPLETE_PATH+File.separator + song.getFileName()).exists()) {
                     if( VibeActivity.firstTimeQueueing){
@@ -661,8 +659,10 @@ public class MusicQueuer implements FirebaseObserver{
 
     public ArrayList<String> getTrackList( ){
         ArrayList<String> trackNames = new ArrayList<>();
+        System.out.println("MQ 661");
+        System.out.println(trackNames.toString());
         for( Song song : sortedList ){
-            trackNames.add(song.getTitle());
+            trackNamgites.add(song.getTitle());
         }
         return trackNames;
     }

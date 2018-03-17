@@ -61,6 +61,7 @@ public class VibeActivity extends AppCompatActivity {
 
     public static boolean firstTimeQueueing;
     public static boolean doneSortedList;
+    public static ArrayList<String> songList;
 
     public static MusicQueuer getMq () {return mq;}
     /**
@@ -145,6 +146,11 @@ public class VibeActivity extends AppCompatActivity {
         handler.post(new Runnable() {
             @Override
             public void run() {
+                System.out.println("VIBE ACTIVITY 148 " + doneSortedList) ;
+                if(doneSortedList){
+                    System.out.println(mq.getTrackList().toString());
+                }
+
                 // Unless there is a song playing when we get back to normal mode, hide the button
                 if( !flashbackPlayer.isPlaying()) {
                     playButton.setVisibility(View.VISIBLE);
@@ -152,10 +158,14 @@ public class VibeActivity extends AppCompatActivity {
                 }
                 else {
                     if(doneSortedList) {
+                        LinearLayout upcoming = findViewById(R.id.upcoming_songs);
+                        upcoming.removeAllViews();
                         doneSortedList = false;
-                        ArrayList<String> upcomingTracks = new ArrayList<>();
-                        upcomingTracks = mq.getTrackList();
-                        for( String song : upcomingTracks ){
+                        ArrayList<String> upcomingTracks = mq.getTrackList();
+                        System.out.println("DONE SORTED LIST\t");
+                        System.out.println(upcomingTracks.toString());
+                        for( String song : songList ){
+
                             appendUpcomingSong(song);
                         }
                     }
@@ -255,6 +265,7 @@ public class VibeActivity extends AppCompatActivity {
         songArtistDisplay.setText(songInfo.get(ARTIST_POS));
         System.out.println("song user: \t"+songInfo.get(songInfo.size()-1));
         songUserDisplay.setText(songInfo.get(songInfo.size()-1));
+
     }
 
 
@@ -267,6 +278,7 @@ public class VibeActivity extends AppCompatActivity {
 
         LinearLayout.LayoutParams temp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
+
         temp.setMargins(100,0,0,0);
         TextView t = new TextView(this);
         t.setText(song);
@@ -274,6 +286,16 @@ public class VibeActivity extends AppCompatActivity {
         t.setTextColor(Color.parseColor("#c4d7f2"));
         t.setTextSize(20);
         upcoming.addView(t);
+    }
+
+    public static void updateSongList(ArrayList<Song> t){
+        System.out.println("VIBE 292");
+        songList.clear();
+        for(int i = 0; i<t.size(); i++){
+
+            songList.add(t.get(i).getFileName());
+        }
+        System.out.println(songList.toString());
     }
 
 }
