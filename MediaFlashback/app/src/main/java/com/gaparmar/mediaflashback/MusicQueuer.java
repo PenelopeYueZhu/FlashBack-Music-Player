@@ -570,15 +570,6 @@ public class MusicQueuer implements FirebaseObserver{
     }
 
     /**
-     * Loads in the sorted playlist into the given flashback player
-     * @param mq The given flashback player to set the playlist
-     */
-    public void loadPlaylist( FlashbackPlayer mq ) {
-        mq.setPlayList(sortedList);
-    }
-
-
-    /**
      * Gets the day of the week as an int
      * @param dayString The day to get
      * @return The int value of the given day
