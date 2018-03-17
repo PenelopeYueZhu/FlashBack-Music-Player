@@ -237,6 +237,10 @@
             android:fontFamily="cursive"
             android:textColor="#7adf9e"
             android:layout_marginLeft="20dp"/>
+
+        <ScrollView
+            android:layout_height="120dp"
+            android:layout_width="match_parent">
         <LinearLayout
             android:id="@+id/upcoming_songs"
             android:layout_height="wrap_content"
@@ -245,6 +249,7 @@
             android:layout_marginLeft="20dp">
 
         </LinearLayout>
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
