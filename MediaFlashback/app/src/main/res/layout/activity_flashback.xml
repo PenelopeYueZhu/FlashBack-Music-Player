@@ -239,22 +239,23 @@
             android:layout_marginLeft="20dp"/>
 
         <ScrollView
-            android:layout_height="120dp"
-            android:layout_width="match_parent">
-        <LinearLayout
-            android:id="@+id/upcoming_songs"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_marginLeft="20dp">
+            android:layout_height="120dp">
+            <LinearLayout
+                android:id="@+id/upcoming_songs"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp">
 
-        </LinearLayout>
+            </LinearLayout>
         </ScrollView>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="00dp"
             android:layout_marginLeft="10dp"
             android:orientation="horizontal">
 
@@ -262,18 +263,18 @@
                 android:id="@+id/regular_button"
                 android:layout_width="50dp"
                 android:layout_height="55dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="25dp"
                 android:background="@drawable/home_circle_button"
                 android:onClick="onRegularModeClick"
                 android:src="@drawable/ic_home_black_24dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginLeft="20dp"
-                android:textColor="#232625"/>
+                android:textColor="#232625" />
 
             <ImageButton
                 android:id="@+id/previous_button"
                 android:layout_width="50dp"
                 android:layout_height="55dp"
-                android:layout_marginRight="50dp"
+                android:layout_marginRight="40dp"
                 android:background="@drawable/button_round_corner"
                 android:onClick="onPreviousButtonClick"
                 app:layout_constraintBottom_toBottomOf="@+id/pause_button"
@@ -316,7 +317,7 @@
                 android:id="@+id/next_button"
                 android:layout_width="50dp"
                 android:layout_height="55dp"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="40dp"
                 android:background="@drawable/button_round_corner"
                 android:onClick="onNextButtonClick"
                 app:layout_constraintBottom_toBottomOf="@+id/toggleBtn"
@@ -324,6 +325,21 @@
                 app:layout_constraintStart_toEndOf="@+id/play_button"
                 app:layout_constraintTop_toTopOf="@+id/toggleBtn"
                 app:srcCompat="@android:drawable/ic_media_next" />
+
+            <ImageButton
+                android:id="@+id/toggleBtn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:tint="#7adf9e"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/next_button"
+                app:srcCompat="@drawable/like" />
 
         </LinearLayout>
 
