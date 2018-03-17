@@ -25,9 +25,6 @@ import com.gaparmar.mediaflashback.Song;
 
 import java.util.ArrayList;
 
-import static com.gaparmar.mediaflashback.DataStorage.StorageHandler.NEUTRAL;
-import static com.gaparmar.mediaflashback.UI.UINormal.DISLIKE;
-import static com.gaparmar.mediaflashback.UI.UINormal.LIKE;
 
 /**
  * This class represents the Flashback Mode screen
@@ -36,6 +33,12 @@ public class VibeActivity extends AppCompatActivity {
     ArrayList<String> arr = new ArrayList<>();
 
     private Handler handler;
+
+    final String NEUTRAL = "Neutral";
+    final String LIKE = "Liked";
+    final String DISLIKE = "Disliked";
+    final String ERROR_STATE = "Error";
+    final String INIT_INFO = "NONE";
 
     public final static int TITLE_POS = 0;
     public final static int ALBUM_POS = 1;
@@ -124,7 +127,7 @@ public class VibeActivity extends AppCompatActivity {
         /// Register the listener with the Location Manager to receive location updates
         try {
             if( flashBackIsPlaying) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 100, locationListener);
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 100, locationListener);
             }
         } catch( SecurityException e){
 
@@ -185,16 +188,16 @@ public class VibeActivity extends AppCompatActivity {
                     if (flashbackPlayer.getCurrSong() == null)
                         return;
                 }  catch(NullPointerException e){
-                    toggleState = UINormal.ERROR_STATE;
+                    toggleState = ERROR_STATE;
                 }
 
                 // Checks the liked state of the current song
                 switch (toggleState) {
                     // switch from neutral to like
-                    case UINormal.NEUTRAL:
+                    case NEUTRAL:
                         toggleBtn.setImageResource(R.drawable.like);
                         toggleBtn.setTag(LIKE);
-
+                        Log.d("toggle", "neutral ");
                         if (flashbackPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(1);
                             StorageHandler.storeSongState(VibeActivity.this, flashbackPlayer.getCurrentSongFileName(), 1);
@@ -208,7 +211,7 @@ public class VibeActivity extends AppCompatActivity {
                     case LIKE:
                         toggleBtn.setImageResource(R.drawable.unlike);
                         toggleBtn.setTag(DISLIKE);
-
+                        Log.d("toggle", "like ");
                         if (flashbackPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(-1);
                             StorageHandler.storeSongState(VibeActivity.this, flashbackPlayer.getCurrentSongFileName(), -1);
@@ -222,16 +225,23 @@ public class VibeActivity extends AppCompatActivity {
                     case DISLIKE:
                         toggleBtn.setImageResource(R.drawable.neutral);
                         toggleBtn.setTag(NEUTRAL);
-
+                        Log.d("toggle", "dislike ");
                         if (flashbackPlayer.getCurrSong() != null) {
                             //musicPlayer.getCurrSong().setCurrentState(0);
                             StorageHandler.storeSongState(VibeActivity.this, flashbackPlayer.getCurrentSongFileName(), 0);
+                            flashbackPlayer.nextSong();
+                            Song currentSong = flashbackPlayer.getCurrSong();
+
+                            // Load all the information about the song
+                            if (currentSong != null) {
+                                updateTrackInfo(currentSong);
+                            }
                         }
 
                         Toast neutralToast = Toast.makeText(VibeActivity.this, NEUTRAL, Toast.LENGTH_SHORT);
                         neutralToast.show();
                         break;
-                    case UINormal.ERROR_STATE:
+                    case ERROR_STATE:
                         break;
                 }
             }

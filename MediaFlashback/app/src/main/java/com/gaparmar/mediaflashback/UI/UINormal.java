@@ -29,10 +29,10 @@ import java.util.ArrayList;
 
 public class UINormal implements FirebaseObserver {
 
-    final static String NEUTRAL = "Neutral";
-    final static String LIKE = "Liked";
-    final static String DISLIKE = "Disliked";
-    final static String ERROR_STATE = "Error";
+    final String NEUTRAL = "Neutral";
+    final String LIKE = "Liked";
+    final String DISLIKE = "Disliked";
+    final String ERROR_STATE = "Error";
     final String INIT_INFO = "NONE";
     String day = "Unknown";
 
