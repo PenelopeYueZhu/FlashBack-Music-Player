@@ -506,6 +506,7 @@ public class MusicQueuer implements FirebaseObserver{
                     StorageHandler.storeSongLocationString(context, filename, chosenInstance.locationPlayed);
                     StorageHandler.storeSongTime(context, filename, chosenInstance.timeOfDay);
                     getSong(filename).setSongURL(chosenInstance.url);
+                    StorageHandler.storeSingleUseUrl(context, filename, chosenInstance.url);
                     Friend friend = new Friend( chosenInstance.userName, chosenInstance.Id, chosenInstance.proxy);
                     StorageHandler.storeLastUser(context, filename, MainActivity.isFriend(friend));
                     StorageHandler.storeLastUser(context, filename, MainActivity.isFriend(friend));
@@ -542,7 +543,8 @@ public class MusicQueuer implements FirebaseObserver{
                     }
                 }
                 else {
-                    MainActivity.getMusicDownloader().downloadVibeData(chosenInstance.url, Song.stripMP3(song.getFileName()), "mp3");
+                    MainActivity.getMusicDownloader().downloadVibeData(StorageHandler.getSingleUseUrl(context, song.getFileName()),
+                                                                Song.stripMP3(song.getFileName()), "mp3");
                 }
             }
         }
