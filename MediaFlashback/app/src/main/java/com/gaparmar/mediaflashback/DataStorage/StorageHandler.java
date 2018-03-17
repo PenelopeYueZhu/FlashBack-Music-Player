@@ -17,13 +17,6 @@ public class StorageHandler {
     public static final int DISLIKED = -1;
     public static final int NEUTRAL = 0;
 
-    public static final int TIME_MORNING = 0;
-    public static final int TIME_AFTERNOON = 1;
-    public static final int TIME_NIGHT = 2;
-
-    public static final int REGULAR = 0;
-    public static final int FLASHBACK = 1;
-
     /**
      *
      */
@@ -41,45 +34,9 @@ public class StorageHandler {
      */
     public static String getSongUrl( Context context, String fileName ){
         SharedPreferences sharedPreferences = context.getSharedPreferences("URL", MODE_PRIVATE);
-       // if( sharedPreferences.contains(fileName)) {
             String address = sharedPreferences.getString(fileName, "");
             System.err.println("getting the url " + address);
             return address;
-       // }
-        //System.err.println("Not getting what we stored");
-        //return null;
-    }
-
-    /**
-     * Stores the Location of the Song as a Shared Preference
-     * @param context The context of calling parent Activity
-     * @param fileName The file name of the song to be stored
-     * @param location Double array containing the location coords
-     */
-    public static void storeSongLocation(Context context, String fileName, double [] location){
-        System.out.println("Storing the song location\t"+fileName+
-                "\tlocation:"+location[0]+"\t:"+location[1]);
-        SharedPreferences sharedPreferences = context.getSharedPreferences("location",
-                MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putFloat(fileName+"_0", (float)location[0]);
-        editor.putFloat(fileName+"_1", (float)location[1]);
-        editor.apply();
-    }
-
-    /**
-     * Gets the Location of the Song stored in a Shared Preference
-     * @param context The context of calling parent Activity
-     * @param fileName The resource id of the song to be retrieved
-     */
-    public static double[] getSongLocation(Context context, String fileName){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("location",
-                MODE_PRIVATE);
-        double[] latLong = new double[2];
-        latLong[0] = sharedPreferences.getFloat(fileName+"_0", (float)-1.0);
-        latLong[1] = sharedPreferences.getFloat(fileName+"_1", (float)-1.0);
-
-        return latLong;
     }
 
     /**
@@ -155,35 +112,7 @@ public class StorageHandler {
         return sharedPreferences.getInt(fileName, 0);
     }
 
-    /**
-     * Stores the entire time stamp of when the song is lastly played
-     * @param context the context of calling parent activity
-     * @param fileName the filename of the song
-     * @param stamp the time stamp string
-     */
-    public static void storeSongBigTimeStamp(Context context, String fileName, String stamp){
-        System.out.println("Storing the entire time stamp for the song. SongID:\t" +
-        fileName + " \t timeStamp: \t" + stamp);
-        SharedPreferences sharedPreferences = context.getSharedPreferences("bigTimeStamp",
-                MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(fileName, stamp);
-        editor.apply();
-    }
-
-    /**
-     * Get the stored big stamp stored for the song when it was last played
-     * @param context the calling context (activity)
-     * @param fileName the the song's filename
-     * @return the big time stamp that represents the time the song is lastly played
-     */
-    public static String getSongBigTimeStamp(Context context, String fileName){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("bigTimeStamp",
-                MODE_PRIVATE);
-        return sharedPreferences.getString(fileName, "");
-    }
-
-    /**
+     /**
      * Stores the time when the song was last played
      * @param context The context of calling parent Activity
      * @param fileName The file name of the song to be stored
@@ -247,5 +176,27 @@ public class StorageHandler {
         return sharedPreferences.getInt("currMode", 0);
     }
 
+    /**
+     * Stores the last user that played this song
+     * @param context The context of calling parent Activity
+     * @param user the user that played the song last
+     */
+    public static void storeLastUser(Context context, String filename, String user){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("last_user",
+                MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(filename, user);
+        editor.apply();
+    }
 
+    /**
+     * Gets the last user that played this song
+     * @param context
+     * @return
+     */
+    public static String getLastUser(Context context, String filename){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("last_user",
+                MODE_PRIVATE);
+        return sharedPreferences.getString(filename, "");
+    }
 }

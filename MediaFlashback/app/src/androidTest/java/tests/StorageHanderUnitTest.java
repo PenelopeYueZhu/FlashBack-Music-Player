@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 public class StorageHanderUnitTest {
 
-    /*Context context;
+    Context context;
     Song testSong;
     double delta = 0.00001;
 
@@ -32,36 +32,33 @@ public class StorageHanderUnitTest {
     public void setup(){
         context = mainActivity.getActivity().getBaseContext();
 
-        testSong = new Song( "TestSongTitle", "ParentAlbumTitle",
-                "ArtistName", 9000, 2018, 9080706, new double[]{10.0, 120.2});
+        testSong = new Song( "filename" );
     }
 
     @Test
     public void testLocation(){
-        double[] location = new double[]{10.0, 120.2};
-        StorageHandler.storeSongLocation(context, testSong.getResID(),location);
-        assertEquals( location[0], StorageHandler.getSongLocation(context, testSong.getResID())[0], delta);
-        assertEquals( location[1], StorageHandler.getSongLocation(context, testSong.getResID())[1], delta);
+        StorageHandler.storeSongLocationString(context, testSong.getFileName(),"location");
+        assertEquals( "location", StorageHandler.getSongLocationString(context, testSong.getFileName()));
     }
 
     @Test
     public void testDay(){
         String day = "Sunday";
-        StorageHandler.storeSongDay(context, testSong.getResID(), day);
-        assertEquals(day, StorageHandler.getSongDay(context, testSong.getResID()));
+        StorageHandler.storeSongDay(context, testSong.getFileName(), day);
+        assertEquals(day, StorageHandler.getSongDay(context, testSong.getFileName()));
     }
 
     @Test
     public void testTime() {
         int time = 13;
-        StorageHandler.storeSongTime(context, testSong.getResID(), time);
-        assertEquals(time, StorageHandler.getSongTime(context, testSong.getResID()));
+        StorageHandler.storeSongTime(context, testSong.getFileName(), time);
+        assertEquals(time, StorageHandler.getSongTime(context, testSong.getFileName()));
     }
 
     @Test
     public void testSongState(){
         int state = 1;
-        StorageHandler.storeSongState(context, testSong.getResID(), state);
-        assertEquals(state, StorageHandler.getSongState(context, testSong.getResID()));
-    }*/
+        StorageHandler.storeSongState(context, testSong.getFileName(), state);
+        assertEquals(state, StorageHandler.getSongState(context, testSong.getFileName()));
+    }
 }

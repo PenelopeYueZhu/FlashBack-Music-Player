@@ -120,7 +120,7 @@ public class Song {
      * @param artist artist of the song
      * @param year year of released
      */
-    protected void setMetadata( String title, String album, String artist, String year ){
+    public void setMetadata( String title, String album, String artist, String year ){
         this.title = title;
         this.parentAlbum = album;
         this.artistName = artist;

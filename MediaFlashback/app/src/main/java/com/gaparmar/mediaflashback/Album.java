@@ -67,11 +67,6 @@ public class Album {
         this.songs = songLists;
         this.numSongs = songs.size();
         this.albumTitle = name;
-        // If input array is not empty
-        if (numSongs> 0){
-            this.artistName = mq.getSong(songs.get(0)).getArtistName();
-            //this.releaseYear = mq.getSong(songs.get(0)).getYear();
-        }
 
         // Calculate the sum of the length of each song
         int totalLength = 0;
@@ -104,11 +99,6 @@ public class Album {
             Log.d("Album: addSong","Song: " + s.getTitle() + "exists" + " file: " + s.getFileName());
             invalidInput = true;
         }
-
-       // if (s.getYearOfRelease() != this.releaseYear){
-         //   System.out.println("The song was released in a different year");
-         //   invalidInput = true;
-        //}
 
         // Only add if the input song is valid
         if (!invalidInput){
@@ -152,7 +142,6 @@ public class Album {
         if(!invalidInput){
             this.songs.indexOf(s);
             this.numSongs--;
-            //this.lengthInSeconds -= s.getLengthInSeconds();
         }
     }
 

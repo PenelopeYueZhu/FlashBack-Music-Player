@@ -4,6 +4,8 @@ import android.content.Context;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Parcelable;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
@@ -14,8 +16,10 @@ import com.gaparmar.mediaflashback.UI.DownloadHandlerActivity;
 import com.gaparmar.mediaflashback.UI.MainActivity;
 import com.gaparmar.mediaflashback.UI.VibeActivity;
 import com.gaparmar.mediaflashback.WhereAndWhen.AddressRetriver;
+import com.google.api.client.googleapis.notifications.StoredChannel;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -271,8 +275,6 @@ public class MusicQueuer implements FirebaseObserver{
         return artists;
     }
 
-    // TODO:: Add null checks first to see if the album exists
-
     /**
      * Gets the Album object based on the Album name
      *
@@ -284,8 +286,6 @@ public class MusicQueuer implements FirebaseObserver{
     }
 
     public Artist getArtist(String artistName) { return allArtists.get(artistName); }
-
-    // TODO:: make a helper function that gets song based on song name
 
     /**
      * Gets the Song object based on the Song ID
@@ -326,11 +326,9 @@ public class MusicQueuer implements FirebaseObserver{
         infoBus.add(StorageHandler.getSongLocationString(context, fileName));
         infoBus.add(getTimeOfDay(StorageHandler.getSongTime(context, fileName)));
         infoBus.add(StorageHandler.getSongDay(context, fileName));
-        // TODO make it proxy if not friend
-        System.out.println("user nickname: "+song.getUserNickname());
-        System.out.println("user name: "+song.getUserName());
-        infoBus.add(MainActivity.isFriend(new Friend(song.getUserName(),
-                song.getUserID(), song.getUserNickname())));
+
+        infoBus.add(StorageHandler.getLastUser(context, fileName));
+
         return infoBus;
     }
 
@@ -461,8 +459,6 @@ public class MusicQueuer implements FirebaseObserver{
         // Get all the instances where the song was played
 
         Log.d("MQ:updateProbability", "song log has a size of " + list.size());
-
-        Log.d("VQ:updateProbability", "Updating song " + track.getTitle());
         int prob = 1;
 
         final AddressRetriver ar = MainActivity.getAddressRetriver();
@@ -514,9 +510,9 @@ public class MusicQueuer implements FirebaseObserver{
                     StorageHandler.storeSongLocationString(context, filename, chosenInstance.locationPlayed);
                     StorageHandler.storeSongTime(context, filename, chosenInstance.timeOfDay);
                     getSong(filename).setSongURL(chosenInstance.url);
-                    getSong(filename).setUserName(chosenInstance.userName);
-                    getSong(filename).setUserNickname(chosenInstance.proxy);
-                    getSong(filename).setUserID(chosenInstance.Id);
+                    Friend friend = new Friend( chosenInstance.userName, chosenInstance.Id, chosenInstance.proxy);
+                    StorageHandler.storeLastUser(context, filename, MainActivity.isFriend(friend));
+                    StorageHandler.storeLastUser(context, filename, MainActivity.isFriend(friend));
                 }
             }
         }
@@ -538,6 +534,7 @@ public class MusicQueuer implements FirebaseObserver{
         if( sortedList.size() == totalSongs ){
 
             // TODO: call the function that updates the track
+            VibeActivity.doneSortedList = true;
             for( Song song : sortedList) {
                 if( new File(MusicDownloader.COMPLETE_PATH+File.separator + song.getFileName()).exists()) {
                     if( VibeActivity.firstTimeQueueing){
@@ -549,7 +546,7 @@ public class MusicQueuer implements FirebaseObserver{
                     }
                 }
                 else {
-                    MainActivity.getMusicDownloader().downloadVibeData(song.getSongURL(), Song.stripMP3(song.getFileName()), "mp3");
+                    MainActivity.getMusicDownloader().downloadVibeData(chosenInstance.url, Song.stripMP3(song.getFileName()), "mp3");
                 }
             }
         }
@@ -661,4 +658,12 @@ public class MusicQueuer implements FirebaseObserver{
     public void updateTime( String filename, long time){}
     public void updateRate(String filename, long rate){}
     public void updateProb( String filename, int prob){}
+
+    public ArrayList<String> getTrackList( ){
+        ArrayList<String> trackNames = new ArrayList<>();
+        for( Song song : sortedList ){
+            trackNames.add(song.getTitle());
+        }
+        return trackNames;
+    }
 }
