@@ -101,7 +101,7 @@ public class MusicDownloader {
 
     }
 
-    public void downloadVibeData(String url, final String filename, String type) {
+    public void downloadVibeData(String url, String filename, String type) {
         final String t = type;
         final String filenameReceiver = filename;
         final String inputURL = url;

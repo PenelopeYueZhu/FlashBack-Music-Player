@@ -32,6 +32,26 @@ public class StorageHandler {
     /**
      *
      */
+    public static void storeSingleUseUrl(Context context, String fileName, String URL ){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("SingleUseURL",
+                MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(fileName, URL);
+        editor.apply();
+    }
+
+    /**
+     *
+     */
+    public static String getSingleUseUrl( Context context, String fileName ){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("SingleUseURL", MODE_PRIVATE);
+        String address = sharedPreferences.getString(fileName, "");
+        return address;
+    }
+
+    /**
+     *
+     */
     public static String getSongUrl( Context context, String fileName ){
         SharedPreferences sharedPreferences = context.getSharedPreferences("URL", MODE_PRIVATE);
             String address = sharedPreferences.getString(fileName, "");
