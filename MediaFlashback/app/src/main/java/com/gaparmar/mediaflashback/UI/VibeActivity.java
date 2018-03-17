@@ -84,8 +84,6 @@ public class VibeActivity extends AppCompatActivity {
         firstTimeQueueing = true;
         doneSortedList = false;
 
-        //TODO: remove this test
-        appendUpcomingSong("string from on create");
 
         //initializeViewComponents();
 

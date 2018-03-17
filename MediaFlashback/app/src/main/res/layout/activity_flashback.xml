@@ -237,6 +237,7 @@
             android:fontFamily="cursive"
             android:textColor="#7adf9e"
             android:layout_marginLeft="20dp"/>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="120dp">

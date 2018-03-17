@@ -1,8 +1,9 @@
-package com.gaparmar.mediaflashback;
+package com.gaparmar.mediaflashback.UI.NormalUITest;
 
 
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -13,10 +14,12 @@ import android.view.ViewParent;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.gaparmar.mediaflashback.R;
 import com.gaparmar.mediaflashback.UI.MainActivity;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -33,15 +36,15 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class SongInfoUpdateTest {
+public class PlayPauseButtonTest_Pause {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void songInfoUpdateTest() {
+    public void playPauseButtonTest_Pause() {
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.browse_button), withText("Browse Music"),
+                allOf(ViewMatchers.withId(R.id.browse_button), withText("Browse Music"),
                         childAtPosition(
                                 allOf(withId(R.id.linearLayout4),
                                         childAtPosition(
@@ -56,7 +59,7 @@ public class SongInfoUpdateTest {
                         childAtPosition(
                                 withClassName(is("android.widget.LinearLayout")),
                                 0)))
-                .atPosition(1);
+                .atPosition(4);
         appCompatTextView.perform(click());
 
         ViewInteraction bottomNavigationItemView = onView(
@@ -68,62 +71,6 @@ public class SongInfoUpdateTest {
                                 2),
                         isDisplayed()));
         bottomNavigationItemView.perform(click());
-
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.browse_button), withText("Browse Music"),
-                        childAtPosition(
-                                allOf(withId(R.id.linearLayout4),
-                                        childAtPosition(
-                                                withClassName(is("android.support.constraint.ConstraintLayout")),
-                                                0)),
-                                9),
-                        isDisplayed()));
-        appCompatButton2.perform(click());
-
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        DataInteraction appCompatTextView2 = onData(anything())
-                .inAdapterView(allOf(withId(R.id.album_list),
-                        childAtPosition(
-                                withClassName(is("android.widget.LinearLayout")),
-                                0)))
-                .atPosition(1);
-        appCompatTextView2.perform(click());
-
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        ViewInteraction bottomNavigationItemView2 = onView(
-                allOf(withId(R.id.navigation_mplayer),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.navigation),
-                                        0),
-                                2),
-                        isDisplayed()));
-        bottomNavigationItemView2.perform(click());
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
@@ -153,53 +100,15 @@ public class SongInfoUpdateTest {
             e.printStackTrace();
         }
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.song_date), withText("Sunday"),
+        ViewInteraction imageButton = onView(
+                allOf(withId(R.id.play_button),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.constraint),
-                                        1),
-                                1),
-                        isDisplayed()));
-        textView.check(matches(withText("Sunday")));
-
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.song_time), withText("20:14 at 02/18/18"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.constraint),
-                                        1),
-                                2),
-                        isDisplayed()));
-        textView2.check(matches(withText("20:14 at 02/18/18")));
-
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        ViewInteraction textView3 = onView(
-                allOf(withId(R.id.song_location), withText("null, California"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.constraint),
+                                        IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
                                         1),
                                 0),
                         isDisplayed()));
-        textView3.check(matches(withText("null, California")));
+        imageButton.check(matches(isDisplayed()));
 
     }
 
