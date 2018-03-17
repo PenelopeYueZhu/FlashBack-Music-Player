@@ -111,10 +111,7 @@ public class VibeActivity extends AppCompatActivity {
                 // Called when a new location is found by the network location provider.
                 MainActivity.getAddressRetriver().setLocation(location);
                 Log.d("FBLgetting location", "Setting the location to address retriver");
-                Log.d( " line 114", flashbackPlayer.toString());
-
                 mq.makeVibeList();
-                //flashbackPlayer.loadList();
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {}
@@ -163,9 +160,10 @@ public class VibeActivity extends AppCompatActivity {
                 else {
                     if(doneSortedList) {
                         doneSortedList = false;
-//                        for( String song : songList ){
-//                            appendUpcomingSong(song);
-//                        }
+                        System.err.println("size of the sortedlist is " + mq.sortedList.size());
+                        for( Song song : mq.sortedList ){
+                            appendUpcomingSong(song.getTitle());
+                        }
                     }
                     updateTrackInfo(flashbackPlayer.getCurrSong());
                     playButton.setVisibility(View.GONE);
