@@ -329,7 +329,7 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
-                android:tint="@android:color/holo_blue_light"
+                android:tint="#7adf9e"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/next_button"
