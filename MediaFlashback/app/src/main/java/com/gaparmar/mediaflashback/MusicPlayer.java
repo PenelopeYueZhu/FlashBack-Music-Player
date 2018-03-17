@@ -8,12 +8,11 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
 import com.gaparmar.mediaflashback.UI.MainActivity;
 import com.gaparmar.mediaflashback.UI.UINormal;
+
+import java.util.ArrayList;
 
 /**
  * Created by veronica.lin1218 on 2/4/2018.
@@ -113,7 +112,7 @@ public class MusicPlayer extends AppCompatActivity {
                         }
                     });
         } catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
     }
 

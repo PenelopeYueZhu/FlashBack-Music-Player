@@ -6,21 +6,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.gaparmar.mediaflashback.DataStorage.LogInstance;
 import com.gaparmar.mediaflashback.MusicDownloader;
 import com.gaparmar.mediaflashback.R;
 import com.gaparmar.mediaflashback.WhereAndWhen.DownloadService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class DownloadHandlerActivity extends AppCompatActivity {
     EditText EditText_url;
     EditText inputTitle;
-    EditText time;
+    TimePicker time;
     private MusicDownloader musicDownloader;
     ArrayList<LogInstance> t;
+    public static boolean isToggled;
+    public static long mocked_hour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,16 +35,14 @@ public class DownloadHandlerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_download_handler);
         EditText_url = findViewById(R.id.url_entered);
         inputTitle = findViewById(R.id.inputTrack);
+        time = findViewById(R.id.timePicker);
+        time.setIs24HourView(true);
 
         Intent intent = new Intent(this, DownloadService.class);
         getApplicationContext().startService(intent);
         intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
 
         musicDownloader = DownloadService.getMusicDownloader();
-
-        time = findViewById(R.id.timeMock);
-//        t = new ArrayList<>();
-//        FirebaseHandler.getLogList("dank Gaurav 2.0", t);
     }
 
     /**
@@ -74,8 +79,27 @@ public class DownloadHandlerActivity extends AppCompatActivity {
      }
 
      public void mockTime(View view){
-        MockCalendar mockCal = new MockCalendar();
-        mockCal.setHour(Integer.parseInt(time.getText().toString()));
+         mocked_hour = time.getHour();
+     }
+
+     public void toggleTimeMock(View view){
+         isToggled = ((ToggleButton)findViewById(R.id.toggle_time)).isChecked();
+     }
+
+
+    /**
+     * Gets the time to be used for calculating probability
+     * @return
+     */
+     public static int getHour(){
+         SimpleDateFormat hourFormat = new SimpleDateFormat("HH", Locale.US);
+        if(isToggled){
+            return (int)mocked_hour;
+        }else{
+
+            return Integer.parseInt(hourFormat.format(Calendar.getInstance().getTime()));
+        }
+
      }
 
 

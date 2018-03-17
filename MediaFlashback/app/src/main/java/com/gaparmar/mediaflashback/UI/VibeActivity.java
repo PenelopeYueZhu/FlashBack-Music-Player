@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
 import com.gaparmar.mediaflashback.FlashbackPlayer;
-import com.gaparmar.mediaflashback.MusicDownloader;
 import com.gaparmar.mediaflashback.MusicQueuer;
 import com.gaparmar.mediaflashback.R;
 import com.gaparmar.mediaflashback.Song;
@@ -46,7 +45,7 @@ public class VibeActivity extends AppCompatActivity {
     TextView songTitleDisplay;
     TextView songLocationDisplay;
     TextView songDateDisplay;
-    TextView songTimeDisplay;
+    TextView songUserDisplay;
     TextView songAlbumDisplay;
     TextView songArtistDisplay;
     ImageButton playButton;
@@ -62,6 +61,7 @@ public class VibeActivity extends AppCompatActivity {
 
     public static boolean firstTimeQueueing;
     public static boolean doneSortedList;
+    public static ArrayList<String> songList;
 
     public static MusicQueuer getMq () {return mq;}
     /**
@@ -131,7 +131,7 @@ public class VibeActivity extends AppCompatActivity {
         songTitleDisplay = findViewById(R.id.song_title);
         songDateDisplay = findViewById(R.id.song_date);
         songLocationDisplay = findViewById(R.id.song_location);
-        songTimeDisplay = findViewById(R.id.song_time);
+        songUserDisplay = findViewById(R.id.song_user);
         playButton = findViewById(R.id.play_button);
         pauseButton = findViewById(R.id.pause_button);
         nextButton = findViewById(R.id.next_button);
@@ -154,11 +154,9 @@ public class VibeActivity extends AppCompatActivity {
                 else {
                     if(doneSortedList) {
                         doneSortedList = false;
-                        ArrayList<String> upcomingTracks = new ArrayList<>();
-                        upcomingTracks = mq.getTrackList();
-                        for( String song : upcomingTracks ){
-                            appendUpcomingSong(song);
-                        }
+//                        for( String song : songList ){
+//                            appendUpcomingSong(song);
+//                        }
                     }
                     updateTrackInfo(flashbackPlayer.getCurrSong());
                     playButton.setVisibility(View.GONE);
@@ -254,6 +252,9 @@ public class VibeActivity extends AppCompatActivity {
         songLocationDisplay.setText( songInfo.get(LOC_POS));
         songAlbumDisplay.setText(songInfo.get(ALBUM_POS));
         songArtistDisplay.setText(songInfo.get(ARTIST_POS));
+        System.out.println("song user: \t"+songInfo.get(songInfo.size()-1));
+        songUserDisplay.setText(songInfo.get(songInfo.size()-1));
+
     }
 
 
@@ -266,6 +267,7 @@ public class VibeActivity extends AppCompatActivity {
 
         LinearLayout.LayoutParams temp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
+
         temp.setMargins(100,0,0,0);
         TextView t = new TextView(this);
         t.setText(song);
@@ -274,5 +276,6 @@ public class VibeActivity extends AppCompatActivity {
         t.setTextSize(20);
         upcoming.addView(t);
     }
+
 
 }

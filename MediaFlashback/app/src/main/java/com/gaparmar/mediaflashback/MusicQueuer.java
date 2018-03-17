@@ -4,24 +4,18 @@ import android.content.Context;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Parcelable;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.gaparmar.mediaflashback.DataStorage.FirebaseHandler;
 import com.gaparmar.mediaflashback.DataStorage.FirebaseObserver;
 import com.gaparmar.mediaflashback.DataStorage.LogInstance;
 import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
-import com.gaparmar.mediaflashback.DataStorage.StorageHandler;
+import com.gaparmar.mediaflashback.UI.DownloadHandlerActivity;
 import com.gaparmar.mediaflashback.UI.MainActivity;
 import com.gaparmar.mediaflashback.UI.VibeActivity;
-import com.gaparmar.mediaflashback.UI.BackgroundService;
-import com.gaparmar.mediaflashback.UI.VibeActivity;
 import com.gaparmar.mediaflashback.WhereAndWhen.AddressRetriver;
-import com.google.api.client.googleapis.notifications.StoredChannel;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -328,7 +322,9 @@ public class MusicQueuer implements FirebaseObserver{
         infoBus.add(StorageHandler.getSongLocationString(context, fileName));
         infoBus.add(getTimeOfDay(StorageHandler.getSongTime(context, fileName)));
         infoBus.add(StorageHandler.getSongDay(context, fileName));
+
         infoBus.add(StorageHandler.getLastUser(context, fileName));
+
         return infoBus;
     }
 
@@ -472,7 +468,8 @@ public class MusicQueuer implements FirebaseObserver{
         int day = getIntOfDay(dayFormat.format(currDate.getTime()));
 
         // Get current hour
-        String hour = getTimeOfDay(Integer.parseInt(hourFormat.format(currDate.getTime())));
+        int hr = DownloadHandlerActivity.getHour();
+        String hour = getTimeOfDay(hr);
 
         // Loop through each instance of the song from the log
         for (int i = 0; i < list.size(); ++i){
@@ -660,6 +657,7 @@ public class MusicQueuer implements FirebaseObserver{
 
     public ArrayList<String> getTrackList( ){
         ArrayList<String> trackNames = new ArrayList<>();
+
         for( Song song : sortedList ){
             trackNames.add(song.getTitle());
         }
