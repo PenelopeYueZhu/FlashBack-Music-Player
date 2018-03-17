@@ -1,4 +1,4 @@
-package com.gaparmar.mediaflashback;
+package com.gaparmar.mediaflashback.UI.NormalUITest;
 
 
 import android.support.test.espresso.ViewInteraction;

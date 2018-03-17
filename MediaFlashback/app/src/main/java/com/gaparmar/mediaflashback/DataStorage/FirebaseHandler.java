@@ -119,11 +119,10 @@ public class FirebaseHandler {
         Map<String, Object> proxyMap = new HashMap<>();
         nameMap.put(Constant.USER_FIELD, user.getName());
         IdMap.put(Constant.ID_FIELD, user.getId());
-        System.err.println("Setting the ID" + user.getId());
         proxyMap.put(Constant.PROXY_FIELD, user.getProxy());
 
         updateRef.updateChildren(nameMap);
-        updateRef.updateChildren(nameMap);
+        updateRef.updateChildren(proxyMap);
         updateRef.updateChildren(IdMap);
     }
 
@@ -417,7 +416,7 @@ public class FirebaseHandler {
                                      String userName, String proxy, String Id,
                                      String dayOfWeek, long timestamp, int timeOfDay,
                                      double latitude, double longitude, String url){
-        System.err.println("Start of log");
+        Log.d("FH:logToFirebase","Start of log");
         final String fireID = Song.reformatFileName(filename);
         final LogInstance temp = new LogInstance(title, album, artist,
                 locationPlayed, userName, proxy, Id, dayOfWeek, timestamp,

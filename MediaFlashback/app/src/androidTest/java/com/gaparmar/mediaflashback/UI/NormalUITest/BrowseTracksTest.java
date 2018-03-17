@@ -1,7 +1,8 @@
-package com.gaparmar.mediaflashback;
+package com.gaparmar.mediaflashback.UI.NormalUITest;
 
 
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -17,6 +18,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.gaparmar.mediaflashback.R;
 import com.gaparmar.mediaflashback.UI.MainActivity;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -39,7 +41,7 @@ public class BrowseTracksTest {
     @Test
     public void browseTracksTest() {
         ViewInteraction button = onView(
-                allOf(withId(R.id.browse_button),
+                allOf(ViewMatchers.withId(R.id.browse_button),
                         childAtPosition(
                                 allOf(withId(R.id.linearLayout4),
                                         childAtPosition(

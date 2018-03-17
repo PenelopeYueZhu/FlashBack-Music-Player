@@ -1,8 +1,9 @@
-package com.gaparmar.mediaflashback;
+package com.gaparmar.mediaflashback.UI.NormalUITest;
 
 
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -17,6 +18,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.gaparmar.mediaflashback.R;
 import com.gaparmar.mediaflashback.UI.MainActivity;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -33,15 +35,15 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class NextButtonTest {
+public class LikeButtonTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void nextButtonTest() {
+    public void likeButtonTest() {
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.browse_button), withText("Browse Music"),
+                allOf(ViewMatchers.withId(R.id.browse_button), withText("Browse Music"),
                         childAtPosition(
                                 allOf(withId(R.id.linearLayout4),
                                         childAtPosition(
@@ -51,25 +53,15 @@ public class NextButtonTest {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        ViewInteraction bottomNavigationItemView = onView(
-                allOf(withId(R.id.navigation_albums),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.navigation),
-                                        0),
-                                1),
-                        isDisplayed()));
-        bottomNavigationItemView.perform(click());
-
         DataInteraction appCompatTextView = onData(anything())
                 .inAdapterView(allOf(withId(R.id.album_list),
                         childAtPosition(
                                 withClassName(is("android.widget.LinearLayout")),
                                 0)))
-                .atPosition(2);
+                .atPosition(3);
         appCompatTextView.perform(click());
 
-        ViewInteraction bottomNavigationItemView2 = onView(
+        ViewInteraction bottomNavigationItemView = onView(
                 allOf(withId(R.id.navigation_mplayer),
                         childAtPosition(
                                 childAtPosition(
@@ -77,7 +69,7 @@ public class NextButtonTest {
                                         0),
                                 2),
                         isDisplayed()));
-        bottomNavigationItemView2.perform(click());
+        bottomNavigationItemView.perform(click());
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
@@ -89,12 +81,12 @@ public class NextButtonTest {
         }
 
         ViewInteraction appCompatImageButton = onView(
-                allOf(withId(R.id.next_button),
+                allOf(withId(R.id.pause_button),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.linearLayout4),
-                                        7),
-                                2),
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        1),
+                                0),
                         isDisplayed()));
         appCompatImageButton.perform(click());
 
@@ -107,13 +99,32 @@ public class NextButtonTest {
             e.printStackTrace();
         }
 
-        ViewInteraction appCompatImageButton2 = onView(
-                allOf(withId(R.id.pause_button),
+        ViewInteraction imageButton = onView(
+                allOf(withId(R.id.toggleBtn),
                         childAtPosition(
                                 childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        1),
-                                0),
+                                        withId(R.id.linearLayout4),
+                                        7),
+                                3),
+                        isDisplayed()));
+        imageButton.check(matches(isDisplayed()));
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction appCompatImageButton2 = onView(
+                allOf(withId(R.id.toggleBtn),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.linearLayout4),
+                                        7),
+                                3),
                         isDisplayed()));
         appCompatImageButton2.perform(click());
 
@@ -126,15 +137,91 @@ public class NextButtonTest {
             e.printStackTrace();
         }
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.song_title), withText("Tightrope Walker"),
+        ViewInteraction imageButton2 = onView(
+                allOf(withId(R.id.toggleBtn),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.linearLayout4),
-                                        2),
-                                1),
+                                        7),
+                                3),
                         isDisplayed()));
-        textView.check(matches(withText("Tightrope Walker")));
+        imageButton2.check(matches(isDisplayed()));
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction appCompatImageButton3 = onView(
+                allOf(withId(R.id.toggleBtn),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.linearLayout4),
+                                        7),
+                                3),
+                        isDisplayed()));
+        appCompatImageButton3.perform(click());
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction imageButton3 = onView(
+                allOf(withId(R.id.toggleBtn),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.linearLayout4),
+                                        7),
+                                3),
+                        isDisplayed()));
+        imageButton3.check(matches(isDisplayed()));
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction appCompatImageButton4 = onView(
+                allOf(withId(R.id.toggleBtn),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.linearLayout4),
+                                        7),
+                                3),
+                        isDisplayed()));
+        appCompatImageButton4.perform(click());
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction imageButton4 = onView(
+                allOf(withId(R.id.toggleBtn),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.linearLayout4),
+                                        7),
+                                3),
+                        isDisplayed()));
+        imageButton4.check(matches(isDisplayed()));
 
     }
 
