@@ -61,6 +61,7 @@ public class VibeActivity extends AppCompatActivity {
     static MusicQueuer mq;
 
     public static boolean firstTimeQueueing;
+    public static boolean doneSortedList;
 
     public static MusicQueuer getMq () {return mq;}
     /**
@@ -75,6 +76,7 @@ public class VibeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flashback);
         flashBackIsPlaying = true;
         firstTimeQueueing = true;
+        doneSortedList = false;
 
         //TODO: remove this test
         appendUpcomingSong("string from on create");
@@ -150,6 +152,14 @@ public class VibeActivity extends AppCompatActivity {
                     pauseButton.setVisibility(View.GONE);
                 }
                 else {
+                    if(doneSortedList) {
+                        doneSortedList = false;
+                        ArrayList<String> upcomingTracks = new ArrayList<>();
+                        upcomingTracks = mq.getTrackList();
+                        for( String song : upcomingTracks ){
+                            appendUpcomingSong(song);
+                        }
+                    }
                     updateTrackInfo(flashbackPlayer.getCurrSong());
                     playButton.setVisibility(View.GONE);
                     pauseButton.setVisibility(View.VISIBLE);
@@ -238,7 +248,7 @@ public class VibeActivity extends AppCompatActivity {
     public void updateTrackInfo(Song currentSong) {
         Log.d("UINormal", "Reset displayed information of the song to the current song");
         if( !flashBackIsPlaying ) return;
-        ArrayList<String> songInfo = mq.getSongInfo(flashbackPlayer.getCurrentSongFileName());
+        ArrayList<String> songInfo = mq.getSongInfo(currentSong.getFileName());
         songTitleDisplay.setText( songInfo.get(TITLE_POS));
         songDateDisplay.setText( songInfo.get(TIME_POS) + " at " + songInfo.get(DAY_POS));
         songLocationDisplay.setText( songInfo.get(LOC_POS));
