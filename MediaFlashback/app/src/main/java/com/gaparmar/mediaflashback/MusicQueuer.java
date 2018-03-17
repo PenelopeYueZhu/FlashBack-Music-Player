@@ -404,7 +404,7 @@ public class MusicQueuer implements FirebaseObserver{
 
     /********************************************** For vibe mode ********************************/
 
-    ArrayList<Song>sortedList = new ArrayList<Song>();
+    public static ArrayList<Song>sortedList = new ArrayList<Song>();
     ArrayList<String> songFromDatabase = new ArrayList<>();
 
     Song track;
