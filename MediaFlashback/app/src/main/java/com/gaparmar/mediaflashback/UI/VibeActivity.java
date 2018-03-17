@@ -146,11 +146,6 @@ public class VibeActivity extends AppCompatActivity {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                System.out.println("VIBE ACTIVITY 148 " + doneSortedList) ;
-                if(doneSortedList){
-                    System.out.println(mq.getTrackList().toString());
-                }
-
                 // Unless there is a song playing when we get back to normal mode, hide the button
                 if( !flashbackPlayer.isPlaying()) {
                     playButton.setVisibility(View.VISIBLE);
@@ -158,16 +153,10 @@ public class VibeActivity extends AppCompatActivity {
                 }
                 else {
                     if(doneSortedList) {
-                        LinearLayout upcoming = findViewById(R.id.upcoming_songs);
-                        upcoming.removeAllViews();
                         doneSortedList = false;
-                        ArrayList<String> upcomingTracks = mq.getTrackList();
-                        System.out.println("DONE SORTED LIST\t");
-                        System.out.println(upcomingTracks.toString());
-                        for( String song : songList ){
-
-                            appendUpcomingSong(song);
-                        }
+//                        for( String song : songList ){
+//                            appendUpcomingSong(song);
+//                        }
                     }
                     updateTrackInfo(flashbackPlayer.getCurrSong());
                     playButton.setVisibility(View.GONE);
@@ -288,14 +277,5 @@ public class VibeActivity extends AppCompatActivity {
         upcoming.addView(t);
     }
 
-    public static void updateSongList(ArrayList<Song> t){
-        System.out.println("VIBE 292");
-        songList.clear();
-        for(int i = 0; i<t.size(); i++){
-
-            songList.add(t.get(i).getFileName());
-        }
-        System.out.println(songList.toString());
-    }
 
 }

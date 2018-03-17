@@ -531,8 +531,6 @@ public class MusicQueuer implements FirebaseObserver{
 
             // TODO: call the function that updates the track
             VibeActivity.doneSortedList = true;
-            VibeActivity.updateSongList(sortedList);
-            System.out.println("MUSIC QUEUE 534" + VibeActivity.doneSortedList);
             for( Song song : sortedList) {
                 if( new File(MusicDownloader.COMPLETE_PATH+File.separator + song.getFileName()).exists()) {
                     if( VibeActivity.firstTimeQueueing){
@@ -659,10 +657,9 @@ public class MusicQueuer implements FirebaseObserver{
 
     public ArrayList<String> getTrackList( ){
         ArrayList<String> trackNames = new ArrayList<>();
-        System.out.println("MQ 661");
-        System.out.println(trackNames.toString());
+
         for( Song song : sortedList ){
-            trackNamgites.add(song.getTitle());
+            trackNames.add(song.getTitle());
         }
         return trackNames;
     }
