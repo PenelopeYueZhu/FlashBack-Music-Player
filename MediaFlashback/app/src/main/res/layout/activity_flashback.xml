@@ -237,19 +237,24 @@
             android:fontFamily="cursive"
             android:textColor="#7adf9e"
             android:layout_marginLeft="20dp"/>
-        <LinearLayout
-            android:id="@+id/upcoming_songs"
-            android:layout_height="wrap_content"
+        <ScrollView
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_marginLeft="20dp">
+            android:layout_height="120dp">
+            <LinearLayout
+                android:id="@+id/upcoming_songs"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp">
 
-        </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="00dp"
             android:layout_marginLeft="10dp"
             android:orientation="horizontal">
 
