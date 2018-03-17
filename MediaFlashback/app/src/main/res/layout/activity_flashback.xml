@@ -31,6 +31,7 @@
             android:text="Vibe Mode"
             android:textColor="#7adf9e"
             android:textSize="75dp"
+            android:fontFamily="cursive"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="57dp"/>
 
@@ -50,37 +51,38 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="150dp"
             android:orientation="horizontal">
+
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_weight="0.5"
                 android:layout_height="match_parent"
+                android:layout_weight="0.5"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/dancing_script_regular"
                     android:gravity="center"
                     android:text="Playing"
                     android:textColor="#7adf9e"
                     android:textSize="45dp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/dancing_script_regular" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/song_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="120dp"
+                    android:layout_height="20dp"
                     android:gravity="center"
                     android:text="None"
                     android:textColor="#ffffff"
-                    android:textSize="16dp"/>
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/artist_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="120dp"
+                    android:layout_height="20dp"
                     android:text="none"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
@@ -88,35 +90,39 @@
 
                 <TextView
                     android:id="@+id/album_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="120dp"
+                    android:layout_height="20dp"
                     android:text="none"
                     android:textAlignment="center"
                     android:textColor="@android:color/background_light"
                     android:textSize="15dp" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/last_played_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:fontFamily="@font/dancing_script_regular"
                     android:gravity="center"
                     android:text="Last Played"
                     android:textAlignment="center"
                     android:textColor="#7adf9e"
                     android:textSize="35dp"
-                    android:fontFamily="@font/dancing_script_regular"
                     android:textStyle="bold" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -129,7 +135,7 @@
                         <TextView
                             android:id="@+id/location_title"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="20dp"
                             android:gravity="center"
                             android:text="Location:"
                             android:textColor="#467750"
@@ -141,9 +147,9 @@
                         <TextView
                             android:id="@+id/date_title"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="20dp"
                             android:gravity="center"
-                            android:text="Date:"
+                            android:text="When:"
                             android:textColor="#467750"
                             android:textSize="16dp"
                             android:textStyle="bold"
@@ -153,9 +159,9 @@
                         <TextView
                             android:id="@+id/time_title"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="20dp"
                             android:gravity="center"
-                            android:text="Time:"
+                            android:text="User:"
                             android:textColor="#467750"
                             android:textSize="16dp"
                             android:textStyle="bold"
@@ -163,16 +169,17 @@
                             tools:layout_editor_absoluteY="271dp" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_weight="0.33">
+                        android:layout_weight="0.33"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/song_location"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_width="150dp"
+                            android:layout_height="20dp"
                             android:gravity="center"
                             android:text="None"
                             android:textColor="#ffffff"
@@ -182,8 +189,8 @@
 
                         <TextView
                             android:id="@+id/song_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_width="150dp"
+                            android:layout_height="20dp"
                             android:gravity="center"
                             android:text="None"
                             android:textColor="#ffffff"
@@ -192,9 +199,9 @@
                             tools:layout_editor_absoluteY="217dp" />
 
                         <TextView
-                            android:id="@+id/song_time"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/song_user"
+                            android:layout_width="150dp"
+                            android:layout_height="20dp"
                             android:gravity="center"
                             android:text="None"
                             android:textColor="#ffffff"
@@ -214,7 +221,7 @@
             android:id="@+id/line2"
             android:layout_width="match_parent"
             android:layout_height="24dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="-------------------------------------------------------------------------"
             android:textColor="#FCF7F8"
@@ -227,42 +234,16 @@
             android:layout_height="wrap_content"
             android:text="Upcoming Songs: "
             android:textSize="40dp"
-            android:fontFamily="@font/dancing_script_regular"
+            android:fontFamily="cursive"
             android:textColor="#7adf9e"
             android:layout_marginLeft="20dp"/>
         <LinearLayout
             android:id="@+id/upcoming_songs"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="upcoming song 1"
-                android:layout_marginLeft="40dp"
-                android:textColor="#c4d7f2"
-                android:textSize="20dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="upcoming song 2"
-                android:layout_marginLeft="40dp"
-                android:textColor="#c4d7f2"
-                android:textSize="20dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="upcoming song 3"
-                android:layout_marginLeft="40dp"
-                android:textColor="#c4d7f2"
-                android:textSize="20dp"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="upcoming song 4"
-                android:layout_marginLeft="40dp"
-                android:textColor="#c4d7f2"
-                android:textSize="20dp"/>
+            android:orientation="vertical"
+            android:layout_marginLeft="20dp">
+
         </LinearLayout>
 
         <LinearLayout
@@ -276,7 +257,7 @@
                 android:id="@+id/regular_button"
                 android:layout_width="50dp"
                 android:layout_height="55dp"
-                android:background="#7adf9e"
+                android:background="@drawable/home_circle_button"
                 android:onClick="onRegularModeClick"
                 android:src="@drawable/ic_home_black_24dp"
                 android:layout_marginRight="50dp"
@@ -285,10 +266,10 @@
 
             <ImageButton
                 android:id="@+id/previous_button"
-                android:layout_width="30dp"
+                android:layout_width="50dp"
                 android:layout_height="55dp"
                 android:layout_marginRight="50dp"
-                android:background="#467750"
+                android:background="@drawable/button_round_corner"
                 android:onClick="onPreviousButtonClick"
                 app:layout_constraintBottom_toBottomOf="@+id/pause_button"
                 app:layout_constraintEnd_toStartOf="@+id/play_button"
@@ -304,7 +285,7 @@
                     android:id="@+id/pause_button"
                     android:layout_width="55dp"
                     android:layout_height="55dp"
-                    android:background="#467750"
+                    android:background="@drawable/button_round_corner"
                     android:onClick="onPauseButtonClick"
                     app:layout_constraintBottom_toBottomOf="@+id/play_button"
                     app:layout_constraintEnd_toEndOf="@+id/play_button"
@@ -320,7 +301,7 @@
                     android:id="@+id/play_button"
                     android:layout_width="55dp"
                     android:layout_height="55dp"
-                    android:background="#467750"
+                    android:background="@drawable/button_round_corner"
                     android:onClick="onPlayButtonClick"
                     app:srcCompat="@android:drawable/ic_media_play" />
 
@@ -328,10 +309,10 @@
 
             <ImageButton
                 android:id="@+id/next_button"
-                android:layout_width="30dp"
+                android:layout_width="50dp"
                 android:layout_height="55dp"
                 android:layout_marginLeft="50dp"
-                android:background="#467750"
+                android:background="@drawable/button_round_corner"
                 android:onClick="onNextButtonClick"
                 app:layout_constraintBottom_toBottomOf="@+id/toggleBtn"
                 app:layout_constraintEnd_toStartOf="@+id/toggleBtn"

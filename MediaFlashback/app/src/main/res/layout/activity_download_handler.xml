@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.gaparmar.mediaflashback.UI.DownloadHandlerActivity"
-    android:background="#232625">
+    android:background="#ffffff">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,8 +21,7 @@
             android:ems="10"
             android:hint="Enter URL"
             android:inputType="textPersonName"
-            android:text="https://www.dropbox.com/s/3cv011jyxjnxk56/Taylor%20Swift%20-%20Reputation%20%282017%29.zip?dl=1"
-            android:textColor="#c4d7f2" />
+            android:text="https://www.dropbox.com/s/3cv011jyxjnxk56/Taylor%20Swift%20-%20Reputation%20%282017%29.zip?dl=1" />
 
         <ImageButton
             android:id="@+id/imageButton"
@@ -40,32 +39,55 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/linearLayout"
         android:layout_margin="10dp"
-        android:background="?attr/actionModeSplitBackground"
         />
 
-    <EditText
-        android:id="@+id/timeMock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/seekBar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="90dp"
-        android:ems="10"
-        android:hint="Enter a Time"
-        android:inputType="time" />
 
     <EditText
         android:id="@+id/inputTrack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/timeMock"
-        android:layout_alignStart="@+id/timeMock"
-        android:layout_marginBottom="44dp"
+        android:layout_alignStart="@+id/seekBar"
+        android:layout_below="@+id/seekBar"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="23dp"
         android:layout_weight="1"
         android:ems="10"
         android:hint="Enter Filename"
         android:inputType="textPersonName"
-        android:textColor="@android:color/background_light" />
+        android:textColor="#000"
+        android:textColorHint="#000" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/inputTrack"
+        android:layout_alignTop="@+id/inputTrack"
+        android:layout_marginTop="78dp"
+        android:fontFamily="cursive"
+        android:text="Pick the time to emulate: "
+        android:textSize="30dp"
+        android:textColor="#000"/>
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="20dp"
+        android:timePickerMode="spinner"
+        android:onClick="mockTime"
+        />
+
+    <ToggleButton
+        android:id="@+id/toggle_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/timePicker"
+        android:layout_marginTop="80dp"
+        android:layout_toEndOf="@+id/timePicker"
+        android:onClick="toggleTimeMock"/>
 
 
 </RelativeLayout>
